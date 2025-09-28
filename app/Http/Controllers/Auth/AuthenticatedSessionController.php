@@ -36,7 +36,6 @@ class AuthenticatedSessionController extends Controller
             return $this->respondInactive($request);
         }
 
-
         if (! Auth::attempt([
             'email' => $credentials['email'],
             'password' => $credentials['password'],
@@ -63,6 +62,7 @@ class AuthenticatedSessionController extends Controller
         if ($intended) {
             return redirect()->to($intended);
         }
+        //test github
 
         // route by role
         $user = Auth::user();
@@ -76,7 +76,6 @@ class AuthenticatedSessionController extends Controller
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }
-
 
     /**
      * Destroy an authenticated session.
