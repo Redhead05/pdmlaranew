@@ -18294,18 +18294,18 @@ Swiper Slider Style
 /* Main Content Area Style
 ============================================*/
 .main-content {
-  padding-left: 273px;
-  transition: all ease 0.5s;
-  padding-right: 12px;
-  min-height: 100vh;
+    padding-left: 273px;
+    transition: all ease 0.5s;
+    padding-right: 12px;
+    /*min-height: 100vh; !* ensures page fills viewport *!*/
 }
 .main-content .inner-main-content {
-  padding-right: 18px;
-  transition: all ease 0.5s;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 89.5vh;
+    padding-right: 18px;
+    transition: all ease 0.5s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /*min-height: inherit; !* inherit the min-height behavior from parent if needed *!*/
 }
 
 [sidebar-data-theme=sidebar-hide] .main-content {
@@ -24983,3 +24983,5 @@ Theme Settings Style
 }
 
 /*# sourceMappingURL=style.css.map */
+/*custom*/
+

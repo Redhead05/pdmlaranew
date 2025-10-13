@@ -16,9 +16,16 @@
 
             @role('admin')
             <li class="menu-item open">
-                <a href="calendar.html" class="menu-link active">
-                    <span class="material-symbols-outlined menu-icon">date_range</span>
-                    <span class="title">Calendar</span>
+                <a href="{{ route ('dashboard.admin') }}" class="menu-link {{ Request::routeIs('dashboard.admin') ? 'active' : '' }}">
+                    <span class="material-symbols-outlined">cloud_circle</span>
+
+                    <span class="title"> Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item open">
+                <a href="{{ route ('attendance.admin') }}" class="menu-link {{ Request::routeIs('attendance.admin') ? 'active' : '' }}">
+                    <span class="material-symbols-outlined">foggy</span>
+                    <span class="title"> Attendance</span>
                 </a>
             </li>
 
@@ -106,4 +113,3 @@
     </aside>
 </div>
 <!-- End Sidebar Area -->
-

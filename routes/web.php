@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\Attendance\AttendanceController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,9 +20,10 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('admin/dashboard/', function () {
-        return view('dashboard.admin');
-    })->middleware('role:admin')->name('dashboard.admin');
+    Route::prefix('admin')->middleware('role:admin')->group(function () {
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.admin');
+        Route::get('attendance', [AttendanceController::class, 'index'])->name('attendance.admin');
+    });
 
     Route::get('asesor/dashboard/', function () {
         return view('dashboard.asesor');
