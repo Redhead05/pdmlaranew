@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Attendance;
 
 use App\Http\Controllers\Controller;
+use App\Models\Attendance;
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
@@ -12,7 +13,8 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        return view('menu.admin.attendance.index');
+        $attendance = Attendance::all();
+        return view('menu.admin.attendance.index', compact('attendance'));
     }
 
     /**

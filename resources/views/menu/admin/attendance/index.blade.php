@@ -13,6 +13,12 @@
             <div class="card bg-white border-0 rounded-3 mb-4">
                 <div class="card-body p-4">
                     <h1>Attendances</h1>
+                    <div class="mb-3">
+{{--                        {{ route('attendance.create') }}--}}
+                        <a href="#" class="btn btn-primary">
+                            <i class="material-symbols-outlined align-middle">add</i> Create Attendance
+                        </a>
+                    </div>
                     <div class="default-table-area all-products">
                         <div class="table-responsive">
                             <table id="attendance-table" class="display table align-middle" style="width:100%">
@@ -26,63 +32,28 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Monthly Report</td>
-                                    <td>Attendance summary for September</td>
-                                    <td>Report</td>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-1">
-                                            <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View">
-                                                <i class="material-symbols-outlined fs-16 text-primary">visibility</i>
-                                            </button>
-                                            <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">
-                                                <i class="material-symbols-outlined fs-16 text-body">edit</i>
-                                            </button>
-                                            <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">
-                                                <i class="material-symbols-outlined fs-16 text-danger">delete</i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Late Notice</td>
-                                    <td>List of late arrivals</td>
-                                    <td>Notification</td>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-1">
-                                            <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View">
-                                                <i class="material-symbols-outlined fs-16 text-primary">visibility</i>
-                                            </button>
-                                            <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">
-                                                <i class="material-symbols-outlined fs-16 text-body">edit</i>
-                                            </button>
-                                            <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">
-                                                <i class="material-symbols-outlined fs-16 text-danger">delete</i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Weekly Summary</td>
-                                    <td>Summary for week 42</td>
-                                    <td>Summary</td>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-1">
-                                            <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View">
-                                                <i class="material-symbols-outlined fs-16 text-primary">visibility</i>
-                                            </button>
-                                            <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">
-                                                <i class="material-symbols-outlined fs-16 text-body">edit</i>
-                                            </button>
-                                            <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">
-                                                <i class="material-symbols-outlined fs-16 text-danger">delete</i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                    @foreach($attendance as $i => $item)
+                                        <tr>
+                                            <td>{{ $i + 1 }}</td>
+                                            <td>{{ $item->title }}</td>
+                                            <td>{{ $item->description }}</td>
+                                            <td>{{ ucfirst($item->type) }}</td>
+                                            <td>
+                                                <div class="d-flex align-items-center gap-1">
+                                                    <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View">
+                                                        <i class="material-symbols-outlined fs-16 text-primary">visibility</i>
+                                                    </button>
+                                                    <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">
+                                                        <i class="material-symbols-outlined fs-16 text-body">edit</i>
+                                                    </button>
+                                                    <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">
+                                                        <i class="material-symbols-outlined fs-16 text-danger">delete</i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
                                 </tbody>
                             </table>
                         </div>

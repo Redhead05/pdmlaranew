@@ -333,10 +333,14 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a class="dropdown-item admin-item-link d-flex align-items-center text-body" href="login.html">
+                                                <a href="#" class="dropdown-item admin-item-link d-flex align-items-center text-body"
+                                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                                     <i class="material-symbols-outlined">logout</i>
                                                     <span class="ms-2">Logout</span>
                                                 </a>
+                                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                                    @csrf
+                                                </form>
                                             </li>
                                         </ul>
                                     </div>

@@ -36,6 +36,19 @@
                 </a>
             </li>
             @elserole('asesor')
+            <li class="menu-item open">
+                <a href="#" class="menu-link {{ Request::routeIs('#') ? 'active' : '' }}">
+                    <span class="material-symbols-outlined">cloud_circle</span>
+
+                    <span class="title"> Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item open">
+                <a href="#" class="menu-link {{ Request::routeIs('#') ? 'active' : '' }}">
+                    <span class="material-symbols-outlined">foggy</span>
+                    <span class="title"> Attendance</span>
+                </a>
+            </li>
             <li class="menu-item">
                 <a href="chat.html" class="menu-link">
                     <span class="material-symbols-outlined menu-icon">chat</span>
