@@ -23,37 +23,40 @@
                         <div class="table-responsive">
                             <table id="attendance-table" class="display table align-middle" style="width:100%">
                                 <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Title</th>
-                                        <th>Description</th>
-                                        <th>Type</th>
-                                        <th>Action</th>
-                                    </tr>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Type</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Action</th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($attendance as $i => $item)
-                                        <tr>
-                                            <td>{{ $i + 1 }}</td>
-                                            <td>{{ $item->title }}</td>
-                                            <td>{{ $item->description }}</td>
-                                            <td>{{ ucfirst($item->type) }}</td>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-1">
-                                                    <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View">
-                                                        <i class="material-symbols-outlined fs-16 text-primary">visibility</i>
-                                                    </button>
-                                                    <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">
-                                                        <i class="material-symbols-outlined fs-16 text-body">edit</i>
-                                                    </button>
-                                                    <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">
-                                                        <i class="material-symbols-outlined fs-16 text-danger">delete</i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-
+                                @foreach($attendance as $i => $item)
+                                    <tr>
+                                        <td>{{ $i + 1 }}</td>
+                                        <td>{{ $item->title }}</td>
+                                        <td>{{ $item->description }}</td>
+                                        <td>{{ ucfirst($item->type) }}</td>
+                                        <td>{{ $item->start_date }}</td>
+                                        <td>{{ $item->end_date }}</td>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-1">
+                                                <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View">
+                                                    <i class="material-symbols-outlined fs-16 text-primary">visibility</i>
+                                                </button>
+                                                <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">
+                                                    <i class="material-symbols-outlined fs-16 text-body">edit</i>
+                                                </button>
+                                                <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">
+                                                    <i class="material-symbols-outlined fs-16 text-danger">delete</i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
