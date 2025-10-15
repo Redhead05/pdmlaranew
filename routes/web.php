@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 //asesor
 use App\Http\Controllers\Asesor\DashboardController as AsesorDashboardController;
+use App\Http\Controllers\Asesor\AttendanceController as AsesorAttendanceController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -24,14 +25,16 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
    //Route admin
-    Route::prefix('admin')->middleware('role:admin')->group(function () {
-        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.admin');
+    Route::prefix('admin')->middleware('role:admin')->as('admin.')->group(function () {
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('attendance', AttendanceController::class);
+        Route::get('/attendance/{slug}/detail', [AttendanceController::class, 'detail'])->name('attendance.detail');
     });
 
     //Route asesor
-    Route::prefix('asesor')->middleware('role:asesor')->group(function () {
-        Route::get('dashboard', [AsesorDashboardController::class, 'index'])->name('dashboard.asesor');
+    Route::prefix('asesor')->middleware('role:asesor')->as('asesor.')->group(function () {
+        Route::get('dashboard', [AsesorDashboardController::class, 'index'])->name('dashboard');
+        Route::resource('attendance',AsesorAttendanceController::class);
     });
 
 //    Route::get('user/dashboard/', function () {

@@ -19,7 +19,7 @@ class Attendance extends Model
         'end_date',
     ];
 
-    public function AttendanceDetails()
+    public function attendanceDetail()
     {
         return $this->hasMany(AttendanceDetail::class);
     }

@@ -1,4 +1,4 @@
-<form action="{{ route('attendance.store') }}" method="POST">
+<form action="{{ route('admin.attendance.store') }}" method="POST">
     @csrf
     <div class="modal fade" id="exampleModallg" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">

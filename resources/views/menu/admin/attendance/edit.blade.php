@@ -6,7 +6,7 @@
                 <h5 class="modal-title" id="editModalLabel-{{ $item->id }}">Edit Attendance</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('attendance.update', $item->id) }}" method="POST">
+            <form action="{{ route('admin.attendance.update', $item->id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="modal-body">
