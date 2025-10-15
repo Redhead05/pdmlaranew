@@ -1,23 +1,24 @@
 @extends('app.layout')
-@section('title', 'Attendance')
+@section('title', 'Attendance Management')
 
 @push('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 @endpush
 
 @section('content')
     <!-- Start Main Content Area -->
     <div class="container-fluid">
         <div class="main-content d-flex flex-column">
-
             <div class="card bg-white border-0 rounded-3 mb-4">
                 <div class="card-body p-4">
                     <h1>Attendances</h1>
                     <div class="mb-3">
-{{--                        {{ route('attendance.create') }}--}}
-                        <a href="#" class="btn btn-primary">
-                            <i class="material-symbols-outlined align-middle">add</i> Create Attendance
-                        </a>
+                        <button type="button" class="btn btn btn-primary py-2 px-4 text-white fw-semibold" data-bs-toggle="modal" data-bs-target="#exampleModallg">
+                            <i class="material-symbols-outlined align-middle">add</i> Create
+                        </button>
+                        @include('menu.admin.attendance.create')
                     </div>
                     <div class="default-table-area all-products">
                         <div class="table-responsive">
@@ -47,9 +48,10 @@
                                                 <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View">
                                                     <i class="material-symbols-outlined fs-16 text-primary">visibility</i>
                                                 </button>
-                                                <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">
+                                                <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="modal" data-bs-target="#editModal-{{ $item->id }}" data-bs-title="Edit">
                                                     <i class="material-symbols-outlined fs-16 text-body">edit</i>
                                                 </button>
+                                                @include('menu.admin.attendance.edit', ['item' => $item])
                                                 <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete">
                                                     <i class="material-symbols-outlined fs-16 text-danger">delete</i>
                                                 </button>
@@ -75,7 +77,8 @@
                 responsive: true,
                 pageLength: 10,
                 columnDefs: [
-                    { orderable: false, searchable: false, targets: 4 }
+                    { orderable: false, searchable: false, targets: 0 },
+                    { orderable: false, searchable: false, targets: 6 }
                 ]
             });
         });

@@ -11,17 +11,15 @@
     .navbar-nav {
         .nav-item {
             margin: {
-                left: 10px;
-                right: 10px;
+                left: 17px;
+                right: 17px;
             };
             .nav-link {
                 color: $body-color;
                 transition: $transition;
                 position: relative;
-                padding: 7px 7px;
+                padding: 19px 0;
                 z-index: 1;
-                margin-top: 12px;
-                margin-bottom: 12px;
                 .menu-icon {
                     font-size: 22px;
                     position: relative;
@@ -64,9 +62,6 @@
                 }
                 &.active {
                     color: $secondary;
-                    position: relative;
-                    background-color: #F6F7F9;
-                    border-radius: 4px;
                     &.dropdown-toggle {
                         &::after {
                             color: #B1BBC8;
@@ -404,15 +399,4 @@
         }
     }
     
-}
-.menu-row {
-    --bs-gutter-x: 1.5rem;
-    --bs-gutter-y: 0;
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0;
-    li {
-        flex: 0 0 auto;
-        width: 25%;
-    }
 }

@@ -49,21 +49,6 @@ class AuthenticatedSessionController extends Controller
         // tandai sukses untuk view biasa
         $request->session()->flash('login_success', true);
 
-        // jika request AJAX / JSON, kembalikan respons JSON
-        if($request->wantsJson()) {
-            return response()->json([
-                'success' => true,
-                'user' => Auth::user()->only(['id','name','email']),
-            ]);
-        }
-
-        // hormati url.intended bila ada
-        $intended = $request->session()->pull('url.intended');
-        if ($intended) {
-            return redirect()->to($intended);
-        }
-        //test github
-
         // route by role
         $user = Auth::user();
         if ($user->hasRole('admin')) {

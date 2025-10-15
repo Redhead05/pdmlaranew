@@ -23,22 +23,19 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
+   //Route admin
     Route::prefix('admin')->middleware('role:admin')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.admin');
-        Route::get('attendance', [AttendanceController::class, 'index'])->name('attendance.admin');
+        Route::resource('attendance', AttendanceController::class);
     });
 
-//    Route::get('asesor/dashboard/', function () {
-//        return view('menu.asesor.dashboard');
-//    })->middleware('role:asesor')->name('dashboard.asesor');
-
+    //Route asesor
     Route::prefix('asesor')->middleware('role:asesor')->group(function () {
         Route::get('dashboard', [AsesorDashboardController::class, 'index'])->name('dashboard.asesor');
-//        Route::get('attendance', [AttendanceController::class, 'index'])->name('attendance.asesor');
     });
 
-    Route::get('user/dashboard/', function () {
-        return view('dashboard.user');
-    })->middleware('role:user')->name('dashboard.user');
+//    Route::get('user/dashboard/', function () {
+//        return view('dashboard.user');
+//    })->middleware('role:user')->name('dashboard.user');
 });
 require __DIR__.'/auth.php';

@@ -119,8 +119,8 @@
 			}
 		});
 	}
-	document.querySelectorAll('.fullscreen-btn').forEach(function (button) {
-		button.addEventListener('click', function () {
+	document.querySelectorAll('.fullscreen-btn').forEach(function(button) {
+		button.addEventListener('click', function() {
 			button.classList.toggle('active');
 		});
 	});
@@ -409,85 +409,64 @@
 
 	// Calendar JS
 	try {
-		const calendarBody = document.getElementById('calendar-body');
-		const monthYear = document.getElementById('month-year');
-
-		if (calendarBody && monthYear) {
-			let currentDate = new Date();
+		const getHeaderssBurgerMenuId = document.getElementById('calendar-body');
+		if (getHeaderssBurgerMenuId) {
+			document.addEventListener('DOMContentLoaded', function () {
+				updateCalendar(new Date());
+			});
 
 			function updateCalendar(date) {
+				const calendarBody = document.getElementById('calendar-body');
+				const monthYear = document.getElementById('month-year');
+
+				// Clear existing content
 				calendarBody.innerHTML = '';
 
+				// Set the month and year
 				const options = { month: 'long', year: 'numeric' };
 				monthYear.textContent = date.toLocaleDateString('en-US', options);
 
-				const year = date.getFullYear();
-				const month = date.getMonth();
+				// Get the first day of the month
+				const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+				const startingDay = firstDay.getDay();
 
-				const firstDayOfMonth = new Date(year, month, 1);
-				const startDay = firstDayOfMonth.getDay();
+				// Get the last day of the month
+				const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+				const endingDay = lastDay.getDate();
 
-				const daysInCurrentMonth = new Date(year, month + 1, 0).getDate();
-				const daysInPrevMonth = new Date(year, month, 0).getDate();
-
+				// Create calendar days
 				let day = 1;
-				let nextMonthDay = 1;
-
 				for (let i = 0; i < 6; i++) {
 					const row = document.createElement('tr');
 
 					for (let j = 0; j < 7; j++) {
-						const cell = document.createElement('td');
-
-						const cellIndex = i * 7 + j;
-
-						if (cellIndex < startDay) {
-							// Days from previous month
-							cell.textContent = daysInPrevMonth - (startDay - 1 - cellIndex);
-							cell.classList.add('prev-month');
-						} else if (day > daysInCurrentMonth) {
-							// Days from next month
-							cell.textContent = nextMonthDay++;
-							cell.classList.add('next-month');
-						} else {
-							// Current month day
+						if (i === 0 && j < startingDay) {
+							const cell = document.createElement('td');
+							row.appendChild(cell);
+						} else if (day <= endingDay) {
+							const cell = document.createElement('td');
 							cell.textContent = day;
 
-							if (
-								day === new Date().getDate() &&
-								month === new Date().getMonth() &&
-								year === new Date().getFullYear()
-							) {
+							// Highlight the active date
+							if (day === new Date().getDate() && date.getMonth() === new Date().getMonth() && date.getFullYear() === new Date().getFullYear()) {
 								cell.classList.add('active-date');
 							}
 
+							row.appendChild(cell);
 							day++;
 						}
-
-						row.appendChild(cell);
 					}
 
 					calendarBody.appendChild(row);
+
+					// Stop if all days are done
+					if (day > endingDay) {
+						break;
+					}
 				}
 			}
-
-			document.addEventListener('DOMContentLoaded', () => {
-				updateCalendar(currentDate);
-
-				document.getElementById('prevMonth').addEventListener('click', () => {
-					currentDate.setMonth(currentDate.getMonth() - 1);
-					updateCalendar(currentDate);
-				});
-
-				document.getElementById('nextMonth').addEventListener('click', () => {
-					currentDate.setMonth(currentDate.getMonth() + 1);
-					updateCalendar(currentDate);
-				});
-			});
 		}
-	} catch (e) {
-		console.error('Calendar error:', e);
-	}
+	} catch { }
 
 	// Project Management Calendar JS
 	const getProjectManagementId = document.getElementById('calendari');
@@ -515,32 +494,34 @@
 			'Sat',
 			'Sun'
 		];
-		Number.prototype.pad = function (num) {
+		Number.prototype.pad = function(num) {
 			var str = '';
-			for (var i = 0; i < (num - this.toString().length); i++)
+			for(var i = 0; i < (num-this.toString().length); i++)
 				str += '0';
 			return str += this.toString();
 		}
-		function calendari(widget, data) {
+		function calendari(widget, data)
+		{
 			var original = widget.getElementsByClassName('actiu')[0];
-			if (typeof original === 'undefined') {
+			if(typeof original === 'undefined')
+			{
 				original = document.createElement('table');
 				original.setAttribute('data-actual',
-					data.getFullYear() + '/' +
-					data.getMonth().pad(2) + '/' +
-					data.getDate().pad(2))
+				data.getFullYear() + '/' +
+				data.getMonth().pad(2) + '/' +
+				data.getDate().pad(2))
 				widget.appendChild(original);
 			}
 			var diff = data - new Date(original.getAttribute('data-actual'));
 			diff = new Date(diff).getMonth();
 			var e = document.createElement('table');
-			e.className = diff === 0 ? 'amagat-esquerra' : 'amagat-dreta';
+			e.className = diff  === 0 ? 'amagat-esquerra' : 'amagat-dreta';
 			e.innerHTML = '';
 			widget.appendChild(e);
 			e.setAttribute('data-actual',
-				data.getFullYear() + '/' +
-				data.getMonth().pad(2) + '/' +
-				data.getDate().pad(2))
+			data.getFullYear() + '/' +
+			data.getMonth().pad(2) + '/' +
+			data.getDate().pad(2))
 			var fila = document.createElement('tr');
 			var titol = document.createElement('th');
 			titol.setAttribute('colspan', 7);
@@ -551,21 +532,22 @@
 			boto_next.className = 'boto-next';
 			boto_next.innerHTML = '';
 			titol.appendChild(boto_prev);
-			titol.appendChild(document.createElement('span')).innerHTML =
+			titol.appendChild(document.createElement('span')).innerHTML = 
 				mesos[data.getMonth()] + '<span class="any">' + data.getFullYear() + '</span>';
 			titol.appendChild(boto_next);
-			boto_prev.onclick = function () {
+			boto_prev.onclick = function() {
 				data.setMonth(data.getMonth() - 1);
 				calendari(widget, data);
 			};
-			boto_next.onclick = function () {
+			boto_next.onclick = function() {
 				data.setMonth(data.getMonth() + 1);
 				calendari(widget, data);
 			};
 			fila.appendChild(titol);
 			e.appendChild(fila);
 			fila = document.createElement('tr');
-			for (var i = 1; i < 7; i++) {
+			for(var i = 1; i < 7; i++)
+			{
 				fila.innerHTML += '<th>' + dies_abr[i] + '</th>';
 			}
 			fila.innerHTML += '<th>' + dies_abr[0] + '</th>';
@@ -574,38 +556,40 @@
 			var inici_mes =
 				new Date(data.getFullYear(), data.getMonth(), -1).getDay();
 			var actual = new Date(data.getFullYear(),
-				data.getMonth(),
-				-inici_mes);
+			data.getMonth(),
+			-inici_mes);
 			/* 6 setmanes per cobrir totes les posiblitats
 			*  Quedaria mes consistent alhora de mostrar molts mesos 
 			*  en una quadricula */
-			for (var s = 0; s < 6; s++) {
+			for(var s = 0; s < 6; s++)
+			{
 				var fila = document.createElement('tr');
-				for (var d = 1; d < 8; d++) {
-					var cela = document.createElement('td');
-					var span = document.createElement('span');
-					cela.appendChild(span);
+				for(var d = 1; d < 8; d++)
+				{
+				var cela = document.createElement('td');
+				var span = document.createElement('span');
+				cela.appendChild(span);
 					span.innerHTML = actual.getDate();
-					if (actual.getMonth() !== data.getMonth())
+					if(actual.getMonth() !== data.getMonth())
 						cela.className = 'fora';
 					/* Si es avui el decorem */
-					if (data.getDate() == actual.getDate() &&
-						data.getMonth() == actual.getMonth())
-						cela.className = 'avui';
-					actual.setDate(actual.getDate() + 1);
+					if(data.getDate() == actual.getDate() &&
+					data.getMonth() == actual.getMonth())
+					cela.className = 'avui';
+				actual.setDate(actual.getDate()+1);
 					fila.appendChild(cela);
 				}
 				e.appendChild(fila);
 			}
-			setTimeout(function () {
+			setTimeout(function() {
 				e.className = 'actiu';
 				original.className +=
-					diff === 0 ? ' amagat-dreta' : ' amagat-esquerra';
+				diff === 0 ? ' amagat-dreta' : ' amagat-esquerra';
 			}, 20);
 			original.className = 'inactiu';
-			setTimeout(function () {
+			setTimeout(function() {
 				var inactius = document.getElementsByClassName('inactiu');
-				for (var i = 0; i < inactius.length; i++)
+				for(var i = 0; i < inactius.length; i++)
 					widget.removeChild(inactius[i]);
 			}, 0);
 		}
@@ -615,53 +599,53 @@
 	// Event Calendar JS
 	const getEventCalendarId = document.getElementById('calendar');
 	if (getEventCalendarId) {
-		document.addEventListener('DOMContentLoaded', function () {
+		document.addEventListener('DOMContentLoaded', function() {
 			var calendarEl = document.getElementById('calendar');
-
+	
 			var calendar = new FullCalendar.Calendar(calendarEl, {
-				headerToolbar: {
-					right: 'today,prev,next',
-					left: 'title',
+			headerToolbar: {
+				right: 'today,prev,next',
+				left: 'title',
+			},
+			initialDate: '2024-06-30',
+			navLinks: true, // can click day/week names to navigate views
+			businessHours: true, // display business hours
+			editable: true,
+			selectable: true,
+			events: [
+				{
+					title: '10:00 - 12:30 PM Annual Conference 2023',
+					start: '2024-06-04',
+					className: 'success'
 				},
-				initialDate: '2024-06-30',
-				navLinks: true, // can click day/week names to navigate views
-				businessHours: true, // display business hours
-				editable: true,
-				selectable: true,
-				events: [
-					{
-						title: '10:00 - 12:30 PM Annual Conference 2023',
-						start: '2024-06-04',
-						className: 'success'
-					},
-					{
-						title: '2:30 - 5:00 PM Tech Summit 2024',
-						start: '2024-06-14',
-						className: 'primary'
-					},
-					{
-						title: '6:00 - 9:00 PM Product Lunch Webinar',
-						start: '2024-06-23',
-						className: 'primary-div'
-					},
-					{
-						title: '9:00 - 12:00 PM Web Development Seminar',
-						start: '2024-06-28',
-						className: 'danger'
-					},
-				],
-			});
-			calendar.render();
+				{
+					title: '2:30 - 5:00 PM Tech Summit 2024',
+					start: '2024-06-14',
+					className: 'primary'
+				},
+				{
+					title: '6:00 - 9:00 PM Product Lunch Webinar',
+					start: '2024-06-23',
+					className: 'primary-div'
+				},
+				{
+					title: '9:00 - 12:00 PM Web Development Seminar',
+					start: '2024-06-28',
+					className: 'danger'
+				},
+			],
+		}); 
+		calendar.render();
 		});
 	}
-
+	
 	// Courses Slider JS
 	var swiper = new Swiper(".courses-slide", {
-		slidesPerView: 1,
-		spaceBetween: 24,
+        slidesPerView: 1,
+        spaceBetween: 24,
 		centeredSlides: false,
 		preventClicks: true,
-		loop: true,
+		loop: true, 
 		autoplay: {
 			delay: 8000,
 			disableOnInteraction: false,
@@ -671,15 +655,15 @@
 			el: ".swiper-pagination2",
 			clickable: true,
 		},
-	});
+    });
 
 	// Upcoming Events JS
 	var swiper = new Swiper(".upcoming-events-slide", {
-		slidesPerView: 1,
-		spaceBetween: 24,
+        slidesPerView: 1,
+        spaceBetween: 24,
 		centeredSlides: false,
 		preventClicks: true,
-		loop: true,
+		loop: true, 
 		autoplay: {
 			delay: 8000,
 			disableOnInteraction: false,
@@ -689,15 +673,15 @@
 			el: ".swiper-pagination1",
 			clickable: true,
 		},
-	});
+    });
 
 	// Recent Property JS
 	var swiper = new Swiper(".recent-property-slide", {
-		slidesPerView: 1,
-		spaceBetween: 24,
+        slidesPerView: 1,
+        spaceBetween: 24,
 		centeredSlides: false,
 		preventClicks: true,
-		loop: true,
+		loop: true, 
 		autoplay: {
 			delay: 8000,
 			disableOnInteraction: false,
@@ -727,15 +711,15 @@
 				slidesPerView: 2,
 			},
 		}
-	});
+    });
 
 	// Team Slider JS
 	var swiper = new Swiper(".team-slide", {
-		slidesPerView: 1,
-		spaceBetween: 25,
+        slidesPerView: 1,
+        spaceBetween: 25,
 		centeredSlides: false,
 		preventClicks: true,
-		loop: true,
+		loop: true, 
 		autoplay: {
 			delay: 8000,
 			disableOnInteraction: false,
@@ -743,7 +727,7 @@
 		},
 		navigation: {
 			nextEl: ".prev",
-			prevEl: ".next",
+          	prevEl: ".next",
 		},
 		pagination: {
 			clickable: true,
@@ -765,15 +749,15 @@
 				slidesPerView: 3,
 			},
 		}
-	});
+    });
 
 	// Cryptocurrency Slider JS
 	var swiper = new Swiper(".cryptocurrency-slide", {
-		slidesPerView: 1,
-		spaceBetween: 25,
+        slidesPerView: 1,
+        spaceBetween: 25,
 		centeredSlides: false,
 		preventClicks: true,
-		loop: false,
+		loop: false, 
 		autoplay: {
 			delay: 8000,
 			disableOnInteraction: false,
@@ -781,7 +765,7 @@
 		},
 		navigation: {
 			nextEl: ".prev",
-			prevEl: ".next",
+          	prevEl: ".next",
 		},
 		pagination: {
 			clickable: true,
@@ -806,15 +790,15 @@
 				slidesPerView: 4,
 			},
 		}
-	});
+    });
 
 	// NFT Slider JS
 	var swiper = new Swiper(".nft-slide", {
-		slidesPerView: 1,
-		spaceBetween: 25,
+        slidesPerView: 1,
+        spaceBetween: 25,
 		centeredSlides: false,
 		preventClicks: true,
-		loop: false,
+		loop: false, 
 		autoplay: {
 			delay: 8000,
 			disableOnInteraction: false,
@@ -822,7 +806,7 @@
 		},
 		navigation: {
 			nextEl: ".prev",
-			prevEl: ".next",
+          	prevEl: ".next",
 		},
 		pagination: {
 			clickable: true,
@@ -847,15 +831,15 @@
 				slidesPerView: 4,
 			},
 		}
-	});
+    });
 
 	// NFT Slider Two JS
 	var swiper = new Swiper(".nft-slide-two", {
-		slidesPerView: 1,
-		spaceBetween: 25,
+        slidesPerView: 1,
+        spaceBetween: 25,
 		centeredSlides: false,
 		preventClicks: true,
-		loop: false,
+		loop: false, 
 		autoplay: {
 			delay: 8000,
 			disableOnInteraction: false,
@@ -863,7 +847,7 @@
 		},
 		navigation: {
 			nextEl: ".prev",
-			prevEl: ".next",
+          	prevEl: ".next",
 		},
 		pagination: {
 			clickable: true,
@@ -888,15 +872,15 @@
 				slidesPerView: 3,
 			},
 		}
-	});
+    });
 
 	// Top Collections JS
 	var swiper = new Swiper(".top-collections-slide", {
-		slidesPerView: 1,
-		spaceBetween: 25,
+        slidesPerView: 1,
+        spaceBetween: 25,
 		centeredSlides: false,
 		preventClicks: true,
-		loop: false,
+		loop: false, 
 		autoplay: {
 			delay: 8000,
 			disableOnInteraction: false,
@@ -906,15 +890,15 @@
 			clickable: true,
 			el: ".swiper-pagination-top-collections",
 		},
-	});
+    });
 
 	// Mastering Digital Marketing JS
 	var swiper = new Swiper(".mastering-digital-marketing-slide", {
-		slidesPerView: 1,
-		spaceBetween: 25,
+        slidesPerView: 1,
+        spaceBetween: 25,
 		centeredSlides: false,
 		preventClicks: true,
-		loop: false,
+		loop: false, 
 		autoplay: {
 			delay: 15000,
 			disableOnInteraction: true,
@@ -924,145 +908,7 @@
 			clickable: true,
 			el: ".swiper-pagination-mastering-digital-marketing",
 		},
-	});
-
-	// Popular Rooms Slide JS
-	var swiper = new Swiper(".popular-rooms-slide", {
-		slidesPerView: 1,
-		spaceBetween: 30,
-		centeredSlides: false,
-		preventClicks: true,
-		loop: false,
-		autoplay: {
-			delay: 5000,
-			disableOnInteraction: false,
-			pauseOnMouseEnter: true,
-		},
-		pagination: {
-			clickable: true,
-			el: ".swiper-pagination-popular-rooms",
-		},
-		breakpoints: {
-			0: {
-				slidesPerView: 1,
-			},
-			576: {
-				slidesPerView: 2,
-			},
-			768: {
-				slidesPerView: 2,
-			},
-			992: {
-				slidesPerView: 3,
-			},
-			1200: {
-				slidesPerView: 4,
-			},
-			1440: {
-				slidesPerView: 4,
-			},
-			1850: {
-				slidesPerView: 4,
-			},
-		}
-	});
-
-	// My Featured Listings Slide JS
-	var swiper = new Swiper(".my-featured-listings-slide", {
-		slidesPerView: 1,
-		spaceBetween: 30,
-		centeredSlides: false,
-		preventClicks: true,
-		loop: false,
-		autoplay: {
-			delay: 5000,
-			disableOnInteraction: false,
-			pauseOnMouseEnter: true,
-		},
-		pagination: {
-			clickable: true,
-			el: ".swiper-pagination-my-featured-listings",
-		},
-		breakpoints: {
-			0: {
-				slidesPerView: 1,
-			},
-			576: {
-				slidesPerView: 1,
-			},
-			768: {
-				slidesPerView: 2,
-			},
-			992: {
-				slidesPerView: 2,
-			},
-			1200: {
-				slidesPerView: 2,
-			},
-			1440: {
-				slidesPerView: 2,
-			},
-			1850: {
-				slidesPerView: 2,
-			},
-		}
-	});
-
-	// Client Ratings Slide JS
-	var swiper = new Swiper(".client-ratings-slide", {
-		slidesPerView: 1,
-		spaceBetween: 30,
-		centeredSlides: false,
-		preventClicks: true,
-		loop: false,
-		autoplay: {
-			delay: 5000,
-			disableOnInteraction: false,
-			pauseOnMouseEnter: true,
-		},
-		pagination: {
-			clickable: true,
-			el: ".swiper-pagination-client-ratings",
-		},
-		breakpoints: {
-			0: {
-				slidesPerView: 1,
-			},
-			576: {
-				slidesPerView: 2,
-			},
-			768: {
-				slidesPerView: 2,
-			},
-			992: {
-				slidesPerView: 2,
-			},
-			1200: {
-				slidesPerView: 2,
-			},
-			1440: {
-				slidesPerView: 3,
-			},
-			1850: {
-				slidesPerView: 3,
-			},
-		}
-	});
-
-	// Room Details Slide JS
-	var swiper = new Swiper(".room-details-slide", {
-		spaceBetween: 15,
-		slidesPerView: 4,
-		freeMode: true,
-		watchSlidesProgress: true,
-		
-	});
-	var swiper = new Swiper(".room-details-slide2", {
-		spaceBetween: 15,
-		thumbs: {
-			swiper: swiper,
-		},
-	});
+    });
 
 	// Thumb Images Upload JS
 	const getImagePreviewId = document.getElementById('imagePreview');
@@ -1070,11 +916,11 @@
 		function readURL(input) {
 			if (input.files && input.files[0]) {
 				var reader = new FileReader();
-				reader.onload = function (e) {
+				reader.onload = function(e) {
 					var imagePreview = document.getElementById('imagePreview');
 					imagePreview.style.backgroundImage = 'url(' + e.target.result + ')';
 					imagePreview.style.display = 'none';
-					setTimeout(function () {
+					setTimeout(function() {
 						imagePreview.style.display = 'block';
 						imagePreview.style.transition = 'opacity 0.65s';
 						imagePreview.style.opacity = 1;
@@ -1083,8 +929,8 @@
 				reader.readAsDataURL(input.files[0]);
 			}
 		}
-
-		document.getElementById('imageUpload').addEventListener('change', function () {
+		
+		document.getElementById('imageUpload').addEventListener('change', function() {
 			readURL(this);
 		});
 	}
@@ -1096,17 +942,17 @@
 			if (event.target.readyState === "complete") {
 				var clockdiv = document.getElementsByClassName("clockdiv");
 				var countDownDate = new Array();
-				for (var i = 0; i < clockdiv.length; i++) {
-					countDownDate[i] = new Array();
-					countDownDate[i]['el'] = clockdiv[i];
-					countDownDate[i]['time'] = new Date(clockdiv[i].getAttribute('data-date')).getTime();
-					countDownDate[i]['days'] = 0;
-					countDownDate[i]['hours'] = 0;
-					countDownDate[i]['seconds'] = 0;
-					countDownDate[i]['minutes'] = 0;
-				}
-				var countdownfunction = setInterval(function () {
-					for (var i = 0; i < countDownDate.length; i++) {
+					for (var i = 0; i < clockdiv.length; i++) {
+						countDownDate[i] = new Array();
+						countDownDate[i]['el'] = clockdiv[i];
+						countDownDate[i]['time'] = new Date(clockdiv[i].getAttribute('data-date')).getTime();
+						countDownDate[i]['days'] = 0;
+						countDownDate[i]['hours'] = 0;
+						countDownDate[i]['seconds'] = 0;
+						countDownDate[i]['minutes'] = 0;
+					}
+					var countdownfunction = setInterval(function() {
+						for (var i = 0; i < countDownDate.length; i++) {
 						var now = new Date().getTime();
 						var distance = countDownDate[i]['time'] - now;
 						countDownDate[i]['days'] = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -1125,7 +971,7 @@
 							countDownDate[i]['el'].querySelector('.minutes').innerHTML = countDownDate[i]['minutes'];
 							countDownDate[i]['el'].querySelector('.seconds').innerHTML = countDownDate[i]['seconds'];
 						}
-					}
+					}  
 				}, 1000);
 			}
 		});
@@ -1135,7 +981,7 @@
 	try {
 		const multipleEvents = (element, eventNames, listener) => {
 			const events = eventNames.split(' ');
-
+		
 			events.forEach(event => {
 				element.addEventListener(event, listener, false);
 			});
@@ -1145,31 +991,31 @@
 			const INPUT_CONTAINER = document.querySelector('#upload-container');
 			const FILES_LIST_CONTAINER = document.querySelector('#files-list-container')
 			const FILE_LIST = [];
-
+		
 			multipleEvents(INPUT_FILE, 'click dragstart dragover', () => {
 				INPUT_CONTAINER.classList.add('active');
 			});
-
+			
 			multipleEvents(INPUT_FILE, 'dragleave dragend drop change', () => {
 				INPUT_CONTAINER.classList.remove('active');
 			});
-
+			
 			INPUT_FILE.addEventListener('change', () => {
-				const files = [...INPUT_FILE.files];
-
-				files.forEach(file => {
-					const fileURL = URL.createObjectURL(file);
-					const fileName = file.name;
-					const uploadedFiles = {
-						name: fileName,
-						url: fileURL,
-					};
-
-					FILE_LIST.push(uploadedFiles);
-				});
-				FILES_LIST_CONTAINER.innerHTML = '';
-				FILE_LIST.forEach(addedFile => {
-					const content = `
+			const files = [...INPUT_FILE.files];
+			
+			files.forEach(file => {
+				const fileURL = URL.createObjectURL(file);
+				const fileName = file.name;
+				const uploadedFiles = {
+					name: fileName,
+					url: fileURL,
+				};
+				
+				FILE_LIST.push(uploadedFiles);
+			});
+			FILES_LIST_CONTAINER.innerHTML = '';
+			FILE_LIST.forEach(addedFile => {
+				const content = `
 					<div class="form__files-container">
 					<span class="form__text">${addedFile.name}</span>
 					<div>
@@ -1178,8 +1024,8 @@
 					</div>
 					</div>
 				`;
-
-					FILES_LIST_CONTAINER.insertAdjacentHTML('beforeEnd', content);
+		
+				FILES_LIST_CONTAINER.insertAdjacentHTML('beforeEnd', content);
 				});
 			});
 		};
@@ -1198,7 +1044,7 @@
 			{ name: "Portugal", coords: [80.7069, -70.6043] },
 			{ name: "Spain", coords: [0.7069, -40.6043] },
 		];
-
+		  
 		var jvm = new jsVectorMap({
 			map: "world_merc",
 			selector: "#sales_by_locations_map",
@@ -1209,7 +1055,7 @@
 				});
 			},
 			regionStyle: {
-				initial: { fill: '#d1d4db' }
+			   initial: { fill: '#d1d4db' }
 			},
 			labels: {
 				markers: {
@@ -1219,7 +1065,7 @@
 			markersSelectable: true,
 			selectedMarkers: markers.map((marker, index) => {
 				var name = marker.name;
-
+			
 				if (name === "Russia" || name === "Brazil") {
 					return index;
 				}
@@ -1248,7 +1094,7 @@
 			{ name: "United Kingdom", coords: [56.1304, -106.3468] },
 			{ name: "Canada", coords: [71.7069, -42.6043] },
 		];
-
+		  
 		var jvm = new jsVectorMap({
 			map: "world_merc",
 			selector: "#enrolled_by_countries_map",
@@ -1259,7 +1105,7 @@
 				});
 			},
 			regionStyle: {
-				initial: { fill: '#d1d4db' }
+			   initial: { fill: '#d1d4db' }
 			},
 			labels: {
 				markers: {
@@ -1269,7 +1115,7 @@
 			markersSelectable: true,
 			selectedMarkers: markers.map((marker, index) => {
 				var name = marker.name;
-
+			
 				if (name === "Russia" || name === "Brazil") {
 					return index;
 				}
@@ -1298,7 +1144,7 @@
 			{ name: "United States", coords: [26.8206, 30.8025] },
 			{ name: "United Kingdom", coords: [61.524, 105.3188] },
 		];
-
+		  
 		var jvm = new jsVectorMap({
 			map: "world_merc",
 			selector: "#users_by_country_map",
@@ -1309,7 +1155,7 @@
 				});
 			},
 			regionStyle: {
-				initial: { fill: '#d1d4db' }
+			   initial: { fill: '#d1d4db' }
 			},
 			labels: {
 				markers: {
@@ -1319,7 +1165,7 @@
 			markersSelectable: true,
 			selectedMarkers: markers.map((marker, index) => {
 				var name = marker.name;
-
+			
 				if (name === "Russia" || name === "Brazil") {
 					return index;
 				}
@@ -1348,7 +1194,7 @@
 			{ name: "United States", coords: [26.8206, 30.8025] },
 			{ name: "United Kingdom", coords: [61.524, 105.3188] },
 		];
-
+		  
 		var jvm = new jsVectorMap({
 			map: "world_merc",
 			selector: "#worldwide_top_creators_map",
@@ -1359,7 +1205,7 @@
 				});
 			},
 			regionStyle: {
-				initial: { fill: '#d1d4db' }
+			   initial: { fill: '#d1d4db' }
 			},
 			labels: {
 				markers: {
@@ -1369,7 +1215,7 @@
 			markersSelectable: true,
 			selectedMarkers: markers.map((marker, index) => {
 				var name = marker.name;
-
+			
 				if (name === "Russia" || name === "Brazil") {
 					return index;
 				}
@@ -1398,7 +1244,7 @@
 			{ name: "United States", coords: [26.8206, 30.8025] },
 			{ name: "Germany", coords: [61.524, 105.3188] },
 		];
-
+		  
 		var jvm = new jsVectorMap({
 			map: "world_merc",
 			selector: "#sales_by_country_map",
@@ -1409,7 +1255,7 @@
 				});
 			},
 			regionStyle: {
-				initial: { fill: '#d1d4db' }
+			   initial: { fill: '#d1d4db' }
 			},
 			labels: {
 				markers: {
@@ -1419,7 +1265,7 @@
 			markersSelectable: true,
 			selectedMarkers: markers.map((marker, index) => {
 				var name = marker.name;
-
+			
 				if (name === "Russia" || name === "Brazil") {
 					return index;
 				}
@@ -1451,7 +1297,7 @@
 			{ name: "Spain", coords: [0.7069, -40.6043] },
 			{ name: "France", coords: [70.7069, -100.6043] },
 		];
-
+		  
 		var jvm = new jsVectorMap({
 			map: "world_merc",
 			selector: "#most_sales_location",
@@ -1462,7 +1308,7 @@
 				});
 			},
 			regionStyle: {
-				initial: { fill: '#d1d4db' }
+			   initial: { fill: '#d1d4db' }
 			},
 			labels: {
 				markers: {
@@ -1472,7 +1318,7 @@
 			markersSelectable: true,
 			selectedMarkers: markers.map((marker, index) => {
 				var name = marker.name;
-
+			
 				if (name === "Russia" || name === "Brazil") {
 					return index;
 				}
@@ -1498,7 +1344,7 @@
 		var markers = [
 			{ name: "United States", coords: [26.8206, 30.8025] },
 		];
-
+		  
 		var jvm = new jsVectorMap({
 			map: "world_merc",
 			selector: "#shipment_to_top",
@@ -1509,7 +1355,7 @@
 				});
 			},
 			regionStyle: {
-				initial: { fill: '#ffffff' }
+			   initial: { fill: '#ffffff' }
 			},
 			labels: {
 				markers: {
@@ -1519,7 +1365,7 @@
 			markersSelectable: true,
 			selectedMarkers: markers.map((marker, index) => {
 				var name = marker.name;
-
+			
 				if (name === "Russia" || name === "Brazil") {
 					return index;
 				}
@@ -1547,7 +1393,7 @@
 			{ name: "Canada", coords: [71.7069, -42.6043] },
 			{ name: "Brazil", coords: [0.7069, -40.6043] },
 		];
-
+		  
 		var jvm = new jsVectorMap({
 			map: "world_merc",
 			selector: "#call_center_geography",
@@ -1558,7 +1404,7 @@
 				});
 			},
 			regionStyle: {
-				initial: { fill: '#d1d4db' }
+			   initial: { fill: '#d1d4db' }
 			},
 			labels: {
 				markers: {
@@ -1568,57 +1414,7 @@
 			markersSelectable: true,
 			selectedMarkers: markers.map((marker, index) => {
 				var name = marker.name;
-
-				if (name === "Russia" || name === "Brazil") {
-					return index;
-				}
-			}),
-			markers: markers,
-			markerStyle: {
-				initial: { fill: "#5c5cff" },
-				selected: { fill: "#ff5050" }
-			},
-			markerLabelStyle: {
-				initial: {
-					fontFamily: "Inter",
-					fontWeight: 400,
-					fontSize: 0
-				}
-			}
-		});
-	}
-
-	// Revenue By Branches Map JS
-	const getRevenueByBranchesMapId = document.getElementById('revenue_by_branches_map');
-	if (getRevenueByBranchesMapId) {
-		var markers = [
-			{ name: "Japan", coords: [56.1304, -106.3468] },
-			{ name: "Australia", coords: [71.7069, -42.6043] },
-			{ name: "United States", coords: [26.8206, 30.8025] },
-			{ name: "Germany", coords: [61.524, 105.3188] },
-		];
-
-		var jvm = new jsVectorMap({
-			map: "world_merc",
-			selector: "#revenue_by_branches_map",
-			// zoomButtons: true,
-			onLoaded(map) {
-				window.addEventListener("resize", () => {
-					map.updateSize();
-				});
-			},
-			regionStyle: {
-				initial: { fill: '#d1d4db' }
-			},
-			labels: {
-				markers: {
-					render: (marker) => marker.name
-				}
-			},
-			markersSelectable: true,
-			selectedMarkers: markers.map((marker, index) => {
-				var name = marker.name;
-
+			
 				if (name === "Russia" || name === "Brazil") {
 					return index;
 				}
@@ -1644,7 +1440,7 @@
 		var picker = new Lightpick({
 			field: document.getElementById('range_datepicker'),
 			singleDate: false,
-			onSelect: function (start, end) {
+			onSelect: function(start, end){
 				var str = '';
 				str += start ? start.format('Do MMMM YYYY') + ' to ' : '';
 				str += end ? end.format('Do MMMM YYYY') : '...';
@@ -1711,34 +1507,18 @@
 			var month = monthNames[now.getMonth()];
 			var year = now.getFullYear();
 			var digitalDate = document.getElementById("digital_date_schedule");
-			digitalDate.innerHTML = date + " " + month + ", " + year;
-		}
-		setInterval(updateDate, 1000);
-	}
-
-	//  Digital Date Schedule Bookings
-	const getDigitalDateScheduleBookingsId = document.getElementById('digital_date_schedule_bookings');
-	if (getDigitalDateScheduleBookingsId) {
-		function updateDate() {
-			var now = new Date();
-			var date = now.getDate();
-			var monthNames = ["January", "February", "March", "April", "May", "June",
-				"July", "August", "September", "October", "November", "December"];
-			var month = monthNames[now.getMonth()];
-			var year = now.getFullYear();
-			var digitalDate = document.getElementById("digital_date_schedule_bookings");
-			digitalDate.innerHTML = month + " " + date + ", " + year;
+			digitalDate.innerHTML =  date + " " + month + ", " + year;
 		}
 		setInterval(updateDate, 1000);
 	}
 
 	// Upcoming Events JS
 	var swiper = new Swiper(".upcoming-events-slide-two", {
-		slidesPerView: 1,
-		spaceBetween: 25,
+        slidesPerView: 1,
+        spaceBetween: 25,
 		centeredSlides: false,
 		preventClicks: true,
-		loop: false,
+		loop: false, 
 		autoplay: {
 			delay: 8000,
 			disableOnInteraction: false,
@@ -1748,7 +1528,7 @@
 			clickable: true,
 			el: ".swiper-pagination-upcoming-events",
 		},
-	});
+    });
 
 	// Simple Calendar JS
 	const getCalendarBodyId = document.getElementById('calendarBody');
@@ -1802,31 +1582,31 @@
 				const row = document.createElement('tr');
 
 				for (let j = 0; j < 7; j++) {
-					const cell = document.createElement('td');
+				const cell = document.createElement('td');
 
-					if (i === 0 && j < firstDayOfMonth) {
-						cell.textContent = prevMonthDate++;
-						cell.classList.add('prev-month');
-					} else if (date > daysInMonth) {
-						cell.textContent = nextMonthDate++;
-						cell.classList.add('next-month');
-					} else {
-						cell.textContent = date;
-						if (
-							year === today.getFullYear() &&
-							month === today.getMonth() &&
-							date === today.getDate()
-						) {
-							cell.classList.add('current-day');
-						}
-						date++;
+				if (i === 0 && j < firstDayOfMonth) {
+					cell.textContent = prevMonthDate++;
+					cell.classList.add('prev-month');
+				} else if (date > daysInMonth) {
+					cell.textContent = nextMonthDate++;
+					cell.classList.add('next-month');
+				} else {
+					cell.textContent = date;
+					if (
+					year === today.getFullYear() &&
+					month === today.getMonth() &&
+					date === today.getDate()
+					) {
+					cell.classList.add('current-day');
 					}
-					row.appendChild(cell);
+					date++;
+				}
+				row.appendChild(cell);
 				}
 				calendarBody.appendChild(row);
 
 				if (date > daysInMonth && nextMonthDate > 7) {
-					break;
+				break;
 				}
 			}
 		}
@@ -1874,11 +1654,11 @@
 
 	// Top Selling Products JS
 	var swiper = new Swiper(".top-selling-products-slide", {
-		slidesPerView: 1,
-		spaceBetween: 25,
+        slidesPerView: 1,
+        spaceBetween: 25,
 		centeredSlides: false,
 		preventClicks: true,
-		loop: false,
+		loop: false, 
 		autoplay: {
 			delay: 8000,
 			disableOnInteraction: false,
@@ -1886,7 +1666,7 @@
 		},
 		navigation: {
 			nextEl: ".prev",
-			prevEl: ".next",
+          	prevEl: ".next",
 		},
 		pagination: {
 			clickable: true,
@@ -1914,8 +1694,8 @@
 				slidesPerView: 6,
 			},
 		}
-	});
-
+    });
+	
 	// Theme Settings
 	// Dark/Light Toggle
 	const getSwitchToggleId = document.getElementById('switch-toggle');
@@ -2067,44 +1847,44 @@
 	}
 
 	// Admin Link Active Color JS
-	document.addEventListener("DOMContentLoaded", function () {
-		const links = document.querySelectorAll(".admin-item-link");
-		const activeLink = localStorage.getItem("activeLink");
+	document.addEventListener("DOMContentLoaded", function() {
+        const links = document.querySelectorAll(".admin-item-link");
+        const activeLink = localStorage.getItem("activeLink");
 
-		// Apply active class from localStorage if it exists
-		if (activeLink) {
-			links.forEach(link => {
-				if (link.getAttribute("href") === activeLink) {
-					link.classList.add("active");
-				}
-			});
-		}
+        // Apply active class from localStorage if it exists
+        if (activeLink) {
+            links.forEach(link => {
+                if (link.getAttribute("href") === activeLink) {
+                    link.classList.add("active");
+                }
+            });
+        }
 
-		// Add click event to each link
-		links.forEach(link => {
-			link.addEventListener("click", function () {
-				// Remove active class from all links
-				links.forEach(l => l.classList.remove("active"));
-				// Add active class to the clicked link
-				link.classList.add("active");
-				// Save to localStorage
-				localStorage.setItem("activeLink", link.getAttribute("href"));
-			});
-		});
-	});
+        // Add click event to each link
+        links.forEach(link => {
+            link.addEventListener("click", function() {
+                // Remove active class from all links
+                links.forEach(l => l.classList.remove("active"));
+                // Add active class to the clicked link
+                link.classList.add("active");
+                // Save to localStorage
+                localStorage.setItem("activeLink", link.getAttribute("href"));
+            });
+        });
+    });
 
 	// Select all buttons with the class 'follow-button'
 	document.querySelectorAll('.follow-button').forEach(button => {
 		// Add click event listener to each button
 		button.addEventListener('click', () => {
-			// Toggle 'followed' class
-			button.classList.toggle('followed');
-
-			// Find the span with the 'follow-text' class inside this button
-			const followText = button.querySelector('.follow-text');
-
-			// Update button text
-			followText.textContent = button.classList.contains('followed') ? 'Following' : 'Follow';
+		// Toggle 'followed' class
+		button.classList.toggle('followed');
+		
+		// Find the span with the 'follow-text' class inside this button
+		const followText = button.querySelector('.follow-text');
+		
+		// Update button text
+		followText.textContent = button.classList.contains('followed') ? 'Following' : 'Follow';
 		});
 	});
 
@@ -2144,10 +1924,10 @@
 	// Audio Player JS
 	var selector = document.querySelectorAll('.single-play');
 
-	selector.forEach(function (item) {
-		item.addEventListener('click', function () {
+	selector.forEach(function(item) {
+		item.addEventListener('click', function() {
 			// Remove the 'active' class from all items
-			selector.forEach(function (el) {
+			selector.forEach(function(el) {
 				el.classList.remove('active');
 			});
 			// Add the 'active' class to the clicked item
@@ -2159,7 +1939,7 @@
 	document.querySelectorAll('.favorite-button').forEach(button => {
 		// Add click event listener to each button
 		button.addEventListener('click', () => {
-			// Toggle 'liked' class
+		// Toggle 'liked' class
 			button.classList.toggle('favorite-d');
 		});
 	});
@@ -2173,47 +1953,47 @@
 		const progressContainer = document.querySelector('.progress');
 		const currentTimeDisplay = document.getElementById('current-time');
 		const durationDisplay = document.getElementById('duration');
-
+		
 		document.getElementById('rewind').addEventListener('click', () => {
 			audio.currentTime = Math.max(audio.currentTime - 10, 0);
 		});
-
+		
 		document.getElementById('fast-forward').addEventListener('click', () => {
 			audio.currentTime = Math.min(audio.currentTime + 10, audio.duration);
 		});
-
+		
 		document.getElementById('restart').addEventListener('click', () => {
 			audio.currentTime = 0;
 			audio.play();
 		});
-
+		
 		document.getElementById('play-pause').addEventListener('click', () => {
 			if (audio.paused) {
-				audio.play();
-				playPauseButton.innerHTML = '<i class="ri-pause-fill fs-18"></i>';
+			audio.play();
+			playPauseButton.innerHTML = '<i class="ri-pause-fill fs-18"></i>';
 			} else {
-				audio.pause();
-				playPauseButton.innerHTML = '<i class="ri-play-fill fs-18"></i>';
+			audio.pause();
+			playPauseButton.innerHTML = '<i class="ri-play-fill fs-18"></i>';
 			}
 		});
-
+		
 		progressContainer.addEventListener('click', (event) => {
 			const rect = progressContainer.getBoundingClientRect();
 			const clickX = event.clientX - rect.left;
 			const newTime = (clickX / rect.width) * audio.duration;
 			audio.currentTime = newTime;
 		});
-
+		
 		audio.addEventListener('loadedmetadata', () => {
 			durationDisplay.textContent = formatTime(audio.duration);
 		});
-
+		
 		audio.addEventListener('timeupdate', () => {
 			const progress = (audio.currentTime / audio.duration) * 100;
 			progressBar.style.width = `${progress}%`;
 			currentTimeDisplay.textContent = formatTime(audio.currentTime);
 		});
-
+		
 		function formatTime(seconds) {
 			const minutes = Math.floor(seconds / 60);
 			const secs = Math.floor(seconds % 60);
@@ -2232,9 +2012,9 @@
 			const waveBars = document.querySelectorAll(".wave-bar");
 			const progressBar = document.querySelector(".progress-bar");
 			const durationLabel = document.querySelector(".duration");
-
+		
 			let isPlaying = false;
-
+		
 			// Toggle Play/Pause
 			playButton.addEventListener("click", () => {
 				if (isPlaying) {
@@ -2243,31 +2023,31 @@
 					audio.play();
 				}
 			});
-
+		
 			// Play event
 			audio.addEventListener("play", () => {
 				isPlaying = true;
 				playIcon.classList.replace("ri-play-large-fill", "ri-pause-fill");
 				waveBars.forEach(bar => (bar.style.animationPlayState = "running"));
 			});
-
+		
 			// Pause event
 			audio.addEventListener("pause", () => {
 				isPlaying = false;
 				playIcon.classList.replace("ri-pause-fill", "ri-play-large-fill");
 				waveBars.forEach(bar => (bar.style.animationPlayState = "paused"));
 			});
-
+		
 			// Update Progress Bar and Duration
 			audio.addEventListener("timeupdate", () => {
 				const progress = (audio.currentTime / audio.duration) * 100;
 				progressBar.style.width = `${progress}%`;
-
+		
 				const minutes = Math.floor(audio.currentTime / 60);
 				const seconds = Math.floor(audio.currentTime % 60);
 				durationLabel.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
 			});
-
+		
 			// Reset on End
 			audio.addEventListener("ended", () => {
 				isPlaying = false;
@@ -2290,7 +2070,7 @@
 			const nextBtn = document.getElementById("next-btn");
 			let itemsPerPage = 8; // Default value
 			let currentIndex = 0;
-
+		
 			// Function to update menu visibility
 			function updateMenu() {
 				menuItems.forEach((item, index) => {
@@ -2299,11 +2079,11 @@
 							? "block"
 							: "none";
 				});
-
+		
 				prevBtn.disabled = currentIndex === 0;
 				nextBtn.disabled = currentIndex + itemsPerPage >= menuItems.length;
 			}
-
+		
 			// Function to update itemsPerPage based on screen size
 			function updateItemsPerPage() {
 				if (window.matchMedia("(max-width: 992px)").matches) {
@@ -2316,7 +2096,7 @@
 				currentIndex = 0; // Reset index when itemsPerPage changes
 				updateMenu();
 			}
-
+		
 			// Event listeners for buttons
 			prevBtn.addEventListener("click", () => {
 				if (currentIndex > 0) {
@@ -2324,84 +2104,84 @@
 					updateMenu();
 				}
 			});
-
+		
 			nextBtn.addEventListener("click", () => {
 				if (currentIndex + itemsPerPage < menuItems.length) {
 					currentIndex += 1; // Move forward by one item
 					updateMenu();
 				}
 			});
-
+		
 			// Add event listener for screen size changes
 			window.addEventListener("resize", updateItemsPerPage);
-
+		
 			// Initial setup
 			updateItemsPerPage();
 		});
-
+		
 		// document.addEventListener("DOMContentLoaded", () => {
-		//     const menuItems = document.querySelectorAll("#menu > li");
-		//     const prevBtn = document.getElementById("prev-btn");
-		//     const nextBtn = document.getElementById("next-btn");
-		//     const itemsPerPage = 7;
-		//     let currentIndex = 0;
-
-		//     // Function to update menu visibility
-		//     function updateMenu() {
-		//         menuItems.forEach((item, index) => {
-		//             item.style.display =
-		//                 index >= currentIndex && index < currentIndex + itemsPerPage
-		//                     ? "block"
-		//                     : "none";
-		//         });
-
-		//         prevBtn.disabled = currentIndex === 0;
-		//         nextBtn.disabled = currentIndex + itemsPerPage >= menuItems.length;
-		//     }
-
-		//     // Add fade effect
-		//     function fadeEffect(callback) {
-		//         const menu = document.getElementById("menu");
-		//         menu.style.opacity = 0;
-		//         setTimeout(() => {
-		//             callback();
-		//             menu.style.opacity = 1;
-		//         }, 500);
-		//     }
-
-		//     // Event listeners for buttons
-		//     prevBtn.addEventListener("click", () => {
-		//         if (currentIndex > 0) {
-		//             fadeEffect(() => {
-		//                 currentIndex -= itemsPerPage;
-		//                 updateMenu();
-		//             });
-		//         }
-		//     });
-
-		//     nextBtn.addEventListener("click", () => {
-		//         if (currentIndex + itemsPerPage < menuItems.length) {
-		//             fadeEffect(() => {
-		//                 currentIndex += itemsPerPage;
-		//                 updateMenu();
-		//             });
-		//         }
-		//     });
-
-		//     // Initial display
-		//     updateMenu();
-		// });
+        //     const menuItems = document.querySelectorAll("#menu > li");
+        //     const prevBtn = document.getElementById("prev-btn");
+        //     const nextBtn = document.getElementById("next-btn");
+        //     const itemsPerPage = 7;
+        //     let currentIndex = 0;
+        
+        //     // Function to update menu visibility
+        //     function updateMenu() {
+        //         menuItems.forEach((item, index) => {
+        //             item.style.display =
+        //                 index >= currentIndex && index < currentIndex + itemsPerPage
+        //                     ? "block"
+        //                     : "none";
+        //         });
+        
+        //         prevBtn.disabled = currentIndex === 0;
+        //         nextBtn.disabled = currentIndex + itemsPerPage >= menuItems.length;
+        //     }
+        
+        //     // Add fade effect
+        //     function fadeEffect(callback) {
+        //         const menu = document.getElementById("menu");
+        //         menu.style.opacity = 0;
+        //         setTimeout(() => {
+        //             callback();
+        //             menu.style.opacity = 1;
+        //         }, 500);
+        //     }
+        
+        //     // Event listeners for buttons
+        //     prevBtn.addEventListener("click", () => {
+        //         if (currentIndex > 0) {
+        //             fadeEffect(() => {
+        //                 currentIndex -= itemsPerPage;
+        //                 updateMenu();
+        //             });
+        //         }
+        //     });
+        
+        //     nextBtn.addEventListener("click", () => {
+        //         if (currentIndex + itemsPerPage < menuItems.length) {
+        //             fadeEffect(() => {
+        //                 currentIndex += itemsPerPage;
+        //                 updateMenu();
+        //             });
+        //         }
+        //     });
+        
+        //     // Initial display
+        //     updateMenu();
+        // });
 	}
 
 	// Wait until the DOM is fully loaded
 	const getWaitUntilTheDomIsFullyLoadedId = document.getElementById('wait_until_the_dom_is_fully_loaded');
 	if (getWaitUntilTheDomIsFullyLoadedId) {
-		document.addEventListener("DOMContentLoaded", function () {
+		document.addEventListener("DOMContentLoaded", function() {
 			// Get the calendar body
 			const calendarBody = document.getElementById("calendarBody");
-
+	
 			// Add click event listener to the calendar body
-			calendarBody.addEventListener("click", function (event) {
+			calendarBody.addEventListener("click", function(event) {
 				// Check if a table cell (td) was clicked
 				if (event.target.tagName === "TD") {
 					// Remove active class from any previously selected cell
@@ -2409,14 +2189,14 @@
 					if (activeCell) {
 						activeCell.classList.remove("active");
 					}
-
+	
 					// Add active class to the clicked cell
 					event.target.classList.add("active");
 				}
 			});
 		});
 	}
-
+	
 	// Dtae Pikar
 	const getDatePikarPopId = document.getElementById('date_pikar_pop');
 	if (getDatePikarPopId) {
@@ -2424,55 +2204,55 @@
 		document.addEventListener("DOMContentLoaded", function () {
 			const dateInput = document.getElementById("date-input");
 			const datepicker = document.getElementById("datepicker");
-
+	  
 			let selectedDate = null;
-
+	  
 			function generateCalendar(year, month) {
-				const firstDay = new Date(year, month, 1).getDay();
-				const daysInMonth = new Date(year, month + 1, 0).getDate();
-				let html = "<table>";
-				html += "<tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr><tr>";
-
-				for (let i = 0; i < firstDay; i++) {
-					html += "<td></td>";
+			  const firstDay = new Date(year, month, 1).getDay();
+			  const daysInMonth = new Date(year, month + 1, 0).getDate();
+			  let html = "<table>";
+			  html += "<tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr><tr>";
+	  
+			  for (let i = 0; i < firstDay; i++) {
+				html += "<td></td>";
+			  }
+	  
+			  for (let day = 1; day <= daysInMonth; day++) {
+				if ((firstDay + day - 1) % 7 === 0 && day !== 1) {
+				  html += "</tr><tr>";
 				}
-
-				for (let day = 1; day <= daysInMonth; day++) {
-					if ((firstDay + day - 1) % 7 === 0 && day !== 1) {
-						html += "</tr><tr>";
-					}
-					html += `<td data-day="${day}">${day}</td>`;
-				}
-
-				html += "</tr></table>";
-				datepicker.innerHTML = html;
-
-				const days = datepicker.querySelectorAll("td[data-day]");
-				days.forEach((day) => {
-					day.addEventListener("click", function () {
-						selectedDate = new Date(year, month, this.dataset.day);
-						dateInput.value = selectedDate.toLocaleDateString();
-
-						// Highlight selected date
-						days.forEach((d) => d.classList.remove("selected"));
-						this.classList.add("selected");
-
-						// Close datepicker
-						datepicker.classList.remove("active");
-					});
+				html += `<td data-day="${day}">${day}</td>`;
+			  }
+	  
+			  html += "</tr></table>";
+			  datepicker.innerHTML = html;
+	  
+			  const days = datepicker.querySelectorAll("td[data-day]");
+			  days.forEach((day) => {
+				day.addEventListener("click", function () {
+				  selectedDate = new Date(year, month, this.dataset.day);
+				  dateInput.value = selectedDate.toLocaleDateString();
+	  
+				  // Highlight selected date
+				  days.forEach((d) => d.classList.remove("selected"));
+				  this.classList.add("selected");
+	  
+				  // Close datepicker
+				  datepicker.classList.remove("active");
 				});
+			  });
 			}
-
+	  
 			dateInput.addEventListener("click", function () {
-				datepicker.classList.toggle("active");
-				const today = new Date();
-				generateCalendar(today.getFullYear(), today.getMonth());
+			  datepicker.classList.toggle("active");
+			  const today = new Date();
+			  generateCalendar(today.getFullYear(), today.getMonth());
 			});
-
+	  
 			document.addEventListener("click", function (e) {
-				if (!e.target.closest(".datepicker-container")) {
-					datepicker.classList.remove("active");
-				}
+			  if (!e.target.closest(".datepicker-container")) {
+				datepicker.classList.remove("active");
+			  }
 			});
 		});
 
@@ -2486,13 +2266,13 @@
 			const closeBtn = document.querySelector('.close-btn');
 			const searchBtn = document.querySelector('.search-btn');
 			const searchOverlay = document.querySelector('.search-overlay');
-
+		
 			closeBtn.addEventListener('click', () => {
 				searchOverlay.style.display = 'none';
 				searchBtn.style.display = 'block';
 				closeBtn.classList.remove('active');
 			});
-
+		
 			searchBtn.addEventListener('click', () => {
 				searchBtn.style.display = 'none';
 				searchOverlay.style.display = 'block';
@@ -2518,7 +2298,7 @@ try {
 			setTheme('rtl');
 		}
 	}
-
+	
 	// Immediately invoked function to set the theme on initial load
 	(function () {
 		if (localStorage.getItem('trezo_rtl') === 'rtl') {
@@ -2526,7 +2306,7 @@ try {
 			document.getElementById('slider').checked = false;
 		} else {
 			setTheme('ltr');
-			document.getElementById('slider').checked = true;
+		document.getElementById('slider').checked = true;
 		}
 	})();
 } catch { }

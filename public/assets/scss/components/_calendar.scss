@@ -132,14 +132,6 @@
     .fc .fc-view-harness-active > .fc-view {
         overflow: auto;
     }
-    th.fc-col-header-cell {
-        border-color: #ECF0FF;
-        background-color: #ECF0FF;
-        padding: 5px 4px;
-    }
-    table.fc-scrollgrid-sync-table {
-        height: 562px;
-    }
 }
 
 /* Calendar Area Style
@@ -375,27 +367,6 @@
                     z-index: -1;
                 }
             }
-            &.active-date {
-                color: $white;
-                font-weight: 500;
-                position: relative;
-                z-index: 1;
-                &::before {
-                    content: "";
-                    position: absolute;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    left: 0;
-                    right: 0;
-                    margin: auto;
-                    width: 32px;
-                    height: 32px;
-                    line-height: 32px;
-                    background-color: $primary !important;
-                    border-radius: 50px;
-                    z-index: -1;
-                }
-            }
             &.active {
                 color: $white;
                 font-weight: 500;
@@ -476,53 +447,6 @@
                         border-color: $white;
                     }
                 }
-            }
-        }
-    }
-    &.style-three {
-        .calendar-header {
-            margin-bottom: 15px;
-            margin-left: 0;
-            margin-right: 0;
-            button {
-                display: block;
-                &.change-btn {
-                    background-color: #e6eff2;
-                    border: 0;
-                    color: $secondary;
-                    border: 0 !important;
-                    font-size: 18px;
-                    border-radius: 100px;
-                    transition: $transition;
-                    i {
-                        transition: $transition;  
-                    }
-                    &:hover {
-                        background-color: $primary;
-                        i {
-                            color: $white;
-                        }
-                    }
-                }
-            }
-            .month-year {
-                color: $secondary;
-                font-size: 12px;
-                font-weight: 500;
-            }
-        }
-        .prev-month {
-           opacity: 0;
-        }
-        .next-month {
-            opacity: 0;
-            display: none;
-        }
-        .calendar-table {
-            td {
-                font-size: 14px;
-                font-weight: 500;
-                height: 50px
             }
         }
     }

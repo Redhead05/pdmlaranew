@@ -113,7 +113,7 @@
     }
     .main-content {
         padding-left: 12px;
-        padding-right: 273px;
+        padding-right: 283px;
     }
     [sidebar-data-theme=sidebar-hide] .main-content {
         padding-left: 0;
@@ -1347,26 +1347,6 @@
             right: auto;
             left: -200px;
         }
-    }
-    .popular-rooms-slide {
-        direction: ltr;
-    }
-    .client-ratings-slide {
-        direction: ltr;
-    }
-    .my-featured-listings-slide {
-        direction: ltr;
-    }
-    .room-details-slide {
-        direction: ltr;
-    }
-    .room-details-slide2 {
-        direction: ltr;
-    }
-    .breadcrumb-item + .breadcrumb-item::before {
-        float: right;
-        padding-right: 0;
-        padding-left: 0.5rem;
     }
     
 }

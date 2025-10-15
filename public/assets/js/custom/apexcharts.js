@@ -1,4 +1,4 @@
-(function () {
+(function() {
 	"use strict";
 
 	//**<---- Dashboard E-Commerce Charts ---->**//
@@ -116,8 +116,8 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
-						return "$" + val + "k";
+					formatter: function(val) {
+					return "$" + val + "k";
 					}
 				}
 			}
@@ -125,8 +125,8 @@
 		var chart = new ApexCharts(document.querySelector("#top_sales"), options);
 		chart.render();
 	}
-
-	/* Total Orders JS*/
+    
+    /* Total Orders JS*/
 	const getTotalOrders1Id = document.getElementById('total_orders1');
 	if (getTotalOrders1Id) {
 		var options = {
@@ -201,7 +201,7 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
+					formatter: function(val) {
 						return val + "%";
 					}
 				}
@@ -233,7 +233,7 @@
 		chart.render();
 	}
 
-	/* Total Customers JS*/
+    /* Total Customers JS*/
 	const getTotalCustomersId = document.getElementById('total_customers');
 	if (getTotalCustomersId) {
 		var options = {
@@ -330,7 +330,7 @@
 		chart.render();
 	}
 
-	/* Total Revenue JS*/
+    /* Total Revenue JS*/
 	const getTotalRevenueId = document.getElementById('total_evenue');
 	if (getTotalRevenueId) {
 		var options = {
@@ -339,7 +339,7 @@
 					name: "Fashion",
 					data: [20, 40, 25, 60, 30, 50]
 				},
-				{
+					{
 					name: "Others",
 					data: [20, 20, 25, 15, 35, 25]
 				}
@@ -436,7 +436,7 @@
 		chart.render();
 	}
 
-	/* Order Summery JS*/
+    /* Order Summery JS*/
 	const getOrderSummeryId = document.getElementById('order_summery');
 	if (getOrderSummeryId) {
 		var options = {
@@ -479,7 +479,7 @@
 		chart.render();
 	}
 
-	/* Returning Customer Rate JS*/
+    /* Returning Customer Rate JS*/
 	const getReturningCustomerRateId = document.getElementById('returning_customer_rate');
 	if (getReturningCustomerRateId) {
 		var options = {
@@ -794,7 +794,7 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
+					formatter: function(val) {
 						return val + " Tickets";
 					}
 				}
@@ -825,10 +825,10 @@
 		chart.render();
 	}
 
-	/* Lead Conversion JS*/
+    /* Lead Conversion JS*/
 	const getLeadConversionId = document.getElementById('lead_conversion');
 	if (getLeadConversionId) {
-		var options = {
+		var options = { 
 			series: [
 				{
 					name: "Lead Conversion",
@@ -925,12 +925,12 @@
 		var chart = new ApexCharts(document.querySelector("#lead_conversion"), options);
 		chart.render();
 	}
+    
 
-
-	/* Total Orders JS*/
+    /* Total Orders JS*/ 
 	const getTotalOrder2Id = document.getElementById('total_orders2');
 	if (getTotalOrder2Id) {
-		var options = {
+		var options = { 
 			series: [
 				{
 					name: "Total Orders",
@@ -1005,7 +1005,7 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
+					formatter: function(val) {
 						return "$" + val;
 					}
 				}
@@ -1014,12 +1014,12 @@
 		var chart = new ApexCharts(document.querySelector("#total_orders2"), options);
 		chart.render();
 	}
+    
 
-
-	/* Annual Profit JS*/
+    /* Annual Profit JS*/
 	const getAnnualProfitId = document.getElementById('annual_profit');
 	if (getAnnualProfitId) {
-		var options = {
+		var options = { 
 			series: [
 				{
 					name: "Annual Profit",
@@ -1116,20 +1116,20 @@
 		var chart = new ApexCharts(document.querySelector("#annual_profit"), options);
 		chart.render();
 	}
+    
 
-
-	/* Balance Overview JS*/
+    /* Balance Overview JS*/
 	const getBalanceOverviewId = document.getElementById('balance_overview');
 	if (getBalanceOverviewId) {
 		var options = {
 			series: [
 				{
 					name: "Revenue",
-					data: [5, 12, 20, 23, 25, 30, 40, 45, 50, 70, 65, 80]
+					data: [5, 12, 20, 23, 25, 30, 40, 45, 50, 70, 65, 80 ]
 				},
 				{
 					name: "Expenses",
-					data: [15, 20, 30, 30, 35, 45, 60, 70, 80, 85, 95, 120]
+					data: [15, 20, 30, 30, 35, 45, 60, 70, 80, 85, 95, 120 ]
 				}
 			],
 			chart: {
@@ -1222,9 +1222,9 @@
 		var chart = new ApexCharts(document.querySelector("#balance_overview"), options);
 		chart.render();
 	}
+    
 
-
-	/* Leads by Source JS*/
+    /* Leads by Source JS*/
 	const getLeadsBySourceId = document.getElementById('leads_by_source');
 	if (getLeadsBySourceId) {
 		var options = {
@@ -1297,9 +1297,9 @@
 		var chart = new ApexCharts(document.querySelector("#leads_by_source"), options);
 		chart.render();
 	}
+    
 
-
-	/* Sales Report JS*/
+    /* Sales Report JS*/
 	const getSalesReportId = document.getElementById('sales_report');
 	if (getSalesReportId) {
 		var options = {
@@ -1413,7 +1413,7 @@
 
 
 	//**<---- Dashboard Project Management Charts ---->**//
-
+    
 	/* Projects Roadmap JS */
 	const getProjectsRoadmapId = document.getElementById('projects_roadmap');
 	if (getProjectsRoadmapId) {
@@ -1573,7 +1573,7 @@
 		var chart = new ApexCharts(document.querySelector("#projects_roadmap2"), options);
 		chart.render();
 	}
-
+    
 	/* Projects Progress JS */
 	const getProjectsProgressId = document.getElementById('projects_progress');
 	if (getProjectsProgressId) {
@@ -1696,12 +1696,12 @@
 					shape: "diamond",
 				}
 			}
-
+			
 		};
 		var chart = new ApexCharts(document.querySelector("#projects_progress"), options);
 		chart.render();
 	}
-
+    
 	/* Project Analysis JS */
 	const getProjectAnalysisId = document.getElementById('project_analysis');
 	if (getProjectAnalysisId) {
@@ -1798,7 +1798,7 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
+					formatter: function(val) {
 						return "$" + val + "k";
 					}
 				}
@@ -1824,7 +1824,7 @@
 					shape: "diamond",
 				}
 			}
-
+			
 		};
 		var chart = new ApexCharts(document.querySelector("#project_analysis"), options);
 		chart.render();
@@ -1926,7 +1926,7 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
+					formatter: function(val) {
 						return "$" + val + "k";
 					}
 				}
@@ -1952,12 +1952,12 @@
 					shape: "diamond",
 				}
 			}
-
+			
 		};
 		var chart = new ApexCharts(document.querySelector("#project_analysis2"), options);
 		chart.render();
 	}
-
+    
 	/* Tasks Overview JS */
 	const getTasksOverviewId = document.getElementById('tasks_overview');
 	if (getTasksOverviewId) {
@@ -2128,7 +2128,7 @@
 		var chart = new ApexCharts(document.querySelector("#tasks_overview3"), options);
 		chart.render();
 	}
-
+    
 
 	//**<---- Dashboard LMS Charts ---->**//
 
@@ -2210,8 +2210,8 @@
 		var chart = new ApexCharts(document.querySelector("#student_interested_topics"), options);
 		chart.render();
 	}
-
-	// Courses Sales JS
+    
+    // Courses Sales JS
 	const getCoursesSalesId = document.getElementById('courses_sales');
 	if (getCoursesSalesId) {
 		var options = {
@@ -2344,8 +2344,8 @@
 		var chart = new ApexCharts(document.querySelector("#courses_sales"), options);
 		chart.render();
 	}
-
-	// Time Spent JS
+    
+    // Time Spent JS
 	const getTimeSpentId = document.getElementById('time_spent');
 	if (getTimeSpentId) {
 		var options = {
@@ -2429,7 +2429,7 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
+					formatter: function(val) {
 						return val + " hours";
 					}
 				}
@@ -2927,7 +2927,7 @@
 		chart.render();
 	}
 
-	// Tickets Status JS
+    // Tickets Status JS
 	const getTicketsStatusId = document.getElementById('tickets_status');
 	if (getTicketsStatusId) {
 		var options = {
@@ -3023,7 +3023,7 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
+					formatter: function(val) {
 						return val + " Tickets";
 					}
 				}
@@ -3053,8 +3053,8 @@
 		var chart = new ApexCharts(document.querySelector("#tickets_status"), options);
 		chart.render();
 	}
-
-	// Customer Satisfaction JS
+    
+    // Customer Satisfaction JS
 	const getCustomerSatisfactionId = document.getElementById('customer_satisfaction');
 	if (getCustomerSatisfactionId) {
 		var options = {
@@ -3125,7 +3125,7 @@
 			tooltip: {
 				enabled: true,
 				y: {
-					formatter: function (val) {
+					formatter: function(val) {
 						return val + "%";
 					}
 				}
@@ -3205,7 +3205,7 @@
 			tooltip: {
 				enabled: true,
 				y: {
-					formatter: function (val) {
+					formatter: function(val) {
 						return val + "%";
 					}
 				}
@@ -3214,8 +3214,8 @@
 		var chart = new ApexCharts(document.querySelector("#customer_satisfaction2"), options);
 		chart.render();
 	}
-
-	// Response Time JS
+    
+    // Response Time JS
 	const getResponseTimeId = document.getElementById('response_time');
 	if (getResponseTimeId) {
 		var options = {
@@ -3483,8 +3483,8 @@
 		var chart = new ApexCharts(document.querySelector("#response_time2"), options);
 		chart.render();
 	}
-
-	// New Tickets vs Solved Tickets JS
+	
+    // New Tickets vs Solved Tickets JS
 	const getNewTicketsVsSolvedTicketsId = document.getElementById('new_tickets_vs_solved_tickets');
 	if (getNewTicketsVsSolvedTicketsId) {
 		var options = {
@@ -3601,8 +3601,8 @@
 		var chart = new ApexCharts(document.querySelector("#new_tickets_vs_solved_tickets"), options);
 		chart.render();
 	}
-
-	/* Tasks Overview JS */
+    
+    /* Tasks Overview JS */
 	const getTasksOverview2Id = document.getElementById('tasks_overview2');
 	if (getTasksOverview2Id) {
 		var options = {
@@ -4053,7 +4053,7 @@
 			tooltip: {
 				enabled: true,
 				y: {
-					formatter: function (val) {
+					formatter: function(val) {
 						return val + "%";
 					}
 				}
@@ -4167,7 +4167,7 @@
 	/* New Registers JS*/
 	const getNewRegistersId = document.getElementById('new_registers');
 	if (getNewRegistersId) {
-		var options = {
+		var options = { 
 			series: [
 				{
 					name: "New Registers",
@@ -4268,7 +4268,7 @@
 	/* Clicks JS*/
 	const getClicksId = document.getElementById('clicks');
 	if (getClicksId) {
-		var options = {
+		var options = { 
 			series: [
 				{
 					name: "Clicks",
@@ -4397,7 +4397,7 @@
 	/* Impressions JS*/
 	const getImpressionsId = document.getElementById('impressions');
 	if (getImpressionsId) {
-		var options = {
+		var options = { 
 			series: [
 				{
 					name: "Impressions",
@@ -4526,7 +4526,7 @@
 	/* Sessions JS*/
 	const getSessionsId = document.getElementById('sessions');
 	if (getSessionsId) {
-		var options = {
+		var options = { 
 			series: [
 				{
 					name: "Sessions",
@@ -6241,7 +6241,7 @@
 			},
 			dataLabels: {
 				enabled: true,
-				formatter: function (val) {
+				formatter: function(val) {
 					return val + "%";
 				},
 				offsetY: -20,
@@ -6363,7 +6363,7 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
+					formatter: function(val) {
 						return val + "%";
 					}
 				}
@@ -6592,7 +6592,7 @@
 		var chart = new ApexCharts(document.querySelector("#overall_visitors"), options);
 		chart.render();
 	}
-
+	
 	/* Patients Last 7 Days Service JS*/
 	const getPatientsLast7DaysServiceId = document.getElementById('patients_last_7_days_service');
 	if (getPatientsLast7DaysServiceId) {
@@ -6836,7 +6836,7 @@
 				var x = (i + 1).toString();
 				var y =
 					Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
-
+			
 				series.push({
 					x: x,
 					y: y
@@ -6845,7 +6845,7 @@
 			}
 			return series;
 		}
-
+		  
 		var options = {
 			colors: [
 				"#605DFF",
@@ -6864,7 +6864,7 @@
 				}
 			},
 			dataLabels: {
-				enabled: false
+			  	enabled: false
 			},
 			series: [
 				{
@@ -6915,7 +6915,7 @@
 						min: -30,
 						max: 55
 					})
-				}
+			  	}
 			],
 			chart: {
 				height: 235,
@@ -6990,7 +6990,7 @@
 					color: '#ECEEF2'
 				}
 			}
-
+			
 		};
 
 		var chart = new ApexCharts(document.querySelector("#emergency_room_visits"), options);
@@ -7000,7 +7000,7 @@
 	/* Critical Patients JS*/
 	const getCriticalPatientsId = document.getElementById('critical_patients');
 	if (getCriticalPatientsId) {
-
+		  
 		var options = {
 			series: [
 				{
@@ -7123,7 +7123,7 @@
 	/* Bed Occupancy Rate JS*/
 	const getBedOccupancyRateId = document.getElementById('bed_occupancy_rate');
 	if (getBedOccupancyRateId) {
-
+		  
 		var options = {
 			series: [1275, 825, 450],
 			chart: {
@@ -7193,11 +7193,11 @@
 		var chart = new ApexCharts(document.querySelector("#bed_occupancy_rate"), options);
 		chart.render();
 	}
-
+	
 	/* Patient by Age JS*/
 	const getPatientByAgeId = document.getElementById('patient_by_age');
 	if (getPatientByAgeId) {
-
+		  
 		var options = {
 			series: [
 				30, 40, 20, 10
@@ -7249,7 +7249,7 @@
 					offsetY: -.5,
 					shape: 'diamond'
 				},
-				formatter: function (seriesName, opts) {
+				formatter: function(seriesName, opts) {
 					return [seriesName, ":", opts.w.globals.series[opts.seriesIndex], "%"]
 				},
 				onItemClick: {
@@ -7261,7 +7261,7 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
+					formatter: function(val) {
 						return val + "%";
 					}
 				}
@@ -7274,7 +7274,7 @@
 	/* Total Earnings JS*/
 	const getTotalEarningsId = document.getElementById('total_earnings');
 	if (getTotalEarningsId) {
-
+		  
 		var options = {
 			series: [
 				{
@@ -7394,7 +7394,7 @@
 				var x = Math.floor(Math.random() * (750 - 1 + 1)) + 1;;
 				var y = Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
 				var z = Math.floor(Math.random() * (75 - 15 + 1)) + 15;
-
+			
 				series.push([x, y, z]);
 				baseval += 86400000;
 				i++;
@@ -7404,7 +7404,7 @@
 		var options = {
 			series: [
 				{
-					name: 'Social Campaigns',
+				  name: 'Social Campaigns',
 					data: generateData(new Date('11 Feb 2017 GMT').getTime(), 20, {
 						min: 10,
 						max: 60
@@ -7449,7 +7449,7 @@
 			colors: [
 				"#757DFF", "#5DA8FF", "#BF85FB", "#1E8308", "#FE7A36", "#174EDE",
 			],
-			chart: {
+				chart: {
 				height: 351,
 				type: 'bubble',
 				toolbar: {
@@ -7517,12 +7517,12 @@
 					shape: "square", // circle, square, line, plus, cross
 					radius: 5,
 				},
-
+				
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
-						return "$" + val + "k";
+					formatter: function(val) {
+					return "$" + val + "k";
 					}
 				}
 			},
@@ -7769,7 +7769,7 @@
 	//**<---- Dashboard NFT ---->**//
 
 
-	/* Ethereum Rate JS */
+	/* Ethereum Rate JS */ 
 	const getEthereumRateId = document.getElementById('ethereum_rate');
 	if (getEthereumRateId) {
 		var options = {
@@ -7801,7 +7801,7 @@
 				lineCap: "10",
 			},
 			grid: {
-				borderColor: '#ECF0FF',
+				borderColor: '#ECF0FF', 
 				strokeDashArray: 0,
 				xaxis: {
 					lines: {
@@ -7850,7 +7850,7 @@
 				labels: {
 					show: false,
 					formatter: (val) => {
-						return val / 1 + 'K';
+						return  val / 1 + 'K';
 					},
 					style: {
 						colors: "#9C9AB6",
@@ -7889,8 +7889,8 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
-						return "$" + val + "K";
+					formatter: function(val) {
+					return "$" + val + "K";
 					}
 				}
 			}
@@ -7898,8 +7898,8 @@
 		var chart = new ApexCharts(document.querySelector("#ethereum_rate"), options);
 		chart.render();
 	}
-
-	/* Ethereum Rate 2 JS */
+	
+	/* Ethereum Rate 2 JS */ 
 	const getEthereumRate2Id = document.getElementById('ethereum_rate2');
 	if (getEthereumRate2Id) {
 		var options = {
@@ -7931,7 +7931,7 @@
 				lineCap: "10",
 			},
 			grid: {
-				borderColor: '#ECF0FF',
+				borderColor: '#ECF0FF', 
 				strokeDashArray: 0,
 				xaxis: {
 					lines: {
@@ -7980,7 +7980,7 @@
 				labels: {
 					show: false,
 					formatter: (val) => {
-						return val / 1 + 'K';
+						return  val / 1 + 'K';
 					},
 					style: {
 						colors: "#9C9AB6",
@@ -8019,17 +8019,17 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
-						return "$" + val + "K";
+					formatter: function(val) {
+					return "$" + val + "K";
 					}
 				}
 			}
 		};
 		var chart = new ApexCharts(document.querySelector("#ethereum_rate2"), options);
 		chart.render();
-	}
+	} 
 
-	/* Ethereum Rate 3 JS */
+	/* Ethereum Rate 3 JS */ 
 	const getEthereumRate3Id = document.getElementById('ethereum_rate3');
 	if (getEthereumRate3Id) {
 		var options = {
@@ -8061,7 +8061,7 @@
 				lineCap: "10",
 			},
 			grid: {
-				borderColor: '#ECF0FF',
+				borderColor: '#ECF0FF', 
 				strokeDashArray: 0,
 				xaxis: {
 					lines: {
@@ -8110,7 +8110,7 @@
 				labels: {
 					show: false,
 					formatter: (val) => {
-						return val / 1 + 'K';
+						return  val / 1 + 'K';
 					},
 					style: {
 						colors: "#9C9AB6",
@@ -8149,8 +8149,8 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
-						return "$" + val + "K";
+					formatter: function(val) {
+					return "$" + val + "K";
 					}
 				}
 			}
@@ -8159,7 +8159,7 @@
 		chart.render();
 	}
 
-	/* Ethereum Rate 4 JS */
+	/* Ethereum Rate 4 JS */ 
 	const getEthereumRate4Id = document.getElementById('ethereum_rate4');
 	if (getEthereumRate4Id) {
 		var options = {
@@ -8191,7 +8191,7 @@
 				lineCap: "10",
 			},
 			grid: {
-				borderColor: '#ECF0FF',
+				borderColor: '#ECF0FF', 
 				strokeDashArray: 0,
 				xaxis: {
 					lines: {
@@ -8240,7 +8240,7 @@
 				labels: {
 					show: false,
 					formatter: (val) => {
-						return val / 1 + 'K';
+						return  val / 1 + 'K';
 					},
 					style: {
 						colors: "#9C9AB6",
@@ -8279,17 +8279,17 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
-						return "$" + val + "K";
+					formatter: function(val) {
+					return "$" + val + "K";
 					}
 				}
 			}
 		};
 		var chart = new ApexCharts(document.querySelector("#ethereum_rate4"), options);
 		chart.render();
-	}
+	} 
 
-	/* Ethereum Rate 5 JS */
+	/* Ethereum Rate 5 JS */ 
 	const getEthereumRate5Id = document.getElementById('ethereum_rate5');
 	if (getEthereumRate5Id) {
 		var options = {
@@ -8321,7 +8321,7 @@
 				lineCap: "10",
 			},
 			grid: {
-				borderColor: '#ECF0FF',
+				borderColor: '#ECF0FF', 
 				strokeDashArray: 0,
 				xaxis: {
 					lines: {
@@ -8370,7 +8370,7 @@
 				labels: {
 					show: false,
 					formatter: (val) => {
-						return val / 1 + 'K';
+						return  val / 1 + 'K';
 					},
 					style: {
 						colors: "#9C9AB6",
@@ -8409,8 +8409,8 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
-						return "$" + val + "K";
+					formatter: function(val) {
+					return "$" + val + "K";
 					}
 				}
 			}
@@ -8530,8 +8530,8 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
-						return "$" + val + "k";
+					formatter: function(val) {
+					return "$" + val + "k";
 					}
 				}
 			}
@@ -8543,7 +8543,7 @@
 	/* Active User JS*/
 	const getActiveUserId = document.getElementById('active_user');
 	if (getActiveUserId) {
-
+		  
 		var options = {
 			series: [1000, 825, 825],
 			chart: {
@@ -8738,7 +8738,7 @@
 					name: "Conversion",
 					data: [20, 40, 25, 60, 30, 50]
 				},
-				{
+					{
 					name: "Not Conversion",
 					data: [20, 20, 25, 15, 35, 25]
 				}
@@ -9363,7 +9363,7 @@
 				fontSize: '12px',
 				horizontalAlign: 'left',
 				offsetX: 10,
-				offsetY: 5,
+      			offsetY: 5,
 				itemMargin: {
 					horizontal: 8,
 					vertical: 0
@@ -9382,8 +9382,8 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
-						return "$" + val + "k";
+					formatter: function(val) {
+					return "$" + val + "k";
 					}
 				}
 			}
@@ -9409,10 +9409,10 @@
 							y: 1292,
 							goals: [
 								{
-									name: 'Expenses',
-									value: 1400,
-									strokeHeight: 5,
-									strokeColor: '#FFCEA9'
+								name: 'Expenses',
+								value: 1400,
+								strokeHeight: 5,
+								strokeColor: '#FFCEA9'
 								}
 							]
 						},
@@ -9433,10 +9433,10 @@
 							y: 5423,
 							goals: [
 								{
-									name: 'Expenses',
-									value: 5200,
-									strokeHeight: 5,
-									strokeColor: '#FFCEA9'
+								name: 'Expenses',
+								value: 5200,
+								strokeHeight: 5,
+								strokeColor: '#FFCEA9'
 								}
 							]
 						},
@@ -9445,10 +9445,10 @@
 							y: 6653,
 							goals: [
 								{
-									name: 'Expenses',
-									value: 6500,
-									strokeHeight: 5,
-									strokeColor: '#FFCEA9'
+								name: 'Expenses',
+								value: 6500,
+								strokeHeight: 5,
+								strokeColor: '#FFCEA9'
 								}
 							]
 						},
@@ -9457,12 +9457,12 @@
 							y: 8133,
 							goals: [
 								{
-									name: 'Expenses',
-									value: 6600,
-									strokeHeight: 13,
-									strokeWidth: 0,
-									strokeLineCap: 'round',
-									strokeColor: '#FFCEA9'
+								name: 'Expenses',
+								value: 6600,
+								strokeHeight: 13,
+								strokeWidth: 0,
+								strokeLineCap: 'round',
+								strokeColor: '#FFCEA9'
 								}
 							]
 						},
@@ -9471,10 +9471,10 @@
 							y: 7132,
 							goals: [
 								{
-									name: 'Expenses',
-									value: 7500,
-									strokeHeight: 5,
-									strokeColor: '#FFCEA9'
+								name: 'Expenses',
+								value: 7500,
+								strokeHeight: 5,
+								strokeColor: '#FFCEA9'
 								}
 							]
 						},
@@ -9483,10 +9483,10 @@
 							y: 7332,
 							goals: [
 								{
-									name: 'Expenses',
-									value: 8700,
-									strokeHeight: 5,
-									strokeColor: '#FFCEA9'
+								name: 'Expenses',
+								value: 8700,
+								strokeHeight: 5,
+								strokeColor: '#FFCEA9'
 								}
 							]
 						},
@@ -9533,7 +9533,7 @@
 					fillColors: ['#FD5812', '#FFCEA9']
 				},
 			},
-			xaxis: {
+			xaxis: { 
 				labels: {
 					show: false,
 				},
@@ -9541,7 +9541,7 @@
 					show: false,
 				}
 			},
-			yaxis: {
+			yaxis: { 
 				labels: {
 					show: false,
 				}
@@ -9551,8 +9551,8 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
-						return "$" + val + "K";
+					formatter: function(val) {
+					return "$" + val + "K";
 					}
 				}
 			}
@@ -9597,7 +9597,7 @@
 				dashArray: [6, 6],
 			},
 			grid: {
-				borderColor: '#ECF0FF',
+				borderColor: '#ECF0FF', 
 				strokeDashArray: 4,
 				xaxis: {
 					lines: {
@@ -9681,7 +9681,7 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
+					formatter: function(val) {
 						return "" + val + "k";
 					}
 				}
@@ -9700,7 +9700,7 @@
 				width: 170,
 				type: "radialBar",
 			},
-
+	
 			series: [75],
 			colors: ["#37D80A"],
 			plotOptions: {
@@ -9751,7 +9751,7 @@
 				width: 170,
 				type: "radialBar",
 			},
-
+	
 			series: [35],
 			colors: ["#605DFF"],
 			plotOptions: {
@@ -9819,7 +9819,7 @@
 				}
 			},
 			grid: {
-				borderColor: '#ECF0FF',
+				borderColor: '#ECF0FF', 
 				strokeDashArray: 4,
 				xaxis: {
 					lines: {
@@ -9889,7 +9889,7 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
+					formatter: function(val) {
 						return val + " hours";
 					}
 				}
@@ -9919,7 +9919,7 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
+					formatter: function(val) {
 						return "" + val + "k";
 					}
 				}
@@ -9928,7 +9928,7 @@
 		var chart = new ApexCharts(document.querySelector("#rental_income"), options);
 		chart.render();
 	}
-
+	
 	/* Social Search JS*/
 	const getSocialSearchId = document.getElementById('social_search');
 	if (getSocialSearchId) {
@@ -9983,15 +9983,15 @@
 				name: 'Ship Cargo',
 				type: 'column',
 				data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30]
-			}, {
+		  	}, {
 				name: 'Truck Cargo',
 				type: 'area',
 				data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43]
-			}, {
+		  	}, {
 				name: 'Car Box',
 				type: 'line',
 				data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39]
-			}],
+		  	}],
 			chart: {
 				height: 300,
 				type: 'line',
@@ -9999,7 +9999,7 @@
 				toolbar: {
 					show: false
 				}
-			},
+		  	},
 			stroke: {
 				width: [0, 2, 5],
 				curve: 'smooth'
@@ -10025,7 +10025,7 @@
 				size: 0
 			},
 			grid: {
-				borderColor: '#ECF0FF',
+				borderColor: '#ECF0FF', 
 				strokeDashArray: 4,
 				xaxis: {
 					lines: {
@@ -10102,8 +10102,8 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
-						return "" + val + "%";
+					formatter: function(val) {
+					return "" + val + "%";
 					}
 				}
 			}
@@ -10298,7 +10298,7 @@
 					lines: {
 						show: true
 					}
-				},
+				},   
 				yaxis: {
 					lines: {
 						show: true
@@ -10346,7 +10346,7 @@
 				min: 0,
 				labels: {
 					style: {
-						colors: "#8695AA",
+						colors: "#8695AA", 
 						fontSize: "12px"
 					}
 				}
@@ -10473,7 +10473,7 @@
 				size: 0,
 				strokeWidth: 0,
 				hover: {
-					size: 0
+				  size: 0
 				}
 			},
 			colors: ['#5C61F2'],
@@ -10522,7 +10522,7 @@
 				tickAmount: 3,
 				labels: {
 					style: {
-						colors: "#8695AA",
+						colors: "#8695AA", 
 						fontSize: "12px"
 					}
 				}
@@ -10688,7 +10688,7 @@
 				min: 0,
 				labels: {
 					formatter: (val) => {
-						return '$' + val + ''
+					    return '$' + val + ''
 					},
 					style: {
 						colors: "#64748B",
@@ -10706,7 +10706,7 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
+					formatter: function(val) {
 						return "$" + val + "";
 					}
 				}
@@ -10993,7 +10993,7 @@
 	/* Total Employees JS*/
 	const getTotalEmployeesId = document.getElementById('total_employees');
 	if (getTotalEmployeesId) {
-		var options = {
+		var options = { 
 			series: [
 				{
 					name: "Employees",
@@ -11016,12 +11016,12 @@
 			fill: {
 				type: "gradient",
 				gradient: {
-					shadeIntensity: 1,
-					opacityFrom: 1,
-					opacityTo: 1,
-					stops: [0, 90, 100]
+				  shadeIntensity: 1,
+				  opacityFrom: 1,
+				  opacityTo: 1,
+				  stops: [0, 90, 100]
 				}
-			},
+			  },
 			dataLabels: {
 				enabled: false
 			},
@@ -11099,7 +11099,7 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
+					formatter: function(val) {
 						return "Total:" + val;
 					}
 				}
@@ -11109,10 +11109,10 @@
 		chart.render();
 	}
 
-	/* Resigned Employees JS*/
+	/* Resigned Employees JS*/ 
 	const getResignedEmployeesId = document.getElementById('resigned_employees');
 	if (getResignedEmployeesId) {
-		var options = {
+		var options = { 
 			series: [
 				{
 					name: "Resigned",
@@ -11187,7 +11187,7 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
+					formatter: function(val) {
 						return "Total:" + val;
 					}
 				}
@@ -11211,7 +11211,7 @@
 				width: 140,
 				type: "radialBar",
 			},
-
+	
 			series: [30],
 			colors: ["#9135E8"],
 			plotOptions: {
@@ -11718,15 +11718,15 @@
 				type: 'gradient',
 				opacity: 1,
 				gradient: {
-					shade: '#605DFF',
-					type: "vertical",
-					shadeIntensity: 0.5,
-					gradientToColors: undefined,
-					inverseColors: true,
-					opacityFrom: 1,
-					opacityTo: 1,
-					stops: [0, 50, 10],
-					colorStops: []
+				  shade: '#605DFF',
+				  type: "vertical",
+				  shadeIntensity: 0.5,
+				  gradientToColors: undefined, 
+				  inverseColors: true,
+				  opacityFrom: 1,
+				  opacityTo: 1,
+				  stops: [0, 50, 10],
+				  colorStops: []
 				}
 			},
 			grid: {
@@ -11770,11 +11770,11 @@
 					borderRadiusWhenStacked: "all",
 				},
 			},
-			dataLabels: {
+			  dataLabels: {
 				enabled: false,
 			},
 			grid: {
-				borderColor: '#EDEFF5',
+				borderColor: '#EDEFF5', 
 				strokeDashArray: 8,
 				xaxis: {
 					lines: {
@@ -11917,7 +11917,7 @@
 								color: '#64748B',
 								fontSize: '14px',
 								fontWeight: '400',
-
+								
 							}
 						}
 					}
@@ -11933,7 +11933,7 @@
 		var chart = new ApexCharts(document.querySelector("#new_admission"), options);
 		chart.render();
 	}
-
+	
 
 	//**<---- Dashboard Call Center ---->**//
 
@@ -12540,7 +12540,7 @@
 		chart.render();
 	}
 
-	/* Agent Avg Earnings JS */
+	/* Agent Avg Earnings JS */ 
 	const getAgentAvgEarningsId = document.getElementById('agent_avg_earnings');
 	if (getAgentAvgEarningsId) {
 		var options = {
@@ -12572,7 +12572,7 @@
 				lineCap: "10",
 			},
 			grid: {
-				borderColor: '#ECF0FF',
+				borderColor: '#ECF0FF', 
 				strokeDashArray: 10,
 				xaxis: {
 					lines: {
@@ -12664,8 +12664,8 @@
 		var chart = new ApexCharts(document.querySelector("#agent_avg_earnings"), options);
 		chart.render();
 	}
-
-	/* Agent Avg Earnings 2 JS */
+	
+	/* Agent Avg Earnings 2 JS */ 
 	const getAgentAvgEarnings2Id = document.getElementById('agent_avg_earnings2');
 	if (getAgentAvgEarnings2Id) {
 		var options = {
@@ -12697,7 +12697,7 @@
 				lineCap: "10",
 			},
 			grid: {
-				borderColor: '#ECF0FF',
+				borderColor: '#ECF0FF', 
 				strokeDashArray: 10,
 				xaxis: {
 					lines: {
@@ -12788,9 +12788,9 @@
 		};
 		var chart = new ApexCharts(document.querySelector("#agent_avg_earnings2"), options);
 		chart.render();
-	}
+	} 
 
-	/* Agent Avg Earnings 3 JS */
+	/* Agent Avg Earnings 3 JS */ 
 	const getAgentAvgEarnings3Id = document.getElementById('agent_avg_earnings3');
 	if (getAgentAvgEarnings3Id) {
 		var options = {
@@ -12822,7 +12822,7 @@
 				lineCap: "10",
 			},
 			grid: {
-				borderColor: '#ECF0FF',
+				borderColor: '#ECF0FF', 
 				strokeDashArray: 10,
 				xaxis: {
 					lines: {
@@ -12915,7 +12915,7 @@
 		chart.render();
 	}
 
-	/* Agent Avg Earnings 4 JS */
+	/* Agent Avg Earnings 4 JS */ 
 	const getAgentAvgEarnings4Id = document.getElementById('agent_avg_earnings4');
 	if (getAgentAvgEarnings4Id) {
 		var options = {
@@ -12947,7 +12947,7 @@
 				lineCap: "10",
 			},
 			grid: {
-				borderColor: '#ECF0FF',
+				borderColor: '#ECF0FF', 
 				strokeDashArray: 10,
 				xaxis: {
 					lines: {
@@ -13038,9 +13038,9 @@
 		};
 		var chart = new ApexCharts(document.querySelector("#agent_avg_earnings4"), options);
 		chart.render();
-	}
+	} 
 
-	/* Agent Avg Earnings 5 JS */
+	/* Agent Avg Earnings 5 JS */ 
 	const getAgentAvgEarnings5Id = document.getElementById('agent_avg_earnings5');
 	if (getAgentAvgEarnings5Id) {
 		var options = {
@@ -13072,7 +13072,7 @@
 				lineCap: "10",
 			},
 			grid: {
-				borderColor: '#ECF0FF',
+				borderColor: '#ECF0FF', 
 				strokeDashArray: 10,
 				xaxis: {
 					lines: {
@@ -13194,7 +13194,7 @@
 				}
 			},
 			colors: [
-				"#00E396", "#26A0FC"
+				"#00E396", "#26A0FC" 
 			],
 			dataLabels: {
 				enabled: false
@@ -13289,8 +13289,8 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
-						return "" + val + "K";
+					formatter: function(val) {
+					return "" + val + "K";
 					}
 				}
 			}
@@ -13369,7 +13369,7 @@
 								color: '#64748B',
 								fontSize: '14px',
 								fontWeight: '400',
-
+								
 							}
 						}
 					}
@@ -13422,11 +13422,11 @@
 					borderRadiusWhenStacked: "all",
 				},
 			},
-			dataLabels: {
+			  dataLabels: {
 				enabled: false,
 			},
 			grid: {
-				borderColor: '#ECF0FF',
+				borderColor: '#ECF0FF', 
 				xaxis: {
 					lines: {
 						show: false
@@ -13501,7 +13501,7 @@
 						fontSize: "12px"
 					}
 				}
-
+				
 			},
 			fill: {
 				opacity: 1
@@ -13522,7 +13522,7 @@
 	//**<---- Dashboard Beauty Salon ---->**//
 
 
-	/* Customer Satisfaction Rate JS */
+	/* Customer Satisfaction Rate JS */ 
 	const getCustomerSatisfactionRateId = document.getElementById('customer_satisfaction_rate');
 	if (getCustomerSatisfactionRateId) {
 		var options = {
@@ -13560,11 +13560,11 @@
 				pie: {
 					expandOnClick: false,
 				},
-
+				
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
+					formatter: function(val) {
 						return val + "%";
 					}
 				}
@@ -13576,7 +13576,7 @@
 			},
 			legend: {
 				position: 'bottom',
-				horizontalAlign: 'center',
+				horizontalAlign: 'center', 
 				fontWeight: 400,
 				fontFamily: 'Inter',
 				fontSize: '12',
@@ -13602,7 +13602,7 @@
 		chart.render();
 	}
 
-	/* Revenue By Services JS */
+	/* Revenue By Services JS */ 
 	const getRevenueByServicesId = document.getElementById('revenue_by_services');
 	if (getRevenueByServicesId) {
 
@@ -13610,16 +13610,16 @@
 			series: [{
 				name: 'Facial',
 				data: [44, 22, 7, 57, 44, 57, 18, 43, 24]
-			}, {
+		  	}, {
 				name: 'Manicure',
 				data: [13, 23, 10, 13, 13, 13, 13, 13, 13]
-			}, {
+		  	}, {
 				name: 'Pedicure',
 				data: [11, 17, 6, 15, 11, 15, 11, 11, 11]
-			}, {
+		  	}, {
 				name: 'Hair Cut',
 				data: [21, 7, 25, 21, 21, 21, 21, 21, 21]
-			}],
+		  	}],
 			chart: {
 				type: 'bar',
 				height: 321,
@@ -13630,7 +13630,7 @@
 				zoom: {
 					enabled: true
 				}
-			},
+		  	},
 			colors: ['#82FC5A', '#D7B5FD', '#90C7FF', '#9CAAFF'],
 			dataLabels: {
 				style: {
@@ -13642,12 +13642,12 @@
 			},
 			plotOptions: {
 				bar: {
-					horizontal: false,
-					columnWidth: '55%',
-					borderRadius: 6,
-					borderRadiusApplication: 'end', // 'around', 'end'
-					borderRadiusWhenStacked: 'last', // 'all', 'last'
-					dataLabels: {
+				horizontal: false,
+				columnWidth: '55%',
+				borderRadius: 6,
+				borderRadiusApplication: 'end', // 'around', 'end'
+				borderRadiusWhenStacked: 'last', // 'all', 'last'
+				dataLabels: {
 						total: {
 							enabled: false,
 						}
@@ -13690,12 +13690,12 @@
 				min: 0,
 				labels: {
 					style: {
-						colors: "#8695AA",
+						colors: "#8695AA", 
 						fontSize: "12px"
 					}
 				}
 			},
-			grid: {
+		  	grid: {
 				borderColor: "#ECF0FF"
 			},
 			legend: {
@@ -13742,7 +13742,7 @@
 					name: "Sales Revenue",
 					data: [35, 50, 55, 60, 50, 60, 55, 60, 78, 40]
 				},
-
+				
 				{
 					name: "Sales Volume",
 					data: [80, 60, 50, 50, 72, 65, 90, 50, 70, 63]
@@ -13855,8 +13855,8 @@
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
-						return "$" + val + "k";
+					formatter: function(val) {
+					return "$" + val + "k";
 					}
 				}
 			}
@@ -13935,7 +13935,7 @@
 								color: '#64748B',
 								fontSize: '14px',
 								fontWeight: '400',
-
+								
 							}
 						}
 					}
@@ -13957,7 +13957,7 @@
 		chart.render();
 	}
 
-	/* Sales This Month JS */
+	/* Sales This Month JS */ 
 	const getSalesThisMonthId = document.getElementById('sales_this_month');
 	if (getSalesThisMonthId) {
 		var options = {
@@ -13979,7 +13979,7 @@
 				size: 0,
 				strokeWidth: 0,
 				hover: {
-					size: 0
+				  size: 0
 				}
 			},
 			colors: ['#37D80A'],
@@ -14027,7 +14027,7 @@
 				tickAmount: 3,
 				labels: {
 					style: {
-						colors: "#8695AA",
+						colors: "#8695AA", 
 						fontSize: "12px"
 					}
 				}
@@ -14052,7 +14052,7 @@
 				{
 					name: 'Electronics',
 					data: [50, 60, 80, 25, 10, 80],
-				},
+				}, 
 				{
 					name: 'Non-electronics',
 					data: [20, 100, 40, 30, 80, 33],
@@ -14070,7 +14070,7 @@
 			},
 			legend: {
 				position: 'bottom',
-				horizontalAlign: 'center',
+				horizontalAlign: 'center', 
 				fontWeight: 400,
 				fontFamily: 'Inter',
 				fontSize: '12',
@@ -14093,19 +14093,19 @@
 			},
 			plotOptions: {
 				radar: {
-					size: 115,
-					polygons: {
-						strokeColors: '#E9E9E9',
-						fill: {
-							colors: ['#F8F8F8', '#ffffff']
-						}
+				size: 115,
+				polygons: {
+					strokeColors: '#E9E9E9',
+					fill: {
+						colors: ['#F8F8F8', '#ffffff']
 					}
+				}
 				}
 			},
 			colors: ['#757DFF', '#FC6829'],
 			tooltip: {
 				y: {
-					formatter: function (val) {
+					formatter: function(val) {
 						return val
 					}
 				}
@@ -14124,7 +14124,8 @@
 			yaxis: {
 				tickAmount: 5,
 				labels: {
-					formatter: function (val, i) {
+				formatter: function(val, i) 
+					{
 						if (i % 2 === 0) {
 							return val
 						} else {
@@ -14140,7 +14141,7 @@
 
 
 	//**<---- Dashboard Social ---->**//
-
+	
 
 	/* Linkedin Net Followers JS*/
 	const getLinkedinNetFollowersId = document.getElementById('linkedin_net_followers');
@@ -14265,10 +14266,10 @@
 		};
 		var chart = new ApexCharts(document.querySelector("#linkedin_net_followers"), options);
 		chart.render();
-
+		
 	}
 
-	/* Followers by Gender JS */
+	/* Followers by Gender JS */ 
 	const getFollowersByGenderId = document.getElementById('followers_by_gender');
 	if (getFollowersByGenderId) {
 		var options = {
@@ -14306,11 +14307,11 @@
 				pie: {
 					expandOnClick: false,
 				},
-
+				
 			},
 			tooltip: {
 				y: {
-					formatter: function (val) {
+					formatter: function(val) {
 						return val + "%";
 					}
 				}
@@ -14323,7 +14324,7 @@
 			legend: {
 				show: false,
 				position: 'bottom',
-				horizontalAlign: 'center',
+				horizontalAlign: 'center', 
 				fontWeight: 400,
 				fontFamily: 'Inter',
 				fontSize: '12',
@@ -14623,8 +14624,8 @@
 			chart: {
 				type: 'donut',
 				height: 178,
-			},
-			labels: [
+		  	},
+			  labels: [
 				"Electronics", "Clothing", "Home Goods"
 			],
 			colors: [
@@ -14674,7 +14675,7 @@
 				lineCap: 'round'
 			},
 		};
-
+  
 		var chart = new ApexCharts(document.querySelector("#sales_by_category_products"), options);
 		chart.render();
 
@@ -14744,7 +14745,7 @@
 								color: '#64748B',
 								fontSize: '14px',
 								fontWeight: '400',
-
+								
 							}
 						}
 					}
@@ -15140,3183 +15141,22 @@
 	}
 
 
-	//**<---- Dashboard Restaurant ---->**//
+	
 
 
-	/* Restaurant Revenue JS*/
-	const getRestaurantRevenueId = document.getElementById('restaurant_revenue');
-	if (getRestaurantRevenueId) {
-		var options = {
 
-			series: [80, 20],
-			chart: {
-				height: 90,
-				type: "donut"
-			},
-			labels: [
-				"Revenue", "Revenue"
-			],
-			colors: [
-				"#58F229", "#D8FFC8"
-			],
-			tooltip: {
-				y: {
-					formatter: (val) => {
-						return "$" + val + "M";
-					},
-				}
-			},
-			stroke: {
-				width: 0
-			},
-			legend: {
-				show: false,
-				position: 'top',
-				fontSize: '12px',
-				fontFamily: 'Inter',
-				horizontalAlign: 'center',
-				itemMargin: {
-					horizontal: 8,
-					vertical: 0
-				},
-				labels: {
-					colors: '#64748B'
-				},
-				markers: {
-					size: 7,
-					offsetX: -2,
-					offsetY: -.5,
-					shape: 'diamond'
-				}
-			},
-			dataLabels: {
-				enabled: false
-			}
 
-		}
-		var chart = new ApexCharts(document.querySelector("#restaurant_revenue"), options);
-		chart.render();
-	}
 
-	/* Restaurant Expense JS*/
-	const getRestaurantExpenseId = document.getElementById('restaurant_expense');
-	if (getRestaurantExpenseId) {
-		var options = {
 
-			series: [
-				{
-					name: "Up",
-					data: [70, 42, 70, 120, 40, 70]
-				},
-				{
-					name: "Down",
-					data: [-70, -44, -70, -120, -40, -70]
-				}
-			],
-			chart: {
-				type: 'bar',
-				height: 180,
-				stacked: true,
-				toolbar: {
-					show: false
-				}
-			},
-			colors: [
-				'#BF85FB', '#5DA8FF'
-			],
-			plotOptions: {
-				bar: {
-					borderRadius: 2,
-					columnWidth: '4px',
-					borderRadiusApplication: "end",
-					borderRadiusWhenStacked: "all"
-				}
-			},
-			dataLabels: {
-				enabled: false,
-			},
-			grid: {
-				strokeDashArray: 7,
-				borderColor: "#ECEEF2",
-				xaxis: {
-					lines: {
-						show: false
-					}
-				},
-				yaxis: {
-					lines: {
-						show: false
-					}
-				}
-			},
-			legend: {
-				show: false,
-				position: 'top',
-				fontSize: '12px',
-				fontFamily: 'Inter',
-				horizontalAlign: 'left',
-				itemMargin: {
-					horizontal: 8,
-					vertical: 0
-				},
-				labels: {
-					colors: '#64748B'
-				},
-				markers: {
-					size: 7,
-					offsetX: -2,
-					offsetY: -.5,
-					shape: 'diamond'
-				}
-			},
-			xaxis: {
-				categories: [
-					"Sun",
-					"Mon",
-					"Tue",
-					"Wed",
-					"Thu",
-					"Fri"
-				],
-				axisTicks: {
-					show: false,
-					color: '#ECEEF2'
-				},
-				axisBorder: {
-					show: false,
-					color: '#ECEEF2'
-				},
-				labels: {
-					show: false,
-					style: {
-						colors: "#8695AA",
-						fontSize: "12px",
-						fontFamily: 'Inter',
-					}
-				}
-			},
-			yaxis: {
-				show: false,
-				labels: {
-					style: {
-						colors: "#64748B",
-						fontSize: "12px",
-						fontFamily: 'Inter',
-					}
-				},
-				axisBorder: {
-					show: false,
-					color: '#ECEEF2'
-				},
-				axisTicks: {
-					show: false,
-					color: '#ECEEF2'
-				}
-			},
-			tooltip: {
-				y: {
-					formatter: (val) => {
-						return `${Math.abs(value).toFixed(2)}%`;
-					},
-				}
-			}
 
-		}
-		var chart = new ApexCharts(document.querySelector("#restaurant_expense"), options);
-		chart.render();
-	}
 
 
-	/* Restaurant Order JS*/
-	const getRestaurantOrderId = document.getElementById('restaurant_order');
-	if (getRestaurantOrderId) {
-		var options = {
-			series: [
-				{
-					name: "Orders",
-					data: [8, 10, 7, 10, 9, 11, 10]
-				}
-			],
-			chart: {
-				type: "area",
-				height: 125,
-				zoom: {
-					enabled: false
-				},
-				toolbar: {
-					show: false
-				}
-			},
-			colors: [
-				"#3584FC"
-			],
-			dataLabels: {
-				enabled: false
-			},
-			grid: {
-				show: false,
-				borderColor: "#ECEEF2"
-			},
-			stroke: {
-				curve: "smooth",
-				width: 2
-			},
-			xaxis: {
-				categories: [
-					"Mon",
-					"Tue",
-					"Wed",
-					"Thu",
-					"Fri",
-					"Sat",
-					"Sun"
-				],
-				axisTicks: {
-					show: false,
-					color: '#ECEEF2'
-				},
-				axisBorder: {
-					show: false,
-					color: '#ECEEF2'
-				},
-				labels: {
-					show: false,
-					style: {
-						colors: "#8695AA",
-						fontSize: "12px",
-						fontFamily: 'Inter',
-					}
-				}
-			},
-			yaxis: {
-				// tickAmount: 6,
-				show: false,
-				// max: 150,
-				// min: 0,
-				labels: {
-					// formatter: (val:any) => {
-					//     return '$' + val + 'k'
-					// },
-					style: {
-						colors: "#64748B",
-						fontSize: "12px",
-						fontFamily: 'Inter',
-					}
-				},
-				axisBorder: {
-					show: false,
-					color: '#ECEEF2'
-				},
-				axisTicks: {
-					show: false,
-					color: '#ECEEF2'
-				}
-			},
-			legend: {
-				show: false,
-				position: 'top',
-				fontSize: '12px',
-				fontFamily: 'Inter',
-				horizontalAlign: 'left',
-				itemMargin: {
-					horizontal: 8,
-					vertical: 0
-				},
-				labels: {
-					colors: '#64748B'
-				},
-				markers: {
-					size: 7,
-					offsetX: -2,
-					offsetY: -.5,
-					shape: 'diamond'
-				}
-			}
-		}
-		var chart = new ApexCharts(document.querySelector("#restaurant_order"), options);
-		chart.render();
-	}
 
-	/* Restaurant Pending JS*/
-	const getRestaurantPendingId = document.getElementById('restaurant_pending');
-	if (getRestaurantPendingId) {
-		var options = {
-			series: [
-				{
-					name: "Orders",
-					data: [15, 11, 9, 10, 7, 7, 3]
-				}
-			],
-			chart: {
-				type: "area",
-				height: 125,
-				zoom: {
-					enabled: false
-				},
-				toolbar: {
-					show: false
-				}
-			},
-			colors: [
-				"#868DFF"
-			],
-			dataLabels: {
-				enabled: false
-			},
-			grid: {
-				show: false,
-				borderColor: "#868DFF"
-			},
-			stroke: {
-				curve: "straight",
-				width: 2
-			},
-			xaxis: {
-				categories: [
-					"Mon",
-					"Tue",
-					"Wed",
-					"Thu",
-					"Fri",
-					"Sat",
-					"Sun"
-				],
-				axisTicks: {
-					show: false,
-					color: '#ECEEF2'
-				},
-				axisBorder: {
-					show: false,
-					color: '#ECEEF2'
-				},
-				labels: {
-					show: false,
-					style: {
-						colors: "#8695AA",
-						fontSize: "12px",
-						fontFamily: 'Inter',
-					}
-				}
-			},
-			yaxis: {
-				// tickAmount: 6,
-				show: false,
-				// max: 150,
-				// min: 0,
-				labels: {
-					// formatter: (val:any) => {
-					//     return '$' + val + 'k'
-					// },
-					style: {
-						colors: "#64748B",
-						fontSize: "12px",
-						fontFamily: 'Inter',
-					}
-				},
-				axisBorder: {
-					show: false,
-					color: '#ECEEF2'
-				},
-				axisTicks: {
-					show: false,
-					color: '#ECEEF2'
-				}
-			},
-			legend: {
-				show: false,
-				position: 'top',
-				fontSize: '12px',
-				fontFamily: 'Inter',
-				horizontalAlign: 'left',
-				itemMargin: {
-					horizontal: 8,
-					vertical: 0
-				},
-				labels: {
-					colors: '#64748B'
-				},
-				markers: {
-					size: 7,
-					offsetX: -2,
-					offsetY: -.5,
-					shape: 'diamond'
-				}
-			}
-		}
-		var chart = new ApexCharts(document.querySelector("#restaurant_pending"), options);
-		chart.render();
-	}
 
-	/* Restaurant Order Summary JS*/
-	const getRestaurantOrderSummaryId = document.getElementById('restaurant_order_Summary');
-	if (getRestaurantOrderSummaryId) {
-		var options = {
-			series: [10, 30, 45],
-			chart: {
-				height: 321,
-				type: "donut"
-			},
-			labels: ["Served", "Processing", "Cancelled"],
-			colors: ["#5DA8FF", "#FE7A36", "#BF85FB"],
-			stroke: {
-				width: 5,
-				show: true,
-				colors: ["#ffffff"]
-			},
-			dataLabels: {
-				enabled: false
-			},
-			plotOptions: {
-				pie: {
-					expandOnClick: false,
-					donut: {
-						labels: {
-							show: true,
-							name: {
-								color: '#64748B'
-							},
-							value: {
-								show: true,
-								color: '#3A4252',
-								fontSize: '28px',
-								fontFamily: 'Inter',
-								fontWeight: '600',
-								formatter: (val, opts) => {
-									if (opts && opts.w && opts.w.globals.seriesTotals) {
-										const total = opts.w.globals.seriesTotals.reduce((a, b) => a + b, 0);
-										const percentage = ((val / total) * 100).toFixed(1); // Calculate percentage
-										return `${val}k (${percentage}%)`; // Show value in currency + percentage
-									}
-									return `${val}k`; // Fallback if opts is undefined
-								}
-							},
-							total: {
-								show: true,
-								color: '#64748B',
-								formatter: (w) => {
-									return `${w.globals.seriesTotals.reduce((a, b) => a + b, 0)}k`; // Show total in currency
-								}
-							}
-						}
-					}
-				}
-			},
-			legend: {
-				show: true,
-				fontSize: '12px',
-				fontFamily: 'Inter',
-				position: 'bottom',
-				horizontalAlign: 'center',
-				itemMargin: {
-					horizontal: 8,
-					vertical: 2
-				},
-				labels: {
-					colors: '#64748B'
-				},
-				markers: {
-					size: 7,
-					offsetX: -2,
-					offsetY: -2,
-					shape: 'diamond'
-				}
-			},
-			tooltip: {
-				y: {
-					formatter: function (val) {
-						return val + "k";
-					}
-				}
-			}
-		}
 
-		var chart = new ApexCharts(document.querySelector("#restaurant_order_Summary"), options);
-		chart.render();
-	}
 
-	/* Restaurant Revenue Vs Expense JS*/
-	const getRevenueVsExpenseId = document.getElementById('restaurant_revenue_vs_expense');
-	if (getRevenueVsExpenseId) {
-		const categories = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"]; // Define categories
 
-		var options = {
-			series: [
-				{ name: "Revenue", data: [5, 7, 8, 6, 9, 10, 7] },
-				{ name: "Expense", data: [4, 6, 7, 5, 8, 9, 6] }
-			],
-			chart: {
-				type: "bar",
-				height: 345,
-				toolbar: { show: false }
-			},
-			colors: ["#FFAA72", "#90C7FF"],
-			plotOptions: {
-				bar: {
-					borderRadius: 5,
-					horizontal: false,
-					columnWidth: "50%",
-					borderRadiusApplication: "end",
-					borderRadiusWhenStacked: "all"
-				}
-			},
-			dataLabels: { enabled: false },
-			stroke: { width: 5, show: true, colors: ["transparent"] },
-			grid: { show: true, borderColor: "#ECF0FF" },
-			xaxis: {
-				categories: categories,
-				axisTicks: { show: true, color: '#DDE4FF' },
-				axisBorder: { show: true, color: '#DDE4FF' },
-				labels: {
-					show: true,
-					style: { colors: "#8695AA", fontSize: "12px", fontFamily: 'Inter', }
-				}
-			},
-			yaxis: {
-				min: 0,
-				labels: {
-					formatter: (val) => "$" + val + "k",
-					style: { colors: "#8695AA", fontSize: "12px", fontFamily: 'Inter', }
-				},
-				axisBorder: { show: false, color: '#DDE4FF' },
-				axisTicks: { show: false, color: '#DDE4FF' }
-			},
-			tooltip: {
-				y: { formatter: (val) => "$" + val + "k" }
-			},
-			legend: {
-				show: true,
-				position: 'bottom',
-				fontSize: '12px',
-				fontFamily: 'Inter',
-				horizontalAlign: 'center',
-				itemMargin: { horizontal: 8, vertical: 10 },
-				labels: { colors: '#64748B' },
-				markers: { size: 7, offsetX: -2, offsetY: -.5, shape: 'diamond' }
-			}
-		};
 
-		var chart = new ApexCharts(document.querySelector("#restaurant_revenue_vs_expense"), options);
-		chart.render();
-	}
-
-
-	//**<---- Dashboard Hotel ---->**//
-
-
-	/* Rooms Availability JS*/
-	const getRoomsAvailabilityId = document.getElementById('rooms_availability_chart');
-	if (getRoomsAvailabilityId) {
-
-		var percentage = 72.5; // Replace this with your dynamic percentage value
-
-		var options = {
-			series: [percentage],
-			chart: {
-				height: 380,
-				type: "radialBar"
-			},
-			plotOptions: {
-				radialBar: {
-					startAngle: -135,
-					endAngle: 135,
-					dataLabels: {
-						name: {
-							offsetY: -10,
-							fontSize: "14px",
-							fontFamily: 'Inter',
-							color: '#64748B',
-							fontWeight: "400"
-						},
-						value: {
-							fontSize: "36px",
-							fontFamily: 'Inter',
-							color: '#3A4252',
-							fontWeight: "700",
-							formatter: function (val) {
-								return val + "%";
-							}
-						}
-					},
-					track: {
-						background: '#EEFFE5'
-					}
-				}
-			},
-			colors: [
-				"#37D80A"
-			],
-			labels: [
-				"Total Booked"
-			],
-			stroke: {
-				dashArray: 7
-			}
-		};
-
-		var chart = new ApexCharts(document.querySelector("#rooms_availability_chart"), options);
-		chart.render();
-
-	}
-
-	/* Guest Activity JS*/
-	const getGuestActivityId = document.getElementById('guest_activity_chart');
-	if (getGuestActivityId) {
-
-		const series = [
-			{
-				name: "Active Guests",
-				data: [15, 30, 20, 40, 35, 30, 25]
-			},
-			{
-				name: "Returning Guests",
-				data: [10, 20, 15, 25, 30, 40, 30]
-			}
-		];
-
-		const categories = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00']
-
-		const options = {
-			series: series,
-			chart: {
-				type: "area",
-				height: 284,
-				zoom: { enabled: false },
-				toolbar: { show: false }
-			},
-			colors: ["#ffffff", "#D8FFC8"],
-			dataLabels: { enabled: false },
-			stroke: {
-				curve: "smooth",
-				width: [2, 2, 0],
-				dashArray: [0, 6, 0]
-			},
-			grid: {
-				show: true,
-				borderColor: "#ffffff1a"
-			},
-			fill: {
-				type: 'gradient',
-				gradient: {
-					stops: [0, 90, 100],
-					shadeIntensity: 1,
-					opacityFrom: 0.5,
-					opacityTo: 0.2
-				}
-			},
-			xaxis: {
-				categories: categories,
-				axisTicks: { show: false, color: '#ffffff1a' },
-				axisBorder: { show: false, color: '#ffffff1a' },
-				labels: {
-					style: {
-						colors: "#B1BBC8",
-						fontSize: "12px",
-						fontFamily: 'Inter',
-					}
-				}
-			},
-			yaxis: {
-				tickAmount: 5,
-				min: 0,
-				labels: {
-					style: {
-						colors: "#B1BBC8",
-						fontSize: "12px",
-						fontFamily: 'Inter',
-					}
-				},
-				axisBorder: { show: true, color: '#ffffff1a' },
-				axisTicks: { show: false, color: '#ffffff1a' }
-			},
-			legend: {
-				show: false,
-				position: 'top',
-				fontSize: '12px',
-				fontFamily: 'Inter',
-				horizontalAlign: 'left',
-				itemMargin: {
-					horizontal: 8,
-					vertical: 0
-				},
-				labels: {
-					colors: '#64748B'
-				},
-				markers: {
-					size: 6,
-					offsetX: -2,
-					offsetY: -.5,
-					shape: 'circle'
-				}
-			}
-		};
-
-		const chart = new ApexCharts(document.querySelector("#guest_activity_chart"), options);
-		chart.render();
-
-	}
-
-
-	//**<---- Dashboard Real Estate Agent ---->**//
-
-
-	/* Real Total Revenue Chart JS*/
-	const getRealTotalRevenueId = document.getElementById('real_total_revenue_chart');
-	if (getRealTotalRevenueId) {
-
-		const series = [{
-			name: "Revenue",
-			data: [15, 11, 29, 54, 24, 37, 14, 29, 11, 14, 29, 48]
-		}];
-
-		const categories = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-		const options = {
-			series: series,
-			chart: {
-				type: "bar",
-				height: 319,
-				toolbar: {
-					show: false
-				}
-			},
-			colors: ["#757DFF"],
-			plotOptions: {
-				bar: {
-					horizontal: false,
-					columnWidth: "50%"
-				}
-			},
-			fill: {
-				opacity: 1
-			},
-			dataLabels: {
-				enabled: false
-			},
-			stroke: {
-				width: 5,
-				show: true,
-				colors: ["transparent"]
-			},
-			xaxis: {
-				categories: categories,
-				axisTicks: {
-					show: true,
-					color: '#DDE4FF'
-				},
-				axisBorder: {
-					show: true,
-					color: '#DDE4FF'
-				},
-				labels: {
-					show: true,
-					style: {
-						colors: "#8695AA",
-						fontSize: "12px",
-						fontFamily: 'Inter',
-					}
-				}
-			},
-			yaxis: {
-				min: 0,
-				labels: {
-					formatter: val => '$' + val + 'k',
-					style: {
-						colors: "#8695AA",
-						fontSize: "12px",
-						fontFamily: 'Inter',
-					}
-				},
-				axisBorder: {
-					show: false,
-					color: '#DDE4FF'
-				},
-				axisTicks: {
-					show: false,
-					color: '#DDE4FF'
-				}
-			},
-			tooltip: {
-				y: {
-					formatter: val => "$" + val + "k"
-				}
-			},
-			legend: {
-				show: true,
-				position: 'bottom',
-				fontSize: '12px',
-				fontFamily: 'Inter',
-				horizontalAlign: 'center',
-				itemMargin: {
-					horizontal: 8,
-					vertical: 10
-				},
-				labels: {
-					colors: '#64748B'
-				},
-				markers: {
-					size: 7,
-					offsetX: -2,
-					offsetY: -.5,
-					shape: 'diamond'
-				}
-			},
-			grid: {
-				show: true,
-				borderColor: "#ECF0FF"
-			}
-		};
-
-		// Render the chart
-		const chart = new ApexCharts(document.querySelector("#real_total_revenue_chart"), options);
-		chart.render();
-
-	}
-
-	/* Real Revenue Goal Progress Chart JS*/
-	const getRealRevenueGoalProgressId = document.getElementById('real_revenue_goal_progress_chart');
-	if (getRealRevenueGoalProgressId) {
-
-		const seriesData = [
-			{
-				name: "Prediction",
-				data: [108, 130, 110, 140, 130, 115, 125, 115, 130, 140, 140, 130]
-			},
-			{
-				name: "Gained",
-				data: [135, 115, 128, 120, 125, 130, 135, 130, 135, 145, 120, 125]
-			}
-		];
-
-		const categories = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-		const options = {
-			series: seriesData,
-			chart: {
-				type: "line",
-				height: 399,
-				toolbar: {
-					show: false
-				}
-			},
-			colors: ["#757DFF", "#E9D5FF"],
-			stroke: {
-				width: 4,
-				curve: "straight",
-				dashArray: [0, 8]
-			},
-			grid: {
-				show: true,
-				borderColor: "#ECF0FF"
-			},
-			dataLabels: {
-				enabled: false
-			},
-			xaxis: {
-				categories: categories,
-				axisTicks: {
-					show: false,
-					color: '#DDE4FF'
-				},
-				axisBorder: {
-					show: false,
-					color: '#DDE4FF'
-				},
-				labels: {
-					show: true,
-					style: {
-						colors: "#8695AA",
-						fontSize: "12px",
-						fontFamily: 'Inter',
-					}
-				}
-			},
-			yaxis: {
-				labels: {
-					formatter: val => '$' + val + 'K',
-					style: {
-						colors: "#8695AA",
-						fontSize: "12px",
-						fontFamily: 'Inter',
-					}
-				},
-				axisBorder: {
-					show: false,
-					color: '#DDE4FF'
-				},
-				axisTicks: {
-					show: false,
-					color: '#DDE4FF'
-				}
-			},
-			tooltip: {
-				y: {
-					formatter: val => val + "k"
-				}
-			},
-			fill: {
-				opacity: 1
-			},
-			legend: {
-				show: true,
-				fontSize: '12px',
-				fontFamily: 'Inter',
-				position: 'bottom',
-				horizontalAlign: 'left',
-				itemMargin: {
-					horizontal: 8,
-					vertical: 8
-				},
-				labels: {
-					colors: '#64748B'
-				},
-				markers: {
-					size: 6,
-					offsetX: -2,
-					offsetY: -.5,
-					shape: 'square'
-				}
-			}
-		};
-
-		// Render the chart
-		const chart = new ApexCharts(document.querySelector("#real_revenue_goal_progress_chart"), options);
-		chart.render();
-
-	}
-
-
-	//**<---- Dashboard Credit Card ---->**//
-
-
-	/* Card With Amount Chart JS*/
-	const getCardWithAmountChartId = document.getElementById('cards_with_amount_chart');
-	if (getCardWithAmountChartId) {
-		var options = {
-			series: [
-				{
-					name: 'Projects',
-					data: [1870, 2000, 1490, 1410, 1680]
-				}
-			],
-			chart: {
-				type: "bar",
-				height: 211,
-				toolbar: {
-					show: false
-				}
-			},
-			colors: ["#605DFF"],
-			plotOptions: {
-				bar: {
-					horizontal: true
-				}
-			},
-			grid: {
-				show: true,
-				borderColor: "#ECEEF2"
-			},
-			dataLabels: {
-				enabled: true,
-				style: {
-					fontSize: '11px',
-					fontFamily: 'Inter',
-					fontWeight: 'normal'
-				}
-			},
-			fill: {
-				opacity: 1
-			},
-			xaxis: {
-				categories: [
-					'Rewards Card', 'Cashback Card', 'Travel Card', 'Student Card', 'Business Card'
-				],
-				axisTicks: {
-					show: true,
-					color: '#ECEEF2'
-				},
-				axisBorder: {
-					show: true,
-					color: '#ECEEF2'
-				},
-				labels: {
-					show: true,
-					style: {
-						colors: "#64748B",
-						fontSize: "11px",
-						fontFamily: 'Inter',
-					}
-				}
-			},
-			yaxis: {
-				labels: {
-					style: {
-						colors: "#64748B",
-						fontSize: "11px",
-						fontFamily: 'Inter',
-					}
-				},
-				axisBorder: {
-					show: true,
-					color: '#ECEEF2'
-				},
-				axisTicks: {
-					show: true,
-					color: '#ECEEF2'
-				}
-			}
-		};
-
-		var chart = new ApexCharts(cards_with_amount_chart, options);
-		chart.render();
-	}
-
-	/* Credit Utilization Ratio Chart JS*/
-	const getCreditUtilizationRatioId = document.getElementById('credit_utilization_ratio_chart');
-	if (getCreditUtilizationRatioId) {
-
-		document.addEventListener("DOMContentLoaded", function () {
-			const options = {
-				series: [
-					{
-						name: "Ratio",
-						data: [30, 65, 85]
-					}
-				],
-				chart: {
-					type: "bar",
-					height: 203,
-					toolbar: {
-						show: false
-					}
-				},
-				colors: ["#37D80A", "#FE7A36", "#FF4023"],
-				plotOptions: {
-					bar: {
-						horizontal: false,
-						columnWidth: "55%",
-						distributed: true
-					}
-				},
-				dataLabels: {
-					enabled: false
-				},
-				grid: {
-					show: true,
-					borderColor: "#ECEEF2"
-				},
-				xaxis: {
-					categories: ["0-30%", "30-70%", "70%+"],
-					axisTicks: {
-						show: false,
-						color: '#ECEEF2'
-					},
-					axisBorder: {
-						show: false,
-						color: '#ECEEF2'
-					},
-					labels: {
-						show: true,
-						style: {
-							colors: "#3A4252",
-							fontSize: "12px",
-							fontFamily: 'Inter',
-						}
-					}
-				},
-				yaxis: {
-					tickAmount: 4,
-					max: 100,
-					min: 0,
-					labels: {
-						style: {
-							colors: "#3A4252",
-							fontSize: "12px",
-							fontFamily: 'Inter',
-						}
-					},
-					axisBorder: {
-						show: false,
-						color: '#ECEEF2'
-					},
-					axisTicks: {
-						show: false,
-						color: '#ECEEF2'
-					}
-				},
-				fill: {
-					opacity: 1
-				},
-				tooltip: {
-					y: {
-						formatter: function (val) {
-							return val + "%";
-						}
-					}
-				},
-				legend: {
-					show: false,
-					fontSize: '12px',
-					fontFamily: 'Inter',
-					position: 'bottom',
-					horizontalAlign: 'left',
-					itemMargin: {
-						horizontal: 8,
-						vertical: 8
-					},
-					labels: {
-						colors: '#64748B'
-					},
-					markers: {
-						size: 6,
-						offsetX: -2,
-						offsetY: -.5,
-						shape: 'square'
-					}
-				}
-			};
-
-			const chart = new ApexCharts(document.querySelector('#credit_utilization_ratio_chart'), options);
-			chart.render();
-		});
-
-	}
-
-	/* Monthly Spending Chart JS*/
-	const getMonthlySpendingId = document.getElementById('monthly_spending_chart');
-	if (getMonthlySpendingId) {
-
-		document.addEventListener("DOMContentLoaded", function () {
-			const options = {
-				series: [{
-					name: "Spend",
-					data: [0, 51, 45, 75, 70]
-				}],
-				chart: {
-					height: 203,
-					type: 'line',
-					zoom: {
-						enabled: false
-					},
-					toolbar: {
-						show: false
-					}
-				},
-				colors: ['#5C61F2'],
-				dataLabels: {
-					enabled: false
-				},
-				stroke: {
-					curve: 'smooth',
-					width: 2
-				},
-				grid: {
-					show: true,
-					borderColor: "#ECEEF2"
-				},
-				xaxis: {
-					categories: ["Jan", "Feb", "Mar", "Apr", "May"],
-					axisTicks: {
-						show: false,
-						color: '#ECEEF2'
-					},
-					axisBorder: {
-						show: false,
-						color: '#ECEEF2'
-					},
-					labels: {
-						show: true,
-						style: {
-							colors: "#3A4252",
-							fontSize: "12px",
-							fontFamily: 'Inter',
-						}
-					}
-				},
-				yaxis: {
-					tickAmount: 4,
-					max: 100,
-					min: 0,
-					labels: {
-						formatter: function (val) {
-							return '$' + val;
-						},
-						style: {
-							colors: "#3A4252",
-							fontSize: "12px",
-							fontFamily: 'Inter',
-						}
-					},
-					axisBorder: {
-						show: false,
-						color: '#ECEEF2'
-					},
-					axisTicks: {
-						show: false,
-						color: '#ECEEF2'
-					}
-				},
-				tooltip: {
-					y: {
-						formatter: function (val) {
-							return "$" + val;
-						}
-					}
-				}
-			};
-
-			const chart = new ApexCharts(document.querySelector('#monthly_spending_chart'), options);
-			chart.render();
-		});
-
-	}
-
-	/* Spending Breakdown Chart JS*/
-	const getSpendingBreakdownId = document.getElementById('spending_breakdown_chart');
-	if (getSpendingBreakdownId) {
-
-		document.addEventListener("DOMContentLoaded", function () {
-			const series = [35, 25, 12, 10, 10, 8]; // Example data
-			const labels = ["Groceries", "Utilities", "Rent", "Entertainment", "Transportation", "Other"];
-
-			const options = {
-				series: series,
-				chart: {
-					height: 284,
-					type: "donut"
-				},
-				labels: labels,
-				colors: ["#37D80A", "#FE7A36", "#3584FC", "#FF4023", "#AD63F6", "#605DFF"],
-				stroke: {
-					width: 2,
-					show: true,
-					colors: ["#ffffff"]
-				},
-				dataLabels: {
-					enabled: false
-				},
-				plotOptions: {
-					pie: {
-						expandOnClick: false,
-						donut: {
-							labels: {
-								show: true,
-								name: {
-									color: '#64748B'
-								},
-								value: {
-									show: false,
-									color: '#3A4252',
-									fontSize: '28px',
-									fontFamily: 'Inter',
-									fontWeight: '600',
-									formatter: function (val, opts) {
-										const total = opts.w.globals.seriesTotals.reduce((a, b) => a + b, 0);
-										const percentage = ((val / total) * 100).toFixed(1);
-										return `${val}k (${percentage}%)`;
-									}
-								},
-								total: {
-									show: false,
-									color: '#64748B',
-									formatter: function (w) {
-										return `${w.globals.seriesTotals.reduce((a, b) => a + b, 0)}k`;
-									}
-								}
-							}
-						}
-					}
-				},
-				legend: {
-					show: true,
-					fontSize: '12px',
-					position: 'left',
-					fontFamily: 'Inter',
-					horizontalAlign: 'center',
-					itemMargin: {
-						horizontal: 0,
-						vertical: 7
-					},
-					labels: {
-						colors: '#64748B'
-					},
-					markers: {
-						size: 7,
-						offsetX: -2,
-						offsetY: -.5,
-						shape: 'diamond'
-					}
-				},
-				tooltip: {
-					y: {
-						formatter: function (val) {
-							return val + "%";
-						}
-					}
-				}
-			};
-
-			const chart = new ApexCharts(document.querySelector("#spending_breakdown_chart"), options);
-			chart.render();
-		});
-
-	}
-
-	/* Interest Charge & Fees Chart JS*/
-	const getInterestChargeFeesId = document.getElementById('interest_charge_fees_chart');
-	if (getInterestChargeFeesId) {
-
-		const series = [
-			{
-				name: "Interest Charge",
-				data: [28, 15, 18, 25]
-			},
-			{
-				name: "Fees",
-				data: [5, 8, 8, 9]
-			}
-		];
-
-		const categories = ["2022", "2023", "2024", "2025"];
-
-		const options = {
-			series: series,
-			chart: {
-				type: "bar",
-				height: 300,
-				toolbar: {
-					show: false
-				}
-			},
-			colors: ["#605DFF", "#FF4023"],
-			plotOptions: {
-				bar: {
-					horizontal: false,
-					columnWidth: "70%"
-				}
-			},
-			dataLabels: {
-				enabled: false
-			},
-			stroke: {
-				width: 2,
-				show: true,
-				colors: ["transparent"]
-			},
-			xaxis: {
-				categories: categories,
-				axisTicks: {
-					show: false,
-					color: '#ECEEF2'
-				},
-				axisBorder: {
-					show: false,
-					color: '#ECEEF2'
-				},
-				labels: {
-					show: true,
-					style: {
-						colors: "#3A4252",
-						fontSize: "12px",
-						fontFamily: 'Inter',
-					}
-				}
-			},
-			yaxis: {
-				max: 40,
-				min: 0,
-				labels: {
-					formatter: function (val) {
-						return val + "%";
-					},
-					style: {
-						colors: "#3A4252",
-						fontSize: "12px",
-						fontFamily: 'Inter',
-					}
-				},
-				axisBorder: {
-					show: false,
-					color: '#ECEEF2'
-				},
-				axisTicks: {
-					show: false,
-					color: '#ECEEF2'
-				}
-			},
-			fill: {
-				opacity: 1
-			},
-			tooltip: {
-				y: {
-					formatter: function (val) {
-						return val + "%";
-					}
-				}
-			},
-			legend: {
-				show: true,
-				position: 'bottom',
-				fontSize: '12px',
-				fontFamily: 'Inter',
-				horizontalAlign: 'center',
-				itemMargin: {
-					horizontal: 8,
-					vertical: 10
-				},
-				labels: {
-					colors: '#64748B'
-				},
-				markers: {
-					size: 7,
-					offsetX: -2,
-					offsetY: -.5,
-					shape: 'diamond'
-				}
-			},
-			grid: {
-				show: true,
-				borderColor: "#ECEEF2"
-			}
-		};
-
-		const chart = new ApexCharts(document.querySelector("#interest_charge_fees_chart"), options);
-		chart.render();
-
-	}
-
-	/* Statistics Chart JS*/
-	const getStatisticsId = document.getElementById('statistics_chart');
-	if (getStatisticsId) {
-
-		document.addEventListener("DOMContentLoaded", function () {
-			const options = {
-				series: [
-					{
-						name: "Income",
-						data: [40, 50, 45, 35, 60, 50, 65]
-					},
-					{
-						name: "Expenses",
-						data: [20, 25, 40, 22, 18, 20, 25]
-					}
-				],
-				chart: {
-					type: "area",
-					height: 298,
-					zoom: {
-						enabled: false
-					},
-					toolbar: {
-						show: false
-					}
-				},
-				colors: ["#37D80A", "#EE3E08"],
-				dataLabels: {
-					enabled: false
-				},
-				stroke: {
-					curve: "smooth",
-					width: [2, 2]
-				},
-				grid: {
-					show: true,
-					borderColor: "#ECEEF2"
-				},
-				fill: {
-					type: 'gradient',
-					gradient: {
-						stops: [0, 90, 100],
-						shadeIntensity: 1,
-						opacityFrom: 0,
-						opacityTo: 0.5
-					}
-				},
-				xaxis: {
-					categories: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-					axisTicks: {
-						show: false,
-						color: '#ECEEF2'
-					},
-					axisBorder: {
-						show: false,
-						color: '#ECEEF2'
-					},
-					labels: {
-						show: true,
-						style: {
-							colors: "#3A4252",
-							fontSize: "12px",
-							fontFamily: 'Inter',
-						}
-					}
-				},
-				yaxis: {
-					tickAmount: 5,
-					min: 0,
-					labels: {
-						formatter: function (val) {
-							return "$" + val;
-						},
-						style: {
-							colors: "#3A4252",
-							fontSize: "12px",
-							fontFamily: 'Inter',
-						}
-					},
-					axisBorder: {
-						show: false,
-						color: '#ECEEF2'
-					},
-					axisTicks: {
-						show: false,
-						color: '#ECEEF2'
-					}
-				},
-				legend: {
-					show: true,
-					position: 'bottom',
-					fontSize: '12px',
-					fontFamily: 'Inter',
-					horizontalAlign: 'center',
-					itemMargin: {
-						horizontal: 8,
-						vertical: 10
-					},
-					labels: {
-						colors: '#64748B'
-					},
-					markers: {
-						size: 7,
-						offsetX: -2,
-						offsetY: -.5,
-						shape: 'diamond'
-					}
-				}
-			};
-
-			const chart = new ApexCharts(document.querySelector("#statistics_chart"), options);
-			chart.render();
-		});
-
-	}
-
-
-	//**<---- Dashboard Crypto Performance ---->**//
-
-
-	/* Performance Per Investment Chart JS*/
-	const getPerformancePerInvestmentId = document.getElementById('performance_per_investment_chart');
-	if (getPerformancePerInvestmentId) {
-
-		const options = {
-			series: [
-				{
-					name: 'Investment',
-					data: [
-						{ x: "Bitcoin", y: [8, 2] },
-						{ x: "Ethereum", y: [5, 3] },
-						{ x: "Solana", y: [4, 8] },
-						{ x: "Tether", y: [3, 5] },
-						{ x: "USDC", y: [2, 5] },
-						{ x: "XRP", y: [1, 2] }
-					]
-				}
-			],
-			chart: {
-				type: 'rangeBar',
-				height: 411,
-				toolbar: {
-					show: false
-				}
-			},
-			colors: ['#3584FC'],
-			plotOptions: {
-				bar: {
-					horizontal: false
-				}
-			},
-			dataLabels: {
-				enabled: true,
-				formatter: function (val) {
-					return val + '%';
-				},
-				style: {
-					fontSize: '12px',
-					fontFamily: 'Inter',
-					fontWeight: '400'
-				}
-			},
-			legend: {
-				show: false
-			},
-			grid: {
-				show: true,
-				borderColor: '#ECEEF2'
-			},
-			xaxis: {
-				axisTicks: {
-					show: true,
-					color: '#64748B'
-				},
-				axisBorder: {
-					show: true,
-					color: '#64748B'
-				},
-				labels: {
-					style: {
-						colors: '#3A4252',
-						fontFamily: 'Inter',
-						fontSize: '12px'
-					}
-				}
-			},
-			yaxis: {
-				tickAmount: 5,
-				min: 0,
-				labels: {
-					style: {
-						colors: '#3A4252',
-						fontFamily: 'Inter',
-						fontSize: '12px'
-					}
-				},
-				axisBorder: {
-					show: false
-				},
-				axisTicks: {
-					show: false
-				}
-			},
-			tooltip: {
-				y: {
-					formatter: function (val) {
-						return val + '%';
-					}
-				}
-			}
-		};
-
-		const chart = new ApexCharts(document.querySelector("#performance_per_investment_chart"), options);
-		chart.render();
-
-	}
-
-	/* Market Performance Chart JS*/
-	const getMarketPerformanceId = document.getElementById('market_performance_chart');
-	if (getMarketPerformanceId) {
-
-		const options = {
-			series: [25, 18, 22, 35, 15, 28], // Example values
-			chart: {
-				height: 340,
-				type: 'pie'
-			},
-			labels: ["Revenue Growth", "Profit Margins", "Cost of Goods Sold", "Market Share", "Sales Volume", "Return on Investment"], // Example sectors
-			colors: [
-				"#37D80A", "#3584FC", "#FE7A36", "#AD63F6", "#FF4023", "#605DFF"
-			],
-			stroke: {
-				width: 0,
-				show: true,
-				colors: ["#ffffff"]
-			},
-			legend: {
-				show: true,
-				fontSize: '12px',
-				fontFamily: 'Inter',
-				position: 'bottom',
-				horizontalAlign: 'center',
-				itemMargin: {
-					horizontal: 8,
-					vertical: 6
-				},
-				labels: {
-					colors: '#64748B'
-				},
-				markers: {
-					size: 7,
-					offsetX: -2,
-					offsetY: -0.5,
-					shape: 'diamond'
-				}
-			},
-			dataLabels: {
-				enabled: false
-			},
-			tooltip: {
-				y: {
-					formatter: function (val) {
-						return val + "%";
-					}
-				}
-			}
-		};
-
-		const chart = new ApexCharts(document.querySelector("#market_performance_chart"), options);
-		chart.render();
-
-	}
-
-	/* Performance Metrics Chart JS*/
-	const getPerformanceMetricsId = document.getElementById('performance_metrics_chart');
-	if (getPerformanceMetricsId) {
-
-		const series = [
-			{ name: "Revenue", data: [120, 130, 140, 155, 165, 175, 185, 190, 200, 205, 200, 225] },
-			{ name: "Expenses", data: [10, 20, 30, 40, 50, 60, 70, 70, 90, 100, 110, 90] },
-			{ name: "Profit", data: [0, 5, 10, 15, 20, 25, 30, 35, 25, 45, 50, 55] }
-		];
-
-		const categories = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-		// Chart options
-		const options = {
-			series: series,
-			chart: {
-				height: 371,
-				type: "line",
-				toolbar: {
-					show: false
-				}
-			},
-			colors: [
-				"#37D80A", "#FF4023", "#605DFF"
-			],
-			dataLabels: {
-				enabled: false
-			},
-			stroke: {
-				width: 2,
-				curve: "smooth",
-				dashArray: [0, 0, 0]
-			},
-			markers: {
-				size: 3,
-				hover: {
-					sizeOffset: 3
-				}
-			},
-			tooltip: {
-				y: {
-					formatter: function (val) {
-						return "$" + val + "k";
-					}
-				}
-			},
-			grid: {
-				show: true,
-				borderColor: "#ECEEF2"
-			},
-			xaxis: {
-				categories: categories,
-				axisTicks: {
-					show: true,
-					color: '#64748B'
-				},
-				axisBorder: {
-					show: true,
-					color: '#64748B'
-				},
-				labels: {
-					show: true,
-					style: {
-						colors: "#3A4252",
-						fontSize: "12px",
-						fontFamily: 'Inter',
-					}
-				}
-			},
-			yaxis: {
-				min: 0,
-				labels: {
-					formatter: (val) => {
-						return "$" + val + "k";
-					},
-					style: {
-						colors: "#3A4252",
-						fontSize: "12px",
-						fontFamily: 'Inter',
-					}
-				},
-				axisBorder: {
-					show: false,
-					color: '#64748B'
-				},
-				axisTicks: {
-					show: false,
-					color: '#64748B'
-				}
-			},
-			legend: {
-				show: true,
-				position: 'bottom',
-				fontSize: '12px',
-				fontFamily: 'Inter',
-				horizontalAlign: 'center',
-				itemMargin: {
-					horizontal: 10,
-					vertical: 10
-				},
-				labels: {
-					colors: '#64748B'
-				},
-				markers: {
-					size: 7,
-					offsetX: -2,
-					offsetY: -.5,
-					shape: 'diamond'
-				}
-			}
-		};
-
-		// Initialize and render the chart
-		const chart = new ApexCharts(document.querySelector('#performance_metrics_chart'), options);
-		chart.render();
-
-	}
-
-	/* Individual Asset Performance Chart 1 JS*/
-	const getIndividualAssetPerformanceId = document.getElementById('individual_asset_performance_chart_1');
-	if (getIndividualAssetPerformanceId) {
-
-		var options = {
-			series: [
-				{
-					name: "Sessions",
-					data: [60, 40, 80, 70, 50, 90, 60, 85, 55, 75, 65, 95]
-				}
-			],
-			chart: {
-				type: "line",
-				height: 50,
-				width: 112,
-				sparkline: {
-					enabled: !0
-				}
-			},
-			stroke: {
-				curve: "monotoneCubic",
-				width: 1
-			},
-			colors: ["#25b003"],
-			tooltip: {
-				fixed: {
-					enabled: !1
-				},
-				x: {
-					show: !1
-				},
-				marker: {
-					show: !1
-				}
-			},
-		},
-			chart = new ApexCharts(
-				document.querySelector("#individual_asset_performance_chart_1"),
-				options
-			);
-		chart.render();
-
-	}
-
-	/* Individual Asset Performance Chart 1 JS*/
-	const getIndividualAssetPerformance2Id = document.getElementById('individual_asset_performance_chart_2');
-	if (getIndividualAssetPerformance2Id) {
-
-		var options = {
-			series: [
-				{
-					name: "Sessions",
-					data: [50, 60, 40, 70, 50, 80, 60, 90, 70, 50, 60, 55]
-				}
-			],
-			chart: {
-				type: "line",
-				height: 50,
-				width: 112,
-				sparkline: {
-					enabled: !0
-				}
-			},
-			stroke: {
-				curve: "monotoneCubic",
-				width: 1
-			},
-			colors: ["#25b003"],
-			tooltip: {
-				fixed: {
-					enabled: !1
-				},
-				x: {
-					show: !1
-				},
-				marker: {
-					show: !1
-				}
-			},
-		},
-			chart = new ApexCharts(
-				document.querySelector("#individual_asset_performance_chart_2"),
-				options
-			);
-		chart.render();
-
-	}
-
-	/* Individual Asset Performance Chart 1 JS*/
-	const getIndividualAssetPerformance3Id = document.getElementById('individual_asset_performance_chart_3');
-	if (getIndividualAssetPerformance3Id) {
-
-		var options = {
-			series: [
-				{
-					name: "Sessions",
-					data: [60, 40, 80, 70, 50, 90, 60, 85, 55, 75, 65, 95]
-				}
-			],
-			chart: {
-				type: "line",
-				height: 50,
-				width: 112,
-				sparkline: {
-					enabled: !0
-				}
-			},
-			stroke: {
-				curve: "monotoneCubic",
-				width: 1
-			},
-			colors: ["#ff3f23"],
-			tooltip: {
-				fixed: {
-					enabled: !1
-				},
-				x: {
-					show: !1
-				},
-				marker: {
-					show: !1
-				}
-			},
-		},
-			chart = new ApexCharts(
-				document.querySelector("#individual_asset_performance_chart_3"),
-				options
-			);
-		chart.render();
-
-	}
-
-	/* Individual Asset Performance Chart 1 JS*/
-	const getIndividualAssetPerformance4Id = document.getElementById('individual_asset_performance_chart_4');
-	if (getIndividualAssetPerformance4Id) {
-
-		var options = {
-			series: [
-				{
-					name: "Sessions",
-					data: [45, 50, 40, 55, 50, 60, 55, 65, 60, 70, 65, 70]
-				}
-			],
-			chart: {
-				type: "line",
-				height: 50,
-				width: 112,
-				sparkline: {
-					enabled: !0
-				}
-			},
-			stroke: {
-				curve: "monotoneCubic",
-				width: 1
-			},
-			colors: ["#25b003"],
-			tooltip: {
-				fixed: {
-					enabled: !1
-				},
-				x: {
-					show: !1
-				},
-				marker: {
-					show: !1
-				}
-			},
-		},
-			chart = new ApexCharts(
-				document.querySelector("#individual_asset_performance_chart_4"),
-				options
-			);
-		chart.render();
-
-	}
-
-	/* Individual Asset Performance Chart 1 JS*/
-	const getIndividualAssetPerformance5Id = document.getElementById('individual_asset_performance_chart_5');
-	if (getIndividualAssetPerformance5Id) {
-
-		var options = {
-			series: [
-				{
-					name: "Sessions",
-					data: [50, 60, 40, 70, 50, 80, 60, 90, 70, 50, 60, 55]
-				}
-			],
-			chart: {
-				type: "line",
-				height: 50,
-				width: 112,
-				sparkline: {
-					enabled: !0
-				}
-			},
-			stroke: {
-				curve: "monotoneCubic",
-				width: 1
-			},
-			colors: ["#25b003"],
-			tooltip: {
-				fixed: {
-					enabled: !1
-				},
-				x: {
-					show: !1
-				},
-				marker: {
-					show: !1
-				}
-			},
-		},
-			chart = new ApexCharts(
-				document.querySelector("#individual_asset_performance_chart_5"),
-				options
-			);
-		chart.render();
-
-	}
-
-	/* Individual Asset Performance Chart 6 JS*/
-	const getIndividualAssetPerformance6Id = document.getElementById('individual_asset_performance_chart_6');
-	if (getIndividualAssetPerformance6Id) {
-
-		var options = {
-			series: [
-				{
-					name: "Sessions",
-					data: [60, 40, 80, 70, 50, 90, 60, 85, 55, 75, 65, 95]
-				}
-			],
-			chart: {
-				type: "line",
-				height: 50,
-				width: 112,
-				sparkline: {
-					enabled: !0
-				}
-			},
-			stroke: {
-				curve: "monotoneCubic",
-				width: 1
-			},
-			colors: ["#25b003"],
-			tooltip: {
-				fixed: {
-					enabled: !1
-				},
-				x: {
-					show: !1
-				},
-				marker: {
-					show: !1
-				}
-			},
-		},
-			chart = new ApexCharts(
-				document.querySelector("#individual_asset_performance_chart_6"),
-				options
-			);
-		chart.render();
-
-	}
-
-	/* Individual Asset Performance Chart 7 JS*/
-	const getIndividualAssetPerformance7Id = document.getElementById('individual_asset_performance_chart_7');
-	if (getIndividualAssetPerformance7Id) {
-
-		var options = {
-			series: [
-				{
-					name: "Sessions",
-					data: [50, 60, 40, 70, 50, 80, 60, 90, 70, 50, 60, 55]
-				}
-			],
-			chart: {
-				type: "line",
-				height: 50,
-				width: 112,
-				sparkline: {
-					enabled: !0
-				}
-			},
-			stroke: {
-				curve: "monotoneCubic",
-				width: 1
-			},
-			colors: ["#25b003"],
-			tooltip: {
-				fixed: {
-					enabled: !1
-				},
-				x: {
-					show: !1
-				},
-				marker: {
-					show: !1
-				}
-			},
-		},
-			chart = new ApexCharts(
-				document.querySelector("#individual_asset_performance_chart_7"),
-				options
-			);
-		chart.render();
-
-	}
-
-	/* Individual Asset Performance Chart 8 JS*/
-	const getIndividualAssetPerformance8Id = document.getElementById('individual_asset_performance_chart_8');
-	if (getIndividualAssetPerformance8Id) {
-
-		var options = {
-			series: [
-				{
-					name: "Sessions",
-					data: [60, 40, 80, 70, 50, 90, 60, 85, 55, 75, 65, 95]
-				}
-			],
-			chart: {
-				type: "line",
-				height: 50,
-				width: 112,
-				sparkline: {
-					enabled: !0
-				}
-			},
-			stroke: {
-				curve: "monotoneCubic",
-				width: 1
-			},
-			colors: ["#ff3f23"],
-			tooltip: {
-				fixed: {
-					enabled: !1
-				},
-				x: {
-					show: !1
-				},
-				marker: {
-					show: !1
-				}
-			},
-		},
-			chart = new ApexCharts(
-				document.querySelector("#individual_asset_performance_chart_8"),
-				options
-			);
-		chart.render();
-
-	}
-
-	/* Individual Asset Performance Chart 9 JS*/
-	const getIndividualAssetPerformance9Id = document.getElementById('individual_asset_performance_chart_9');
-	if (getIndividualAssetPerformance9Id) {
-
-		var options = {
-			series: [
-				{
-					name: "Sessions",
-					data: [45, 50, 40, 55, 50, 60, 55, 65, 60, 70, 65, 70]
-				}
-			],
-			chart: {
-				type: "line",
-				height: 50,
-				width: 112,
-				sparkline: {
-					enabled: !0
-				}
-			},
-			stroke: {
-				curve: "monotoneCubic",
-				width: 1
-			},
-			colors: ["#25b003"],
-			tooltip: {
-				fixed: {
-					enabled: !1
-				},
-				x: {
-					show: !1
-				},
-				marker: {
-					show: !1
-				}
-			},
-		},
-			chart = new ApexCharts(
-				document.querySelector("#individual_asset_performance_chart_9"),
-				options
-			);
-		chart.render();
-
-	}
-
-	/* Individual Asset Performance Chart 10 JS*/
-	const getIndividualAssetPerformance10Id = document.getElementById('individual_asset_performance_chart_10');
-	if (getIndividualAssetPerformance10Id) {
-
-		var options = {
-			series: [
-				{
-					name: "Sessions",
-					data: [50, 60, 40, 70, 50, 80, 60, 90, 70, 50, 60, 55]
-				}
-			],
-			chart: {
-				type: "line",
-				height: 50,
-				width: 112,
-				sparkline: {
-					enabled: !0
-				}
-			},
-			stroke: {
-				curve: "monotoneCubic",
-				width: 1
-			},
-			colors: ["#25b003"],
-			tooltip: {
-				fixed: {
-					enabled: !1
-				},
-				x: {
-					show: !1
-				},
-				marker: {
-					show: !1
-				}
-			},
-		},
-			chart = new ApexCharts(
-				document.querySelector("#individual_asset_performance_chart_10"),
-				options
-			);
-		chart.render();
-
-	}
-
-	/* Risk & Stability Indicators Chart JS*/
-	const getRiskStabilityIndicatorsId = document.getElementById('risk_stability_indicators_chart');
-	if (getRiskStabilityIndicatorsId) {
-
-		const options = {
-			series: [
-				{
-					name: "Liquidity",
-					data: [60, 80, 100, 120, 140, 150]
-				},
-				{
-					name: "Volatility",
-					data: [180, 160, 80, 140, 100, 80]
-				},
-				{
-					name: "Operational",
-					data: [100, 130, 140, 60, 40, 20]
-				}
-			],
-			chart: {
-				height: 355,
-				type: "radar",
-				toolbar: {
-					show: false
-				}
-			},
-			xaxis: {
-				labels: {
-					show: false
-				}
-			},
-			fill: {
-				type: 'gradient',
-				gradient: {
-					stops: [0, 90, 100],
-					shadeIntensity: 1,
-					opacityFrom: 0,
-					opacityTo: 0.4
-				}
-			},
-			colors: [
-				"#AD63F6", "#605DFF", "#37D80A"
-			],
-			yaxis: {
-				show: true,
-				tickAmount: 4
-			},
-			legend: {
-				show: true,
-				fontSize: '12px',
-				fontFamily: 'Inter',
-				position: 'bottom',
-				horizontalAlign: 'center',
-				itemMargin: {
-					horizontal: 8,
-					vertical: 6
-				},
-				labels: {
-					colors: '#64748B'
-				},
-				markers: {
-					size: 7,
-					offsetX: -2,
-					offsetY: -.5,
-					shape: 'diamond',
-				},
-				customLegendItems: ['Liquidity 50%', 'Volatility 20%', 'Operational 30%']
-			}
-		};
-
-		// Render chart
-		const chart = new ApexCharts(document.querySelector("#risk_stability_indicators_chart"), options);
-		chart.render();
-
-	}
-
-	/* Comparative Analysis Chart JS*/
-	const getComparativeAnalysisId = document.getElementById('comparative_analysis_chart');
-	if (getComparativeAnalysisId) {
-
-		const weeklyData = {
-			series: [
-				{ name: 'Bitcoin', data: [[100, 20, 50]] },
-				{ name: 'Ethereum', data: [[300, 50, 70]] },
-				{ name: 'Cardano', data: [[500, 80, 80]] },
-				{ name: 'Solana', data: [[650, 40, 50]] },
-				{ name: 'Tether', data: [[850, 60, 70]] },
-				{ name: 'XRP', data: [[900, 20, 60]] }
-			],
-			xaxisRange: { min: 0, max: 1000 }
-		};
-
-		const options = {
-			series: weeklyData.series,
-			chart: {
-				type: 'bubble',
-				height: 385,
-				toolbar: { show: false }
-			},
-			colors: ['#757DFF', '#5DA8FF', '#BF85FB', '#1E8308', '#FE7A36', '#174EDE'],
-			dataLabels: { enabled: false },
-			grid: {
-				show: true,
-				borderColor: "#ECEEF2"
-			},
-			fill: { opacity: 1 },
-			xaxis: {
-				tickAmount: 8,
-				min: weeklyData.xaxisRange.min,
-				max: weeklyData.xaxisRange.max,
-				axisTicks: { show: true, color: '#64748B' },
-				axisBorder: { show: true, color: '#64748B' },
-				labels: {
-					show: true,
-					style: { colors: "#3A4252", fontSize: "12px", fontFamily: 'Inter', }
-				}
-			},
-			yaxis: {
-				min: 0,
-				labels: {
-					formatter: (val) => "$" + val + "k",
-					style: { colors: "#3A4252", fontSize: "12px", fontFamily: 'Inter', }
-				},
-				axisBorder: { show: false, color: '#64748B' },
-				axisTicks: { show: false, color: '#64748B' }
-			},
-			legend: {
-				show: true,
-				position: 'top',
-				fontSize: '12px',
-				fontFamily: 'Inter',
-				horizontalAlign: 'center',
-				itemMargin: { horizontal: 10, vertical: 8 },
-				labels: { colors: '#64748B' },
-				markers: {
-					size: 7,
-					offsetX: -2,
-					offsetY: -0.5,
-					shape: 'diamond'
-				}
-			}
-		};
-
-		const chart = new ApexCharts(document.querySelector("#comparative_analysis_chart"), options);
-		chart.render();
-
-	}
-
-	/* Price Movement Chart JS*/
-	const getPriceMovementId = document.getElementById('price_movement_chart');
-	if (getPriceMovementId) {
-
-		const candlestickOptions = {
-			series: [{
-				name: "Price",
-				data: [
-					{ x: new Date(2016, 1, 1), y: [51.98, 56.29, 51.59, 53.85] },
-					{ x: new Date(2016, 2, 1), y: [53.66, 54.99, 51.35, 52.95] },
-					{ x: new Date(2016, 3, 1), y: [52.96, 53.78, 51.54, 52.48] },
-					{ x: new Date(2016, 4, 1), y: [52.54, 52.79, 47.88, 49.24] },
-					{ x: new Date(2016, 5, 1), y: [49.1, 52.86, 47.7, 52.78] },
-					{ x: new Date(2016, 6, 1), y: [52.83, 53.48, 50.32, 52.29] },
-					{ x: new Date(2016, 7, 1), y: [52.2, 54.48, 51.64, 52.58] },
-					{ x: new Date(2016, 8, 1), y: [52.76, 57.35, 52.15, 57.03] },
-					{ x: new Date(2016, 9, 1), y: [57.04, 58.15, 48.88, 56.19] },
-					{ x: new Date(2016, 10, 1), y: [56.09, 58.85, 55.48, 58.79] },
-					{ x: new Date(2016, 11, 1), y: [58.78, 59.65, 58.23, 59.05] },
-					{ x: new Date(2017, 0, 1), y: [59.37, 61.11, 59.35, 60.34] },
-					{ x: new Date(2017, 1, 1), y: [60.4, 60.52, 56.71, 56.93] },
-					{ x: new Date(2017, 2, 1), y: [57.02, 59.71, 56.04, 56.82] },
-					{ x: new Date(2017, 3, 1), y: [66.97, 69.62, 54.77, 59.3] },
-					{ x: new Date(2017, 4, 1), y: [59.11, 62.29, 59.1, 59.85] },
-					{ x: new Date(2017, 5, 1), y: [59.97, 60.11, 55.66, 58.42] },
-					{ x: new Date(2017, 6, 1), y: [58.34, 60.93, 56.75, 57.42] },
-					{ x: new Date(2017, 7, 1), y: [57.76, 58.08, 51.18, 54.71] },
-					{ x: new Date(2017, 8, 1), y: [64.8, 71.42, 53.18, 57.35] },
-					{ x: new Date(2017, 9, 1), y: [57.56, 63.09, 57.0, 62.99] },
-					{ x: new Date(2017, 10, 1), y: [62.89, 63.42, 59.72, 61.76] },
-					{ x: new Date(2017, 11, 1), y: [61.71, 64.15, 61.29, 63.04] }
-				]
-			}],
-			chart: {
-				id: 'candlestickChart',
-				type: "candlestick",
-				height: 350,
-				toolbar: { show: false },
-				zoom: { enabled: false }
-			},
-			plotOptions: {
-				candlestick: {
-					colors: {
-						upward: '#37D80A',
-						downward: '#FF4023'
-					},
-					wick: { useFillColor: true }
-				}
-			},
-			fill: { opacity: 1 },
-			xaxis: {
-				type: "datetime",
-				axisTicks: { show: true, color: '#64748B' },
-				axisBorder: { show: true, color: '#64748B' },
-				labels: {
-					style: { colors: "#3A4252", fontSize: "12px", fontFamily: 'Inter', }
-				}
-			},
-			yaxis: {
-				tooltip: { enabled: true },
-				labels: {
-					style: { colors: "#3A4252", fontSize: "12px", fontFamily: 'Inter', }
-				},
-				axisBorder: { show: false },
-				axisTicks: { show: false }
-			},
-			grid: {
-				show: true,
-				borderColor: "#F6F7F9"
-			}
-		};
-
-		const brushOptions = {
-			series: [{
-				name: "Volume",
-				data: [
-					{ x: new Date(2016, 1, 1), y: 3.85 },
-					{ x: new Date(2016, 2, 1), y: 2.95 },
-					{ x: new Date(2016, 3, 1), y: -12.48 },
-					{ x: new Date(2016, 4, 1), y: 19.24 },
-					{ x: new Date(2016, 5, 1), y: 12.78 },
-					{ x: new Date(2016, 6, 1), y: 22.29 },
-					{ x: new Date(2016, 7, 1), y: -12.58 },
-					{ x: new Date(2016, 8, 1), y: -17.03 },
-					{ x: new Date(2016, 9, 1), y: -19.19 },
-					{ x: new Date(2016, 10, 1), y: -28.79 },
-					{ x: new Date(2016, 11, 1), y: -39.05 },
-					{ x: new Date(2017, 0, 1), y: 20.34 },
-					{ x: new Date(2017, 1, 1), y: 36.93 },
-					{ x: new Date(2017, 2, 1), y: 36.82 },
-					{ x: new Date(2017, 3, 1), y: 29.3 },
-					{ x: new Date(2017, 4, 1), y: 39.85 },
-					{ x: new Date(2017, 5, 1), y: 28.42 },
-					{ x: new Date(2017, 6, 1), y: 37.42 },
-					{ x: new Date(2017, 7, 1), y: 24.71 },
-					{ x: new Date(2017, 8, 1), y: 37.35 },
-					{ x: new Date(2017, 9, 1), y: 32.99 },
-					{ x: new Date(2017, 10, 1), y: 31.76 },
-					{ x: new Date(2017, 11, 1), y: 43.04 }
-				]
-			}],
-			chart: {
-				type: "bar",
-				height: 160,
-				toolbar: { show: false },
-				brush: {
-					enabled: true,
-					target: "candlestickChart"
-				},
-				selection: {
-					enabled: true,
-					xaxis: {
-						min: new Date("16 June 2016").getTime(),
-						max: new Date("10 October 2017").getTime()
-					},
-					fill: {
-						color: "#ccc",
-						opacity: 0.4
-					},
-					stroke: {
-						color: "#0D47A1"
-					}
-				}
-			},
-			fill: { opacity: 1 },
-			colors: ["#605DFF"],
-			xaxis: {
-				type: "datetime",
-				axisTicks: { show: true, color: '#64748B' },
-				axisBorder: { show: true, color: '#64748B' },
-				labels: {
-					style: { colors: "#3A4252", fontSize: "12px", fontFamily: 'Inter', }
-				}
-			},
-			yaxis: {
-				tooltip: { enabled: true },
-				labels: {
-					style: { colors: "#3A4252", fontSize: "12px", fontFamily: 'Inter', }
-				},
-				axisBorder: { show: false },
-				axisTicks: { show: false }
-			},
-			grid: {
-				show: true,
-				borderColor: "#F6F7F9"
-			}
-		};
-
-		const chart1 = new ApexCharts(document.querySelector("#price_movement_chart"), candlestickOptions);
-		const chart2 = new ApexCharts(document.querySelector("#price_movement_chart2"), brushOptions);
-		chart1.render();
-		chart2.render();
-
-	}
-
-	/* Trading Volume Chart JS*/
-	const getTradingVolumeId = document.getElementById('trading_volume_chart');
-	if (getTradingVolumeId) {
-
-		document.addEventListener('DOMContentLoaded', function () {
-			const options = {
-				series: [
-					{
-						name: "Volume",
-						data: [130, 200, 160, 80, 70, 120, 140]
-					}
-				],
-				chart: {
-					type: "bar",
-					height: 200,
-					toolbar: {
-						show: false
-					}
-				},
-				colors: ["#757DFF"],
-				plotOptions: {
-					bar: {
-						columnWidth: "15px",
-						colors: {
-							backgroundBarColors: ["#DDE4FF"],
-							backgroundBarOpacity: 0.2
-						}
-					}
-				},
-				grid: {
-					show: true,
-					borderColor: "#F6F7F9"
-				},
-				dataLabels: {
-					enabled: false
-				},
-				xaxis: {
-					categories: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-					axisTicks: {
-						show: true,
-						color: '#64748B'
-					},
-					axisBorder: {
-						show: true,
-						color: '#64748B'
-					},
-					labels: {
-						show: true,
-						style: {
-							colors: "#3A4252",
-							fontSize: "12px",
-							fontFamily: 'Inter',
-						}
-					}
-				},
-				yaxis: {
-					tickAmount: 4,
-					max: 200,
-					min: 0,
-					labels: {
-						formatter: function (val) {
-							return '$' + val;
-						},
-						style: {
-							colors: "#3A4252",
-							fontSize: "12px",
-							fontFamily: 'Inter',
-						}
-					},
-					axisBorder: {
-						show: false,
-						color: '#64748B'
-					},
-					axisTicks: {
-						show: false,
-						color: '#64748B'
-					}
-				},
-				fill: {
-					opacity: 1
-				},
-				tooltip: {
-					y: {
-						formatter: function (val) {
-							return "$" + val + "k";
-						}
-					}
-				},
-				legend: {
-					show: true,
-					position: 'top',
-					fontSize: '12px',
-					fontFamily: 'Inter',
-					horizontalAlign: 'left',
-					itemMargin: {
-						horizontal: 8,
-						vertical: 0
-					},
-					labels: {
-						colors: '#64748B'
-					},
-					markers: {
-						size: 6,
-						offsetX: -2,
-						offsetY: -.5,
-						shape: 'square'
-					}
-				}
-			};
-
-			const chart = new ApexCharts(document.querySelector("#trading_volume_chart"), options);
-			chart.render();
-		});
-
-	}
-
-	/* Portfolio Distribution Chart JS*/
-	const getPortfolioDistributionId = document.getElementById('portfolio_distribution_chart');
-	if (getPortfolioDistributionId) {
-
-		document.addEventListener('DOMContentLoaded', function () {
-			const series = [35, 25, 15, 10, 8, 7]; // example data
-			const labels = ["Stocks", "Bonds", "Real Estate", "Cash", "Crypto", "Other"];
-
-			const options = {
-				series: series,
-				chart: {
-					height: 194,
-					type: "donut"
-				},
-				labels: labels,
-				colors: [
-					"#9135E8", "#AD63F6", "#BF85FB", "#D7B5FD", "#E9D5FF", "#F3E8FF"
-				],
-				stroke: {
-					width: 2,
-					show: true,
-					colors: ["#ffffff"]
-				},
-				dataLabels: {
-					enabled: false
-				},
-				plotOptions: {
-					pie: {
-						expandOnClick: false,
-						donut: {
-							labels: {
-								show: false,
-								name: {
-									color: '#64748B'
-								},
-								value: {
-									show: true,
-									color: '#3A4252',
-									fontSize: '28px',
-									fontFamily: 'Inter',
-									fontWeight: '600',
-									formatter: function (val, opts) {
-										const total = opts.w.globals.seriesTotals.reduce((a, b) => a + b, 0);
-										const percentage = ((val / total) * 100).toFixed(1);
-										return `${val}k (${percentage}%)`;
-									}
-								},
-								total: {
-									show: true,
-									color: '#64748B',
-									formatter: function (w) {
-										return `${w.globals.seriesTotals.reduce((a, b) => a + b, 0)}k`;
-									}
-								}
-							}
-						}
-					}
-				},
-				legend: {
-					show: true,
-					offsetY: 0,
-					fontSize: '12px',
-					fontFamily: 'Inter',
-					position: 'left',
-					horizontalAlign: 'center',
-					itemMargin: {
-						horizontal: 0,
-						vertical: 5
-					},
-					labels: {
-						colors: '#64748B'
-					},
-					markers: {
-						size: 7,
-						offsetX: -4,
-						offsetY: -.5,
-						shape: 'star'
-					}
-				},
-				tooltip: {
-					y: {
-						formatter: function (val) {
-							return val + "%";
-						}
-					}
-				}
-			};
-
-			const chart = new ApexCharts(document.querySelector("#portfolio_distribution_chart"), options);
-			chart.render();
-		});
-
-	}
-
-	/* Profit & Loss Chart JS*/
-	const getProfitLossId = document.getElementById('profit_loss_chart');
-	if (getProfitLossId) {
-
-		document.addEventListener('DOMContentLoaded', function () {
-			const series = [
-				{
-					name: "Profit",
-					data: [35, 45, 55, 35, 65, 38, 63]
-				},
-				{
-					name: "Loss",
-					data: [25, 15, 45, 25, 15, 20, 25]
-				}
-			];
-
-			const categories = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
-			const options = {
-				series: series,
-				chart: {
-					type: "area",
-					height: 280,
-					zoom: {
-						enabled: false
-					},
-					toolbar: {
-						show: false
-					}
-				},
-				colors: ["#37D80A", "#EE3E08"],
-				dataLabels: {
-					enabled: false
-				},
-				stroke: {
-					curve: "smooth",
-					width: [2, 2]
-				},
-				grid: {
-					show: true,
-					borderColor: "#ECEEF2"
-				},
-				fill: {
-					type: 'gradient',
-					gradient: {
-						stops: [0, 90, 100],
-						shadeIntensity: 1,
-						opacityFrom: 0,
-						opacityTo: 0.5
-					}
-				},
-				xaxis: {
-					categories: categories,
-					axisTicks: {
-						show: false,
-						color: '#ECEEF2'
-					},
-					axisBorder: {
-						show: false,
-						color: '#ECEEF2'
-					},
-					labels: {
-						show: true,
-						style: {
-							colors: "#3A4252",
-							fontSize: "12px",
-							fontFamily: 'Inter',
-						}
-					}
-				},
-				yaxis: {
-					tickAmount: 5,
-					min: 0,
-					labels: {
-						formatter: function (val) {
-							return val + '%';
-						},
-						style: {
-							colors: "#3A4252",
-							fontSize: "12px",
-							fontFamily: 'Inter',
-						}
-					},
-					axisBorder: {
-						show: false,
-						color: '#ECEEF2'
-					},
-					axisTicks: {
-						show: false,
-						color: '#ECEEF2'
-					}
-				},
-				legend: {
-					show: true,
-					position: 'bottom',
-					fontSize: '12px',
-					fontFamily: 'Inter',
-					horizontalAlign: 'center',
-					itemMargin: {
-						horizontal: 8,
-						vertical: 10
-					},
-					labels: {
-						colors: '#64748B'
-					},
-					markers: {
-						size: 7,
-						offsetX: -2,
-						offsetY: -.5,
-						shape: 'diamond'
-					}
-				}
-			};
-
-			const chart = new ApexCharts(document.querySelector("#profit_loss_chart"), options);
-			chart.render();
-		});
-
-	}
-
-	/* Risk Exposure Chart JS*/
-	const getRiskExposureId = document.getElementById('risk_exposure_chart');
-	if (getRiskExposureId) {
-
-		document.addEventListener('DOMContentLoaded', function () {
-			const series = [
-				{
-					name: "Risk",
-					data: [80, 50, 30, 40, 100, 20]
-				},
-				{
-					name: "Risk",
-					data: [20, 30, 40, 80, 20, 80]
-				},
-				{
-					name: "Risk",
-					data: [30, 70, 80, 15, 45, 10]
-				}
-			];
-
-			const categories = ["Market", "Technology", "Compliance", "Liquidity", "Operational", "Credit"];
-
-			const options = {
-				series: series,
-				chart: {
-					height: 340,
-					type: "radar",
-					toolbar: {
-						show: false
-					}
-				},
-				dataLabels: {
-					enabled: false
-				},
-				xaxis: {
-					categories: categories,
-					labels: {
-						show: true,
-						style: {
-							colors: "#3A4252",
-							fontSize: "12px"
-						}
-					}
-				},
-				markers: {
-					size: 3,
-					strokeWidth: 0
-				},
-				colors: ["#FD5812", "#37D80A", "#605DFF"],
-				fill: {
-					type: 'gradient',
-					gradient: {
-						stops: [0, 90, 100],
-						shadeIntensity: 1,
-						opacityFrom: 0,
-						opacityTo: 0.4
-					}
-				},
-				yaxis: {
-					show: false
-				},
-				tooltip: {
-					y: {
-						formatter: function (val) {
-							return val + "%";
-						}
-					}
-				},
-				legend: {
-					show: false,
-					position: 'top',
-					fontSize: '12px',
-					horizontalAlign: 'center',
-					itemMargin: {
-						horizontal: 8,
-						vertical: 0
-					},
-					labels: {
-						colors: '#64748B'
-					},
-					markers: {
-						size: 7,
-						offsetX: -2,
-						offsetY: -.5,
-						shape: 'diamond'
-					}
-				}
-			};
-
-			const chart = new ApexCharts(document.querySelector("#risk_exposure_chart"), options);
-			chart.render();
-		});
-
-	}
-
-	/* Trades Per Month Chart JS*/
-	const getTradesPerMonthId = document.getElementById('trades_per_month_chart');
-	if (getTradesPerMonthId) {
-
-		document.addEventListener('DOMContentLoaded', function () {
-			const options = {
-				series: [{
-					name: "Price",
-					data: [
-						{ x: new Date(1538778600000), y: [6629.81, 6650.5, 6623.04, 6633.33] },
-						{ x: new Date(1538780400000), y: [6632.01, 6643.59, 6620, 6630.11] },
-						{ x: new Date(1538782200000), y: [6630.71, 6648.95, 6623.34, 6635.65] },
-						{ x: new Date(1538784000000), y: [6635.65, 6651, 6629.67, 6638.24] },
-						{ x: new Date(1538785800000), y: [6638.24, 6640, 6620, 6624.47] },
-						{ x: new Date(1538787600000), y: [6624.53, 6636.03, 6621.68, 6624.31] },
-						{ x: new Date(1538789400000), y: [6624.61, 6632.2, 6617, 6626.02] },
-						{ x: new Date(1538791200000), y: [6627, 6627.62, 6584.22, 6603.02] },
-						{ x: new Date(1538793000000), y: [6605, 6608.03, 6598.95, 6604.01] },
-						{ x: new Date(1538794800000), y: [6604.5, 6614.4, 6602.26, 6608.02] },
-						{ x: new Date(1538796600000), y: [6608.02, 6610.68, 6601.99, 6608.91] },
-						{ x: new Date(1538798400000), y: [6608.91, 6618.99, 6608.01, 6612] },
-						{ x: new Date(1538800200000), y: [6612, 6615.13, 6605.09, 6612] },
-						{ x: new Date(1538802000000), y: [6612, 6624.12, 6608.43, 6622.95] }
-					]
-				}],
-				chart: {
-					type: "candlestick",
-					height: 288,
-					toolbar: { show: false }
-				},
-				plotOptions: {
-					candlestick: {
-						colors: {
-							upward: '#EE3E08',
-							downward: '#4936F5'
-						},
-						wick: { useFillColor: true }
-					}
-				},
-				fill: { opacity: 1 },
-				xaxis: {
-					type: "datetime",
-					axisTicks: { show: false, color: '#ECEEF2' },
-					axisBorder: { show: false, color: '#ECEEF2' },
-					labels: {
-						show: true,
-						style: {
-							colors: "#8695AA",
-							fontSize: "12px"
-						}
-					}
-				},
-				yaxis: {
-					tooltip: { enabled: true },
-					labels: {
-						show: true,
-						style: {
-							colors: "#64748B",
-							fontSize: "12px"
-						}
-					},
-					axisBorder: { show: false, color: '#ECEEF2' },
-					axisTicks: { show: false, color: '#ECEEF2' }
-				},
-				grid: {
-					show: true,
-					borderColor: "#ECEEF2"
-				}
-			};
-
-			const chart = new ApexCharts(document.querySelector("#trades_per_month_chart"), options);
-			chart.render();
-		});
-
-	}
-
-	/* Asset Allocation Chart JS*/
-	const getAssetAllocationId = document.getElementById('asset_allocation_chart');
-	if (getAssetAllocationId) {
-
-		document.addEventListener('DOMContentLoaded', function () {
-			const options = {
-				series: [30, 25, 20, 15, 10],
-				chart: {
-					height: 207,
-					type: "pie"
-				},
-				labels: [
-					"BTC 30%", "ETH 25%", "USDC 20%", "ADA 15%", "SHIB 10%"
-				],
-				colors: [
-					"#605DFF", "#757DFF", "#9CAAFF", "#C2CDFF", "#DDE4FF"
-				],
-				legend: {
-					show: true,
-					fontSize: '12px',
-					position: 'bottom',
-					horizontalAlign: 'center',
-					itemMargin: {
-						horizontal: 8,
-						vertical: 8
-					},
-					labels: {
-						colors: '#64748B'
-					},
-					markers: {
-						size: 7,
-						offsetX: -2,
-						offsetY: -.5,
-						shape: 'diamond'
-					}
-				},
-				dataLabels: {
-					enabled: false
-				}
-			};
-
-			const chart = new ApexCharts(document.querySelector("#asset_allocation_chart"), options);
-			chart.render();
-		});
-
-	}
-
-	/* Market Sentiment Indicator Chart JS*/
-	const getMarketSentimentIndicatorId = document.getElementById('market_sentiment_indicator_chart');
-	if (getMarketSentimentIndicatorId) {
-
-		document.addEventListener('DOMContentLoaded', function () {
-			const options = {
-				series: [100], // Current sentiment value
-				chart: {
-					type: "radialBar",
-					height: 323
-				},
-				plotOptions: {
-					radialBar: {
-						startAngle: -90,
-						endAngle: 90,
-						track: {
-							background: "#ffffff",
-							strokeWidth: '100%',
-						},
-						dataLabels: {
-							show: false
-						}
-					}
-				},
-				fill: {
-					type: "gradient",
-					gradient: {
-						shade: "dark",
-						type: "horizontal",
-						gradientToColors: ["#FF3D00"],
-						stops: [0, 50, 100],
-						colorStops: [
-							{ offset: 0, color: "#00C851", opacity: 1 },   // Extreme Greed
-							{ offset: 25, color: "#8BC34A", opacity: 1 },  // Greed
-							{ offset: 50, color: "#FFC107", opacity: 1 },  // Neutral
-							{ offset: 75, color: "#FF9800", opacity: 1 },  // Fear
-							{ offset: 100, color: "#FF3D00", opacity: 1 }  // Extreme Fear
-						]
-					}
-				},
-				stroke: {
-					lineCap: "round"
-				},
-				labels: ["Market Sentiment"]
-			};
-
-			const chart = new ApexCharts(document.querySelector("#market_sentiment_indicator_chart"), options);
-			chart.render();
-		});
-
-	}
 
 
 
@@ -18330,14 +15170,14 @@
 			series: [{
 				name: "Desktops",
 				data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-			}],
+			  }],
 			chart: {
 				height: 350,
 				type: 'line',
 				zoom: {
 					enabled: false
 				}
-			},
+			  },
 			dataLabels: {
 				enabled: false
 			},
@@ -18348,9 +15188,9 @@
 				text: 'Product Trends by Month',
 				align: 'left',
 				style: {
-					fontSize: '14px',
-					fontWeight: '500',
-					color: '#64748B'
+					fontSize:  '14px',
+					fontWeight:  '500',
+					color:  '#64748B'
 				},
 			},
 			grid: {
@@ -18366,7 +15206,7 @@
 		var chart = new ApexCharts(document.querySelector("#product_trends_by_month"), options);
 		chart.render();
 	}
-
+    
 	// Average High & Low Temperature JS
 	const getAverageHighLowTemperatureId = document.getElementById('average_high_low_temperature');
 	if (getAverageHighLowTemperatureId) {
@@ -18380,7 +15220,7 @@
 					name: "Low - 2013",
 					data: [12, 11, 14, 18, 17, 13, 13]
 				}
-			],
+		  	],
 			chart: {
 				height: 350,
 				type: 'line',
@@ -18398,7 +15238,7 @@
 				toolbar: {
 					show: false
 				}
-			},
+		  	},
 			colors: ['#77B6EA', '#545454'],
 			dataLabels: {
 				enabled: true,
@@ -18410,9 +15250,9 @@
 				text: 'Average High & Low Temperature',
 				align: 'left',
 				style: {
-					fontSize: '14px',
-					fontWeight: '500',
-					color: '#64748B'
+					fontSize:  '14px',
+					fontWeight:  '500',
+					color:  '#64748B'
 				},
 			},
 			grid: {
@@ -18583,392 +15423,392 @@
 	if (getSplineAreaId) {
 		var options = {
 			series: [{
-				name: 'series1',
-				data: [31, 40, 28, 51, 42, 109, 100]
-			}, {
-				name: 'series2',
-				data: [11, 32, 45, 32, 34, 52, 41]
-			}],
+			name: 'series1',
+			data: [31, 40, 28, 51, 42, 109, 100]
+		  }, {
+			name: 'series2',
+			data: [11, 32, 45, 32, 34, 52, 41]
+		  }],
 			chart: {
-				height: 350,
-				type: 'area'
+			height: 350,
+			type: 'area'
+		  },
+		  dataLabels: {
+			enabled: false
+		  },
+		  stroke: {
+			curve: 'smooth'
+		  },
+		  xaxis: {
+			type: 'datetime',
+			categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+		  },
+		  tooltip: {
+			x: {
+			  format: 'dd/MM/yy HH:mm'
 			},
-			dataLabels: {
-				enabled: false
-			},
-			stroke: {
-				curve: 'smooth'
-			},
-			xaxis: {
-				type: 'datetime',
-				categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-			},
-			tooltip: {
-				x: {
-					format: 'dd/MM/yy HH:mm'
-				},
-			},
-		};
-
-		var chart = new ApexCharts(document.querySelector("#spline_area"), options);
-		chart.render();
+		  },
+		  };
+  
+		  var chart = new ApexCharts(document.querySelector("#spline_area"), options);
+		  chart.render();
 	}
 
 	// Area with Negative Values JS
 	const getAreawithNegativeValuesId = document.getElementById('area_with_negative_values');
 	if (getAreawithNegativeValuesId) {
-		var options = {
-			series: [{
+		var options= {
+			series: [ {
 
 				name: 'north',
-				data: [{
+				data: [ {
 					x: 1996,
-					y: 322
+						y: 322
 				}
 
-					,
+				,
 				{
-					x: 1997,
+				x: 1997,
 					y: 324
-				}
-
-					,
-				{
-					x: 1998,
-					y: 329
-				}
-
-					,
-				{
-					x: 1999,
-					y: 342
-				}
-
-					,
-				{
-					x: 2000,
-					y: 348
-				}
-
-					,
-				{
-					x: 2001,
-					y: 334
-				}
-
-					,
-				{
-					x: 2002,
-					y: 325
-				}
-
-					,
-				{
-					x: 2003,
-					y: 316
-				}
-
-					,
-				{
-					x: 2004,
-					y: 318
-				}
-
-					,
-				{
-					x: 2005,
-					y: 330
-				}
-
-					,
-				{
-					x: 2006,
-					y: 355
-				}
-
-					,
-				{
-					x: 2007,
-					y: 366
-				}
-
-					,
-				{
-					x: 2008,
-					y: 337
-				}
-
-					,
-				{
-					x: 2009,
-					y: 352
-				}
-
-					,
-				{
-					x: 2010,
-					y: 377
-				}
-
-					,
-				{
-					x: 2011,
-					y: 383
-				}
-
-					,
-				{
-					x: 2012,
-					y: 344
-				}
-
-					,
-				{
-					x: 2013,
-					y: 366
-				}
-
-					,
-				{
-					x: 2014,
-					y: 389
-				}
-
-					,
-				{
-					x: 2015,
-					y: 334
-				}
-
-				]
 			}
 
-				,
+			,
 			{
+			x: 1998,
+				y: 329
+		}
 
-				name: 'south',
-				data: [{
-					x: 1996,
-					y: 162
-				}
+		,
+		{
+		x: 1999,
+			y: 342
+		}
 
-					,
-				{
-					x: 1997,
-					y: 90
-				}
+		,
+		{
+		x: 2000,
+			y: 348
+		}
 
-					,
-				{
-					x: 1998,
-					y: 50
-				}
+		,
+		{
+		x: 2001,
+			y: 334
+		}
 
-					,
-				{
-					x: 1999,
-					y: 77
-				}
+		,
+		{
+		x: 2002,
+			y: 325
+		}
 
-					,
-				{
-					x: 2000,
-					y: 35
-				}
+		,
+		{
+		x: 2003,
+			y: 316
+		}
 
-					,
-				{
-					x: 2001,
-					y: -45
-				}
+		,
+		{
+		x: 2004,
+			y: 318
+		}
 
-					,
-				{
-					x: 2002,
-					y: -88
-				}
+		,
+		{
+		x: 2005,
+			y: 330
+		}
 
-					,
-				{
-					x: 2003,
-					y: -120
-				}
+		,
+		{
+		x: 2006,
+			y: 355
+		}
 
-					,
-				{
-					x: 2004,
-					y: -156
-				}
+		,
+		{
+		x: 2007,
+			y: 366
+		}
 
-					,
-				{
-					x: 2005,
-					y: -123
-				}
+		,
+		{
+		x: 2008,
+			y: 337
+		}
 
-					,
-				{
-					x: 2006,
-					y: -88
-				}
+		,
+		{
+		x: 2009,
+			y: 352
+		}
 
-					,
-				{
-					x: 2007,
-					y: -66
-				}
+		,
+		{
+		x: 2010,
+			y: 377
+		}
 
-					,
-				{
-					x: 2008,
-					y: -45
-				}
+		,
+		{
+		x: 2011,
+			y: 383
+		}
 
-					,
-				{
-					x: 2009,
-					y: -29
-				}
+		,
+		{
+		x: 2012,
+			y: 344
+		}
 
-					,
-				{
-					x: 2010,
-					y: -45
-				}
+		,
+		{
+		x: 2013,
+			y: 366
+		}
 
-					,
-				{
-					x: 2011,
-					y: -88
-				}
+		,
+		{
+		x: 2014,
+			y: 389
+		}
 
-					,
-				{
-					x: 2012,
-					y: -132
-				}
+		,
+		{
+		x: 2015,
+			y: 334
+		}
 
-					,
-				{
-					x: 2013,
-					y: -146
-				}
+		]
+		}
 
-					,
-				{
-					x: 2014,
-					y: -169
-				}
+		,
+		{
 
-					,
-				{
-					x: 2015,
-					y: -184
-				}
+		name: 'south',
+		data: [ {
+			x: 1996,
+				y: 162
+		}
 
-				]
-			}
+		,
+		{
+		x: 1997,
+			y: 90
+		}
 
-			],
-			chart: {
-				type: 'area',
+		,
+		{
+		x: 1998,
+			y: 50
+		}
+
+		,
+		{
+		x: 1999,
+			y: 77
+		}
+
+		,
+		{
+		x: 2000,
+			y: 35
+		}
+
+		,
+		{
+		x: 2001,
+			y: -45
+		}
+
+		,
+		{
+		x: 2002,
+			y: -88
+		}
+
+		,
+		{
+		x: 2003,
+			y: -120
+		}
+
+		,
+		{
+		x: 2004,
+			y: -156
+		}
+
+		,
+		{
+		x: 2005,
+			y: -123
+		}
+
+		,
+		{
+		x: 2006,
+			y: -88
+		}
+
+		,
+		{
+		x: 2007,
+			y: -66
+		}
+
+		,
+		{
+		x: 2008,
+			y: -45
+		}
+
+		,
+		{
+		x: 2009,
+			y: -29
+		}
+
+		,
+		{
+		x: 2010,
+			y: -45
+		}
+
+		,
+		{
+		x: 2011,
+			y: -88
+		}
+
+		,
+		{
+		x: 2012,
+			y: -132
+		}
+
+		,
+		{
+		x: 2013,
+			y: -146
+		}
+
+		,
+		{
+		x: 2014,
+			y: -169
+		}
+
+		,
+		{
+		x: 2015,
+			y: -184
+		}
+
+		]
+		}
+
+		],
+		chart: {
+			type: 'area',
 				height: 350
+		}
+
+		,
+		dataLabels: {
+			enabled: false
+		}
+
+		,
+		stroke: {
+			curve: 'straight'
+		}
+
+		,
+
+		title: {
+
+			text: 'Area with Negative Values',
+			align: 'left',
+			style: {
+				fontSize: '14px'
+			}
+		}
+
+		,
+		xaxis: {
+
+			type: 'datetime',
+			axisBorder: {
+				show: false
 			}
 
 			,
-			dataLabels: {
-				enabled: false
+			axisTicks: {
+				show: false
 			}
+		}
 
-			,
-			stroke: {
-				curve: 'straight'
-			}
+		,
+		yaxis: {
+			tickAmount: 4,
+			floating: false,
 
-			,
-
-			title: {
-
-				text: 'Area with Negative Values',
-				align: 'left',
+			labels: {
 				style: {
-					fontSize: '14px'
-				}
-			}
-
-			,
-			xaxis: {
-
-				type: 'datetime',
-				axisBorder: {
-					show: false
+					colors: '#8e8da4',
 				}
 
 				,
-				axisTicks: {
-					show: false
-				}
+				offsetY: -7,
+				offsetX: 0,
 			}
 
 			,
-			yaxis: {
-				tickAmount: 4,
-				floating: false,
-
-				labels: {
-					style: {
-						colors: '#8e8da4',
-					}
-
-					,
-					offsetY: -7,
-					offsetX: 0,
-				}
-
-				,
-				axisBorder: {
-					show: false,
-				}
-
-				,
-				axisTicks: {
-					show: false
-				}
+			axisBorder: {
+				show: false,
 			}
 
 			,
-			fill: {
-				opacity: 0.5
+			axisTicks: {
+				show: false
+			}
+		}
+
+		,
+		fill: {
+			opacity: 0.5
+		}
+
+		,
+		tooltip: {
+			x: {
+				format: "yyyy",
 			}
 
 			,
-			tooltip: {
-				x: {
-					format: "yyyy",
-				}
-
-				,
-				fixed: {
-					enabled: false,
+			fixed: {
+				enabled: false,
 					position: 'topRight'
+			}
+		}
+
+		,
+		grid: {
+			yaxis: {
+				lines: {
+					offsetX: -30
 				}
 			}
 
 			,
-			grid: {
-				yaxis: {
-					lines: {
-						offsetX: -30
-					}
-				}
-
-				,
-				padding: {
-					left: 20
-				}
+			padding: {
+				left: 20
 			}
+		}
 		};
-		var chart = new ApexCharts(document.querySelector("#area_with_negative_values"), options);
+		var chart=new ApexCharts(document.querySelector("#area_with_negative_values"), options);
 		chart.render();
 	}
 
@@ -18977,7 +15817,7 @@
 	if (getBasicBarId) {
 		var options = {
 			series: [{
-				data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
+			  	data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
 			}],
 			chart: {
 				type: 'bar',
@@ -18991,7 +15831,7 @@
 				}
 			},
 			dataLabels: {
-				enabled: false
+			  	enabled: false
 			},
 			xaxis: {
 				categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan',
@@ -19000,50 +15840,50 @@
 			}
 		};
 		var chart = new ApexCharts(document.querySelector("#basic_bar"), options);
-		chart.render();
+        chart.render();
 	}
 
 	// Grouped bar JS
 	const getGroupedId = document.getElementById('grouped');
 	if (getGroupedId) {
 		var options = {
-			series: [{
-				data: [44, 55, 41, 64, 22, 43, 21]
-			}, {
-				data: [53, 32, 33, 52, 13, 44, 32]
-			}],
-			chart: {
-				type: 'bar',
-				height: 430
-			},
-			plotOptions: {
-				bar: {
-					horizontal: true,
-					dataLabels: {
-						position: 'top',
-					},
-				}
-			},
+		series: [{
+			data: [44, 55, 41, 64, 22, 43, 21]
+		}, {
+			data: [53, 32, 33, 52, 13, 44, 32]
+		}],
+		chart: {
+			type: 'bar',
+			height: 430
+		},
+		plotOptions: {
+			bar: {
+			horizontal: true,
 			dataLabels: {
-				enabled: true,
-				offsetX: -6,
-				style: {
-					fontSize: '12px',
-					colors: ['#fff']
-				}
+				position: 'top',
 			},
-			stroke: {
-				show: true,
-				width: 1,
-				colors: ['#fff']
-			},
-			tooltip: {
-				shared: true,
-				intersect: false
-			},
-			xaxis: {
-				categories: [2001, 2002, 2003, 2004, 2005, 2006, 2007],
-			},
+			}
+		},
+		dataLabels: {
+			enabled: true,
+			offsetX: -6,
+			style: {
+			fontSize: '12px',
+			colors: ['#fff']
+			}
+		},
+		stroke: {
+			show: true,
+			width: 1,
+			colors: ['#fff']
+		},
+		tooltip: {
+			shared: true,
+			intersect: false
+		},
+		xaxis: {
+			categories: [2001, 2002, 2003, 2004, 2005, 2006, 2007],
+		},
 		};
 
 		var chart = new ApexCharts(document.querySelector("#grouped"), options);
@@ -19055,54 +15895,54 @@
 	if (getColumnId) {
 		var options = {
 			series: [{
-				name: 'Net Profit',
-				data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+			  name: 'Net Profit',
+			  data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
 			}, {
-				name: 'Revenue',
-				data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+			  name: 'Revenue',
+			  data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
 			}, {
-				name: 'Free Cash Flow',
-				data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
+			  name: 'Free Cash Flow',
+			  data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
 			}],
 			chart: {
-				type: 'bar',
-				height: 350
+			  type: 'bar',
+			  height: 350
 			},
 			plotOptions: {
-				bar: {
-					horizontal: false,
-					columnWidth: '55%',
-					endingShape: 'rounded'
-				},
+			  bar: {
+				horizontal: false,
+				columnWidth: '55%',
+				endingShape: 'rounded'
+			  },
 			},
 			dataLabels: {
-				enabled: false
+			  enabled: false
 			},
 			stroke: {
-				show: true,
-				width: 2,
-				colors: ['transparent']
+			  show: true,
+			  width: 2,
+			  colors: ['transparent']
 			},
 			xaxis: {
-				categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+			  categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
 			},
 			yaxis: {
-				title: {
-					text: '$ (thousands)'
-				}
+			  title: {
+				text: '$ (thousands)'
+			  }
 			},
 			fill: {
-				opacity: 1
+			  opacity: 1
 			},
 			tooltip: {
-				y: {
-					formatter: function (val) {
-						return "$ " + val + " thousands"
-					}
+			  y: {
+				formatter: function (val) {
+				  return "$ " + val + " thousands"
 				}
+			  }
 			}
 		};
-
+		  
 		var chart = new ApexCharts(document.querySelector("#basic_column"), options);
 		chart.render();
 	}
@@ -19112,84 +15952,84 @@
 	if (getColumnWithDataLabelsId) {
 		var options = {
 			series: [{
-				name: 'Inflation',
-				data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2]
+			  name: 'Inflation',
+			  data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2]
 			}],
 			chart: {
-				height: 350,
-				type: 'bar',
+			  height: 350,
+			  type: 'bar',
 			},
 			plotOptions: {
-				bar: {
-					borderRadius: 10,
-					dataLabels: {
-						position: 'top', // top, center, bottom
-					},
-				}
+			  bar: {
+				borderRadius: 10,
+				dataLabels: {
+				  position: 'top', // top, center, bottom
+				},
+			  }
 			},
 			dataLabels: {
-				enabled: true,
-				formatter: function (val) {
-					return val + "%";
-				},
-				offsetY: -20,
-				style: {
-					fontSize: '12px',
-					colors: ["#304758"]
-				}
+			  enabled: true,
+			  formatter: function (val) {
+				return val + "%";
+			  },
+			  offsetY: -20,
+			  style: {
+				fontSize: '12px',
+				colors: ["#304758"]
+			  }
 			},
-
+		  
 			xaxis: {
-				categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-				position: 'top',
-				axisBorder: {
-					show: false
-				},
-				axisTicks: {
-					show: false
-				},
-				crosshairs: {
-					fill: {
-						type: 'gradient',
-						gradient: {
-							colorFrom: '#D8E3F0',
-							colorTo: '#BED1E6',
-							stops: [0, 100],
-							opacityFrom: 0.4,
-							opacityTo: 0.5,
-						}
-					}
-				},
-				tooltip: {
-					enabled: true,
+			  categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+			  position: 'top',
+			  axisBorder: {
+				show: false
+			  },
+			  axisTicks: {
+				show: false
+			  },
+			  crosshairs: {
+				fill: {
+				  type: 'gradient',
+				  gradient: {
+					colorFrom: '#D8E3F0',
+					colorTo: '#BED1E6',
+					stops: [0, 100],
+					opacityFrom: 0.4,
+					opacityTo: 0.5,
+				  }
 				}
+			  },
+			  tooltip: {
+				enabled: true,
+			  }
 			},
 			yaxis: {
-				axisBorder: {
-					show: false
-				},
-				axisTicks: {
-					show: false,
-				},
-				labels: {
-					show: false,
-					formatter: function (val) {
-						return val + "%";
-					}
+			  axisBorder: {
+				show: false
+			  },
+			  axisTicks: {
+				show: false,
+			  },
+			  labels: {
+				show: false,
+				formatter: function (val) {
+				  return val + "%";
 				}
-
+			  }
+		  
 			},
 			title: {
-				text: 'Monthly Inflation in Argentina, 2002',
-				floating: true,
-				offsetY: 330,
-				align: 'center',
-				style: {
-					color: '#444'
-				}
+			  text: 'Monthly Inflation in Argentina, 2002',
+			  floating: true,
+			  offsetY: 330,
+			  align: 'center',
+			  style: {
+				color: '#444'
+			  }
 			}
 		};
-
+		  
 		var chart = new ApexCharts(document.querySelector("#column_with_data_labels"), options);
 		chart.render();
 	}

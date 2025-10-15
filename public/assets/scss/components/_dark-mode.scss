@@ -1218,124 +1218,13 @@
             }
         }
     }
-    .border-border-color-50 {
-        border-color: $dark-border !important;
-    }
-    .popular-rooms-bg {
-        background-color: $dark-card-bg !important;
-    }
-    .welcome-for-hotel {
-        background-color: $dark-body-bg !important;
-        .text-danger-50 {
-            background-color: transparent !important;
-            border-color: $danger-50 !important;
-        }
-        .text-success-60 {
-            background-color: transparent !important;
-            border-color: $success-60 !important;
-        }
-        .bg-white {
-            background-color: $dark-card-bg !important;
-        }
-    }
-    .calendar-container {
-        &.style-three {
-            .calendar-header button.change-btn {
-                background-color: $dark-border !important;
-                color: $white !important;
-            }
-        }
-    }
-    .default-table-area.upcoming-vip-reservations-table.style-two .table-responsive .table tbody tr td {
-        .bg-border-color-50 {
-            background-color: $dark-border !important;
-        }
-    }
-    .recent-room-bookings {
-        .bg-border-color-50 {
-            background-color: $dark-border !important;
-        }
-        .bg-border-color {
-            background-color: $dark-border !important;
-            color: $white !important;
-            &:hover {
-                background-color: $primary !important;
-            }
-        }
-    }
-    .swiper-pagination-popular-rooms.swiper-pagination-clickable .swiper-pagination-bullet {
-        background-color: $dark-body-color !important;
-        &.swiper-pagination-bullet-active {
-            background-color: $danger !important;
-        }
-    }
-    .swiper-pagination-client-ratings.swiper-pagination-clickable .swiper-pagination-bullet {
-        background-color: $dark-body-color !important;
-        &.swiper-pagination-bullet-active {
-            background-color: $danger !important;
-        }
-    }
-    .top-channels-for-dark {
-        .ms-auto {
-            background: conic-gradient(#6f77f3 80%, #0C1427  80%) !important;
-            div {
-                background-color: #0C1427 !important;
-            }
-        }
-    }
-    .my-featured-listings-bg {
-        background-color: #15203c !important;
-        .bg-white {
-            background-color: $dark-card-bg !important;
-            .hover-bg {
-                background-color: $dark-border !important;
-                &:hover {
-                    background-color: $primary !important;
-                }
-            }
-        }
-    }
-    .manage-app-for-dark {
-        background-color: #15203c !important;
-    }
-    .client-ratings-bg {
-        background-color: $dark-card-bg !important;
-        .bg-border-color-50 {
-            background-color: $dark-body-bg !important;
-        }
-        .bg-danger-100 {
-            background-color: $dark-body-bg !important;
-        }
-        .bg-success-90 {
-            background-color: $dark-body-bg !important;
-        }
-    }
-    .wallet-for-dark-mode {
-        background: linear-gradient(90deg, $dark-card-bg, $dark-card-bg) !important;
-    }
-    .debit-card-bg-for-dark-mode {
-        background-color: $dark-card-bg;
-        background-image: unset !important;
-    }
-    .daily-limit-form-dark-mode {
-        background-color: $dark-body-bg !important;
-    }
-    .apexcharts-text tspan {
-        fill: #8695aa;
-    }
-    .performance-for-darkmode {
-        background-color: #162243 !important;
-        i {
-            background-color: $dark-card-bg !important;
-        }
-    }
-    .bg-for-dark-room-details {
-        background-color: $dark-card-bg !important;
-    }
-    .calendar-container.style-three .calendar-table td {
-        background-color: #172036;
-        &::after {
-            background-color: #172036;
-        }
-    }
+    // .settings-box-wrap .active-wrap1 {
+    //     .opacity-1 {
+    //         color: #172036 !important;
+    //     }
+    //     .opacity-0 {
+    //         color: #172036 !important;
+    //     }
+    // }
+    
 }

@@ -6,7 +6,7 @@
             href="https://envytheme.com/"
             target="_blank"
             class="text-decoration-none text-primary"
-            >EnvyTheme</a
+        >EnvyTheme</a
         >
     </p>
 </footer>

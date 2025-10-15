@@ -806,294 +806,6 @@
             }
         }
     }
-    &.recent-order-list-table {
-        &.menu-item-list {
-            &.style-two {
-                .table-responsive {
-                    .table {
-                        tbody {
-                            tr {
-                                td {
-                                    padding-top: 18px;
-                                    padding-bottom: 18px;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    &.upcoming-vip-reservations-table {
-        &.style-two {
-            .table-responsive {
-                .table {
-                    thead {
-                        tr {
-                            th {
-                                padding-bottom: 9px;
-                                padding-left: 21px;
-                                padding-right: 21px;
-                                &:first-child {
-                                    padding-left: 0 !important;
-                                }
-                                &:last-child {
-                                    padding-right: 0 !important;
-                                }
-                            }
-                        }
-                    }
-                    tbody {
-                        tr {
-                            td {
-                                padding-top: 10px;
-                                padding-bottom: 10px;
-                                padding-left: 21px;
-                                padding-right: 21px;
-                                &:first-child {
-                                    padding-left: 0 !important;
-                                }
-                                &:last-child {
-                                    padding-right: 0 !important;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    &.px-20 {
-        &.style-two {
-            .table-responsive {
-                .table {
-                    thead {
-                        tr {
-                            th {
-                                padding-left: 21px;
-                                padding-right: 21px;
-                                &:first-child {
-                                    padding-left: 0 !important;
-                                }
-                                &:last-child {
-                                    padding-right: 0 !important;
-                                }
-                            }
-                        }
-                    }
-                    tbody {
-                        tr {
-                            td {
-                                padding-left: 21px;
-                                padding-right: 21px;
-                                &:first-child {
-                                    padding-left: 0 !important;
-                                }
-                                &:last-child {
-                                    padding-right: 0 !important;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    &.py-12 {
-        &.style-two {
-            .table-responsive {
-                .table {
-                    thead {
-                        tr {
-                            th {
-                                padding-top: 0;
-                                padding-bottom: 12px;
-                            }
-                        }
-                    }
-                    tbody {
-                        tr {
-                            td {
-                               padding-top: 12px;
-                               padding-bottom: 12px;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    &.py-19 {
-        &.style-two {
-            .table-responsive {
-                .table {
-                    thead {
-                        tr {
-                            th {
-                                padding: 11px 20px;
-                            }
-                        }
-                    }
-                    tbody {
-                        tr {
-                            td {
-                               padding: 18.24px 20px;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    &.py-14 {
-        &.style-two {
-            .table-responsive {
-                .table {
-                    tbody {
-                        tr {
-                            td {
-                                padding-top: 14.7px;
-                                padding-bottom: 14.7px;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    &.py-21 {
-        &.style-two {
-            .table-responsive {
-                .table {
-                    thead {
-                        tr {
-                            th {
-                                padding: 11px 20px;
-                            }
-                        }
-                    }
-                    tbody {
-                        tr {
-                            td {
-                                padding: 7.5px 20px;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    &.py-15 {
-        &.style-two {
-            .table-responsive {
-                .table {
-                    thead {
-                        tr {
-                            th {
-                                padding: 11px 20px;
-                            }
-                        }
-                    }
-                    tbody {
-                        tr {
-                            td {
-                                padding: 15.5px 20px;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    &.py-11 {
-        &.style-two {
-            .table-responsive {
-                .table {
-                    tbody {
-                        tr {
-                            td {
-                                padding-top: 11.99px;
-                                padding-bottom: 11.99px;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    &.transactions-history {
-        &.style-two {
-            .table-responsive {
-                .table {
-                    tbody {
-                        tr {
-                            td {
-                                padding: 11.6px 20px;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    &.pyx-19 {
-        &.style-two {
-            .table-responsive {
-                .table {
-                    thead {
-                        tr {
-                            th {
-                                padding: 11px 20px;
-                            }
-                        }
-                    }
-                    tbody {
-                        tr {
-                            td {
-                                padding: 14.7px 20px;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    &.room-info-table {
-        .table-responsive {
-            .table {
-                tbody {
-                    tr {
-                        td {
-                            padding: 10.1px 20px;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    &.all-products {
-        &.px-20 {
-            .table-responsive {
-                .table {
-                    thead {
-                        tr {
-                            th {
-                                padding: 11px 20px !important;
-                            }
-                        }
-                    }
-                    tbody {
-                        tr {
-                            td {
-                                padding-left: 20px !important;
-                                padding-right: 20px !important;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
 }
 .table-src-form {
     margin-right: 20px;
@@ -1110,7 +822,6 @@
         padding-bottom: 5px;
     }
 }
-
 
 /* Max width 767px */
 @media only screen and (max-width: 767px) {
@@ -1186,15 +897,6 @@
                 }
             }
         }
-        &.upcoming-vip-reservations-table {
-            &.style-two {
-                .table-responsive {
-                    .table {
-                        width: 693px !important;
-                    } 
-                }
-            }
-        }
     }
 }
 
@@ -1223,19 +925,8 @@
                 }
             }
         }
-        &.gainers-losers {
-            &.style-two {
-                .table-responsive {
-                    .table {
-                        width: 392px !important;
-                    }
-                }
-            }
-        }
     }
-    .ingredients-details-table {
-        width: 363px;
-    }
+    
 }
 
 /* Max width 490px */
@@ -1258,13 +949,6 @@
                     .table {
                         width: 420px;
                     }
-                }
-            }
-        }
-        &.room-info-table {
-            .table-responsive {
-                .table {
-                    width: 435px;
                 }
             }
         }
@@ -1356,24 +1040,6 @@
                 }
             }
         }
-        &.recent-transactions {
-            &.style-two {
-                .table-responsive {
-                    .table {
-                        width: 836px;
-                    }
-                }
-            }
-        }
-        &.recent-transactions3 {
-            &.style-two {
-                .table-responsive {
-                    .table {
-                        width: 835px;
-                    }
-                }
-            }
-        }
     }
     
 }
@@ -1426,20 +1092,6 @@
             width: 742px !important;
         }
     }
-    .default-table-area {
-        &.style-two {
-            &.latest-transactions-table {
-                &.style-two {
-                    .table-responsive {
-                        .table {
-                            width: 704px !important;
-                        } 
-                    }
-                }
-            }
-        }
-    }
-    
 
 }
 
@@ -1556,15 +1208,6 @@
                 }
             }
         }
-        &.recent-transactions2 {
-            &.style-two {
-                .table-responsive {
-                    .table {
-                        width: 660px !important;
-                    } 
-                }
-            }
-        }
     }
 
 }
@@ -1597,17 +1240,8 @@
     
 }
 
-@media only screen and (min-width: 1400px) and (max-width: 1550px) {
-    .default-table-area {
-        &.tickets-table {
-            .table {
-               width: 353px; 
-            }     
-        }
-    }
-}
 
-/* Max width 1550px */
+/* Max width 490px */
 @media only screen and (max-width: 1550px) {
 
     .default-table-area {
@@ -1625,23 +1259,6 @@
                 .table-responsive {
                     .table  {
                         width: 1252px;
-                    }
-                }
-            }
-        }
-    }
-
-}
-
-/* Max width 1100px */
-@media only screen and (max-width: 1100px) {
-
-    .default-table-area {
-        &.individual-asset-performance {
-            &.style-two {
-                .table-responsive {
-                    .table  {
-                        width: 1075px;
                     }
                 }
             }
@@ -1764,15 +1381,6 @@
                 width: 370px;
             }
         }
-        &.upcoming-vip-reservations-table {
-            &.style-two {
-                .table-responsive {
-                    .table {
-                        width: 725px !important;
-                    } 
-                }
-            }
-        }
     }
 
 }
@@ -1856,33 +1464,6 @@
                 }
             }
         }
-        &.upcoming-vip-reservations-table {
-            &.style-two {
-                .table-responsive {
-                    .table {
-                        width: 676px !important;
-                    } 
-                }
-            }
-        }
-        &.latest-transactions-table {
-            &.style-two {
-                .table-responsive {
-                    .table {
-                        width: 779px !important;
-                    } 
-                }
-            }
-        }
-        &.recent-transactions2 {
-            &.style-two {
-                .table-responsive {
-                    .table {
-                        width: 725px !important;
-                    } 
-                }
-            }
-        }
     }
 
 }
@@ -1908,33 +1489,6 @@
                 width: 1300px !important;
             }
         }
-        &.recent-order-list-table {
-            &.style-two {
-                .table-responsive {
-                    .table {
-                        width: 1061px !important;
-                    }
-                }
-            }
-        }
-        &.recent-order-list-table {
-            &.style-two {
-                .table-responsive {
-                    .table {
-                        width: 1061px !important;
-                    }
-                }
-            }
-        }
-        &.customer-ratings-table {
-            &.style-two {
-                .table-responsive {
-                    .table {
-                        width: 1061px !important;
-                    }
-                }
-            }
-        }
     }
     
 
@@ -1957,40 +1511,5 @@
             }
         }
     }
-
-}
-
-@media only screen and (max-width: 1565px) {
-
-    .default-table-area {
-        &.customer-ratings-table {
-            &.style-two {
-                .table-responsive {
-                    .table {
-                        width: 1219px !important;
-                    }
-                }
-            }
-        }
-        &.px-20.style-two {
-            .table-responsive {
-                .table {
-                    thead {
-                        tr {
-                            th {
-                                padding-left: 15px;
-                                padding-right: 15px;
-                            }
-                        }
-                    }
-                    tbody tr td {
-                        padding-left: 15px;
-                        padding-right: 15px;
-                    }
-                }
-            }
-        }
-    }
-    
 
 }
