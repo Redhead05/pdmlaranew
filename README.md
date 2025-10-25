@@ -21,6 +21,24 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
+## Project Features
+
+This application includes:
+
+- **Livewire 3.x with Navigate**: SPA-like navigation for faster page transitions without full page reloads
+- **Role-based Access Control**: Using Spatie Laravel Permission package
+- **Dashboard Panels**: Separate dashboards for Admin and Asesor roles
+- **Attendance Management**: Track and manage attendance records
+
+### Livewire Navigate
+
+This project uses Livewire's `wire:navigate` feature to provide smooth, SPA-like navigation throughout the dashboard. This means:
+- Faster page transitions
+- Preserved sidebar and header state
+- Better user experience with partial page updates
+
+📖 **[Read the full Livewire Navigate documentation](LIVEWIRE_NAVIGATE.md)**
+
 ## Learning Laravel
 
 Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
