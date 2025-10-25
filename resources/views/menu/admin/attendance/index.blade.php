@@ -54,7 +54,7 @@
                                         <td>{{ $item->end_date }}</td>
                                         <td>
                                             <div class="d-flex align-items-center gap-1">
-                                                <a href="{{ route('admin.attendance.detail', $item->slug) }}" class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-title="Detail">
+                                                <a href="{{ route('admin.attendance.detail', $item->slug) }}" wire:navigate class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-title="Detail">
                                                     <i class="material-symbols-outlined fs-16 text-success">info</i>
                                                 </a>
                                                 <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="modal" data-bs-target="#editModal-{{ $item->id }}" data-bs-title="Edit">

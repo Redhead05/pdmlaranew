@@ -16,13 +16,13 @@
 
             @role('admin')
             <li class="menu-item open">
-                <a href="{{ route ('admin.dashboard') }}" class="menu-link {{ Request::routeIs('admin.dashboard') ? 'active' : '' }}">
+                <a href="{{ route ('admin.dashboard') }}" wire:navigate class="menu-link {{ Request::routeIs('admin.dashboard') ? 'active' : '' }}">
                     <span class="material-symbols-outlined">cloud_circle</span>
                     <span class="title"> Dashboard</span>
                 </a>
             </li>
             <li class="menu-item open">
-                <a href="{{ route ('admin.attendance.index') }}" class="menu-link {{ Request::routeIs(['admin.attendance.index','admin.attendance.detail']) ? 'active' : '' }}">
+                <a href="{{ route ('admin.attendance.index') }}" wire:navigate class="menu-link {{ Request::routeIs(['admin.attendance.index','admin.attendance.detail']) ? 'active' : '' }}">
                     <span class="material-symbols-outlined">foggy</span>
                     <span class="title"> Attendance</span>
                 </a>
@@ -36,13 +36,13 @@
             </li>
             @elserole('asesor')
             <li class="menu-item open">
-                <a href="{{ route ('asesor.dashboard') }}" class="menu-link {{ Request::routeIs('dashboard.asesor') ? 'active' : '' }}">
+                <a href="{{ route ('asesor.dashboard') }}" wire:navigate class="menu-link {{ Request::routeIs('dashboard.asesor') ? 'active' : '' }}">
                     <span class="material-symbols-outlined">cloud_circle</span>
                     <span class="title"> Dashboard</span>
                 </a>
             </li>
             <li class="menu-item open">
-                <a href="{{ route ('asesor.attendance.index') }}" class="menu-link {{ Request::routeIs('asesor.attendance.index') ? 'active' : '' }}">
+                <a href="{{ route ('asesor.attendance.index') }}" wire:navigate class="menu-link {{ Request::routeIs('asesor.attendance.index') ? 'active' : '' }}">
                     <span class="material-symbols-outlined">foggy</span>
                     <span class="title"> Attendance</span>
                 </a>

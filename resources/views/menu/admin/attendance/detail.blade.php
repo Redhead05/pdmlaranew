@@ -36,7 +36,7 @@
                             </table>
                         </div>
                     </div>
-                    <a href="{{ route('admin.attendance.index') }}" class="btn btn-secondary mt-3">Back</a>
+                    <a href="{{ route('admin.attendance.index') }}" wire:navigate class="btn btn-secondary mt-3">Back</a>
                 </div>
             </div>
         </div>
