@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\Admin\Attendance\AttendanceController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+
 //admin
+use App\Http\Controllers\Admin\Attendance\AttendanceController;
 use App\Http\Controllers\Admin\DashboardController;
 //asesor
 use App\Http\Controllers\Asesor\DashboardController as AsesorDashboardController;
-use App\Http\Controllers\Asesor\AttendanceController as AsesorAttendanceController;
+use App\Http\Controllers\Asesor\Attendance\AttendanceController as AsesorAttendanceController;
 
 Route::get('/', function () {
     return view('auth.login');

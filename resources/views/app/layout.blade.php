@@ -17,6 +17,7 @@
                         @yield('content')
                     </div>
         @include('partial.footer')
+
         @include('partial.theme-setting')
        @include('partial.scripts')
         @stack('scripts')

@@ -42,7 +42,7 @@ class AttendanceController extends Controller
         Attendance::create($validatedData);
 
         // Redirect to the index page with a success message
-        return redirect()->route('attendance.index')->with('success', 'Attendance created successfully.');
+        return redirect()->route('admin.attendance.index')->with('success', 'Attendance created successfully.');
     }
 
     /**
@@ -75,7 +75,7 @@ class AttendanceController extends Controller
 
         $attendance->update($validatedData);
 
-        return redirect()->route('attendance.index')->with('success', 'Attendance updated successfully.');
+        return redirect()->route('admin.attendance.index')->with('success', 'Attendance updated successfully.');
     }
     /**
      * Remove the specified resource from storage.
@@ -85,7 +85,7 @@ class AttendanceController extends Controller
         $attendance = Attendance::findOrFail($id);
         $attendance->delete();
 
-        return redirect()->route('attendance.index')->with('success', 'Attendance deleted successfully.');
+        return redirect()->route('admin.attendance.index')->with('success', 'Attendance deleted successfully.');
     }
 
     public function detail($slug)
