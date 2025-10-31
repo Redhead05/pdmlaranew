@@ -13,6 +13,12 @@ use App\Http\Controllers\Asesor\Attendance\AttendanceController as AsesorAttenda
 Route::get('/', function () {
     return view('auth.login');
 });
+Route::get('/pub/internal', function () {
+    return view('menu.internal');
+});
+Route::get('/pub/umum', function () {
+    return view('menu.umum');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
