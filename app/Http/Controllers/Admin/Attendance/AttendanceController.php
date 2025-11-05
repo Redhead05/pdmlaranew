@@ -94,4 +94,14 @@ class AttendanceController extends Controller
         $details = $attendance->attendanceDetail; // get related details
         return view('menu.admin.attendance.detail', compact('attendance', 'details'));
     }
+
+    /**
+     * Show attendance responses (new response system)
+     */
+    public function showResponses($slug)
+    {
+        $attendance = Attendance::with('responses.user')->where('slug', $slug)->firstOrFail();
+        $responses = $attendance->responses;
+        return view('menu.admin.attendance.responses', compact('attendance', 'responses'));
+    }
 }

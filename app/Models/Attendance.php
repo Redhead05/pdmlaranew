@@ -19,8 +19,23 @@ class Attendance extends Model
         'end_date',
     ];
 
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
+    ];
+
     public function attendanceDetail()
     {
         return $this->hasMany(AttendanceDetail::class);
+    }
+
+    public function responses()
+    {
+        return $this->hasMany(AttendanceResponse::class);
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

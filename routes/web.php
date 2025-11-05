@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AttendanceFormController;
 use Illuminate\Support\Facades\Route;
 
 //admin
@@ -20,6 +21,13 @@ Route::get('/pub/umum', function () {
     return view('menu.umum');
 });
 
+// Public Attendance Form Routes
+// These routes allow public access to attendance forms
+// 'asesor' type requires authentication (checked in controller)
+Route::get('/attendance/{attendance}', [AttendanceFormController::class, 'show'])->name('attendance.show');
+Route::post('/attendance/{attendance}/submit', [AttendanceFormController::class, 'submit'])->name('attendance.submit');
+Route::get('/attendance/{attendance}/thankyou', [AttendanceFormController::class, 'thankyou'])->name('attendance.thankyou');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -36,6 +44,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('attendance', AttendanceController::class);
         Route::get('/attendance/{slug}/detail', [AttendanceController::class, 'detail'])->name('attendance.detail');
+        Route::get('/attendance/{slug}/responses', [AttendanceController::class, 'showResponses'])->name('attendance.responses');
     });
 
     //Route asesor

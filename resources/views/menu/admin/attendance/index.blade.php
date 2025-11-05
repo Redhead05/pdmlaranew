@@ -54,8 +54,11 @@
                                         <td>{{ $item->end_date }}</td>
                                         <td>
                                             <div class="d-flex align-items-center gap-1">
-                                                <a href="{{ route('admin.attendance.detail', $item->slug) }}" class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-title="Detail">
+                                                <a href="{{ route('admin.attendance.detail', $item->slug) }}" class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-title="Detail (Old System)">
                                                     <i class="material-symbols-outlined fs-16 text-success">info</i>
+                                                </a>
+                                                <a href="{{ route('admin.attendance.responses', $item->slug) }}" class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-title="View Responses">
+                                                    <i class="material-symbols-outlined fs-16 text-primary">list_alt</i>
                                                 </a>
                                                 <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="modal" data-bs-target="#editModal-{{ $item->id }}" data-bs-title="Edit">
                                                     <i class="material-symbols-outlined fs-16 text-body">edit</i>
