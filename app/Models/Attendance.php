@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,5 +23,61 @@ class Attendance extends Model
     public function attendanceDetail()
     {
         return $this->hasMany(AttendanceDetail::class);
+    }
+     /**
+     * Accessor: return start_date formatted as "dd mm yyyy"
+     */
+    public function getStartDateAttribute($value)
+    {
+        if (empty($value)) {
+            return null;
+        }
+
+        return Carbon::parse($value)->format('d-m-Y H:i');
+    }
+     /**
+     * Mutator: accept "dd mm yyyy" (or other parseable strings) and store as Y-m-d H:i:s
+     */
+    public function setStartDateAttribute($value)
+    {
+        if (empty($value)) {
+            $this->attributes['start_date'] = null;
+            return;
+        }
+
+        try {
+            $dt = Carbon::createFromFormat('d-m-Y H:i', $value);
+        } catch (\Exception $e) {
+            $dt = Carbon::parse($value);
+        }
+
+        $this->attributes['start_date'] = $dt->toDateTimeString();
+    }
+    public function getEndDateAttribute($value)
+    {
+        if (empty($value)) {
+            return null;
+        }
+
+        return Carbon::parse($value)->format('d-m-Y H:i');
+    }
+
+    /**
+     * Mutator: accept "dd-mm-yyyy HH:ii" (or other parseable strings) and store as Y-m-d H:i:s
+     */
+    public function setEndDateAttribute($value)
+    {
+        if (empty($value)) {
+            $this->attributes['end_date'] = null;
+            return;
+        }
+
+        try {
+            $dt = Carbon::createFromFormat('d-m-Y H:i', $value);
+        } catch (\Exception $e) {
+            $dt = Carbon::parse($value);
+        }
+
+        $this->attributes['end_date'] = $dt->toDateTimeString();
     }
 }

@@ -3,13 +3,14 @@
 namespace Database\Seeders;
 
 use App\Models\Attendance;
-use App\Models\AttendanceDetails;
+use App\Models\AttendanceDetail;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class AttendanceDetailsSeeder extends Seeder
+
 {
     /**
      * Run the database seeds.
@@ -23,7 +24,7 @@ class AttendanceDetailsSeeder extends Seeder
             $randomUsers = $users->random(2);
 
             foreach ($randomUsers as $user) {
-                AttendanceDetails::create([
+                AttendanceDetail::create([
                     'attendance_id' => $attendance->id,
                     'user_id' => $user->id,
                     'signed_at' => Carbon::now(),

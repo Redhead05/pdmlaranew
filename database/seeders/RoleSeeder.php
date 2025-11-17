@@ -35,5 +35,22 @@ class RoleSeeder extends Seeder
 
             $admin->assignRole('admin');
         }
+        // Contoh asesor default
+        if (! User::where('email', 'asesor@example.com')->exists()) {
+            $asesor = User::create([
+                'name' => 'Asesor',
+                'nia' => 'ASE-0001',
+                'email' => 'asesor@example.com',
+                'password' => Hash::make('password'),
+                'is_active' => true,
+            ]);
+
+            $asesor->detail()->create([
+                'gender' => 'L',
+                'home_city' => 'Bandung',
+            ]);
+
+            $asesor->assignRole('asesor');
+        }
     }
 }

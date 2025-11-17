@@ -49,17 +49,8 @@ class AuthenticatedSessionController extends Controller
         // tandai sukses untuk view biasa
         $request->session()->flash('login_success', true);
 
-        // route by role
         $user = Auth::user();
-        if ($user->hasRole('admin')) {
-            return redirect()->route('admin.dashboard');
-        } elseif ($user->hasRole('asesor')) {
-            return redirect()->route('asesor.dashboard');
-        } elseif ($user->hasRole('user')) {
-            return redirect()->route('dashboard.user');
-        }
-
-        return redirect()->intended(RouteServiceProvider::HOME);
+        return $this->redirectToByRole($user);
     }
 
     /**
@@ -121,11 +112,11 @@ class AuthenticatedSessionController extends Controller
     private function redirectToByRole(User $user): RedirectResponse
     {
         if ($user->hasRole('admin')) {
-            return redirect()->route('dashboard.admin');
+            return redirect()->route('admin.dashboard');
         }
 
         if ($user->hasRole('asesor')) {
-            return redirect()->route('dashboard.asesor');
+            return redirect()->route('asesor.dashboard');
         }
 
         if ($user->hasRole('user')) {
