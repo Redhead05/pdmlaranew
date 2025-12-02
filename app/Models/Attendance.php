@@ -80,4 +80,33 @@ class Attendance extends Model
 
         $this->attributes['end_date'] = $dt->toDateTimeString();
     }
+    //di bawah ini untuk mengubah format datetime yang ada di edit.balde.php
+    // new accessors: return value in `Y-m-d\TH:i` for datetime-local input
+    public function getStartDateForInputAttribute(): ?string
+    {
+        $raw = $this->attributes['start_date'] ?? null;
+        if (empty($raw)) {
+            return null;
+        }
+
+        try {
+            return Carbon::parse($raw)->format('Y-m-d\TH:i');
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public function getEndDateForInputAttribute(): ?string
+    {
+        $raw = $this->attributes['end_date'] ?? null;
+        if (empty($raw)) {
+            return null;
+        }
+
+        try {
+            return Carbon::parse($raw)->format('Y-m-d\TH:i');
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
 }

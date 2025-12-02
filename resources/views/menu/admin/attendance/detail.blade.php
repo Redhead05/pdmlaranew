@@ -26,7 +26,9 @@
                                         <th>Instansi</th>
                                         <th>Domisili</th>
                                     @else
-                                        <th>User</th>
+                                        <th>NIA</th>
+                                        <th>Nama</th>
+                                        <th>Address Home</th>
                                     @endif
 
                                     <th>Signed At</th>
@@ -48,14 +50,12 @@
                                             <td>{{ $data['instansi'] ?? '-' }}</td>
                                             <td>{{ $data['domisili'] ?? '-' }}</td>
                                         @else
+                                            <td>{{ $data['nia'] ?? optional($detail->user)->nia ?? '-' }}</td>
                                             <td>
-                                                @if(!empty($data['selected_user_id']))
-                                                    {{ optional(App\Models\User::find($data['selected_user_id']))->name ?? '-' }}
-                                                @elseif(!empty($data['user_name']))
-                                                    {{ $data['user_name'] }}
-                                                @else
-                                                    {{ $detail->user->name ?? '-' }}
-                                                @endif
+                                                {{ $data['user_name'] ?? optional($detail->user)->name ?? '-' }}
+                                            </td>
+                                            <td>
+                                                {{ $data['address_home'] ?? optional(optional($detail->user)->userDetail)->address_home ?? '-' }}
                                             </td>
                                         @endif
 

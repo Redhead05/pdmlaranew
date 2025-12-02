@@ -71,7 +71,9 @@ class AttendanceController extends Controller
 
         $validatedData = $request -> validated();
 
-        $validatedData['slug'] = Str::slug($request->title . '-' . $request->end_date);
+       if (array_key_exists('slug', $validatedData)){
+           unset($validatedData['slug']);
+       }
 
         $attendance->update($validatedData);
 

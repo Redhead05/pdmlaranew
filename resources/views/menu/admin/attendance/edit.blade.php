@@ -33,11 +33,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="start_date-{{ $item->id }}" class="form-label">Start Date</label>
-                                <input type="datetime-local" class="form-control" id="start_date-{{ $item->id }}" name="start_date" value="{{ $item->start_date }}" required>
+                                <input type="datetime-local" class="form-control" id="start_date-{{ $item->id }}" name="start_date" value="{{ $item->start_date_for_input }}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="end_date-{{ $item->id }}" class="form-label">End Date</label>
-                                <input type="datetime-local" class="form-control" id="end_date-{{ $item->id }}" name="end_date" value="{{ $item->end_date }}" required>
+                                <input type="datetime-local" class="form-control" id="end_date-{{ $item->id }}" name="end_date" value="{{ $item->end_date_for_input }}" required>
                             </div>
                         </div>
                     </div>
