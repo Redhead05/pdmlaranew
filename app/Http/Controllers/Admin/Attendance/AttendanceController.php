@@ -68,7 +68,7 @@ class AttendanceController extends Controller
     {
         $attendance = Attendance::findOrFail($id);
 
-        //validate request from attendance request
+
         $validatedData = $request -> validated();
 
         $validatedData['slug'] = Str::slug($request->title . '-' . $request->end_date);

@@ -13,6 +13,12 @@ class AttendanceDetail extends Model
         'user_id',
         'signature',
         'signed_at',
+        'form_data',
+    ];
+
+    protected $casts = [
+        'form_data' => 'array',
+        'signed_at' => 'datetime',
     ];
 
     public function attendance()

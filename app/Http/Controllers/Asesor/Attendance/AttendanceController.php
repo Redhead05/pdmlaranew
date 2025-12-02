@@ -51,6 +51,8 @@ class AttendanceController extends Controller
             'signature' => 'required|string',
         ]);
 
+        $attendance = Attendance::findOrFail($request->attendance_id);
+
         AttendanceDetail::updateOrCreate(
             [
                 'attendance_id' => $request->attendance_id,
@@ -59,6 +61,10 @@ class AttendanceController extends Controller
             [
                 'signature' => $request->signature,
                 'signed_at' => now(),
+                'form_data' => [
+                    'user_id' => auth()->id(),
+                    'user_name' => auth()->user()->name,
+                ],
             ]
         );
 

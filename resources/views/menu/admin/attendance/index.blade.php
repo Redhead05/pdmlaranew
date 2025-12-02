@@ -53,7 +53,25 @@
                                         <td>{{ $item->start_date }}</td>
                                         <td>{{ $item->end_date }}</td>
                                         <td>
+
                                             <div class="d-flex align-items-center gap-1">
+                                                <div class="btn-group" role="group" aria-label="actions">
+                                                {{-- existing action buttons (edit/delete/detail) remain here --}}
+
+                                                @if($item->type === 'umum')
+                                                    <a href="{{ route('pub.umum', $item->slug) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                        View Form
+                                                    </a>
+                                                @elseif($item->type === 'internal')
+                                                    <a href="{{ route('pub.internal', $item->slug) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                        View Form
+                                                    </a>
+                                                @else
+                                                    <button class="btn btn-sm btn-outline-secondary" disabled title="Public form not available for asesor">
+                                                        View Form
+                                                    </button>
+                                                @endif
+                                            </div>
                                                 <a href="{{ route('admin.attendance.detail', $item->slug) }}" class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-title="Detail">
                                                     <i class="material-symbols-outlined fs-16 text-success">info</i>
                                                 </a>

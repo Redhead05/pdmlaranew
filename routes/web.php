@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Attendance;
+use App\Models\User;
 
 //admin
 use App\Http\Controllers\Admin\Attendance\AttendanceController;
@@ -9,16 +11,17 @@ use App\Http\Controllers\Admin\DashboardController;
 //asesor
 use App\Http\Controllers\Asesor\DashboardController as AsesorDashboardController;
 use App\Http\Controllers\Asesor\Attendance\AttendanceController as AsesorAttendanceController;
+use App\Http\Controllers\PublicAttendanceController;
 
 Route::get('/', function () {
     return view('auth.login');
 });
-Route::get('/pub/internal', function () {
-    return view('menu.internal');
-});
-Route::get('/pub/umum', function () {
-    return view('menu.umum');
-});
+
+// public pages: require slug to load specific attendance
+Route::get('/pub/internal/{slug}', [PublicAttendanceController::class, 'showInternal'])->name('pub.internal');
+Route::get('/pub/umum/{slug}', [PublicAttendanceController::class, 'showUmum'])->name('pub.umum');
+
+Route::post('/attendance/public/store', [PublicAttendanceController::class, 'store'])->name('attendance.public.store');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

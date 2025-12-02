@@ -1,17 +1,40 @@
-{{-- resources/views/menu/internal.blade.php --}}
+
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     @include('partial.styles')
 
     <title>Attendance</title>
 
     <style>
-        /* css */
-        /* target specific inputs and general form-control placeholders */
+        /* Force dark mode overrides */
+        body.dark-mode {
+            background-color: #071024 !important;
+            color: #e6f7ff !important;
+        }
+        body.dark-mode .page-banner-area {
+            background: linear-gradient(180deg, rgba(3,10,23,0.85), rgba(3,10,23,0.95));
+        }
+        body.dark-mode a, body.dark-mode .text-secondary {
+            color: #9be7ff !important;
+        }
+        body.dark-mode .glass-card {
+            background: rgba(255,255,255,0.03) !important;
+            border-color: rgba(255,255,255,0.06) !important;
+            color: #e6f7ff !important;
+        }
+        .signature-pad-wrapper canvas {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        #switch-toggle { display: none !important; }
+    </style>
+
+    <style>
+        /* placeholders / glass-card */
         #name,
         #phone,
         #unsur,
@@ -19,49 +42,8 @@
         #domisili,
         .form-control.bg-transparent::placeholder {
             color: #ffffff;
-            opacity: 1; /* ensure full opacity */
-        }
-
-        /* vendor prefixes for wider support */
-        #name::-webkit-input-placeholder,
-        #phone::-webkit-input-placeholder,
-        #unsur::-webkit-input-placeholder,
-        #instansi::-webkit-input-placeholder,
-        #domisili::-webkit-input-placeholder,
-        .form-control.bg-transparent::-webkit-input-placeholder {
-            color: #ffffff;
             opacity: 1;
         }
-
-        #name:-ms-input-placeholder,
-        #phone:-ms-input-placeholder,
-        #unsur:-ms-input-placeholder,
-        #instansi:-ms-input-placeholder,
-        #domisili:-ms-input-placeholder,
-        .form-control.bg-transparent:-ms-input-placeholder {
-            color: #ffffff;
-            opacity: 1;
-        }
-
-        #name::-ms-input-placeholder,
-        #phone::-ms-input-placeholder,
-        #unsur::-ms-input-placeholder,
-        #instansi::-ms-input-placeholder,
-        #domisili::-ms-input-placeholder,
-        .form-control.bg-transparent::-ms-input-placeholder {
-            color: #ffffff;
-            opacity: 1;
-        }
-
-        /* keep focus styles consistent */
-        #name:focus,
-        #phone:focus,
-        #unsur:focus,
-        #instansi:focus,
-        #domisili:focus {
-            color: #ffffff;
-        }
-        /* Glass card + inputs */
         .glass-card {
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.12);
@@ -71,7 +53,6 @@
             box-shadow: 0 8px 24px rgba(2, 6, 23, 0.32);
             padding: 28px;
         }
-
         .glass-card .form-control,
         .glass-card .form-select,
         .glass-card textarea {
@@ -80,48 +61,60 @@
             color: #fff;
         }
 
-        /* white border select */
-        #name-select-internal.form-select {
-            border: 1px solid #ffffff !important;
-            box-shadow: none !important;
-            color: #ffffff !important;
-            background-color: transparent !important;
-            border-radius: 0.5rem;
-        }
-        #name-select-internal.form-select:focus {
-            border-color: #ffffff !important;
-            box-shadow: 0 0 0 0.18rem rgba(255,255,255,0.08) !important;
-            outline: none;
+        /* Typed text / caret - scoped to public form */
+        #attendance-sign-form .form-control,
+        #attendance-sign-form .form-select,
+        #attendance-sign-form textarea {
+          color: #ffffff !important;
+          caret-color: #ffffff !important;
         }
 
-        /* Canvas styling and responsive heights */
-        .signature-pad-wrapper canvas {
-            width: 100%;
-            height: 220px;
-            border-radius: 8px;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.08);
-            touch-action: none; /* improve touch drawing */
-            display: block;
+        /* Placeholder color */
+        #attendance-sign-form .form-control::placeholder,
+        #attendance-sign-form textarea::placeholder,
+        #attendance-sign-form .form-select::placeholder {
+          color: rgba(255,255,255,0.7) !important;
+          opacity: 1 !important;
         }
 
-        /* Spacing tweaks */
-        .contact-us-area { padding-top: 30px; padding-bottom: 30px; }
-        .top-title span { color: #9be7ff; }
-        .glass-card h2 { color: #e6f7ff; font-size: 1.25rem; }
+        /* Focus visual */
+        #attendance-sign-form .form-control:focus,
+        #attendance-sign-form .form-select:focus,
+        #attendance-sign-form textarea:focus {
+          color: #ffffff !important;
+          outline: none;
+          box-shadow: 0 0 0 0.18rem rgba(255,255,255,0.06) !important;
+          border-color: rgba(255,255,255,0.12) !important;
+        }
 
-        /* Mobile adjustments */
-        @media (max-width: 576px) {
-            .glass-card { padding: 18px; border-radius: 10px; }
-            .signature-pad-wrapper canvas { height: 160px; }
-            #name-select-internal.form-select { height: 56px !important; font-size: 0.95rem !important; }
-            .glass-card h2 { font-size: 1.05rem; }
-            .contact-us-area { padding-top: 20px; padding-bottom: 20px; }
-            .btn-lg { padding: 12px 16px; font-size: 0.95rem; }
+        /* Chrome autofill (scoped to form) */
+        #attendance-sign-form input:-webkit-autofill,
+        #attendance-sign-form textarea:-webkit-autofill,
+        #attendance-sign-form select:-webkit-autofill {
+          -webkit-text-fill-color: #ffffff !important;
+          box-shadow: 0 0 0 1000px rgba(7,16,36,1) inset !important;
+          transition: background-color 5000s ease-in-out 0s !important;
+        }
+
+        /* Ensure selects readable */
+        #attendance-sign-form select {
+          background-color: transparent !important;
+          color: #ffffff !important;
         }
     </style>
 </head>
-<body data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
+<body class="scrollspy-example dark-mode" data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" tabindex="0">
+
+    @php
+        use Carbon\Carbon;
+        $now = Carbon::now(config('app.timezone'));
+        try {
+            $endDate = Carbon::parse($attendance->end_date, config('app.timezone'));
+        } catch (\Exception $e) {
+            $endDate = null;
+        }
+    @endphp
+
     <!-- Start Banner Area -->
     <div class="page-banner-area" id="home">
         <div class="container position-relative z-1">
@@ -130,8 +123,8 @@
                 <h1 class="fs-20 mb-0">Zoom Meeting | Tittle</h1>
             </div>
 
-            <img src="assets/images/landing/shape-5.png" class="shape-5" alt="shape">
-            <img src="assets/images/landing/shape-6.png" class="shape-6" alt="shape">
+            <img src="{{ asset('assets/images/landing/shape-5.png') }}" class="shape-5" alt="shape">
+            <img src="{{ asset('assets/images/landing/shape-6.png') }}" class="shape-6" alt="shape">
         </div>
     </div>
     <!-- End Banner Area -->
@@ -143,56 +136,59 @@
                 <div class="col-12 col-lg-8">
                     <div class="contact-us-form ms-xl-4 mx-auto text-center glass-card">
 
-                        <form id="attendance-sign-form" method="POST" action="{{ route('asesor.attendance.store') }}" class="mx-auto" style="max-width:900px;">
-                            @csrf
-                            <!-- New fields: Nomor HP, Unsur, Instansi, Domisili -->
-                            <div class="row g-3 mb-3 text-start">
-                                <div class="col-12 col-md-6">
-                                    <label for="name" class="label text-secondary fw-semibold">Nama</label>
-                                    <input type="tel" name="name" id="name" class="form-control form-control-lg bg-transparent" value="{{ old('phone') }}" placeholder="Nama Anda Yang menulis Form ini" required style="height:56px; font-size:1rem;">
+                        @if($endDate && $now->lte($endDate))
+                            <form id="attendance-sign-form" method="POST" action="{{ route('attendance.public.store') }}" class="mx-auto" style="max-width:900px;">
+                                @csrf
+                                <div class="row g-3 mb-3 text-start">
+                                    <div class="col-12 col-md-6">
+                                        <label for="name" class="label text-secondary fw-semibold">Nama</label>
+                                        <input type="text" name="name" id="name" class="form-control form-control-lg bg-transparent" value="{{ old('name') }}" placeholder="Nama Anda Yang menulis Form ini" required style="height:56px; font-size:1rem;">
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <label for="phone" class="label text-secondary fw-semibold">Nomor HP</label>
+                                        <input type="tel" name="phone" id="phone" class="form-control form-control-lg bg-transparent" value="{{ old('phone') }}" placeholder="0812xxxxxxx" required style="height:56px; font-size:1rem;">
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <label for="unsur" class="label text-secondary fw-semibold">Unsur</label>
+                                        <input type="text" name="unsur" id="unsur" class="form-control form-control-lg bg-transparent" value="{{ old('unsur') }}" placeholder="Unsur" required style="height:56px; font-size:1rem;">
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <label for="instansi" class="label text-secondary fw-semibold">Instansi</label>
+                                        <input type="text" name="instansi" id="instansi" class="form-control form-control-lg bg-transparent" value="{{ old('instansi') }}" placeholder="Instansi / Department" required style="height:56px; font-size:1rem;">
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <label for="domisili" class="label text-secondary fw-semibold">Domisili</label>
+                                        <input type="text" name="domisili" id="domisili" class="form-control form-control-lg bg-transparent" value="{{ old('domisili') }}" placeholder="Kota / Kabupaten" required style="height:56px; font-size:1rem;">
+                                    </div>
                                 </div>
 
-                                <div class="col-12 col-md-6">
-                                    <label for="phone" class="label text-secondary fw-semibold">Nomor HP</label>
-                                    <input type="tel" name="phone" id="phone" class="form-control form-control-lg bg-transparent" value="{{ old('phone') }}" placeholder="0812xxxxxxx" required style="height:56px; font-size:1rem;">
+                                <div class="form-group mb-3 text-start">
+                                    <label class="label text-secondary fw-semibold">Signature</label>
+                                    <div class="signature-pad-wrapper mb-2">
+                                        <canvas id="signature-pad"></canvas>
+                                    </div>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <button type="button" id="clear-signature" class="btn btn-secondary btn-lg">Clear</button>
+                                    </div>
                                 </div>
 
-                                <div class="col-12 col-md-6">
-                                    <label for="unsur" class="label text-secondary fw-semibold">Unsur</label>
-                                    <input type="text" name="unsur" id="unsur" class="form-control form-control-lg bg-transparent" value="{{ old('unsur') }}" placeholder="Unsur" required style="height:56px; font-size:1rem;">
-                                </div>
+                                <input type="hidden" name="signature" id="signature-input">
+                                <input type="hidden" name="attendance_id" value="{{ $attendance->id ?? '' }}">
 
-                                <div class="col-12 col-md-6">
-                                    <label for="instansi" class="label text-secondary fw-semibold">Instansi</label>
-                                    <input type="text" name="instansi" id="instansi" class="form-control form-control-lg bg-transparent" value="{{ old('instansi') }}" placeholder="Instansi / Department" required style="height:56px; font-size:1rem;">
+                                <div class="form-group mb-0 mt-3">
+                                    <button type="submit" class="btn btn-primary py-3 px-4 w-100 btn-lg">
+                                        <i class="ri-save-line fs-18 text-white position-relative top-1 me-1"></i>
+                                        <span>Save</span>
+                                    </button>
                                 </div>
-
-                                <div class="col-12 col-md-6">
-                                    <label for="domisili" class="label text-secondary fw-semibold">Domisili</label>
-                                    <input type="text" name="domisili" id="domisili" class="form-control form-control-lg bg-transparent" value="{{ old('domisili') }}" placeholder="Kota / Kabupaten" required style="height:56px; font-size:1rem;">
-                                </div>
-                            </div>
-                            <!-- end new fields -->
-                            <div class="form-group mb-3 text-start">
-                                <label class="label text-secondary fw-semibold">Signature</label>
-                                <div class="signature-pad-wrapper mb-2">
-                                    <canvas id="signature-pad"></canvas>
-                                </div>
-                                <div class="d-flex flex-wrap gap-2">
-                                    <button type="button" id="clear-signature" class="btn btn-secondary btn-lg">Clear</button>
-                                </div>
-                            </div>
-
-                            <input type="hidden" name="signature" id="signature-input">
-                            <input type="hidden" name="attendance_id" value="{{ $attendance->id ?? '' }}">
-
-                            <div class="form-group mb-0 mt-3">
-                                <button type="submit" class="btn btn-primary py-3 px-4 w-100 btn-lg">
-                                    <i class="ri-save-line fs-18 text-white position-relative top-1 me-1"></i>
-                                    <span>Save</span>
-                                </button>
-                            </div>
-                        </form>
+                            </form>
+                        @else
+                            <div class="text-center text-danger mt-4">Absensi Sudah di Tutup.</div>
+                        @endif
 
                     </div>
                 </div>
@@ -201,14 +197,8 @@
     </div>
     <!-- End Contact Us Area -->
 
-    <!-- Back To Up -->
     <button type="button" id="backtotop">
         <i class="ri-arrow-up-s-line"></i>
-    </button>
-
-    <button class="switch-toggle settings-btn dark-btn p-0 bg-transparent position-absolute top-0 d-none" id="switch-toggle">
-        <span class="dark"><i class="material-symbols-outlined">light_mode</i></span>
-        <span class="light"><i class="material-symbols-outlined">dark_mode</i></span>
     </button>
 
     @include('partial.scripts')
@@ -222,7 +212,6 @@
 
             if (!canvas || !form) return;
 
-            // Resize canvas for DPR using clientHeight for responsive height
             function resizeCanvas() {
                 const ratio = Math.max(window.devicePixelRatio || 1, 1);
                 const width = canvas.clientWidth;
@@ -234,7 +223,6 @@
                 ctx.scale(ratio, ratio);
             }
 
-            // call after styles applied
             setTimeout(resizeCanvas, 50);
             window.addEventListener('resize', resizeCanvas);
 
@@ -260,7 +248,6 @@
                 }
 
                 input.value = signaturePad.toDataURL('image/png');
-                // allow normal submit
             });
         })();
     </script>

@@ -18,18 +18,55 @@
                                 <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>User</th>
+
+                                    @if($attendance->type === 'umum')
+                                        <th>Nama</th>
+                                        <th>Phone</th>
+                                        <th>Unsur</th>
+                                        <th>Instansi</th>
+                                        <th>Domisili</th>
+                                    @else
+                                        <th>User</th>
+                                    @endif
+
                                     <th>Signed At</th>
                                     <th>Signature</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($details as $i => $detail)
+                                    @php
+                                        $data = $detail->form_data ?? [];
+                                    @endphp
                                     <tr>
                                         <td>{{ $i + 1 }}</td>
-                                        <td>{{ $detail->user->name ?? '-' }}</td>
-                                        <td>{{ $detail->signed_at }}</td>
-                                        <td>{{ $detail->signature }}</td>
+
+                                        @if($attendance->type === 'umum')
+                                            <td>{{ $data['name'] ?? ($detail->user->name ?? '-') }}</td>
+                                            <td>{{ $data['phone'] ?? '-' }}</td>
+                                            <td>{{ $data['unsur'] ?? '-' }}</td>
+                                            <td>{{ $data['instansi'] ?? '-' }}</td>
+                                            <td>{{ $data['domisili'] ?? '-' }}</td>
+                                        @else
+                                            <td>
+                                                @if(!empty($data['selected_user_id']))
+                                                    {{ optional(App\Models\User::find($data['selected_user_id']))->name ?? '-' }}
+                                                @elseif(!empty($data['user_name']))
+                                                    {{ $data['user_name'] }}
+                                                @else
+                                                    {{ $detail->user->name ?? '-' }}
+                                                @endif
+                                            </td>
+                                        @endif
+
+                                        <td>{{ $detail->signed_at ?? '-' }}</td>
+                                        <td>
+                                            @if(str_starts_with($detail->signature ?? '', 'data:image'))
+                                                <img src="{{ $detail->signature }}" alt="signature" style="max-width:160px; height:auto;" />
+                                            @else
+                                                <pre style="white-space:pre-wrap;max-width:320px;">{{ $detail->signature }}</pre>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
