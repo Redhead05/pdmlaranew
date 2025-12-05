@@ -75,7 +75,17 @@ class PublicAttendanceController extends Controller
             'form_data'     => $formData,
         ]);
 
-        return redirect()->back()->with('success', 'Attendance saved.');
+        if($type ==='umum'){
+            return redirect()->route('pub.umum', ['slug' => $attendance->slug])
+                ->with('success', 'Attendance submitted successfully.');
+        }
+        if($type ==='internal'){
+            return redirect()->route('pub.internal', ['slug' => $attendance->slug])
+                ->with('success', 'Attendance submitted successfully.');
+        }
+
+        return redirect()->route('asesor.attendance.index')
+            ->with('success', 'Attendance submitted successfully.');
     }
     /**
      * Show public (umum) attendance form.

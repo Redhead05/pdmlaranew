@@ -17,7 +17,7 @@ class AttendanceController extends Controller
         $attendances = Attendance::orderBy('created_at', 'desc')->paginate(3);
 
         $attendanceData = $attendances->map(function ($attendance) {
-            $detail = \App\Models\AttendanceDetail::where('attendance_id', $attendance->id)
+            $detail = AttendanceDetail::where('attendance_id', $attendance->id)
                 ->where('user_id', auth()->id())
                 ->first();
             return [

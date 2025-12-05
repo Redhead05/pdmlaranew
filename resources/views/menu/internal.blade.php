@@ -141,7 +141,7 @@
         <div class="container position-relative z-1">
             <div class="banner-content text-center mb-0">
                 <h1 class="fs-60 mb-0">Presensi Internal BANP</h1>
-                <h1 class="fs-20 mb-0">Zoom Meeting | Tittle</h1>
+                <h1 class="fs-20 mb-0">{{ $attendance->title }} | {!! ($attendance->description ?? 'Description') !!}</h1>
             </div>
 
             <img src="{{ asset('assets/images/landing/shape-5.png') }}" class="shape-5" alt="shape">
@@ -156,6 +156,7 @@
             <div class="row justify-content-center align-items-center">
                 <div class="col-12 col-lg-8">
                     <div class="contact-us-form ms-xl-4 mx-auto text-center glass-card">
+                        @include('partial.flash')
 
                         @if($endDate && $now->lte($endDate))
                             <form id="attendance-sign-form" method="POST" action="{{ route('attendance.public.store') }}" class="mx-auto" style="max-width:900px;">

@@ -46,7 +46,7 @@
                                 <tbody>
                                 @foreach($attendance as $i => $item)
                                     <tr>
-                                        <td>{{ $i + 1 }}</td>
+                                        <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->title }}</td>
                                         <td>{{ $item->description }}</td>
                                         <td>{{ ucfirst($item->type) }}</td>
@@ -58,19 +58,24 @@
                                                 <div class="btn-group" role="group" aria-label="actions">
                                                 {{-- existing action buttons (edit/delete/detail) remain here --}}
 
-                                                @if($item->type === 'umum')
-                                                    <a href="{{ route('pub.umum', $item->slug) }}" target="_blank" class="btn btn-sm btn-outline-primary">
-                                                        View Form
-                                                    </a>
-                                                @elseif($item->type === 'internal')
-                                                    <a href="{{ route('pub.internal', $item->slug) }}" target="_blank" class="btn btn-sm btn-outline-primary">
-                                                        View Form
-                                                    </a>
-                                                @else
-                                                    <button class="btn btn-sm btn-outline-secondary" disabled title="Public form not available for asesor">
-                                                        View Form
-                                                    </button>
-                                                @endif
+                                                    <!-- blade -->
+                                                    @if($item->type === 'umum')
+                                                        <a href="{{ route('pub.umum', $item->slug) }}" target="_blank" rel="noopener noreferrer"
+                                                           class="btn btn-sm btn-outline-primary p-2" title="View public form" aria-label="View public form">
+                                                            <i class="material-symbols-outlined fs-16">open_in_new</i>
+                                                            <span class="visually-hidden">View Form</span>
+                                                        </a>
+                                                    @elseif($item->type === 'internal')
+                                                        <a href="{{ route('pub.internal', $item->slug) }}" target="_blank" rel="noopener noreferrer"
+                                                           class="btn btn-sm btn-outline-primary p-2" title="View public form" aria-label="View public form">
+                                                            <i class="material-symbols-outlined fs-16">open_in_new</i>
+                                                            <span class="visually-hidden">View Form</span>
+                                                        </a>
+                                                    @else
+                                                        <button class="btn btn-sm btn-outline-secondary p-2" disabled aria-disabled="true" tabindex="-1" title="Public form not available for asesor">
+                                                            <i class="material-symbols-outlined fs-16 text-muted">link_off</i>
+                                                        </button>
+                                                    @endif
                                             </div>
                                                 <a href="{{ route('admin.attendance.detail', $item->slug) }}" class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-title="Detail">
                                                     <i class="material-symbols-outlined fs-16 text-success">info</i>
@@ -103,16 +108,26 @@
 @push('scripts')
     <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="//cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#attendance-table').DataTable({
-                responsive: true,
-                pageLength: 10,
-                columnDefs: [
-                    { orderable: false, searchable: false, targets: 0 },
-                    { orderable: false, searchable: false, targets: 6 }
-                ]
-            });
-        });
-    </script>
+            <script>
+                $(document).ready(function () {
+                    const table = $('#attendance-table').DataTable({
+                        responsive: true,
+                        pageLength: 10,
+                        columnDefs: [
+                            { orderable: false, searchable: false, targets: 0 }, // No
+                            { orderable: false, searchable: false, targets: 6 }  // Action
+                        ]
+                    });
+
+                    // Re-number the "No" column after ordering, searching, paging or drawing
+                    table.on('order.dt search.dt page.dt draw.dt', function () {
+                        table.column(0, { order: 'applied', search: 'applied' }).nodes().each(function (cell, i) {
+                            cell.innerHTML = i + 1;
+                        });
+                    });
+
+                    // initial numbering
+                    table.draw();
+                });
+            </script>
 @endpush
