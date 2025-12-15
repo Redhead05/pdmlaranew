@@ -18,6 +18,9 @@
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             @include('layouts.navigation')
 
+            {{-- include sidebar so it remains outside turbo frame (static) --}}
+            @include('partial.sidebar')
+
             <!-- Page Heading -->
             @isset($header)
                 <header class="bg-white dark:bg-gray-800 shadow">
@@ -29,7 +32,10 @@
 
             <!-- Page Content -->
             <main>
-                {{ $slot }}
+                {{-- Wrap the main content in a Turbo Frame so navigation can replace this part only --}}
+                <turbo-frame id="main_frame">
+                    {{ $slot }}
+                </turbo-frame>
             </main>
         </div>
     </body>

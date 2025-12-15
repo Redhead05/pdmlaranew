@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Attendance;
@@ -36,6 +37,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
    //Route admin
     Route::prefix('admin')->middleware('role:admin')->as('admin.')->group(function () {
+        Route::resource('user', UserController::class);
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('attendance', AttendanceController::class);
         Route::get('/attendance/{slug}/detail', [AttendanceController::class, 'detail'])->name('attendance.detail');
