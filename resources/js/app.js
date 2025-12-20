@@ -1,6 +1,7 @@
 import './bootstrap';
 
-// Import Hotwire Turbo for partial page/frame navigation
+import '../css/app.css';
+
 import "@hotwired/turbo";
 
 import Alpine from 'alpinejs';

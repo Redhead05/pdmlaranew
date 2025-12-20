@@ -17,6 +17,9 @@ use App\Http\Controllers\PublicAttendanceController;
 Route::get('/', function () {
     return view('auth.login');
 });
+Route::view('/landing', 'frontend.pages.home')->name('frontend.pages.home');
+Route::view('/news', 'frontend.pages.news')->name('frontend.pages.news');
+Route::view('/gallery', 'frontend.pages.gallery')->name('frontend.pages.gallery');
 
 // public pages: require slug to load specific attendance
 Route::get('/pub/internal/{slug}', [PublicAttendanceController::class, 'showInternal'])->name('pub.internal');
