@@ -13,7 +13,7 @@
                                     </a>
                                 </figure>
                                 <div class="post-content">
-                                    <h2 class="!text-[1.25rem] font-semibold"><a href="#">Sample News Title One</a></h2>
+                                    <h2 class="!text-[1.25rem] font-semibold"><a href="{{ route ('frontend.pages.news-details') }}">Sample News Title One</a></h2>
                                     <p class="lead !text-[1rem]">Short intro text for the first news post. Use real data or loop posts from controller when available.</p>
                                     <a href="#" class="btn btn-soft-purple !rounded-[50rem] !mt-3">Read more</a>
                                 </div>

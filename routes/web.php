@@ -19,7 +19,9 @@ Route::get('/', function () {
 });
 Route::view('/landing', 'frontend.pages.home')->name('frontend.pages.home');
 Route::view('/news', 'frontend.pages.news')->name('frontend.pages.news');
+Route::view('/news-details', 'frontend.pages.news-details')->name('frontend.pages.news-details');
 Route::view('/gallery', 'frontend.pages.gallery')->name('frontend.pages.gallery');
+Route::view('/employees', 'frontend.pages.employes')->name('frontend.pages.employes');
 
 // public pages: require slug to load specific attendance
 Route::get('/pub/internal/{slug}', [PublicAttendanceController::class, 'showInternal'])->name('pub.internal');

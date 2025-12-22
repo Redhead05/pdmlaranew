@@ -2,7 +2,7 @@
         <nav class="navbar navbar-expand-lg classic transparent position-absolute navbar-dark">
           <div class="container xl:!flex-row lg:!flex-row !flex-nowrap items-center">
             <div class="navbar-brand w-full">
-              <a href="./index.html">
+              <a href="{{ route('frontend.pages.home') }}">
                 <img class="logo-dark" src="{{ asset ('assets/logo_BANPDMJATIM.png')}}" alt="Logo BANPDM Jatim" style="max-height:90px;width:auto;object-fit:contain;">
                 <img class="logo-light" src="{{ asset ('assets/logo_BANPDMJATIM.png')}}" alt="Logo BANPDM Jatim" style="max-height:90px;width:auto;object-fit:contain;">
               </a>
@@ -15,7 +15,7 @@
               <div class="offcanvas-body xl:!ml-auto lg:!ml-auto flex  flex-col !h-full">
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown dropdown-mega">
-                        <a class="nav-link !text-[.85rem] !tracking-[normal]" href="#">Home</a>
+                        <a class="nav-link !text-[.85rem] !tracking-[normal]" href="{{ route('frontend.pages.home') }}">Home</a>
                     </li>
                     <li class="nav-item dropdown dropdown-mega">
                          <a class="nav-link !text-[.85rem] !tracking-[normal]" href="{{ route('frontend.pages.gallery') }}">Galeri</a>
@@ -24,7 +24,10 @@
                          <a class="nav-link !text-[.85rem] !tracking-[normal]" href="{{ route('frontend.pages.news') }}">Berita</a>
                     </li>
                     <li class="nav-item dropdown dropdown-mega">
-                        <a class="nav-link !text-[.85rem] !tracking-[normal]" href="#">sk akreditasi jatim</a>
+                        <a class="nav-link !text-[.85rem] !tracking-[normal]" href="#">Akreditasi</a>
+                    </li>
+                    <li class="nav-item dropdown dropdown-mega">
+                        <a class="nav-link !text-[.85rem] !tracking-[normal]" href="{{route('frontend.pages.employes')}}">Struktur Organisasi</a>
                     </li>
 
 {{--                  <li class="nav-item dropdown">--}}
