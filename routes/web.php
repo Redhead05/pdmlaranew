@@ -1,14 +1,22 @@
 <?php
 
+use App\Http\Controllers\Admin\LandingPage\GalleryController;
+use App\Http\Controllers\Admin\LandingPage\HomeController;
+use App\Http\Controllers\Admin\LandingPage\NewsController;
+use App\Http\Controllers\Admin\LandingPage\OrganizationStructureController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Attendance;
 use App\Models\User;
 
+//adminpage
+use App\Http\Controllers\Admin\LandingPage\DashboardController as AdminLandingDashboardController;
+
 //admin
 use App\Http\Controllers\Admin\Attendance\AttendanceController;
 use App\Http\Controllers\Admin\DashboardController;
+
 //asesor
 use App\Http\Controllers\Asesor\DashboardController as AsesorDashboardController;
 use App\Http\Controllers\Asesor\Attendance\AttendanceController as AsesorAttendanceController;
@@ -29,9 +37,9 @@ Route::get('/pub/umum/{slug}', [PublicAttendanceController::class, 'showUmum'])-
 
 Route::post('/attendance/public/store', [PublicAttendanceController::class, 'store'])->name('attendance.public.store');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+//Route::get('/dashboard', function () {
+//    return view('dashboard');
+//})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -46,6 +54,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('attendance', AttendanceController::class);
         Route::get('/attendance/{slug}/detail', [AttendanceController::class, 'detail'])->name('attendance.detail');
+    });
+    //Route adminlanding
+    Route::prefix('adminlanding')->middleware('role:adminlanding')->as('adminlanding.')->group(function () {
+        Route::get('dashboard', [AdminLandingDashboardController::class, 'index'])->name('dashboard');
+        Route::resource('home', HomeController::class);
+        Route::resource('gallery', GalleryController::class);
+        Route::resource('news', NewsController::class);
+        Route::resource('StrukturOrganisasi', OrganizationStructureController::class);
     });
 
     //Route asesor

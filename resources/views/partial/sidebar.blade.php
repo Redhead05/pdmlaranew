@@ -2,8 +2,8 @@
 <div class="sidebar-area" id="sidebar-area">
     <div class="logo position-relative">
         <a href="index.html" class="d-block text-decoration-none position-relative">
-            <img src="{{ asset('assets/images/logo-icon.png') }}" alt="logo-icon">
-            <span class="logo-text fw-bold text-dark">Trezo</span>
+            <img src="{{ asset('assets/logo_BANPDMJATIM.png') }}" alt="logo-icon">
+{{--            <span class="logo-text fw-bold text-dark">Trezo</span>--}}
         </a>
         <button class="sidebar-burger-menu bg-transparent p-0 border-0 opacity-0 z-n1 position-absolute top-50 end-0 translate-middle-y" id="sidebar-burger-menu">
             <i data-feather="x"></i>
@@ -12,7 +12,6 @@
 
     <aside id="layout-menu" class="layout-menu menu-vertical menu active" data-simplebar>
         <ul class="menu-inner">
-
             @role('admin')
             <li class="menu-item open">
                 <a href="{{ route ('admin.dashboard') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('admin.dashboard') ? 'active' : '' }}">
@@ -37,6 +36,37 @@
                 <a href="contacts.html" data-turbo-frame="main_frame" class="menu-link">
                     <span class="material-symbols-outlined menu-icon">contact_page</span>
                     <span class="title">Contacts</span>
+                </a>
+            </li>
+            @elserole('adminlanding')
+            <li class="menu-item open">
+                <a href="{{ route ('adminlanding.dashboard') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.dashboard') ? 'active' : '' }}">
+                    <span class="material-symbols-outlined">cloud_circle</span>
+                    <span class="title"> Dashboard Landing Page</span>
+                </a>
+            </li>
+            <li class="menu-item open">
+                <a href="{{ route ('adminlanding.home.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.home.index') ? 'active' : '' }}">
+                    <span class="material-symbols-outlined">cloud_circle</span>
+                    <span class="title">Home</span>
+                </a>
+            </li>
+            <li class="menu-item open">
+                <a href="{{ route ('adminlanding.gallery.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.gallery.index') ? 'active' : '' }}">
+                    <span class="material-symbols-outlined">cloud_circle</span>
+                    <span class="title">Gallery</span>
+                </a>
+            </li>
+            <li class="menu-item open">
+                <a href="{{ route ('adminlanding.news.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.news.index') ? 'active' : '' }}">
+                    <span class="material-symbols-outlined">cloud_circle</span>
+                    <span class="title">News</span>
+                </a>
+            </li>
+            <li class="menu-item open">
+                <a href="{{ route ('adminlanding.StrukturOrganisasi.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.StrukturOrganisasi.index') ? 'active' : '' }}">
+                    <span class="material-symbols-outlined">cloud_circle</span>
+                    <span class="title">Struktur organisasi</span>
                 </a>
             </li>
             @elserole('asesor')

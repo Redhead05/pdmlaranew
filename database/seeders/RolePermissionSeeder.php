@@ -18,6 +18,7 @@ class RolePermissionSeeder extends Seeder
     {
         // Buat roles (pastikan guard_name sesuai, biasanya 'web')
         $adminRole = Role::firstOrCreate(['name' => 'admin'], ['guard_name' => 'web']);
+        $adminlandingRole = Role::firstOrCreate(['name' => 'adminlanding'], ['guard_name' => 'web']);
         $asesorRole = Role::firstOrCreate(['name' => 'asesor'], ['guard_name' => 'web']);
         $userRole = Role::firstOrCreate(['name' => 'user'], ['guard_name' => 'web']);
 
@@ -28,6 +29,7 @@ class RolePermissionSeeder extends Seeder
 
         // Assign permission ke role
         $adminRole->givePermissionTo([$manageUsers, $viewDashboard]);
+        $adminlandingRole->givePermissionTo([$manageUsers, $viewDashboard]);
         $asesorRole->givePermissionTo([$viewDashboard]);
         $userRole->givePermissionTo([$viewDashboard]);
 
@@ -41,6 +43,17 @@ class RolePermissionSeeder extends Seeder
             'is_active' => true,
         ]);
         $admin->assignRole('admin');
+
+        // Buat user $adminlandingRole
+        $admin = User::firstOrCreate([
+            'email' => 'adminlandingRole@example.com',
+        ], [
+            'nia' => '123456789012',
+            'name' => '$adminlandingRole',
+            'password' => Hash::make('password'),
+            'is_active' => true,
+        ]);
+        $admin->assignRole('$adminlandingRole');
 
         // Buat user asesor
         $asesor = User::firstOrCreate([
