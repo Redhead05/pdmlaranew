@@ -16,14 +16,13 @@ return new class extends Migration
             $table->string('title', 255);
             $table->string('slug')->nullable()->unique();
             $table->string('image'); // store storage path like "galleries/filename.ext"
-            $table->text('caption')->nullable();
-            $table->string('type')->default('photo'); // photo, video, other
+            $table->text('description')->nullable();
             $table->boolean('is_active')->default(false);
-            $table->timestamps();
             $table->softDeletes();
 
-            $table->index('type');
-            $table->index('is_active');
+            $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete();
+
+            $table->timestamps();
         });
     }
 

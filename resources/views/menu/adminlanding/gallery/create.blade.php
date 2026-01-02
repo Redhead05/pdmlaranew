@@ -44,22 +44,20 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="caption" class="form-label fs-15">Caption / Description</label>
-                                <textarea class="form-control" id="caption" name="caption" rows="3">{{ old('caption') }}</textarea>
+                                <label for="description" class="form-label fs-15">Caption / Description</label>
+                                <textarea class="form-control" id="description" name="description" rows="3">{{ old('description') }}</textarea>
                             </div>
 
                             <div class="mb-3">
-                                <label for="type" class="form-label fs-15">Category / Type</label>
-                                <select class="form-select" id="type" name="type" required>
-                                    <option value="photo" {{ old('type') == 'photo' ? 'selected' : '' }}>Photo</option>
-                                    <option value="video" {{ old('type') == 'video' ? 'selected' : '' }}>Video</option>
-                                    <option value="other" {{ old('type') == 'other' ? 'selected' : '' }}>Other</option>
+                                <label for="category" class="form-label fs-15">Category</label>
+                                <select class="form-select" id="category" name="category_id">
+                                    <option value="">-- None --</option>
+                                    @foreach ($categories as $cat)
+                                        <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>
+                                            {{ $cat->name }}
+                                        </option>
+                                    @endforeach
                                 </select>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="publish_date" class="form-label fs-15">Publish Date</label>
-                                <input type="datetime-local" class="form-control" id="publish_date" name="publish_date" value="{{ old('publish_date') }}">
                             </div>
 
                             <div class="mb-3">
