@@ -62,11 +62,6 @@
                                         <td>{{ optional($item->created_at)->format('Y-m-d') }}</td>
                                         <td>
                                             <div class="d-flex align-items-center gap-1">
-                                                <a href="{{ route('adminlanding.gallery.show', $item->slug) }}" class="btn btn-sm btn-outline-secondary" title="Detail">
-                                                    <i class="material-symbols-outlined fs-16">info</i>
-                                                </a>
-
-
                                                 <button type="button"
                                                         class="btn btn-sm btn-outline-success"
                                                         title="Edit"

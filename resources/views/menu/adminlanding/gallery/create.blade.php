@@ -27,12 +27,16 @@
                             <div class="mb-3 text-center">
                                 <label class="form-label fs-15">Preview</label>
                                 <div class="mb-2">
-                                    <img id="gallery-preview" src="{{ asset('assets/logo_BANPDMJATIM.png') }}" alt="preview" style="max-width:100%; height:auto; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.06);" />
+                                    <img id="gallery-preview" src="{{ asset('assets/logo_BANPDMJATIM.png') }}" alt="preview"
+                                         style="max-width:100%; height:auto; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.06);" />
+                                    <!-- add video element -->
+                                    <video id="gallery-video-preview" controls
+                                           style="max-width:100%; height:auto; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.06); display:none;"></video>
                                 </div>
                                 <div>
-                                    <input type="file" accept="image/*" id="image" name="image" class="form-control" required>
+                                    <input type="file" accept="image/*,video/*" id="image" name="image" class="form-control" required>
                                 </div>
-                                <small class="text-muted">Max size: set by server. Allowed: jpg, png, gif, webp</small>
+                                <small class="text-muted">Max size: 50MB. Allowed: jpg, png, gif, webp, mp4, mov, avi, webm</small>
                             </div>
                         </div>
 
@@ -87,15 +91,50 @@
 
 @push('scripts')
     <script>
-        // simple image preview
-        document.getElementById('image')?.addEventListener('change', function (e) {
-            const file = e.target.files && e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function (ev) {
-                document.getElementById('gallery-preview').src = ev.target.result;
-            };
-            reader.readAsDataURL(file);
-        });
+        // safe preview for image or video with null checks
+        (function () {
+            const input = document.getElementById('image');
+            const img = document.getElementById('gallery-preview');
+            const vid = document.getElementById('gallery-video-preview');
+
+            if (!input) return;
+
+            input.addEventListener('change', function (e) {
+                const file = e.target.files && e.target.files[0];
+                if (!file) return;
+
+                const isVideo = file.type.startsWith('video/');
+
+                if (isVideo) {
+                    if (img) img.style.display = 'none';
+                    if (vid) {
+                        vid.style.display = 'block';
+                        // revoke previous object URL if any
+                        if (vid._objectUrl) {
+                            URL.revokeObjectURL(vid._objectUrl);
+                        }
+                        vid._objectUrl = URL.createObjectURL(file);
+                        vid.src = vid._objectUrl;
+                    }
+                } else {
+                    if (vid) {
+                        // stop and clear video
+                        try { vid.pause(); } catch (e) {}
+                        if (vid._objectUrl) {
+                            URL.revokeObjectURL(vid._objectUrl);
+                            vid._objectUrl = null;
+                        }
+                        vid.src = '';
+                        vid.style.display = 'none';
+                    }
+                    if (img) {
+                        img.style.display = 'block';
+                        const reader = new FileReader();
+                        reader.onload = function (ev) { img.src = ev.target.result; };
+                        reader.readAsDataURL(file);
+                    }
+                }
+            });
+        })();
     </script>
 @endpush

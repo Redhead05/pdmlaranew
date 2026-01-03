@@ -27,7 +27,7 @@
                         <button type="button" class="btn btn btn-primary py-2 px-4 text-white fw-semibold" data-bs-toggle="modal" data-bs-target="#exampleModallg">
                             <i class="material-symbols-outlined align-middle">add</i> Create
                         </button>
-                        @include('menu.adminlanding.home.create')
+                        @include('menu.adminlanding.news.create')
                     </div>
                     <div class="default-table-area all-products">
                         <div class="table-responsive">

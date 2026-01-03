@@ -1,9 +1,8 @@
 <!-- Start Sidebar Area -->
 <div class="sidebar-area" id="sidebar-area">
     <div class="logo position-relative">
-        <a href="index.html" class="d-block text-decoration-none position-relative">
+        <a href="{{route('adminlanding.dashboard')}}" data-turbo-frame="main_frame" class="d-block text-decoration-none position-relative">
             <img src="{{ asset('assets/logo_BANPDMJATIM.png') }}" alt="logo-icon">
-{{--            <span class="logo-text fw-bold text-dark">Trezo</span>--}}
         </a>
         <button class="sidebar-burger-menu bg-transparent p-0 border-0 opacity-0 z-n1 position-absolute top-50 end-0 translate-middle-y" id="sidebar-burger-menu">
             <i data-feather="x"></i>
