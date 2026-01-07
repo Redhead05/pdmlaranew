@@ -35,26 +35,29 @@
                                 <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Title</th>
-                                    <th>Description</th>
-                                    <th>Type</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
+                                    <th>Nama</th>
+                                    <th>Position</th>
+                                    <th>Period</th>
+                                    <th>Avatar</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-{{--                                @foreach($organizationstructure as $i => $item)--}}
+                                @foreach($items as $item)
                                     <tr>
-                                        <td>iteration</td>
-                                        <td>title</td>
-                                        <td>description</td>
-                                        <td>tye</td>
-                                        <td>start_date</td>
-                                        <td>end_date</td>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item->user->name ?? $item->user_id }}</td>
+                                        <td>{{ $item->position ?? $item->position }}</td>
+                                        <td>{{ $item->period ?? $item->period }}</td>
+                                        <td class="text-center">
+                                            @if($item->avatar)
+                                                <img src="{{ Storage::url($item->avatar) }}" alt="avatar" style="width:60px; height:auto; border-radius:6px;">
+                                            @else
+                                                <img src="{{ asset('assets/logo_BANPDMJATIM.png') }}" alt="fallback" style="width:60px; height:auto; border-radius:6px;">
+                                            @endif
+                                        </td>
                                         <td>
-
-                                            <div class="d-flex align-items-center gap-1">
+                                                <div class="d-flex align-items-center gap-1">
                                                 <div class="btn-group" role="group" aria-label="actions">
                                                 {{-- existing action buttons (edit/delete/detail) remain here --}}
 
@@ -78,7 +81,7 @@
                                             </div>
                                         </td>
                                     </tr>
-{{--                                @endforeach--}}
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -98,7 +101,7 @@
                         pageLength: 10,
                         columnDefs: [
                             { orderable: false, searchable: false, targets: 0 }, // No
-                            { orderable: false, searchable: false, targets: 6 }  // Action
+                            { orderable: false, searchable: false, targets: 5 }  // Action
                         ]
                     });
 

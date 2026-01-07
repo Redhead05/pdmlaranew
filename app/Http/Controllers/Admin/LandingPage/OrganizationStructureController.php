@@ -106,8 +106,8 @@ class OrganizationStructureController extends Controller
      */
     public function destroy(OrganizationStructure $StrukturOrganisasi)
     {
-        if ($StrukturOrganisasi->image) {
-            Storage::disk('public')->delete($StrukturOrganisasi->image);
+        if ($StrukturOrganisasi->avatar) {
+            Storage::disk('public')->delete($StrukturOrganisasi->avatar);
         }
 
         $StrukturOrganisasi->delete();

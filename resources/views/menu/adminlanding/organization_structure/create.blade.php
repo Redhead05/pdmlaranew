@@ -47,9 +47,9 @@
 
                         <div class="col-md-6">
                             <label for="image" class="form-label">Foto / Gambar (opsional)</label>
-                            <input type="file" accept="image/*" class="form-control @error('image') is-invalid @enderror"
-                                   id="image" name="image">
-                            @error('image') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            <input type="file" accept="image/*" class="form-control @error('avatar') is-invalid @enderror"
+                                   id="avatar" name="avatar">
+                            @error('avatar') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
 
                         <div class="col-md-6">
