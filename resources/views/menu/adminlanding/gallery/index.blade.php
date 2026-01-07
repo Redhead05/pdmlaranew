@@ -4,6 +4,14 @@
 @push('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        #gallery-table,
+        #gallery-table th,
+        #gallery-table td {
+            border: none !important;
+            /*box-shadow: none !important;*/
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -58,7 +66,11 @@
                                             <img src="{{ $preview }}" alt="thumb-{{ $item->id }}" style="width:100px; height:60px; object-fit:cover; border-radius:6px;">
                                         </td>
                                         <td>{{ $item->category?->name ?? '-' }}</td>
-                                        <td>{{ $item->is_active ? 'Published' : 'Draft' }}</td>
+                                        <td>
+                                            <span class="badge {{ $item->is_active ? 'bg-success' : 'bg-secondary' }}">
+                                                {{ $item->is_active ? 'Published' : 'Draft' }}
+                                            </span>
+                                        </td>
                                         <td>{{ optional($item->created_at)->format('Y-m-d') }}</td>
                                         <td>
                                             <div class="d-flex align-items-center gap-1">
@@ -92,9 +104,6 @@
                             </table>
                         </div>
 
-                        <div class="d-flex justify-content-center mt-3">
-                            {{ $galleries->links() }}
-                        </div>
                     </div>
                 </div>
             </div>

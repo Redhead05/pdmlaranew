@@ -39,4 +39,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserDetail::class);
     }
+    public function organizationStructures()
+    {
+        return $this->hasMany(\App\Models\OrganizationStructure::class);
+    }
 }

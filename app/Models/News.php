@@ -14,16 +14,14 @@ class News extends Model
 
     protected $fillable = [
         'title',
-        'description',
-        'thumbnail',
-        'is_published',
+        'is_active',
         'slug',
         'category_id',
         'created_by',
     ];
 
     protected $casts = [
-        'is_published' => 'boolean',
+        'is_active' => 'boolean',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
@@ -31,7 +29,7 @@ class News extends Model
 
     public function category()
     {
-        return $this->HasMany(Category::class, 'id', 'category_id');
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
     public function author()
     {
@@ -40,5 +38,9 @@ class News extends Model
     public function scopePublished($query)
     {
         return $query->where('is_published', true);
+    }
+    public function detail()
+    {
+        return $this->hasOne(NewsDetail::class, 'news_id', 'id');
     }
 }

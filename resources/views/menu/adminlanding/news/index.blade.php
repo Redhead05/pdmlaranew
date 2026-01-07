@@ -4,7 +4,14 @@
 @push('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <style>
+        #news-table,
+        #news-table th,
+        #news-table td {
+            border: none !important;
+            /*box-shadow: none !important;*/
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -34,51 +41,61 @@
                             <table id="news-table" class="display table align-middle" style="width:100%">
                                 <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th style="width:60px">No</th>
+                                    <th>Thumbnail</th>
                                     <th>Title</th>
                                     <th>Description</th>
-                                    <th>Type</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
-                                    <th>Action</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th>Created</th>
+                                    <th style="width:150px">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-{{--                                @foreach($news as $i => $item)--}}
+                                @foreach($news as $i => $item)
+                                    @php
+                                        $detail = $item->detail;
+                                        $thumbnailUrl = $detail && $detail->thumbnail
+                                            ? Storage::url($detail->thumbnail)
+                                            : asset('assets/logo_BANPDMJATIM.png');
+                                    @endphp
                                     <tr>
-                                        <td>iteration</td>
-                                        <td>title</td>
-                                        <td>description</td>
-                                        <td>tye</td>
-                                        <td>start_date</td>
-                                        <td>end_date</td>
+                                        <td>{{ $news->firstItem() + $i }}</td>
                                         <td>
-
+                                            <img src="{{ $thumbnailUrl }}" alt="thumb" style="width:80px; height:auto; border-radius:6px; object-fit:cover;">
+                                        </td>
+                                        <td>{{ $item->title }}</td>
+                                        <td>{{ \Illuminate\Support\Str::limit($detail->description ?? '-', 120) }}</td>
+                                        <td>{{ $item->category->name ?? '-' }}</td>
+                                        <td>
+                                            <span class="badge {{ $item->is_active ? 'bg-success' : 'bg-secondary' }}">
+                                                {{ $item->is_active ? 'Published' : 'Draft' }}
+                                            </span>
+                                        </td>
+                                        <td>{{ optional($item->created_at)->format('Y-m-d') ?? '-' }}</td>
+                                        <td>
                                             <div class="d-flex align-items-center gap-1">
-                                                <div class="btn-group" role="group" aria-label="actions">
-                                                {{-- existing action buttons (edit/delete/detail) remain here --}}
-
-
-                                            </div>
-{{--                                                <a href="{{ route('admin.news.detail', $item->slug) }}" class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-title="Detail">--}}
-                                                    <i class="material-symbols-outlined fs-16 text-success">info</i>
-{{--                                                </a>--}}
-{{--                                                <button class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="modal" data-bs-target="#editModal-{{ $item->id }}" data-bs-title="Edit">--}}
-                                                    <i class="material-symbols-outlined fs-16 text-body">edit</i>
-{{--                                                </button>--}}
-{{--                                                @include('menu.admin.news.edit', ['item' => $item])--}}
                                                 <button type="button"
-                                                        class="ps-0 border-0 bg-transparent lh-1 position-relative top-2"
+                                                        class="btn btn-sm btn-outline-success"
+                                                        title="Edit"
                                                         data-bs-toggle="modal"
-{{--                                                        data-bs-target="#deleteModal-{{ $item->id }}"--}}
-                                                        data-bs-title="Delete">
-                                                    <i class="material-symbols-outlined fs-16 text-danger">delete</i>
+                                                        data-bs-target="#editModal-{{ $item->id }}">
+                                                    <i class="material-symbols-outlined fs-16">edit</i>
                                                 </button>
-{{--                                                @include('menu.admin.news.delete')--}}
+                                                <!-- include edit modal partial (place this inside the loop, after the row) -->
+                                                @include('menu.adminlanding.news.edit', ['news' => $item, 'categories' => $categories])
+
+                                                <form action="{{ route('adminlanding.news.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Delete this item?');" class="m-0 d-inline-flex align-items-center">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete">
+                                                        <i class="material-symbols-outlined fs-16 align-middle">delete</i>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>
-{{--                                @endforeach--}}
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
