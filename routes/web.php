@@ -5,10 +5,14 @@ use App\Http\Controllers\Admin\LandingPage\HomeController;
 use App\Http\Controllers\Admin\LandingPage\NewsController;
 use App\Http\Controllers\Admin\LandingPage\OrganizationStructureController;
 use App\Http\Controllers\Admin\User\UserController;
+use App\Http\Controllers\frontend\NewsfeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Attendance;
 use App\Models\User;
+
+//frontend
+use App\Http\Controllers\frontend\GalleryController as FrontendGalleryController;
 
 //adminpage
 use App\Http\Controllers\Admin\LandingPage\DashboardController as AdminLandingDashboardController;
@@ -26,9 +30,10 @@ Route::get('/', function () {
     return view('auth.login');
 });
 Route::view('/landing', 'frontend.pages.home')->name('frontend.pages.home');
-Route::view('/news', 'frontend.pages.news')->name('frontend.pages.news');
-Route::view('/news-details', 'frontend.pages.news-details')->name('frontend.pages.news-details');
-Route::view('/gallery', 'frontend.pages.gallery')->name('frontend.pages.gallery');
+Route::get('/news', [NewsFeController::class, 'index'])->name('frontend.pages.news');
+Route::get('/news/{slug}', [NewsFeController::class, 'show'])->name('frontend.pages.news-details');
+//Route::view('/news-details', 'frontend.pages.news-details')->name('frontend.pages.news-details');
+Route::get('/gallery', [FrontendGalleryController::class, 'index'])->name('frontend.pages.gallery');
 Route::view('/employees', 'frontend.pages.employes')->name('frontend.pages.employes');
 
 // public pages: require slug to load specific attendance

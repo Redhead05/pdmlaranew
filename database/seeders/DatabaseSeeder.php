@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             AttendanceSeeder::class,
             AttendanceDetailsSeeder::class,
             CategorySeeder::class,
+            GallerySeeder::class,
+            NewsSeeder::class,
         ]);
     }
 }

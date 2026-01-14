@@ -56,90 +56,56 @@
             border-radius: 6px !important;
         }
     </style>
+    @php use Illuminate\Support\Str; @endphp
+
     <div class="grow shrink-0">
         <div class="wrapper !bg-[#ffffff] pt-6 pb-2 rounded-xl border-gray-200 overflow-hidden">
-            @php
-                $countImages = 12;
-                $countVideos = 4;
+            @if ($galleries->isEmpty())
+                <p class="p-4 text-center text-sm text-gray-600">No gallery items found.</p>
+            @else
+                <div class="grid gap-4 justify-center" style="grid-template-columns: repeat(4, 200px);">
+                    @foreach ($galleries as $gallery)
+                        @php
+                            $isVideo = optional($gallery->category)->name === 'video';
+                            $isExternal = Str::startsWith($gallery->image, ['http://', 'https://']);
+                            $url = $isExternal ? $gallery->image : asset('storage/' . $gallery->image);
+                            // choose thumb; you can store a thumbnail separately if available
+                            $thumb = $url;
+                            // detect youtube links for proper glightbox source
+                            $isYoutube = $isExternal && (Str::contains($url, 'youtube.com') || Str::contains($url, 'youtu.be'));
+                            $dataSource = $isVideo ? ($isYoutube ? 'youtube' : 'html5') : 'image';
+                        @endphp
 
-                $items = [];
-
-                for ($i = 0; $i < $countImages; $i++) {
-                    $seed = substr(md5(uniqid((string)$i, true)), 0, 8);
-                    $thumb = "https://picsum.photos/seed/{$seed}/200/200";
-                    $full  = "https://picsum.photos/seed/{$seed}/1200/800";
-                    $items[] = [
-                        'type' => 'image',
-                        'thumb' => $thumb,
-                        'href' => $full,
-                        'desc' => "Random image #" . ($i + 1)
-                    ];
-                }
-
-                $youtubeIds = ['dQw4w9WgXcQ','ysz5S6PUM-U']; // replace with your IDs
-                foreach ($youtubeIds as $idx => $id) {
-                    $thumb = "https://img.youtube.com/vi/{$id}/hqdefault.jpg";
-                    $href = "https://www.youtube.com/watch?v={$id}";
-                    $items[] = [
-                        'type' => 'video',
-                        'thumb' => $thumb,
-                        'href' => $href,
-                    ];
-                }
-
-                $mp4s = [
-                    'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4',
-                    'https://samplelib.com/lib/preview/mp4/sample-5s.mp4'
-                ];
-                foreach ($mp4s as $idx => $mp4) {
-                    // simple thumbnail fallback (use a static image or generate one)
-                    $thumb = "https://picsum.photos/seed/mp4{$idx}/200/200";
-                    $items[] = [
-                        'type' => 'video',
-                        'thumb' => $thumb,
-                        'href' => $mp4,
-                    ];
-                }
-
-                shuffle($items);
-            @endphp
-
-            <div class="grid gap-4 justify-center" style="grid-template-columns: repeat(4, 200px);">
-                @foreach ($items as $index => $item)
-                    @if ($item['type'] === 'image')
-                        <a href="{{ $item['href'] }}"
-                           class="glightbox"
-                           data-gallery="mixedGallery"
-                           data-type="image">
-                            <div class="thumb">
-                                <img src="{{ $item['thumb'] }}" alt="Photo {{ $index + 1 }}" loading="lazy" />
-                            </div>
-                        </a>
-                    @else
-                        <a href="{{ $item['href'] }}"
-                           class="glightbox"
-                           data-gallery="mixedGallery"
-                           data-type="video"
-                           data-source="html5">
-                            <div class="thumb">
-                                <img src="{{ $item['thumb'] }}" alt="Video {{ $index + 1 }}" loading="lazy" />
-                                <div class="play-overlay" aria-hidden="true">
-                                    <div class="triangle"></div>
+                        @if (! $isVideo)
+                            <a href="{{ $url }}"
+                               class="glightbox"
+                               data-gallery="mixedGallery"
+                               data-type="image">
+                                <div class="thumb">
+                                    <img src="{{ $thumb }}" alt="{{ $gallery->title }}" loading="lazy" />
                                 </div>
-                            </div>
-                        </a>
-                    @endif
-                @endforeach
-            </div>
+                            </a>
+                        @else
+                            <a href="{{ $url }}"
+                               class="glightbox"
+                               data-gallery="mixedGallery"
+                               data-type="video"
+                               data-source="{{ $dataSource }}">
+                                <div class="thumb">
+                                    <img src="{{ $thumb }}" alt="{{ $gallery->title }}" loading="lazy" />
+                                    <div class="play-overlay" aria-hidden="true">
+                                        <div class="triangle"></div>
+                                    </div>
+                                </div>
+                            </a>
+                        @endif
+                    @endforeach
+                </div>
 
-            <nav class="mt-6 flex items-center justify-center space-x-2" aria-label="Pagination">
-                <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="#">Prev</a></li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                </ul>
-            </nav>
+                <nav class="mt-6 flex items-center justify-center space-x-2" aria-label="Pagination">
+                    {{ $galleries->onEachSide(1)->withQueryString()->links() }}
+                </nav>
+            @endif
 
             <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
             <script>

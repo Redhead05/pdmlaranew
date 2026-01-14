@@ -6,44 +6,28 @@
                 <div class="flex flex-wrap mx-[-15px] xl:mx-[-35px] lg:mx-[-20px]">
                     <div class="xl:w-8/12 lg:w-8/12 w-full flex-[0_0_auto] xl:!px-[35px] lg:!px-[20px] !px-[15px] max-w-full xl:order-2 lg:order-2">
                         <div class="blog classic-view">
-                            <article class="post !mb-8">
-                                <figure class="!mb-4">
-                                    <a href="#">
-                                        <img src="{{ asset('assets/fe/assets/img/photos/b1.jpg') }}" alt="News 1" class="max-w-full h-auto rounded-[.4rem]">
-                                    </a>
-                                </figure>
-                                <div class="post-content">
-                                    <h2 class="!text-[1.25rem] font-semibold"><a href="{{ route ('frontend.pages.news-details') }}">Sample News Title One</a></h2>
-                                    <p class="lead !text-[1rem]">Short intro text for the first news post. Use real data or loop posts from controller when available.</p>
-                                    <a href="#" class="btn btn-soft-purple !rounded-[50rem] !mt-3">Read more</a>
-                                </div>
-                            </article>
+                            @foreach($news as $item)
+                                <article class="post !mb-8">
+                                    <figure class="!mb-4">
+                                        <a href="{{ route('frontend.pages.news-details', $item->slug) }}">
+                                            <img
+                                                src="{{ $item->detail && $item->detail->thumbnail ? asset('storage/' . $item->detail->thumbnail) : asset('assets/fe/assets/img/photos/b1.jpg') }}"
+                                                alt="{{ $item->title }}"
+                                                class="max-w-full h-auto rounded-[.4rem]">
+                                        </a>
+                                    </figure>
+                                    <div class="post-content">
+                                        <h2 class="!text-[1.25rem] font-semibold">
+                                            <a href="{{ route('frontend.pages.news-details', $item->slug) }}">{{ $item->title }}</a>
+                                        </h2>
+                                        <p class="lead !text-[1rem]">
+                                            {!! \Illuminate\Support\Str::limit(strip_tags($item->detail->description ?? ''), 150) !!}
+                                        </p>
+                                        <a href="{{ route('frontend.pages.news-details', $item->slug) }}" class="btn btn-soft-purple !rounded-[50rem] !mt-3">Read more</a>
+                                    </div>
+                                </article>
+                            @endforeach
 
-                            <article class="post !mb-8">
-                                <figure class="!mb-4">
-                                    <a href="#">
-                                        <img src="{{ asset('assets/fe/assets/img/photos/b2.jpg') }}" alt="News 2" class="max-w-full h-auto rounded-[.4rem]">
-                                    </a>
-                                </figure>
-                                <div class="post-content">
-                                    <h2 class="!text-[1.25rem] font-semibold"><a href="#">Sample News Title Two</a></h2>
-                                    <p class="lead !text-[1rem]">Short intro text for the second news post. Replace with dynamic content later.</p>
-                                    <a href="#" class="btn btn-soft-purple !rounded-[50rem] !mt-3">Read more</a>
-                                </div>
-                            </article>
-
-                            <article class="post !mb-8">
-                                <figure class="!mb-4">
-                                    <a href="#">
-                                        <img src="{{ asset('assets/fe/assets/img/photos/b2.jpg') }}" alt="News 3" class="max-w-full h-auto rounded-[.4rem]">
-                                    </a>
-                                </figure>
-                                <div class="post-content">
-                                    <h2 class="!text-[1.25rem] font-semibold"><a href="#">Sample News Title Three</a></h2>
-                                    <p class="lead !text-[1rem]">Short intro text for the third news post.</p>
-                                    <a href="#" class="btn btn-soft-purple !rounded-[50rem] !mt-3">Read more</a>
-                                </div>
-                            </article>
                         </div>
 
 
