@@ -61,7 +61,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/attendance/{slug}/detail', [AttendanceController::class, 'detail'])->name('attendance.detail');
     });
     //Route adminlanding
-    Route::prefix('adminlanding')->middleware('role:adminlanding')->as('adminlanding.')->group(function () {
+    Route::prefix('adminlanding')->middleware('role:adminlanding|admin')->as('adminlanding.')->group(function () {
         Route::get('dashboard', [AdminLandingDashboardController::class, 'index'])->name('dashboard');
         Route::resource('home', HomeController::class);
         Route::resource('gallery', GalleryController::class);

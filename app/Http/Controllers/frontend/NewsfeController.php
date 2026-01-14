@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\News;
 use Illuminate\Http\Request;
 
@@ -23,9 +24,20 @@ class NewsfeController extends Controller
             });
         }
 
+        // Filter by category id if provided
+        if ($category = $request->input('category')) {
+            $query->where('category_id', $category);
+        }
+
         $news = $query->paginate(12)->withQueryString();
 
-        return view('frontend.pages.news', compact('news'));
+        $categories = Category::withCount(['news' => function ($q) {
+            $q->where('is_active', 1);
+        }])
+            ->orderBy('name')
+            ->get();
+
+        return view('frontend.pages.news', compact('news','categories'));
     }
     public function show(string $slug)
     {

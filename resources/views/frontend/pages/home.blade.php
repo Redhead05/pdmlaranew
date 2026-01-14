@@ -5,7 +5,7 @@
           <div class="container pt-20 xl:pt-28 lg:pt-28 md:pt-28 pb-16 xl:pb-20 lg:pb-20 md:pb-20">
             <div class="flex flex-wrap mx-[-15px] md:mx-[-20px] lg:mx-[-20px] xl:mx-[-35px] !mt-[-30px] items-center">
               <div class="md:w-8/12 lg:w-6/12 xl:w-6/12 w-full flex-[0_0_auto] xl:!px-[35px] lg:!px-[20px] md:!px-[20px] !px-[15px] max-w-full xl:!order-2 lg:!order-2 !mx-auto !mt-[30px]">
-                <div class="img-mask mask-2"><img src="{{ asset ('assets/fe/assets/img/photos/about30.jpg') }}" alt="image"></div>
+                <div class="img-mask mask-2"><img src="{{ asset ('assets/images/human.jpeg') }}" alt="image"></div>
               </div>
               <!--/column -->
               <div class="xl:w-6/12 lg:w-6/12 w-full flex-[0_0_auto] xl:!px-[35px] lg:!px-[20px] md:!px-[20px] !px-[15px] max-w-full !mt-[30px]">

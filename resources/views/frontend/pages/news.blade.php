@@ -46,48 +46,22 @@
                             <form action="{{ url('/news') }}" method="GET" class="search-form relative">
                                 <label for="q" class="sr-only">Search</label>
                                 <input id="q" name="q" type="search" placeholder="Search posts..." class="form-input w-full px-4 py-2 rounded border">
-                                <button type="submit" class="btn btn-primary !mt-3 w-full">Search</button>
+{{--                                <button type="submit" class="btn btn-primary !mt-3 w-full">Search</button>--}}
                             </form>
-                        </div>
-
-                        <div class="widget !mt-[40px]">
-                            <h4 class="widget-title !mb-3">About Us</h4>
-                            <p>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum. Nulla vitae elit libero, a pharetra augue.</p>
-                            <nav class="nav social">
-                                <a class="text-[1rem] mr-3" href="#"><i class="uil uil-twitter"></i></a>
-                                <a class="text-[1rem] mr-3" href="#"><i class="uil uil-facebook-f"></i></a>
-                                <a class="text-[1rem]" href="#"><i class="uil uil-instagram"></i></a>
-                            </nav>
-                        </div>
-
-                        <div class="widget !mt-[40px]">
-                            <h4 class="widget-title !mb-3">Popular Posts</h4>
-                            <ul class="m-0 p-0 list-none">
-                                <li class="mb-4 flex">
-                                    <img src="{{ asset('assets/fe/assets/img/photos/news_thumb1.jpg') }}" alt="thumb" class="w-16 h-12 object-cover rounded mr-3">
-                                    <a href="#" class="text-sm">Popular post title one</a>
-                                </li>
-                                <li class="mb-4 flex">
-                                    <img src="{{ asset('assets/fe/assets/img/photos/news_thumb2.jpg') }}" alt="thumb" class="w-16 h-12 object-cover rounded mr-3">
-                                    <a href="#" class="text-sm">Popular post title two</a>
-                                </li>
-                            </ul>
                         </div>
 
                         <div class="widget !mt-[40px]">
                             <h4 class="widget-title !mb-3">Categories</h4>
                             <ul class="pl-0 list-none bullet-primary">
-                                <li class="mb-2"><a class="!text-[#60697b] hover:!text-[#3f78e0]" href="#">Teamwork (21)</a></li>
-                                <li class="mb-2"><a class="!text-[#60697b] hover:!text-[#3f78e0]" href="#">Ideas (19)</a></li>
-                                <li class="mb-2"><a class="!text-[#60697b] hover:!text-[#3f78e0]" href="#">Workspace (16)</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="widget !mt-[40px]">
-                            <h4 class="widget-title !mb-3">Archive</h4>
-                            <ul class="pl-0 list-none bullet-primary">
-                                <li class="mb-2"><a class="!text-[#60697b] hover:!text-[#3f78e0]" href="#">February 2019</a></li>
-                                <li class="mb-2"><a class="!text-[#60697b] hover:!text-[#3f78e0]" href="#">January 2019</a></li>
+                                @foreach($categories as $cat)
+                                    <li class="mb-2">
+                                        <a
+                                            class="{{ request('category') == $cat->id ? '!text-[#3f78e0]' : '!text-[#60697b]' }} hover:!text-[#3f78e0]"
+                                            href="{{ route('frontend.pages.news', ['category' => $cat->id]) }}">
+                                            {{ $cat->name }} ({{ $cat->news_count }})
+                                        </a>
+                                    </li>
+                                @endforeach
                             </ul>
                         </div>
                     </aside>

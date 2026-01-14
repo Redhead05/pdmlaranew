@@ -37,7 +37,9 @@
                     <span class="title">Contacts</span>
                 </a>
             </li>
-            @elserole('adminlanding')
+            @endrole
+
+            @hasanyrole('adminlanding|admin')
             <li class="menu-item open">
                 <a href="{{ route ('adminlanding.dashboard') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.dashboard') ? 'active' : '' }}">
                     <span class="material-symbols-outlined">cloud_circle</span>
@@ -68,7 +70,8 @@
                     <span class="title">Struktur organisasi</span>
                 </a>
             </li>
-            @elserole('asesor')
+            @endhasanyrole
+            @role('asesor')
             <li class="menu-item open">
                 <a href="{{ route ('asesor.dashboard') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('dashboard.asesor') ? 'active' : '' }}">
                     <span class="material-symbols-outlined">cloud_circle</span>
