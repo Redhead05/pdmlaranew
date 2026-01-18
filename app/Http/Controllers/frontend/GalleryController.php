@@ -11,11 +11,11 @@ class GalleryController extends Controller
 {
     public function index(Request $request)
     {
-        $news = News::with(['detail', 'category'])
+        $galleries = Gallery::with('category')
             ->where('is_active', 1)
             ->orderByDesc('created_at')
             ->paginate(12);
 
-        return view('frontend.pages.news', compact('news'));
+        return view('frontend.pages.gallery', compact('galleries'));
     }
 }

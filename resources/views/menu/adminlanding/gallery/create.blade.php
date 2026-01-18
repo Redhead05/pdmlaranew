@@ -34,9 +34,10 @@
                                            style="max-width:100%; height:auto; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.06); display:none;"></video>
                                 </div>
                                 <div>
-                                    <input type="file" accept="image/*,video/*" id="image" name="image" class="form-control" required>
+-                                    <input type="file" accept="image/*,video/*" id="image" name="image" class="form-control" required>
++                                    <!-- Allow either an external URL or an uploaded file. Not both required. -->
                                 </div>
-                                <small class="text-muted">Max size: 50MB. Allowed: jpg, png, gif, webp, mp4, mov, avi, webm</small>
+                                <small class="text-muted">If you paste a Google Drive share link, the system will try to convert it to a direct-view URL. Max size for uploads: 50MB. Allowed: jpg, png, gif, webp, mp4, mov, avi, webm</small>
                             </div>
                         </div>
 
@@ -91,50 +92,83 @@
 
 @push('scripts')
     <script>
-        // safe preview for image or video with null checks
+        // safe preview for image or video with null checks; also preview external URL input
         (function () {
-            const input = document.getElementById('image');
+            const fileInput = document.getElementById('image');
+            const urlInput = document.getElementById('image_url');
             const img = document.getElementById('gallery-preview');
             const vid = document.getElementById('gallery-video-preview');
 
-            if (!input) return;
+            function driveToView(url) {
+                try {
+                    // try patterns like /d/ID/ or id=ID
+                    const m = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+                    if (m && m[1]) return 'https://drive.google.com/uc?export=view&id=' + m[1];
+                } catch (e) {}
+                return url;
+            }
 
-            input.addEventListener('change', function (e) {
-                const file = e.target.files && e.target.files[0];
-                if (!file) return;
-
-                const isVideo = file.type.startsWith('video/');
-
-                if (isVideo) {
-                    if (img) img.style.display = 'none';
-                    if (vid) {
-                        vid.style.display = 'block';
-                        // revoke previous object URL if any
-                        if (vid._objectUrl) {
-                            URL.revokeObjectURL(vid._objectUrl);
+            if (urlInput) {
+                urlInput.addEventListener('input', function (e) {
+                    const v = (e.target.value || '').trim();
+                    if (!v) {
+                        // if no url and no file selected, reset to placeholder
+                        if (!fileInput || !fileInput.files.length) {
+                            if (img) img.src = '{{ asset('assets/logo_BANPDMJATIM.png') }}';
+                            if (vid) { vid.style.display = 'none'; vid.src = ''; }
                         }
-                        vid._objectUrl = URL.createObjectURL(file);
-                        vid.src = vid._objectUrl;
+                        return;
                     }
-                } else {
-                    if (vid) {
-                        // stop and clear video
-                        try { vid.pause(); } catch (e) {}
-                        if (vid._objectUrl) {
-                            URL.revokeObjectURL(vid._objectUrl);
-                            vid._objectUrl = null;
+
+                    // when user types url, clear file input to avoid confusion
+                    if (fileInput) fileInput.value = '';
+
+                    const final = driveToView(v);
+                    const isVideo = /\.(mp4|mov|avi|webm)(\?.*)?$/i.test(final);
+                    if (isVideo) {
+                        if (img) img.style.display = 'none';
+                        if (vid) { vid.style.display = 'block'; vid.src = final; }
+                    } else {
+                        if (vid) { vid.style.display = 'none'; vid.src = ''; }
+                        if (img) { img.style.display = 'block'; img.src = final; }
+                    }
+                });
+            }
+
+            if (fileInput) {
+                fileInput.addEventListener('change', function (e) {
+                    // when file chosen, clear url input
+                    if (urlInput) urlInput.value = '';
+
+                    const file = e.target.files && e.target.files[0];
+                    if (!file) return;
+
+                    const isVideo = file.type.startsWith('video/');
+
+                    if (isVideo) {
+                        if (img) img.style.display = 'none';
+                        if (vid) {
+                            vid.style.display = 'block';
+                            if (vid._objectUrl) URL.revokeObjectURL(vid._objectUrl);
+                            vid._objectUrl = URL.createObjectURL(file);
+                            vid.src = vid._objectUrl;
                         }
-                        vid.src = '';
-                        vid.style.display = 'none';
+                    } else {
+                        if (vid) {
+                            try { vid.pause(); } catch (e) {}
+                            if (vid._objectUrl) { URL.revokeObjectURL(vid._objectUrl); vid._objectUrl = null; }
+                            vid.src = '';
+                            vid.style.display = 'none';
+                        }
+                        if (img) {
+                            img.style.display = 'block';
+                            const reader = new FileReader();
+                            reader.onload = function (ev) { img.src = ev.target.result; };
+                            reader.readAsDataURL(file);
+                        }
                     }
-                    if (img) {
-                        img.style.display = 'block';
-                        const reader = new FileReader();
-                        reader.onload = function (ev) { img.src = ev.target.result; };
-                        reader.readAsDataURL(file);
-                    }
-                }
-            });
+                });
+            }
         })();
     </script>
 @endpush
