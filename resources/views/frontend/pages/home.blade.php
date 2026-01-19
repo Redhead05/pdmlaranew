@@ -23,70 +23,36 @@
               <!-- /section -->
                <section class="wrapper !bg-[#ffffff]">
                 <div class="container py-[5rem] xl:!py-[7rem] lg:!py-[7rem] md:!py-[7rem]">
-                  <div class="flex flex-wrap mx-[-15px] !text-center !mb-10">
-                    <div class="md:w-10/12 lg:w-9/12 xl:w-9/12 xxl:w-8/12 w-full flex-[0_0_auto] !px-[15px] max-w-full !mx-auto">
-                      <h2 class="!text-[0.8rem] !tracking-[0.02rem] uppercase !text-[#aab0bc] !mb-3 !leading-[1.35]">Akreditasi</h2>
-                      <h3 class="xl:!text-[2.1rem] !text-[calc(1.335rem_+_1.02vw)] !leading-[1.2] font-semibold xl:!px-10  !mb-0">adalah proses yang harus di lakukukan setiap lembaga mulai dari jejang usia dini hingga SMA. Berikut Tahapan nya</h3>
+                    <div class="flex flex-wrap mx-[-15px] !text-center">
+                        <div class="md:w-10/12 lg:w-7/12 xl:w-7/12 w-full flex-[0_0_auto] !px-[15px] max-w-full !mx-auto !relative">
+                            <img src="{{ asset ('assets/fe/assets/img/svg/doodle5.svg') }}" class="!w-[5rem] absolute hidden xl:block lg:block" data-delay="1800" style="bottom: -60%; right: 10%" alt="image">
+                            <img src="{{ asset ('assets/fe/assets/img/svg/doodle6.svg') }}" class="!h-[5rem] !absolute hidden xl:block lg:block" data-delay="1800" style="top: -40%; left: -5%" alt="image">
+                            <h2 class="!text-[0.8rem] !tracking-[0.02rem] uppercase !text-[#aab0bc] !mb-3 !leading-[1.35]">How It Works</h2>
+                            <h3 class="!text-[calc(1.325rem_+_0.9vw)] font-bold !leading-[1.2] xl:!text-[2rem] !mb-8 xl:!px-6">Download the app, create your profile and <span class="text-gradient gradient-7">voilà</span>, you're all set!</h3>
+                        </div>
+                        <!-- /column -->
                     </div>
-                    <!-- /column -->
-                  </div>
-                  <!-- /.row -->
-                  <div class="flex flex-wrap mx-[-15px] xl:mx-0 lg:mx-0 !mt-[-50px] !mb-20 xl:!mb-[7rem] lg:!mb-[7rem] md:!mb-[7rem] items-center">
-                    <div class="xl:w-6/12 lg:w-6/12 w-full flex-[0_0_auto] !px-[15px] xl:px-0 lg:px-0 !mt-[50px] max-w-full">
-                      <figure class="!rounded-[.4rem]  !mb-0"><img class="max-w-full h-auto" src="{{ asset ('assets/fe/assets/img/illustrations/ui4.png')}}" srcset="{{ asset ('assets/fe/assets/img/illustrations/ui4@2x.png')}} 2x" alt="image"></figure>
-                    </div>
-                    <!--/column -->
-                    <div class="xl:w-5/12 lg:w-5/12 w-full flex-[0_0_auto] !px-[15px] xl:px-0 lg:px-0 !mt-[50px] max-w-full !ml-auto">
-                      <h3 class="xl:!text-[1.4rem] !text-[calc(1.265rem_+_0.18vw)] !mb-3">Pengisian Melalui Aplikasi Sispena</h3>
-                      <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Praesent commodo cursus magna risus varius.</p>
-                      <ul class="pl-0 list-none bullet-bg bullet-soft-purple">
-                        <li class="relative !pl-6 !mt-[0.35rem]"><i class="uil uil-check absolute left-0 w-4 h-4 text-[0.8rem] leading-none !tracking-[normal] !text-center flex items-center justify-center bg-[#e6e8f7] !text-[#747ed1] rounded-[100%] top-[0.2rem] before:content-['\e9dd'] before:align-middle before:table-cell"></i>Login Kedalam Sispena.</li>
-                        <li class="relative !pl-6 !mt-[0.35rem]"><i class="uil uil-check absolute left-0 w-4 h-4 text-[0.8rem] leading-none !tracking-[normal] !text-center flex items-center justify-center bg-[#e6e8f7] !text-[#747ed1] rounded-[100%] top-[0.2rem] before:content-['\e9dd'] before:align-middle before:table-cell"></i>Mengisi DKA.</li>
-                        <li class="relative !pl-6 !mt-[0.35rem]"><i class="uil uil-check absolute left-0 w-4 h-4 text-[0.8rem] leading-none !tracking-[normal] !text-center flex items-center justify-center bg-[#e6e8f7] !text-[#747ed1] rounded-[100%] top-[0.2rem] before:content-['\e9dd'] before:align-middle before:table-cell"></i>Etiam porta euismod mollis natoque ornare.</li>
-                      </ul>
-                      <a href="#" class="btn btn-soft-purple !rounded-[50rem] !mt-2  !mb-0">More Details</a>
-                    </div>
-                    <!--/column -->
-                  </div>
-                  <!--/.row -->
-                  <div class="flex flex-wrap mx-[-15px] xl:mx-0 lg:mx-0 !mt-[-50px] !mb-20 xl:!mb-[7rem] lg:!mb-[7rem] md:!mb-[7rem] items-center">
-                    <div class="lg:w-6/12 xl:w-6/12 w-full flex-[0_0_auto] !px-[15px] xl:px-0 lg:px-0 !mt-[50px] max-w-full lg:!order-2 xl:!order-2 !ml-auto">
-                      <figure class="!rounded-[.4rem]  !mb-0"><img class="max-w-full h-auto" src="{{ asset ('assets/fe/assets/img/illustrations/ui1.png')}}" srcset="{{ asset ('assets/fe/assets/img/illustrations/ui1@2x.png')}} 2x" alt="image"></figure>
-                    </div>
-                    <!--/column -->
-                    <div class="xl:w-5/12 lg:w-5/12 w-full flex-[0_0_auto] !px-[15px] xl:px-0 lg:px-0 !mt-[50px] max-w-full">
-                      <h3 class="xl:!text-[1.4rem] !text-[calc(1.265rem_+_0.18vw)] !mb-3">Visitasi</h3>
-                      <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Praesent commodo cursus magna risus varius.</p>
-                      <ul class="pl-0 list-none bullet-bg bullet-soft-purple">
-                        <li class="relative !pl-6 !mt-[0.35rem]"><i class="uil uil-check absolute left-0 w-4 h-4 text-[0.8rem] leading-none !tracking-[normal] !text-center flex items-center justify-center bg-[#e6e8f7] !text-[#747ed1] rounded-[100%] top-[0.2rem] before:content-['\e9dd'] before:align-middle before:table-cell"></i>Aenean quam ornare curabitur blandit.</li>
-                        <li class="relative !pl-6 !mt-[0.35rem]"><i class="uil uil-check absolute left-0 w-4 h-4 text-[0.8rem] leading-none !tracking-[normal] !text-center flex items-center justify-center bg-[#e6e8f7] !text-[#747ed1] rounded-[100%] top-[0.2rem] before:content-['\e9dd'] before:align-middle before:table-cell"></i>Nullam quis risus eget urna mollis ornare leo.</li>
-                        <li class="relative !pl-6 !mt-[0.35rem]"><i class="uil uil-check absolute left-0 w-4 h-4 text-[0.8rem] leading-none !tracking-[normal] !text-center flex items-center justify-center bg-[#e6e8f7] !text-[#747ed1] rounded-[100%] top-[0.2rem] before:content-['\e9dd'] before:align-middle before:table-cell"></i>Etiam porta euismod mollis natoque ornare.</li>
-                      </ul>
-                      <a href="#" class="btn btn-soft-purple !rounded-[50rem] !mt-2  !mb-0">More Details</a>
-                    </div>
-                    <!--/column -->
-                  </div>
                     <!-- /.row -->
-                  <div class="flex flex-wrap mx-[-15px] xl:mx-0 lg:mx-0 !mt-[-50px] !mb-20 xl:!mb-[7rem] lg:!mb-[7rem] md:!mb-[7rem] items-center">
-                    <div class="xl:w-6/12 lg:w-6/12 w-full flex-[0_0_auto] !px-[15px] xl:px-0 lg:px-0 !mt-[50px] max-w-full">
-                      <figure class="!rounded-[.4rem]  !mb-0"><img class="max-w-full h-auto" src="{{ asset ('assets/fe/assets/img/illustrations/ui4.png')}}" srcset="{{ asset ('assets/fe/assets/img/illustrations/ui4@2x.png')}} 2x" alt="image"></figure>
+                    <div class="flex flex-wrap mx-[-15px] lg:!mb-40 xl:!mb-[17.5rem]">
+                        <div class="xxl:w-11/12 w-full flex-[0_0_auto] !px-[15px] max-w-full !mx-auto">
+                            <div class="flex flex-wrap mx-[-15px] !mt-[-50px] xl:!mt-0 lg:!mt-0 !text-center items-center">
+                                <div class="md:w-6/12 lg:w-4/12 xl:w-4/12 w-full flex-[0_0_auto] !px-[15px] max-w-full !mx-auto !mb-[-2.5rem] lg:!mb-0 xl:!mb-0 !mt-[50px] xl:!mt-0 lg:!mt-0">
+                                    <figure class="mx-auto"><img src="{{ asset ('assets/fe/assets/img/photos/devices3.png') }}" srcset="{{ asset ('assets/fe/assets/img/photos/devices4@2x.png') }} 2x" alt="image"></figure>
+                                </div>
+                                <!-- /column -->
+                                <div class="md:w-6/12 lg:w-4/12 xl:w-4/12 w-full flex-[0_0_auto] !px-[15px] max-w-full !mx-auto !mb-[-2.5rem] lg:!mb-0 xl:!mb-0 !mt-[50px] xl:!mt-0 lg:!mt-0">
+                                    <figure class="mx-auto"><img src="{{ asset ('assets/fe/assets/img/photos/devices4.png') }}" srcset="{{ asset ('assets/fe/assets/img/photos/devices4@2x.png') }} 2x" alt="image"></figure>
+                                </div>
+                                <!-- /column -->
+                                <div class="md:w-6/12 lg:w-4/12 xl:w-4/12 w-full flex-[0_0_auto] !px-[15px] max-w-full !mx-auto !mb-[-2.5rem] lg:!mb-0 xl:!mb-0 !mt-[50px] xl:!mt-0 lg:!mt-0">
+                                    <figure class="mx-auto"><img src="{{ asset ('assets/fe/assets/img/photos/devices4.png') }}" srcset="{{ asset ('assets/fe/assets/img/photos/devices4@2x.png') }} 2x" alt="image"></figure>
+                                </div>
+                                <!-- /column -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                        <!-- /column -->
                     </div>
-                    <!--/column -->
-                    <div class="xl:w-5/12 lg:w-5/12 w-full flex-[0_0_auto] !px-[15px] xl:px-0 lg:px-0 !mt-[50px] max-w-full !ml-auto">
-                      <h3 class="xl:!text-[1.4rem] !text-[calc(1.265rem_+_0.18vw)] !mb-3">Validasi</h3>
-                      <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Praesent commodo cursus magna risus varius.</p>
-                      <ul class="pl-0 list-none bullet-bg bullet-soft-purple">
-                        <li class="relative !pl-6 !mt-[0.35rem]"><i class="uil uil-check absolute left-0 w-4 h-4 text-[0.8rem] leading-none !tracking-[normal] !text-center flex items-center justify-center bg-[#e6e8f7] !text-[#747ed1] rounded-[100%] top-[0.2rem] before:content-['\e9dd'] before:align-middle before:table-cell"></i>Login Kedalam Sispena.</li>
-                        <li class="relative !pl-6 !mt-[0.35rem]"><i class="uil uil-check absolute left-0 w-4 h-4 text-[0.8rem] leading-none !tracking-[normal] !text-center flex items-center justify-center bg-[#e6e8f7] !text-[#747ed1] rounded-[100%] top-[0.2rem] before:content-['\e9dd'] before:align-middle before:table-cell"></i>Mengisi DKA.</li>
-                        <li class="relative !pl-6 !mt-[0.35rem]"><i class="uil uil-check absolute left-0 w-4 h-4 text-[0.8rem] leading-none !tracking-[normal] !text-center flex items-center justify-center bg-[#e6e8f7] !text-[#747ed1] rounded-[100%] top-[0.2rem] before:content-['\e9dd'] before:align-middle before:table-cell"></i>Etiam porta euismod mollis natoque ornare.</li>
-                      </ul>
-                      <a href="#" class="btn btn-soft-purple !rounded-[50rem] !mt-2  !mb-0">More Details</a>
-                    </div>
-                    <!--/column -->
-                  </div>
-                  <!--/.row -->
-
-                </div>
                 <!-- /.container -->
               </section>
               <!-- /section -->

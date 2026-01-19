@@ -67,12 +67,9 @@
                     @foreach ($galleries as $gallery)
                         @php
                             $isVideo = optional($gallery->category)->name === 'video';
-                            $isExternal = Str::startsWith($gallery->image, ['http://', 'https://']);
-                            $url = $isExternal ? $gallery->image : asset('storage/' . $gallery->image);
-                            // choose thumb; you can store a thumbnail separately if available
+                            $url = $gallery->image_url; // gunakan accessor
                             $thumb = $url;
-                            // detect youtube links for proper glightbox source
-                            $isYoutube = $isExternal && (Str::contains($url, 'youtube.com') || Str::contains($url, 'youtu.be'));
+                            $isYoutube = Str::contains($url, 'youtube.com') || Str::contains($url, 'youtu.be');
                             $dataSource = $isVideo ? ($isYoutube ? 'youtube' : 'html5') : 'image';
                         @endphp
 

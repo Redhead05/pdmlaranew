@@ -37,14 +37,23 @@ class GalleryController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'image' => 'required|file|mimes:jpg,jpeg,png,gif,webp,mp4,mov,avi,webm|max:51200', //50mb
+            'image' => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,mp4,mov,avi,webm|max:51200', //50mb
+            'external_url' => 'nullable|url|max:2000',
             'description' => 'required|string',
             'is_active' => 'nullable|in:0,1',
             'category_id' => 'nullable|exists:categories,id',
         ]);
 
+        // jika external_url ada, gunakan sebagai image (url eksternal) dan jangan menyimpan file
         $slug = Str::slug($validated['title']) . '-' . time();
-        $path = $request->file('image')->store('galleries', 'public');
+        $path = null;
+
+        if (!empty($validated['external_url'])) {
+            // simpan URL eksternal apa adanya
+            $path = $validated['external_url'];
+        } elseif ($request->hasFile('image')) {
+            $path = $request->file('image')->store('galleries', 'public');
+        }
 
         Gallery::create([
             'title' => $validated['title'],
@@ -84,6 +93,8 @@ class GalleryController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'image' => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,mp4,mov,avi,webm|max:51200',
+            'external_url' => 'nullable|url|max:2000',
             'is_active' => 'nullable|in:0,1',
             'category_id' => 'nullable|exists:categories,id',
         ]);
@@ -100,12 +111,18 @@ class GalleryController extends Controller
             $data['slug'] = Str::slug($data['title']) . '-' . time();
         }
 
-        // handle image upload
-        if ($request->hasFile('image')) {
+        // handle external_url or image upload
+        if (!empty($validated['external_url'])) {
+            // jika sebelumnya file tersimpan di storage, hapus file lama
+            if ($gallery->image && !\Str::startsWith($gallery->image, ['http://', 'https://']) && Storage::disk('public')->exists($gallery->image)) {
+                Storage::disk('public')->delete($gallery->image);
+            }
+            $data['image'] = $validated['external_url'];
+        } elseif ($request->hasFile('image')) {
             $newPath = $request->file('image')->store('galleries', 'public');
 
-            // delete foto lama ketika ada foto baru
-            if ($gallery->image && Storage::disk('public')->exists($gallery->image)) {
+            // delete foto lama ketika ada foto baru jika file berada di storage
+            if ($gallery->image && !\Str::startsWith($gallery->image, ['http://', 'https://']) && Storage::disk('public')->exists($gallery->image)) {
                 Storage::disk('public')->delete($gallery->image);
             }
 
@@ -124,8 +141,8 @@ class GalleryController extends Controller
     {
         $gallery = Gallery::findOrFail($id);
 
-        // memastikan foto juga ikut terhapus dari folder public
-        if ($gallery->image && Storage::disk('public')->exists($gallery->image)) {
+        // memastikan foto juga ikut terhapus dari folder public jika file local
+        if ($gallery->image && !\Str::startsWith($gallery->image, ['http://', 'https://']) && Storage::disk('public')->exists($gallery->image)) {
             Storage::disk('public')->delete($gallery->image);
         }
 

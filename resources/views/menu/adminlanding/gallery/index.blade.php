@@ -1,19 +1,6 @@
 @extends('app.layout')
 @section('title', 'Gallery Management')
 
-@push('styles')
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        #gallery-table,
-        #gallery-table th,
-        #gallery-table td {
-            border: none !important;
-            /*box-shadow: none !important;*/
-        }
-    </style>
-@endpush
-
 @section('content')
     <div class="container-fluid">
         <div class="main-content d-flex flex-column">
@@ -32,7 +19,7 @@
                     <h1>Gallery</h1>
 
                     <div class="mb-3 d-flex align-items-center gap-2">
-                        <button type="button" class="btn btn-primary py-2 px-4 text-white fw-semibold" data-bs-toggle="modal" data-bs-target="#exampleModallg">
+                        <button type="button" class="btn btn-primary py-2 px-4 te xt-white fw-semibold" data-bs-toggle="modal" data-bs-target="#exampleModallg">
                             <i class="material-symbols-outlined align-middle">add</i> Create
                         </button>
                         @include('menu.adminlanding.gallery.create')
@@ -61,9 +48,28 @@
                                         <td>{{ \Illuminate\Support\Str::limit($item->description ?? '-', 90) }}</td>
                                         <td>
                                             @php
-                                                $preview = $item->image ? asset('storage/' . $item->image) : asset('assets/logo_BANPDMJATIM.png');
+                                                $preview = $item->image_url ?? asset('assets/logo_BANPDMJATIM.png');
+                                                $isVideo = optional($item->category)->name === 'video';
+                                                // Anggap preview image jika URL berakhir jpg|png|gif|webp atau mengandung uc?export=view
+                                                $isImagePreview = preg_match('/\.(jpe?g|png|gif|webp)(\?|$)/i', $preview) || strpos($preview, 'uc?export=view') !== false || strpos($preview, 'drive.googleusercontent.com') !== false;
                                             @endphp
-                                            <img src="{{ $preview }}" alt="thumb-{{ $item->id }}" style="width:100px; height:60px; object-fit:cover; border-radius:6px;">
+                                            @if ($isVideo && ! $isImagePreview)
+                                                {{-- tampilkan placeholder dengan play (karena Drive video preview bukan file gambar langsung) --}}
+                                                <a href="{{ $preview }}" target="_blank" rel="noopener noreferrer" title="Open preview">
+                                                    <div class="thumb">
+                                                        <img src="{{ asset('assets/logo_BANPDMJATIM.png') }}" alt="video-thumb-{{ $item->id }}">
+                                                        <div class="play"><span class="triangle"></span></div>
+                                                        </div>
+                                                </a>
+                                            @else
+                                                <div class="thumb">
+                                                    <img src="{{ $preview }}" alt="thumb-{{ $item->id }}">
+                                                    @if ($isVideo)
+                                                        <div class="play"><span class="triangle"></span></div>
+                                                    @endif
+                                                </div>
+                                            @endif
+
                                         </td>
                                         <td>{{ $item->category?->name ?? '-' }}</td>
                                         <td>
