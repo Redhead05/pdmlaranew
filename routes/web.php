@@ -13,6 +13,8 @@ use App\Models\User;
 
 //frontend
 use App\Http\Controllers\frontend\GalleryController as FrontendGalleryController;
+use App\Http\Controllers\EmployeeController as FrontendEmployeeController;
+use App\Http\Controllers\Admin\EmployeeController as AdminEmployeeController;
 
 //adminpage
 use App\Http\Controllers\Admin\LandingPage\DashboardController as AdminLandingDashboardController;
@@ -34,7 +36,7 @@ Route::get('/news', [NewsFeController::class, 'index'])->name('frontend.pages.ne
 Route::get('/news/{slug}', [NewsFeController::class, 'show'])->name('frontend.pages.news-details');
 //Route::view('/news-details', 'frontend.pages.news-details')->name('frontend.pages.news-details');
 Route::get('/gallery', [FrontendGalleryController::class, 'index'])->name('frontend.pages.gallery');
-Route::view('/employees', 'frontend.pages.employes')->name('frontend.pages.employes');
+Route::get('/employees', [FrontendEmployeeController::class, 'index'])->name('frontend.pages.employes');
 
 // public pages: require slug to load specific attendance
 Route::get('/pub/internal/{slug}', [PublicAttendanceController::class, 'showInternal'])->name('pub.internal');
@@ -56,6 +58,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
    //Route admin
     Route::prefix('admin')->middleware('role:admin')->as('admin.')->group(function () {
         Route::resource('user', UserController::class);
+        // Employee management (admin)
+        Route::resource('employees', AdminEmployeeController::class);
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('attendance', AttendanceController::class);
         Route::get('/attendance/{slug}/detail', [AttendanceController::class, 'detail'])->name('attendance.detail');
