@@ -46,7 +46,6 @@
                             });
                         });
                     </script>
-
                 </div>
             </div>
 
@@ -59,7 +58,7 @@
                         <div class="card">
                             <figure class="card-img-top">
                                 <img class="max-w-full h-auto"
-                                     src="{{ isset($ketua) && $ketua->photo ? asset($ketua->photo) : asset('assets/fe/assets/img/avatars/t1.jpg') }}"
+                                     src="{{ ($ketua && $ketua->photo) ? Storage::url($ketua->photo) : asset('assets/blankphotopdm/ExamEmployee.png') }}"
                                      alt="{{ $ketua->name ?? 'Ketua' }}" loading="lazy">
                             </figure>
                             <div class="card-body px-6 py-5">
@@ -99,8 +98,9 @@
                         <div class="card">
                             <figure class="card-img-top">
                                 <img class="max-w-full h-auto"
-                                     src="{{ isset($sekretaris) && $sekretaris->photo ? asset($sekretaris->photo) : asset('assets/fe/assets/img/avatars/t1.jpg') }}"
+                                     src="{{ ($sekretaris && $sekretaris->photo) ? Storage::url($sekretaris->photo) : asset('assets/blankphotopdm/ExamEmployee.png') }}"
                                      alt="{{ $sekretaris->name ?? 'Sekretaris' }}" loading="lazy">
+
                             </figure>
                             <div class="card-body px-6 py-5">
                                 <h4 class="!mb-1">{{ $sekretaris->name ?? 'Belum ditentukan' }}</h4>
@@ -143,7 +143,9 @@
                             <div class="shape !rounded-[.4rem] !bg-[#edf2fc] rellax xl:block lg:block md:block absolute" style="bottom: -0.75rem; right: -0.75rem; width: 98%; height: 98%; z-index:0"></div>
                             <div class="card">
                                 <figure class="card-img-top">
-                                    <img class="max-w-full h-auto" src="{{ $member->photo ? asset($member->photo) : asset('assets/fe/assets/img/avatars/t1.jpg') }}" alt="{{ $member->name }}" loading="lazy">
+                                    <img class="max-w-full h-auto"
+                                         src="{{ $member->photo ? Storage::url($member->photo) : asset('assets/blankphotopdm/ExamEmployee.png') }}"
+                                         alt="{{ $member->name }}" loading="lazy">
                                 </figure>
                                 <div class="card-body px-6 py-5">
                                     <h4 class="!mb-1">{{ $member->name }}</h4>
@@ -186,7 +188,9 @@
                             <div class="shape !rounded-[.4rem] !bg-[#edf2fc] rellax xl:block lg:block md:block absolute" style="bottom: -0.75rem; right: -0.75rem; width: 98%; height: 98%; z-index:0"></div>
                             <div class="card">
                                 <figure class="card-img-top">
-                                    <img class="max-w-full h-auto" src="{{ $member->photo ? asset($member->photo) : asset('assets/fe/assets/img/avatars/t1.jpg') }}" alt="{{ $member->name }}" loading="lazy">
+                                    <img class="max-w-full h-auto"
+                                         src="{{ $member->photo ? Storage::url($member->photo) : asset('assets/blankphotopdm/ExamEmployee.png') }}"
+                                         alt="{{ $member->name }}" loading="lazy">
                                 </figure>
                                 <div class="card-body px-6 py-5">
                                     <h4 class="!mb-1">{{ $member->name }}</h4>

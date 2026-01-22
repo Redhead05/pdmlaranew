@@ -15,15 +15,7 @@ class EmployeesTableSeeder extends Seeder
         ];
 
         $avatars = [
-            'assets/fe/assets/img/avatars/t1.jpg',
-            'assets/fe/assets/img/avatars/t2.jpg',
-            'assets/fe/assets/img/avatars/t3.jpg',
-            'assets/fe/assets/img/avatars/t4.jpg',
-            'assets/fe/assets/img/avatars/t5.jpg',
-            'assets/fe/assets/img/avatars/t6.jpg',
-            'assets/fe/assets/img/avatars/t7.jpg',
-            'assets/fe/assets/img/avatars/te1.jpg',
-            'assets/fe/assets/img/avatars/u1.jpg',
+            'assets/blankphotopdm/ExamEmployee.png',
         ];
 
         foreach ($periods as $period) {

@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\LandingPage\EmployeeController;
 use App\Http\Controllers\Admin\LandingPage\GalleryController;
 use App\Http\Controllers\Admin\LandingPage\HomeController;
 use App\Http\Controllers\Admin\LandingPage\NewsController;
-use App\Http\Controllers\Admin\LandingPage\OrganizationStructureController;
+//use App\Http\Controllers\Admin\LandingPage\OrganizationStructureController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\frontend\NewsfeController;
 use App\Http\Controllers\ProfileController;
@@ -14,7 +15,7 @@ use App\Models\User;
 //frontend
 use App\Http\Controllers\frontend\GalleryController as FrontendGalleryController;
 use App\Http\Controllers\EmployeeController as FrontendEmployeeController;
-use App\Http\Controllers\Admin\EmployeeController as AdminEmployeeController;
+//use App\Http\Controllers\Admin\LandingPage\EmployeeController as AdminEmployeeController;
 
 //adminpage
 use App\Http\Controllers\Admin\LandingPage\DashboardController as AdminLandingDashboardController;
@@ -46,7 +47,7 @@ Route::post('/attendance/public/store', [PublicAttendanceController::class, 'sto
 
 //Route::get('/dashboard', function () {
 //    return view('dashboard');
-//})->middleware(['auth', 'verified'])->name('dashboard');
+//})->middleware(['auth', 'verified'])->name('dasfhboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -59,7 +60,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('admin')->middleware('role:admin')->as('admin.')->group(function () {
         Route::resource('user', UserController::class);
         // Employee management (admin)
-        Route::resource('employees', AdminEmployeeController::class);
+        Route::resource('employees', EmployeeController::class);
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('attendance', AttendanceController::class);
         Route::get('/attendance/{slug}/detail', [AttendanceController::class, 'detail'])->name('attendance.detail');
@@ -70,7 +71,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('home', HomeController::class);
         Route::resource('gallery', GalleryController::class);
         Route::resource('news', NewsController::class);
-        Route::resource('StrukturOrganisasi', OrganizationStructureController::class);
+        Route::resource('employee', EmployeeController::class);
     });
 
     //Route asesor

@@ -1,4 +1,4 @@
-<link rel="shortcut icon" href="{{ asset ('assets/fe/asset/img/favicon.png')}}">
+<link rel="shortcut icon" href="{{ asset ('assets/logotab.p')}}">
 	<link rel="stylesheet" type="text/css" href="{{ asset ('assets/fe/assets/fonts/unicons/unicons.css')}}">
   <link rel="stylesheet" href="{{ asset ('assets/fe/assets/css/plugins.css')}}">
   <link rel="stylesheet" href="{{ asset ('assets/fe/style.css') }}">

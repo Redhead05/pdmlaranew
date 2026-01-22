@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\LandingPage;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use Illuminate\Validation\Rule;
@@ -14,8 +15,22 @@ class EmployeeController extends Controller
         $start = $request->query('start') ? (int)$request->query('start') : null;
         $end = $request->query('end') ? (int)$request->query('end') : null;
 
-        $employees = Employee::yearRange($start, $end)->orderBy('start_year','desc')->orderBy('position')->paginate(20);
-        return view('admin.employees.index', compact('employees'));
+        $employees = Employee::yearRange($start, $end)
+            ->latest()
+            ->orderBy('start_year','desc')
+            ->orderBy('position')
+            ->get();
+
+        // fetch users for the create modal select
+        $users = User::select('id', 'name')->orderBy('name')->get();
+
+        // pass variables expected by the blade: `items` and `users`
+        return view('menu.adminlanding.employee.index', [
+            'items'  => $employees,
+            'users'  => $users,
+            'start'  => $start,
+            'end'    => $end,
+        ]);
     }
 
     public function create()
@@ -33,12 +48,18 @@ class EmployeeController extends Controller
             'email' => 'nullable|email',
             'facebook' => 'nullable|url',
             'instagram' => 'nullable|url',
-            'photo' => 'nullable|string',
+            'linkedin' => 'nullable|url',
+            'photo_file' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // max 2MB
         ]);
+
+        if ($request->hasFile('photo_file')) {
+            $path = $request->file('photo_file')->store('employees', 'public'); // saved to storage/app/public/employees/...
+            $data['photo'] = $path;
+        }
 
         $employee = Employee::create($data);
 
-        return redirect()->route('admin.employees.index')->with('success', 'Employee created');
+        return redirect()->route('adminlanding.employee.index')->with('success', 'Employee created');
     }
 
     public function edit(Employee $employee)
