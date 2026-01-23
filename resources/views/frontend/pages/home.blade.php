@@ -13,7 +13,7 @@
                 <p class="lead !text-[1.05rem] !leading-[1.6] font-medium">I'm Caitlyn Sandbox, a photographer specializing in food, drink and product photography.</p>
                 <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Vestibulum id ligula.</p>
                 <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Aenean lacinia bibendum nulla sed consectetur. Curabitur blandit tempus porttitor. Lorem ipsum dolor sit amet, consectetur.</p>
-                <a href="#" class="btn btn-primary !text-white !bg-[#3f78e0] border-[#3f78e0] hover:text-white hover:bg-[#3f78e0] hover:!border-[#3f78e0]   active:text-white active:bg-[#3f78e0] active:border-[#3f78e0] disabled:text-white disabled:bg-[#3f78e0] disabled:border-[#3f78e0] !rounded-[50rem] !mt-2 hover:translate-y-[-0.15rem] hover:shadow-[0_0.25rem_0.75rem_rgba(30,34,40,0.15)]">Learn More</a>
+{{--                <a href="#" class="btn btn-primary !text-white !bg-[#3f78e0] border-[#3f78e0] hover:text-white hover:bg-[#3f78e0] hover:!border-[#3f78e0]   active:text-white active:bg-[#3f78e0] active:border-[#3f78e0] disabled:text-white disabled:bg-[#3f78e0] disabled:border-[#3f78e0] !rounded-[50rem] !mt-2 hover:translate-y-[-0.15rem] hover:shadow-[0_0.25rem_0.75rem_rgba(30,34,40,0.15)]">Learn More</a>--}}
               </div>
               <!--/column -->
             </div>
@@ -27,8 +27,8 @@
                         <div class="md:w-10/12 lg:w-7/12 xl:w-7/12 w-full flex-[0_0_auto] !px-[15px] max-w-full !mx-auto !relative">
                             <img src="{{ asset ('assets/fe/assets/img/svg/doodle5.svg') }}" class="!w-[5rem] absolute hidden xl:block lg:block" data-delay="1800" style="bottom: -60%; right: 10%" alt="image">
                             <img src="{{ asset ('assets/fe/assets/img/svg/doodle6.svg') }}" class="!h-[5rem] !absolute hidden xl:block lg:block" data-delay="1800" style="top: -40%; left: -5%" alt="image">
-                            <h2 class="!text-[0.8rem] !tracking-[0.02rem] uppercase !text-[#aab0bc] !mb-3 !leading-[1.35]">How It Works</h2>
-                            <h3 class="!text-[calc(1.325rem_+_0.9vw)] font-bold !leading-[1.2] xl:!text-[2rem] !mb-8 xl:!px-6">Download the app, create your profile and <span class="text-gradient gradient-7">voilà</span>, you're all set!</h3>
+{{--                            <h2 class="!text-[0.8rem] !tracking-[0.02rem] uppercase !text-[#aab0bc] !mb-3 !leading-[1.35]">How It Works</h2>--}}
+                            <h3 class="!text-[calc(1.325rem_+_0.9vw)] font-bold !leading-[1.2] xl:!text-[2rem] !mb-8 xl:!px-6">Masuk dan Login Ke Sispena, Untuk melanjutkan proses <span class="text-gradient gradient-7">akreditasi</span>, Demi Anak Bangsa!</h3>
                         </div>
                         <!-- /column -->
                     </div>
@@ -104,9 +104,9 @@
                 <div class="container py-[5rem] xl:!py-[7rem] lg:!py-[7rem] md:!py-[7rem]">
           <!-- Centered headings -->
                   <div class="mx-auto max-w-5xl text-center">
-                    <h2 class="!text-[0.8rem] uppercase !text-[#aab0bc] !mb-3 !leading-[1.35]">Our Client</h2>
-                    <h3 class="xl:!text-[2.1rem] !text-[calc(1.335rem_+_1.02vw)] !leading-[1.2] font-semibold !mb-3 xxl:!pr-5">Bekerjasama dengan Dinas Pendidikan dan Kementrian Agama Se-Jawa Timur</h3>
-                    <p class="lead !text-[1.1rem] !leading-[1.55] font-medium !mb-8 xxl:!pr-5">Serta Organisasi Mitra</p>
+{{--                    <h2 class="!text-[0.8rem] uppercase !text-[#aab0bc] !mb-3 !leading-[1.35]">Our Client</h2>--}}
+                    <h3 class="xl:!text-[2.1rem] !text-[calc(1.335rem_+_1.02vw)] !leading-[1.2] font-semibold !mb-3 xxl:!pr-5">Mitra Kami </h3>
+{{--                    <p class="lead !text-[1.1rem] !leading-[1.55] font-medium !mb-8 xxl:!pr-5">Serta Organisasi Mitra</p>--}}
                   </div>
 
                   <!-- Logos grid below headings -->

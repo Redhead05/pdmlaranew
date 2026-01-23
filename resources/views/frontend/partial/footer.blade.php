@@ -19,22 +19,22 @@
           <!-- /column -->
           <div class="md:w-4/12 xl:w-3/12 lg:w-3/12 w-full flex-[0_0_auto] !px-[15px] max-w-full xl:!mt-0 lg:!mt-0 !mt-[30px]">
             <div class="widget !text-[#cacaca]">
-              <h4 class="widget-title !text-white !mb-3">Get in Touch</h4>
-              <address class="xl:!pr-20 xxl:!pr-28 not-italic !leading-[inherit] block !mb-4">Moonshine St. 14/05 Light City, London, United Kingdom</address>
-              <a class="!text-[#cacaca] hover:!text-[#747ed1]" href="mailto:first.last@email.com">info@email.com</a><br> 00 (123) 456 78 90
+              <h4 class="widget-title !text-white !mb-3">Alamat</h4>
+              <address class="xl:!pr-20 xxl:!pr-28 not-italic !leading-[inherit] block !mb-4">Komplek BBPMP JAWA TIMUR.<br> Gd Kartini Lt 4. <br>Jl. Ketintang Wiyata No.15, Ketintang, Kec. Gayungan, Surabaya, Jawa Timur</address>
+{{--              <a class="!text-[#cacaca] hover:!text-[#747ed1]" href="mailto:first.last@email.com">info@email.com</a><br> 00 (123) 456 78 90--}}
             </div>
             <!-- /.widget -->
           </div>
           <!-- /column -->
           <div class="md:w-4/12 xl:w-3/12 lg:w-3/12 w-full flex-[0_0_auto] !px-[15px] max-w-full xl:!mt-0 lg:!mt-0 !mt-[30px]">
             <div class="widget !text-[#cacaca]">
-              <h4 class="widget-title !text-white !mb-3">Learn More</h4>
+              <h4 class="widget-title !text-white !mb-3">Layanan</h4>
               <ul class="pl-0 list-none   !mb-0">
                 <li><a class="!text-[#cacaca] hover:!text-[#747ed1]" href="#">About Us</a></li>
-                <li class="!mt-[0.35rem]"><a class="!text-[#cacaca] hover:!text-[#747ed1]" href="#">Our Story</a></li>
-                <li class="!mt-[0.35rem]"><a class="!text-[#cacaca] hover:!text-[#747ed1]" href="#">Projects</a></li>
-                <li class="!mt-[0.35rem]"><a class="!text-[#cacaca] hover:!text-[#747ed1]" href="#">Terms of Use</a></li>
-                <li class="!mt-[0.35rem]"><a class="!text-[#cacaca] hover:!text-[#747ed1]" href="#">Privacy Policy</a></li>
+                <li class="!mt-[0.35rem]"><a class="!text-[#cacaca] hover:!text-[#747ed1]" href="#">Gallery</a></li>
+                <li class="!mt-[0.35rem]"><a class="!text-[#cacaca] hover:!text-[#747ed1]" href="#">Berita</a></li>
+                <li class="!mt-[0.35rem]"><a class="!text-[#cacaca] hover:!text-[#747ed1]" href="#">Struktur Organisasi</a></li>
+                <li class="!mt-[0.35rem]"><a class="!text-[#cacaca] hover:!text-[#747ed1]" href="#">Akreditasi</a></li>
               </ul>
             </div>
             <!-- /.widget -->

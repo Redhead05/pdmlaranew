@@ -151,8 +151,9 @@
               <div class="container !text-center">
                 <div class="flex flex-wrap mx-[-15px]">
                   <div class="lg:w-8/12 xl:w-6/12 w-full flex-[0_0_auto] !px-[15px] max-w-full !text-center !text-white !mx-auto">
-                    <h1 class="xl:!text-[2.7rem] !text-[calc(1.395rem_+_1.74vw)] font-semibold !leading-[1.15] !text-white !mb-5"><span class="rotator-zoom">Rapid Solutions,Innovative Thinking,Top-Notch Support</span></h1>
-                    <p class="lead !text-[1.2rem] !leading-[1.6] font-medium !mb-0 xxl:!mx-8">We are a digital agency specializing in web design, mobile development and seo optimization.</p>
+                    <h1 class="xl:!text-[2.7rem] !text-[calc(1.395rem_+_1.74vw)] font-semibold !leading-[1.15] !text-white !mb-5">
+                        <span class="rotator-zoom">Menyenangkan,Mudah,Gratis</span></h1>
+                    <p class="lead !text-[1.2rem] !leading-[1.6] font-medium !mb-0 xxl:!mx-8">Proses Akreditasi 0 Rupiah</p>
                   </div>
                   <!-- /column -->
                 </div>
