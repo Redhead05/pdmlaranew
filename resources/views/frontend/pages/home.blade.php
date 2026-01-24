@@ -1,69 +1,94 @@
 @extends('frontend.layout.app')
 @section('content')
 
-        <section class="wrapper !bg-[#ffffff] angled upper-end lower-end">
-          <div class="container pt-20 xl:pt-28 lg:pt-28 md:pt-28 pb-16 xl:pb-20 lg:pb-20 md:pb-20">
-            <div class="flex flex-wrap mx-[-15px] md:mx-[-20px] lg:mx-[-20px] xl:mx-[-35px] !mt-[-30px] items-center">
-              <div class="md:w-8/12 lg:w-6/12 xl:w-6/12 w-full flex-[0_0_auto] xl:!px-[35px] lg:!px-[20px] md:!px-[20px] !px-[15px] max-w-full xl:!order-2 lg:!order-2 !mx-auto !mt-[30px]">
-                <div class="img-mask mask-2"><img src="{{ asset ('assets/images/human.jpeg') }}" alt="image"></div>
-              </div>
-              <!--/column -->
-              <div class="xl:w-6/12 lg:w-6/12 w-full flex-[0_0_auto] xl:!px-[35px] lg:!px-[20px] md:!px-[20px] !px-[15px] max-w-full !mt-[30px]">
-                <h2 class="!text-[calc(1.285rem_+_0.42vw)] font-bold xl:!text-[1.6rem] !leading-[1.3] !mb-3">About Me</h2>
-                <p class="lead !text-[1.05rem] !leading-[1.6] font-medium">I'm Caitlyn Sandbox, a photographer specializing in food, drink and product photography.</p>
-                <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Vestibulum id ligula.</p>
-                <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Aenean lacinia bibendum nulla sed consectetur. Curabitur blandit tempus porttitor. Lorem ipsum dolor sit amet, consectetur.</p>
-{{--                <a href="#" class="btn btn-primary !text-white !bg-[#3f78e0] border-[#3f78e0] hover:text-white hover:bg-[#3f78e0] hover:!border-[#3f78e0]   active:text-white active:bg-[#3f78e0] active:border-[#3f78e0] disabled:text-white disabled:bg-[#3f78e0] disabled:border-[#3f78e0] !rounded-[50rem] !mt-2 hover:translate-y-[-0.15rem] hover:shadow-[0_0.25rem_0.75rem_rgba(30,34,40,0.15)]">Learn More</a>--}}
-              </div>
-              <!--/column -->
-            </div>
-
-          </div>
-        </section>
-              <!-- /section -->
-               <section class="wrapper !bg-[#ffffff]">
-                <div class="container py-[5rem] xl:!py-[7rem] lg:!py-[7rem] md:!py-[7rem]">
-                    <div class="flex flex-wrap mx-[-15px] !text-center">
-                        <div class="md:w-10/12 lg:w-7/12 xl:w-7/12 w-full flex-[0_0_auto] !px-[15px] max-w-full !mx-auto !relative">
-                            <img src="{{ asset ('assets/fe/assets/img/svg/doodle5.svg') }}" class="!w-[5rem] absolute hidden xl:block lg:block" data-delay="1800" style="bottom: -60%; right: 10%" alt="image">
-                            <img src="{{ asset ('assets/fe/assets/img/svg/doodle6.svg') }}" class="!h-[5rem] !absolute hidden xl:block lg:block" data-delay="1800" style="top: -40%; left: -5%" alt="image">
-{{--                            <h2 class="!text-[0.8rem] !tracking-[0.02rem] uppercase !text-[#aab0bc] !mb-3 !leading-[1.35]">How It Works</h2>--}}
-                            <h3 class="!text-[calc(1.325rem_+_0.9vw)] font-bold !leading-[1.2] xl:!text-[2rem] !mb-8 xl:!px-6">Masuk dan Login Ke Sispena, Untuk melanjutkan proses <span class="text-gradient gradient-7">akreditasi</span>, Demi Anak Bangsa!</h3>
-                        </div>
-                        <!-- /column -->
-                    </div>
-                    <!-- /.row -->
-                    <div class="flex flex-wrap mx-[-15px] lg:!mb-40 xl:!mb-[17.5rem]">
-                        <div class="xxl:w-11/12 w-full flex-[0_0_auto] !px-[15px] max-w-full !mx-auto">
-                            <div class="flex flex-wrap mx-[-15px] !mt-[-50px] xl:!mt-0 lg:!mt-0 !text-center items-center">
-                                <div class="md:w-4/12 lg:w-3/12 xl:w-3/12 w-full flex-[0_0_auto] !px-[15px] max-w-full !mx-auto !mb-[-2.5rem] lg:!mb-0 xl:!mb-0 !mt-[50px] xl:!mt-0 lg:!mt-0">
-                                    <figure class="mx-auto w-full max-w-[160px]">
-                                        <img src="{{ asset('assets/fe/assets/img/photos/SispenaPaud.png') }}"
-                                             srcset="{{ asset('assets/fe/assets/img/photos/SispenaPaud@2x.png') }} 2x"
-                                             alt="image"
-                                             class="w-full h-auto object-contain block">
-                                    </figure>
+    <section class="wrapper !bg-[#ffffff] ">
+        <div class="container pt-20 xl:pt-28 lg:pt-28 md:pt-28 pb-16 xl:pb-20 lg:pb-20 md:pb-20">
+            <div class="flex flex-wrap mx-[-15px] xl:mx-[-35px] lg:mx-[-20px] !mt-[-50px] items-center">
+                <div class="md:w-8/12 lg:w-6/12 xl:w-5/12 w-full flex-[0_0_auto] xl:!px-[35px] lg:!px-[20px] !px-[15px] max-w-full !mt-[50px] xl:!order-2 lg:!order-2 !relative">
+                    <div class="shape !bg-[#edf2fc] !rounded-[50%] rellax !w-[10rem] !h-[10rem] absolute z-[1]" data-rellax-speed="1" style="top: -2rem; right: -1.9rem;"></div>
+{{--                    <figure class="!rounded-[.4rem] z-[2] relative"><img class="!rounded-[.4rem] " src="{{ asset ('assets/fe/assets/img/photos/about7.jpg') }}" srcset="{{ asset ('assets/fe/assets/img/photos/about7@2x.jpg') }} 2x" alt="image"></figure>--}}
+                    <figure class="!rounded-[.4rem] z-[2] relative">
+                        <img class="!rounded-[.4rem] " src="{{ asset ('assets/blankphotopdm/ExamEmployee.png') }}"
+                             srcset="{{ asset ('assets/fe/assets/img/photos/about7@2x.jpg') }} 2x" alt="image">
+                    </figure>
+                </div>
+                <!--/column -->
+                <div class="xl:w-6/12 lg:w-6/12 w-full flex-[0_0_auto] xl:!px-[35px] lg:!px-[20px] !px-[15px] max-w-full !mt-[50px]">
+                    <h2 class="text-[calc(1.305rem_+_0.66vw)] font-bold xl:!text-[1.8rem] !leading-[1.3] !mb-3">Who Are We?</h2>
+                    <p class="lead !text-[1.05rem] !leading-[1.6] font-medium">We are a digital and branding company that believes in the power of creative strategy and along with great design.</p>
+                    <p class="!mb-6">Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</p>
+                    <div class="flex flex-wrap mx-[-15px] xl:mx-[-25px] !mt-[-30px]">
+                        <div class="xl:w-6/12 lg:w-6/12 md:w-6/12 w-full flex-[0_0_auto] xl:!px-[25px] !px-[15px] max-w-full !mt-[30px]">
+                            <div class="flex flex-row">
+                                <div>
+                                    <img src="{{ asset ('assets/fe/assets/img/icons/lineal/target.svg') }}" class="svg-inject icon-svg !w-[2.2rem] !h-[2.2rem]  !mr-4" alt="image">
                                 </div>
-                                <!-- /column -->
-                                <div class="md:w-6/12 lg:w-4/12 xl:w-4/12 w-full flex-[0_0_auto] !px-[15px] max-w-full !mx-auto !mb-[-2.5rem] lg:!mb-0 xl:!mb-0 !mt-[50px] xl:!mt-0 lg:!mt-0">
-                                    <figure class="mx-auto"><img src="{{ asset ('assets/fe/assets/img/photos/devices4.png') }}" srcset="{{ asset ('assets/fe/assets/img/photos/devices4@2x.png') }} 2x" alt="image"></figure>
+                                <div>
+                                    <h4 class="!mb-1">Our Mission</h4>
+                                    <p class="!mb-0">Dapibus eu leo quam ornare curabitur blandit tempus.</p>
                                 </div>
-                                <!-- /column -->
-                                <div class="md:w-4/12 lg:w-3/12 xl:w-3/12 w-full flex-[0_0_auto] !px-[15px] max-w-full !mx-auto !mb-[-2.5rem] lg:!mb-0 xl:!mb-0 !mt-[50px] xl:!mt-0 lg:!mt-0">
-                                    <figure class="mx-auto w-full max-w-[160px]">
-                                        <img src="{{ asset('assets/fe/assets/img/photos/sispenasm.png') }}"
-                                             srcset="{{ asset('assets/fe/assets/img/photos/devices4@2x.png') }} 2x"
-                                             alt="image"
-                                             class="w-full h-auto object-contain block">
-                                    </figure>
-                                </div>
-                                <!-- /column -->
                             </div>
-                            <!-- /.row -->
                         </div>
-                        <!-- /column -->
+                        <!--/column -->
+                        <div class="xl:w-6/12 lg:w-6/12 md:w-6/12 w-full flex-[0_0_auto] xl:!px-[25px] !px-[15px] max-w-full !mt-[30px]">
+                            <div class="flex flex-row">
+                                <div>
+                                    <img src="{{ asset ('assets/fe/assets/img/icons/lineal/award-2.svg') }}" class="svg-inject icon-svg !w-[2.2rem] !h-[2.2rem]  !mr-4" alt="image">
+                                </div>
+                                <div>
+                                    <h4 class="!mb-1">Our Values</h4>
+                                    <p class="!mb-0">Aenean lacinia bibendum nulla sed consectetur.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/column -->
                     </div>
-                <!-- /.container -->
+                    <!--/.row -->
+                </div>
+                <!--/column -->
+            </div>
+            <!--/.row -->
+        </div>
+        <!-- /.container -->
+    </section>
+
+    <!-- /section -->
+            <section class="wrapper !bg-[#ffffff]">
+                    <div class="container max-w-5xl mx-auto px-4 py-12 xl:py-16">
+                        <div class="flex flex-wrap mx-[-15px] !text-center">
+                            <div class="md:w-10/12 lg:w-7/12 xl:w-7/12 w-full flex-[0_0_auto] !px-[15px] max-w-full !mx-auto !relative">
+                                <img src="{{ asset ('assets/fe/assets/img/svg/doodle5.svg') }}" class="!w-[5rem] absolute hidden xl:block lg:block" data-delay="1800" style="bottom: -60%; right: 10%" alt="image">
+                                <img src="{{ asset ('assets/fe/assets/img/svg/doodle6.svg') }}" class="!h-[5rem] !absolute hidden xl:block lg:block" data-delay="1800" style="top: -40%; left: -5%" alt="image">
+    {{--                            <h2 class="!text-[0.8rem] !tracking-[0.02rem] uppercase !text-[#aab0bc] !mb-3 !leading-[1.35]">How It Works</h2>--}}
+                                <h3 class="!text-[calc(1.325rem_+_0.9vw)] font-bold !leading-[1.2] xl:!text-[2rem] !mb-8 xl:!px-6">Masuk dan Login Ke Sispena, Untuk melanjutkan proses <span class="text-gradient gradient-7">akreditasi</span>, Demi Anak Bangsa!</h3>
+                            </div>
+                            <!-- /column -->
+                        </div>
+                        <!-- /.row -->
+                        <div class="mt-6 container max-w-5xl mx-auto px-4 py-12 xl:py-16">
+                            <div class="flex flex-wrap justify-center items-center gap-6 px-4">
+                                <div class="w-full xxl:w-11/12">
+                                    <div class="flex flex-wrap items-center justify-center gap-6 mt-6">
+                                        <div class="w-full md:w-4/12 lg:w-3/12 xl:w-3/12 px-4">
+                                            <figure class="mx-auto w-full max-w-[160px]">
+                                                <img src="{{ asset('assets/fe/assets/img/photos/SispenaPaud.png') }}" srcset="{{ asset('assets/fe/assets/img/photos/SispenaPaud@2x.png') }} 2x" alt="SispenaPaud" class="w-full h-auto object-contain block">
+                                            </figure>
+                                        </div>
+                                        <div class="w-full md:w-6/12 lg:w-4/12 xl:w-4/12 px-4">
+                                            <figure class="mx-auto">
+                                                <img src="{{ asset('assets/fe/assets/img/photos/devices4.png') }}" srcset="{{ asset('assets/fe/assets/img/photos/devices4@2x.png') }} 2x" alt="devices" class="w-full h-auto object-contain">
+                                            </figure>
+                                        </div>
+                                        <div class="w-full md:w-4/12 lg:w-3/12 xl:w-3/12 px-4">
+                                            <figure class="mx-auto w-full max-w-[160px]">
+                                                <img src="{{ asset('assets/fe/assets/img/photos/sispenasm.png') }}" srcset="{{ asset('assets/fe/assets/img/photos/devices4@2x.png') }} 2x" alt="sispenasm" class="w-full h-auto object-contain block">
+                                            </figure>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
               </section>
               <!-- /section -->
               <section class="wrapper !bg-[#ffffff]">
@@ -139,4 +164,60 @@
                 </div>
                 <!-- /.container -->
               </section>
+    <section class="wrapper !bg-[#ffffff]">
+        <div class="container py-[5rem] xl:!py-[7rem] lg:!py-[7rem] md:!py-[7rem]">
+            <div class="md:w-10/12 lg:w-7/12 xl:w-7/12 w-full flex-[0_0_auto] !px-[15px] max-w-full !mx-auto !relative">
+                <img src="{{ asset ('assets/fe/assets/img/svg/doodle5.svg') }}" class="!w-[5rem] absolute hidden xl:block lg:block" data-delay="1800" style="bottom: -60%; right: 10%" alt="image">
+                <img src="{{ asset ('assets/fe/assets/img/svg/doodle6.svg') }}" class="!h-[5rem] !absolute hidden xl:block lg:block" data-delay="1800" style="top: -40%; left: -5%" alt="image">
+                <h3 class="!text-[calc(1.325rem_+_0.9vw)] font-bold !leading-[1.2] xl:!text-[2rem] !mb-8 xl:!px-6">Pertanyaan umum <span class="text-gradient gradient-7">FAQ</span></h3>
+            </div>
+            <div class="accordion accordion-wrapper" id="accordionExample">
+                <div class="card accordion-item !mb-5">
+                    <div class="card-header !mb-0 !p-[.9rem_1.3rem_.85rem] !border-0 !bg-inherit" id="headingOne">
+                        <button class="accordion-button !text-[.85rem] before:!text-[#3f78e0] hover:!text-[#3f78e0]" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> Professional Design </button>
+                    </div>
+                    <!--/.card-header -->
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="card-body flex-[1_1_auto] p-[0_1.25rem_.25rem_2.35rem]">
+                            <p>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Cras mattis consectetur purus sit amet fermentum. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cum sociis natoque penatibus et magnis dis parturient montes.</p>
+                        </div>
+                        <!--/.card-body -->
+                    </div>
+                    <!--/.accordion-collapse -->
+                </div>
+                <!--/.accordion-item -->
+                <div class="card accordion-item !mb-5">
+                    <div class="card-header !mb-0 !p-[.9rem_1.3rem_.85rem] !border-0 !bg-inherit text-center" id="headingTwo">
+                        <button class="collapsed !text-[.85rem] before:!text-[#3f78e0] hover:!text-[#3f78e0]" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Top-Notch Support
+                        </button>
+                    </div>
+                    <!--/.card-header -->
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                        <div class="card-body flex-[1_1_auto] p-[0_1.25rem_.25rem_2.35rem]">
+                            <p>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Cras mattis consectetur purus sit amet fermentum. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cum sociis natoque penatibus et magnis dis parturient montes.</p>
+                        </div>
+                        <!--/.card-body -->
+                    </div>
+                    <!--/.accordion-collapse -->
+                </div>
+                <!--/.accordion-item -->
+                <div class="card accordion-item !mb-5">
+                    <div class="card-header !mb-0 !p-[.9rem_1.3rem_.85rem] !border-0 !bg-inherit" id="headingThree">
+                        <button class="collapsed !text-[.85rem] before:!text-[#3f78e0] hover:!text-[#3f78e0]" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"> Header and Slider Options </button>
+                    </div>
+                    <!--/.card-header -->
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                        <div class="card-body flex-[1_1_auto] p-[0_1.25rem_.25rem_2.35rem]">
+                            <p>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Cras mattis consectetur purus sit amet fermentum. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cum sociis natoque penatibus et magnis dis parturient montes.</p>
+                        </div>
+                        <!--/.card-body -->
+                    </div>
+                    <!--/.accordion-collapse -->
+                </div>
+                <!--/.accordion-item -->
+            </div>
+        </div>
+    </section>
+
 @endsection
