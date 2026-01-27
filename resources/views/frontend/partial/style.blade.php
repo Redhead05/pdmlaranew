@@ -5,6 +5,7 @@
   <link rel="stylesheet" href="{{ asset ('assets/fe/assets/css/colors/purple.css')}}">
   <link rel="preload" href="{{ asset ('assets/fe/assets/css/fonts/urbanist.css')}}" as="style" onload="this.rel='stylesheet'">
 <link rel="stylesheet" href="{{ asset('assets/fe/assets/fonts/unicons/unicons.css') }}">
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
   <style>
     {{--Marquee--}}
      .logo-marquee { overflow: hidden; width: 100%; }

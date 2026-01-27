@@ -1,5 +1,5 @@
 <header class="relative wrapper">
-        <nav class="navbar navbar-expand-lg classic transparent position-absolute navbar-dark">
+    <nav class="navbar navbar-expand-lg classic transparent position-absolute navbar-dark">
           <div class="container xl:!flex-row lg:!flex-row !flex-nowrap items-center">
             <div class="navbar-brand w-full">
               <a href="{{ route('frontend.pages.home') }}">
@@ -80,21 +80,7 @@
             </div>
             <!-- /.navbar-collapse -->
             <div class="navbar-other w-full !flex !ml-auto">
-              <ul class="navbar-nav !flex-row !items-center !ml-auto">
-                <li class="nav-item">
-                  <a class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-info" aria-label="Info" title="Info">
-                    <i class="uil uil-info-circle before:content-['\eb99'] !text-[1.1rem]"></i>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-info" aria-label="Help" title="Help">
-                    <i class="uil uil-question-circle before:content-['\eb9a'] !text-[1.1rem]"></i>
-                  </a>
-                </li>
-                <li class="nav-item xl:!hidden lg:!hidden">
-                  <button class="hamburger offcanvas-nav-btn"><span></span></button>
-                </li>
-              </ul>
+                {{--Next Button--}}
               <!-- /.navbar-nav -->
             </div>
             <!-- /.navbar-other -->
@@ -146,7 +132,7 @@
         <!-- /.offcanvas -->
       </header>
     <section class="video-wrapper relative overflow-hidden bg-overlay bg-overlay-gradient !px-0 !mt-0 min-h-[80vh] xl:rounded-[1rem] lg:rounded-[1rem] md:rounded-[1rem]">
-            <video poster="{{ asset ('assets/fe/assets/img/photos/movie2.jpg')}}" src="{{ asset ('assets/fe/assets/media/movie2.mp4')}}" autoplay loop playsinline muted></video>
+            <video poster="{{ asset ('assets/fe/assets/img/photos/timeline1.png')}}" src="{{ asset ('assets/fe/assets/media/movie4.mp4')}}" autoplay loop playsinline muted></video>
             <div class="video-content absolute z-[2] w-full h-full flex items-center justify-center text-center flex-col left-0 top-0">
               <div class="container !text-center">
                 <div class="flex flex-wrap mx-[-15px]">
