@@ -1,4 +1,4 @@
-<form action="{{ route('adminlanding.news.store') }}" method="POST" enctype="multipart/form-data">
+<form id="create-news-form" action="{{ route('adminlanding.news.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="modal fade" id="exampleModallg" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -13,7 +13,7 @@
                         <div class="alert alert-danger"><ul class="mb-0">
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
-                                @endforeach
+                            @endforeach
                         </div>
                     @endif
 
@@ -35,9 +35,42 @@
                                 <input type="text" class="form-control" name="title" value="{{ old('title') }}" required>
                             </div>
 
-                            <div class="mb-3">
-                                <label class="form-label fs-15">Caption / Description</label>
-                                <textarea class="form-control" name="description" rows="3">{{ old('description') }}</textarea>
+                            {{-- Quill editor field --}}
+                            <div class="form-group mb-4">
+                                <label class="label text-secondary fs-14">Description</label>
+                                <div id="standalone-container">
+                                    <div id="toolbar-container" class="rounded-top-2">
+                                        <span class="ql-formats">
+                                            <select class="ql-font"></select>
+                                            <select class="ql-size"></select>
+                                        </span>
+                                        <span class="ql-formats">
+                                            <button class="ql-bold"></button>
+                                            <button class="ql-italic"></button>
+                                            <button class="ql-underline"></button>
+                                            <button class="ql-strike"></button>
+                                        </span>
+                                        <span class="ql-formats">
+                                            <button class="ql-blockquote"></button>
+                                            <button class="ql-code-block"></button>
+                                        </span>
+                                        <span class="ql-formats">
+                                            <button class="ql-list" value="ordered"></button>
+                                            <button class="ql-list" value="bullet"></button>
+                                            <button class="ql-indent" value="-1"></button>
+                                            <button class="ql-indent" value="+1"></button>
+                                        </span>
+                                        <span class="ql-formats">
+                                            <button class="ql-link"></button>
+                                            <button class="ql-image"></button>
+                                            <button class="ql-video"></button>
+                                        </span>
+                                    </div>
+                                    <div id="editor-container" style="height: 250px; border: 1px solid #D5D9E2;" class="rounded-bottom-2"></div>
+                                </div>
+
+                                {{-- hidden textarea yang dikirim ke server --}}
+                                <textarea name="description" id="description" style="display:none;">{{ old('description') }}</textarea>
                             </div>
 
                             <div class="mb-3">
@@ -67,26 +100,57 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger text-white" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary text-white">Save</button>
+                    <button id="submit-btn" type="submit" class="btn btn-primary text-white">Save</button>
                 </div>
             </div>
         </div>
     </div>
 </form>
 
+@push('styles')
+    {{-- Quill CSS --}}
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+@endpush
+
 @push('scripts')
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
     <script>
-        (function () {
-            const input = document.getElementById('image');
-            const img = document.getElementById('gallery-preview');
-            if (!input) return;
-            input.addEventListener('change', function (e) {
-                const file = e.target.files && e.target.files[0];
-                if (!file) return;
-                const reader = new FileReader();
-                reader.onload = function (ev) { img.src = ev.target.result; };
-                reader.readAsDataURL(file);
+        document.addEventListener('DOMContentLoaded', function () {
+            // init quill
+            var quill = new Quill('#editor-container', {
+                modules: { toolbar: '#toolbar-container' },
+                theme: 'snow'
             });
-        })();
+
+            // load old content if present
+            var oldContent = {!! json_encode(old('description')) !!};
+            if (oldContent) {
+                // use clipboard paste to restore html safely
+                quill.clipboard.dangerouslyPasteHTML(oldContent);
+            }
+
+            function syncQuillToTextarea() {
+                var descriptionInput = document.getElementById('description');
+                if (!descriptionInput) return;
+                descriptionInput.value = quill.root.innerHTML;
+            }
+
+            var form = document.getElementById('create-news-form');
+            if (!form) return;
+
+            // sync before actual submit (covers Enter and programmatic submits)
+            form.addEventListener('submit', function (e) {
+                syncQuillToTextarea();
+                // allow normal submit
+            });
+
+            // also sync if user clicks the submit button (race prevention)
+            var submitBtn = document.getElementById('submit-btn');
+            if (submitBtn) {
+                submitBtn.addEventListener('click', function () {
+                    syncQuillToTextarea();
+                });
+            }
+        });
     </script>
 @endpush

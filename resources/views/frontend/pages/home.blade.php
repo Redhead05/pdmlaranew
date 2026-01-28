@@ -52,121 +52,81 @@
                 <div class="flex flex-wrap mx-[-15px] xl:mx-[-35px] lg:mx-[-20px] !mt-[-50px] xl:!mt-0 lg:!mt-0" data-aos="fade-left">
                     <div class="xl:w-4/12 lg:w-4/12 w-full flex-[0_0_auto] xl:!px-[35px] lg:!px-[20px] !px-[15px] max-w-full xl:!mt-2 lg:!mt-2 !mt-[50px]">
                         <h2 class="!text-[calc(1.305rem_+_0.66vw)] font-bold xl:!text-[1.8rem] !leading-[1.3] !mb-3">Berita Terbaru</h2>
-                        <p class="lead !text-[1.05rem] !leading-[1.6] !mb-6 xxl:!pr-5">Here are the latest news from our blog that got the most attention.</p>
-                        <a href="#" class="btn btn-soft-primary !rounded-[50rem] hover:translate-y-[-0.15rem] hover:shadow-[0_0.25rem_0.75rem_rgba(30,34,40,0.05)]">View All News</a>
+                        <p class="lead !text-[1.05rem] !leading-[1.6] !mb-6 xxl:!pr-5">Dapat kan Berita secara keseluruhan di sini.</p>
+                        <a href="{{ route('frontend.pages.news') }}" class="btn btn-soft-primary !rounded-[50rem] hover:translate-y-[-0.15rem] hover:shadow-[0_0.25rem_0.75rem_rgba(30,34,40,0.05)]">Lihat Semua Berita</a>
                     </div>
                     <!-- /column -->
                     <div class="xl:w-8/12 lg:w-8/12 w-full flex-[0_0_auto] xl:!px-[35px] lg:!px-[20px] !px-[15px] max-w-full max-lg:!mt-[50px]" data-aos="fade-right">
                         <div class="swiper-container blog grid-view !mb-6" data-margin="30" data-dots="true" data-items-md="2" data-items-xs="1">
                             <div class="swiper">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <article>
-                                            <figure class="overlay overlay-1 hover-scale group rounded !mb-5"><a href="#"> <img class="!transition-all !duration-[0.35s] !ease-in-out group-hover:scale-105" src="{{ asset ('assets/fe/assets/img/photos/b4.jpg') }}" alt="image"></a>
-                                                <figcaption class="group-hover:opacity-100 absolute w-full h-full opacity-0 text-center px-4 py-3 inset-0 z-[5] pointer-events-none p-2">
-                                                    <h5 class="from-top  !mb-0 absolute w-full translate-y-[-80%] p-[.75rem_1rem] left-0 top-2/4">Read More</h5>
-                                                </figcaption>
-                                            </figure>
-                                            <div class="post-header">
-                                                <div class="inline-flex !mb-[.4rem] uppercase !tracking-[0.02rem] text-[0.7rem] font-bold !text-[#aab0bc] relative align-top !pl-[1.4rem] before:content-[''] before:absolute before:inline-block before:translate-y-[-60%] before:w-3 before:h-[0.05rem] before:left-0 before:top-2/4 before:bg-[#3f78e0]">
-                                                    <a href="#" class="hover" rel="category">Coding</a>
+                                    @if(isset($latestNews) && $latestNews->count())
+                                        @foreach($latestNews as $item)
+                                                <div class="swiper-slide">
+                                                    <article>
+                                                        <figure class="overlay overlay-1 hover-scale group rounded !mb-5">
+                                                            <a href="{{ route('frontend.pages.news-details', $item->news->slug ?? $item->news_id ?? $item->id) }}">
+                                                                <img
+                                                                    class="!transition-all !duration-[0.35s] !ease-in-out group-hover:scale-105 max-w-[120px] mx-auto h-28 sm:h-32 md:h-36 object-cover rounded"
+                                                                    src="{{ $item->thumbnail ? Storage::url($item->thumbnail) : asset('assets/fe/assets/img/photos/b4.jpg') }}"
+                                                                    alt="{{ $item->news->title ?? 'image' }}"
+
+                                                                />
+                                                            </a>
+                                                            <figcaption class="group-hover:opacity-100 absolute w-full h-full opacity-0 text-center px-4 py-3 inset-0 z-[5] pointer-events-none p-2">
+                                                                <h5 class="from-top  !mb-0 absolute w-full translate-y-[-80%] p-[.75rem_1rem] left-0 top-2/4">Read More</h5>
+                                                            </figcaption>
+                                                        </figure>
+                                                        <div class="post-header">
+                                                            <div class="inline-flex !mb-[.4rem] uppercase !tracking-[0.02rem] text-[0.7rem] font-bold !text-[#aab0bc] relative align-top !pl-[1.4rem] before:content-[''] before:absolute before:inline-block before:translate-y-[-60%] before:w-3 before:h-[0.05rem] before:left-0 before:top-2/4 before:bg-[#3f78e0]">
+    {{--                                                            <a href="#" class="hover" rel="category">{{ $item->news->category ?? 'Coding' }}</a>--}}
+                                                                <a class="!text-[#343f52] hover:!text-[#3f78e0]" href="{{ route('frontend.pages.news-details', $item->news->slug ?? $item->news_id ?? $item->id) }}">
+                                                                    {{ \Illuminate\Support\Str::limit($item->news->title ?? strip_tags($item->description ?? ''), 80) }}
+                                                                </a>
+                                                            </div>
+                                                            <h2 class="post-title h3 !mt-1 !mb-3">
+
+                                                            </h2>
+                                                        </div>
+                                                        <div class="post-footer">
+                                                            <ul class="!text-[0.7rem] !text-[#aab0bc] m-0 p-0 list-none  !mb-0">
+                                                                <li class="post-date inline-block">
+                                                                    <i class="uil uil-calendar-alt pr-[0.2rem] align-[-.05rem] before:content-['\e9ba']"></i>
+                                                                    <span>{{ $item->created_at ? $item->created_at->format('d M Y') : '14 Apr 2022' }}</span>
+                                                                </li>
+                                                                <li class="post-comments inline-block before:content-[''] before:inline-block before:w-[0.2rem] before:h-[0.2rem] before:opacity-50 before:m-[0_.6rem_0] before:rounded-[100%] before:align-[.15rem] before:bg-[#aab0bc]">
+                                                                    <a class="!text-[#aab0bc] hover:!text-[#3f78e0] hover:!border-[#3f78e0]" href="#"><i class="uil uil-comment pr-[0.2rem] align-[-.05rem] before:content-['\ea54']"></i>4</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </article>
                                                 </div>
-                                                <!-- /.post-category -->
-                                                <h2 class="post-title h3 !mt-1 !mb-3"><a class="!text-[#343f52] hover:!text-[#3f78e0]" href="../blog-post.html">Ligula tristique quis risus</a></h2>
-                                            </div>
-                                            <!-- /.post-header -->
-                                            <div class="post-footer">
-                                                <ul class="!text-[0.7rem] !text-[#aab0bc] m-0 p-0 list-none  !mb-0">
-                                                    <li class="post-date inline-block"><i class="uil uil-calendar-alt pr-[0.2rem] align-[-.05rem] before:content-['\e9ba']"></i><span>14 Apr 2022</span></li>
-                                                    <li class="post-comments inline-block before:content-[''] before:inline-block before:w-[0.2rem] before:h-[0.2rem] before:opacity-50 before:m-[0_.6rem_0] before:rounded-[100%] before:align-[.15rem] before:bg-[#aab0bc]"><a class="!text-[#aab0bc] hover:!text-[#3f78e0] hover:!border-[#3f78e0]" href="#"><i class="uil uil-comment pr-[0.2rem] align-[-.05rem] before:content-['\ea54']"></i>4</a></li>
-                                                </ul>
-                                                <!-- /.post-meta -->
-                                            </div>
-                                            <!-- /.post-footer -->
-                                        </article>
-                                        <!-- /article -->
-                                    </div>
-                                    <!--/.swiper-slide -->
-                                    <div class="swiper-slide">
-                                        <article>
-                                            <figure class="overlay overlay-1 hover-scale group rounded !mb-5"><a href="#"> <img class="!transition-all !duration-[0.35s] !ease-in-out group-hover:scale-105" src="{{ asset ('assets/fe/assets/img/photos/b5.jpg') }}" alt="image"></a>
-                                                <figcaption class="group-hover:opacity-100 absolute w-full h-full opacity-0 text-center px-4 py-3 inset-0 z-[5] pointer-events-none p-2">
-                                                    <h5 class="from-top  !mb-0 absolute w-full translate-y-[-80%] p-[.75rem_1rem] left-0 top-2/4">Read More</h5>
-                                                </figcaption>
-                                            </figure>
-                                            <div class="post-header">
-                                                <div class="inline-flex !mb-[.4rem] uppercase !tracking-[0.02rem] text-[0.7rem] font-bold !text-[#aab0bc] relative align-top !pl-[1.4rem] before:content-[''] before:absolute before:inline-block before:translate-y-[-60%] before:w-3 before:h-[0.05rem] before:left-0 before:top-2/4 before:bg-[#3f78e0]">
-                                                    <a href="#" class="hover" rel="category">Workspace</a>
+
+                                        @endforeach
+                                    @else
+                                        <div class="swiper-slide">
+                                            <article>
+                                                <figure class="overlay overlay-1 hover-scale group rounded !mb-5">
+                                                    <a href="#"> <img class="!transition-all !duration-[0.35s] !ease-in-out group-hover:scale-105" src="{{ asset('assets/fe/assets/img/photos/b4.jpg') }}" alt="image"></a>
+                                                    <figcaption class="group-hover:opacity-100 absolute w-full h-full opacity-0 text-center px-4 py-3 inset-0 z-[5] pointer-events-none p-2">
+                                                        <h5 class="from-top  !mb-0 absolute w-full translate-y-[-80%] p-[.75rem_1rem] left-0 top-2/4">Read More</h5>
+                                                    </figcaption>
+                                                </figure>
+                                                <div class="post-header">
+                                                    <div class="inline-flex !mb-[.4rem] uppercase !tracking-[0.02rem] text-[0.7rem] font-bold !text-[#aab0bc] relative align-top !pl-[1.4rem] before:content-[''] before:absolute before:inline-block before:translate-y-[-60%] before:w-3 before:h-[0.05rem] before:left-0 before:top-2/4 before:bg-[#3f78e0]">
+                                                        <a href="#" class="hover" rel="category">Coding</a>
+                                                    </div>
+                                                    <h2 class="post-title h3 !mt-1 !mb-3"><a class="!text-[#343f52] hover:!text-[#3f78e0]" href="../blog-post.html">Ligula tristique quis risus</a></h2>
                                                 </div>
-                                                <!-- /.post-category -->
-                                                <h2 class="post-title h3 !mt-1 !mb-3"><a class="!text-[#343f52] hover:!text-[#3f78e0]" href="../blog-post.html">Nullam id dolor elit id nibh</a></h2>
-                                            </div>
-                                            <!-- /.post-header -->
-                                            <div class="post-footer">
-                                                <ul class="!text-[0.7rem] !text-[#aab0bc] m-0 p-0 list-none  !mb-0">
-                                                    <li class="post-date inline-block"><i class="uil uil-calendar-alt pr-[0.2rem] align-[-.05rem] before:content-['\e9ba']"></i><span>29 Mar 2022</span></li>
-                                                    <li class="post-comments inline-block before:content-[''] before:inline-block before:w-[0.2rem] before:h-[0.2rem] before:opacity-50 before:m-[0_.6rem_0] before:rounded-[100%] before:align-[.15rem] before:bg-[#aab0bc]"><a class="!text-[#aab0bc] hover:!text-[#3f78e0] hover:!border-[#3f78e0]" href="#"><i class="uil uil-comment pr-[0.2rem] align-[-.05rem] before:content-['\ea54']"></i>3</a></li>
-                                                </ul>
-                                                <!-- /.post-meta -->
-                                            </div>
-                                            <!-- /.post-footer -->
-                                        </article>
-                                        <!-- /article -->
-                                    </div>
-                                    <!--/.swiper-slide -->
-                                    <div class="swiper-slide">
-                                        <article>
-                                            <figure class="overlay overlay-1 hover-scale group rounded !mb-5"><a href="#"> <img class="!transition-all !duration-[0.35s] !ease-in-out group-hover:scale-105" src="{{ asset ('assets/fe/assets/img/photos/b6.jpg') }}" alt="image"></a>
-                                                <figcaption class="group-hover:opacity-100 absolute w-full h-full opacity-0 text-center px-4 py-3 inset-0 z-[5] pointer-events-none p-2">
-                                                    <h5 class="from-top  !mb-0 absolute w-full translate-y-[-80%] p-[.75rem_1rem] left-0 top-2/4">Read More</h5>
-                                                </figcaption>
-                                            </figure>
-                                            <div class="post-header">
-                                                <div class="inline-flex !mb-[.4rem] uppercase !tracking-[0.02rem] text-[0.7rem] font-bold !text-[#aab0bc] relative align-top !pl-[1.4rem] before:content-[''] before:absolute before:inline-block before:translate-y-[-60%] before:w-3 before:h-[0.05rem] before:left-0 before:top-2/4 before:bg-[#3f78e0]">
-                                                    <a href="#" class="hover" rel="category">Meeting</a>
+                                                <div class="post-footer">
+                                                    <ul class="!text-[0.7rem] !text-[#aab0bc] m-0 p-0 list-none  !mb-0">
+                                                        <li class="post-date inline-block"><i class="uil uil-calendar-alt pr-[0.2rem] align-[-.05rem] before:content-['\e9ba']"></i><span>14 Apr 2022</span></li>
+                                                        <li class="post-comments inline-block before:content-[''] before:inline-block before:w-[0.2rem] before:h-[0.2rem] before:opacity-50 before:m-[0_.6rem_0] before:rounded-[100%] before:align-[.15rem] before:bg-[#aab0bc]"><a class="!text-[#aab0bc] hover:!text-[#3f78e0] hover:!border-[#3f78e0]" href="#"><i class="uil uil-comment pr-[0.2rem] align-[-.05rem] before:content-['\ea54']"></i>4</a></li>
+                                                    </ul>
                                                 </div>
-                                                <!-- /.post-category -->
-                                                <h2 class="post-title h3 !mt-1 !mb-3"><a class="!text-[#343f52] hover:!text-[#3f78e0]" href="../blog-post.html">Ultricies fusce porta elit</a></h2>
-                                            </div>
-                                            <!-- /.post-header -->
-                                            <div class="post-footer">
-                                                <ul class="!text-[0.7rem] !text-[#aab0bc] m-0 p-0 list-none  !mb-0">
-                                                    <li class="post-date inline-block"><i class="uil uil-calendar-alt pr-[0.2rem] align-[-.05rem] before:content-['\e9ba']"></i><span>26 Feb 2022</span></li>
-                                                    <li class="post-comments inline-block before:content-[''] before:inline-block before:w-[0.2rem] before:h-[0.2rem] before:opacity-50 before:m-[0_.6rem_0] before:rounded-[100%] before:align-[.15rem] before:bg-[#aab0bc]"><a class="!text-[#aab0bc] hover:!text-[#3f78e0] hover:!border-[#3f78e0]" href="#"><i class="uil uil-comment pr-[0.2rem] align-[-.05rem] before:content-['\ea54']"></i>6</a></li>
-                                                </ul>
-                                                <!-- /.post-meta -->
-                                            </div>
-                                            <!-- /.post-footer -->
-                                        </article>
-                                        <!-- /article -->
-                                    </div>
-                                    <!--/.swiper-slide -->
-                                    <div class="swiper-slide">
-                                        <article>
-                                            <figure class="overlay overlay-1 hover-scale group rounded !mb-5"><a href="#"> <img class="!transition-all !duration-[0.35s] !ease-in-out group-hover:scale-105" src="{{ asset ('assets/fe/assets/img/photos/b7.jpg') }}" alt="image"></a>
-                                                <figcaption class="group-hover:opacity-100 absolute w-full h-full opacity-0 text-center px-4 py-3 inset-0 z-[5] pointer-events-none p-2">
-                                                    <h5 class="from-top  !mb-0 absolute w-full translate-y-[-80%] p-[.75rem_1rem] left-0 top-2/4">Read More</h5>
-                                                </figcaption>
-                                            </figure>
-                                            <div class="post-header">
-                                                <div class="inline-flex !mb-[.4rem] uppercase !tracking-[0.02rem] text-[0.7rem] font-bold !text-[#aab0bc] relative align-top !pl-[1.4rem] before:content-[''] before:absolute before:inline-block before:translate-y-[-60%] before:w-3 before:h-[0.05rem] before:left-0 before:top-2/4 before:bg-[#3f78e0]">
-                                                    <a href="#" class="hover" rel="category">Business Tips</a>
-                                                </div>
-                                                <!-- /.post-category -->
-                                                <h2 class="post-title h3 !mt-1 !mb-3"><a class="!text-[#343f52] hover:!text-[#3f78e0]" href="../blog-post.html">Morbi leo risus porta eget</a></h2>
-                                            </div>
-                                            <div class="post-footer">
-                                                <ul class="!text-[0.7rem] !text-[#aab0bc] m-0 p-0 list-none  !mb-0">
-                                                    <li class="post-date inline-block"><i class="uil uil-calendar-alt pr-[0.2rem] align-[-.05rem] before:content-['\e9ba']"></i><span>7 Jan 2022</span></li>
-                                                    <li class="post-comments inline-block before:content-[''] before:inline-block before:w-[0.2rem] before:h-[0.2rem] before:opacity-50 before:m-[0_.6rem_0] before:rounded-[100%] before:align-[.15rem] before:bg-[#aab0bc]"><a class="!text-[#aab0bc] hover:!text-[#3f78e0] hover:!border-[#3f78e0]" href="#"><i class="uil uil-comment pr-[0.2rem] align-[-.05rem] before:content-['\ea54']"></i>2</a></li>
-                                                </ul>
-                                                <!-- /.post-meta -->
-                                            </div>
-                                            <!-- /.post-footer -->
-                                        </article>
-                                        <!-- /article -->
-                                    </div>
-                                    <!--/.swiper-slide -->
+                                            </article>
+                                        </div>
+                                    @endif
                                 </div>
                                 <!--/.swiper-wrapper -->
                             </div>

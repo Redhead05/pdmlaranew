@@ -26,7 +26,8 @@
                     <div class="blog single !mt-[-7rem]">
                         <div class="card">
                             <figure class="card-img-top">
-                                <img src="{{ $news->detail && $news->detail->thumbnail ? asset('storage/' . $news->detail->thumbnail) : asset('assets/fe/assets/img/photos/b1.jpg') }}" alt="{{ $news->title }}">
+                                <img src="{{ $news->detail && $news->detail->thumbnail ? asset('storage/' . $news->detail->thumbnail) : asset('assets/fe/assets/img/photos/b1.jpg') }}" alt="{{ $news->title }}"
+                                >
                             </figure>
                             <div class="card-body flex-[1_1_auto] p-[40px]">
                                 <div class="classic-view">

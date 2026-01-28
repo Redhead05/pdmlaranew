@@ -15,6 +15,7 @@ use App\Models\User;
 //frontend
 use App\Http\Controllers\frontend\GalleryController as FrontendGalleryController;
 use App\Http\Controllers\EmployeeController as FrontendEmployeeController;
+use App\Http\Controllers\frontend\HomeController as FrontendHomeController;
 //use App\Http\Controllers\Admin\LandingPage\EmployeeController as AdminEmployeeController;
 
 //adminpage
@@ -32,7 +33,7 @@ use App\Http\Controllers\PublicAttendanceController;
 Route::get('/', function () {
     return view('auth.login');
 });
-Route::view('/landing', 'frontend.pages.home')->name('frontend.pages.home');
+Route::get('/landing', [FrontendHomeController::class, 'index'])->name('frontend.pages.home');
 Route::get('/news', [NewsFeController::class, 'index'])->name('frontend.pages.news');
 Route::get('/news/{slug}', [NewsFeController::class, 'show'])->name('frontend.pages.news-details');
 //Route::view('/news-details', 'frontend.pages.news-details')->name('frontend.pages.news-details');

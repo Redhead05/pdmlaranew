@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Http\Controllers\frontend;
+
+use App\Http\Controllers\Controller;
+use App\Models\NewsDetail;
+
+class HomeController extends Controller
+{
+    public function index()
+    {
+        $latestNews = NewsDetail::with('news')
+            ->orderBy('created_at','desc')
+            ->take(3)
+            ->get();
+//        dd($latestNews->takeArray());
+
+        return view('frontend.pages.home', compact('latestNews'));
+    }
+
+}
