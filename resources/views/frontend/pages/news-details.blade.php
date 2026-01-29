@@ -11,7 +11,8 @@
                         <h1 class="!text-[calc(1.365rem_+_1.38vw)] font-bold !leading-[1.2] xl:!text-[2.4rem] !mb-4">{{ $news->title }}</h1>
                         <ul class="!text-[0.8rem] !text-[#aab0bc] m-0 p-0 list-none !mb-5">
                             <li class="post-date inline-block"><i class="uil uil-calendar-alt pr-[0.2rem]"></i><span>{{ $news->created_at->format('j M Y') }}</span></li>
-                            <li class="post-author inline-block before:content-['']"><a class="!text-[0.8rem] !text-[#aab0bc] hover:!text-[#3f78e0]" href="#"><span>By {{ $news->created_by ? 'User #'.$news->created_by : 'Admin' }}</span></a></li>
+                            <li class="post-author inline-block before:content-['']"><a class="!text-[0.8rem] !text-[#aab0bc] hover:!text-[#3f78e0]" href="#">
+                                    <span>By {{ optional($news->user)->name ?? $news->created_by }}</span></a></li>
                         </ul>
                     </div>
                 </div>

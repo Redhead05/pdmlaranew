@@ -79,23 +79,21 @@
                                                         </figure>
                                                         <div class="post-header">
                                                             <div class="inline-flex !mb-[.4rem] uppercase !tracking-[0.02rem] text-[0.7rem] font-bold !text-[#aab0bc] relative align-top !pl-[1.4rem] before:content-[''] before:absolute before:inline-block before:translate-y-[-60%] before:w-3 before:h-[0.05rem] before:left-0 before:top-2/4 before:bg-[#3f78e0]">
-    {{--                                                            <a href="#" class="hover" rel="category">{{ $item->news->category ?? 'Coding' }}</a>--}}
                                                                 <a class="!text-[#343f52] hover:!text-[#3f78e0]" href="{{ route('frontend.pages.news-details', $item->news->slug ?? $item->news_id ?? $item->id) }}">
                                                                     {{ \Illuminate\Support\Str::limit($item->news->title ?? strip_tags($item->description ?? ''), 80) }}
                                                                 </a>
                                                             </div>
                                                             <h2 class="post-title h3 !mt-1 !mb-3">
-
+                                                                <a class="!text-[#343f52] hover:!text-[#3f78e0]" href="{{ route('frontend.pages.news-details', $item->news->slug ?? $item->news_id ?? $item->id) }}">
+                                                                    {{ \Illuminate\Support\Str::limit($item->description ?? strip_tags($item->description ?? ''), 50) }}
+                                                                </a>
                                                             </h2>
                                                         </div>
                                                         <div class="post-footer">
                                                             <ul class="!text-[0.7rem] !text-[#aab0bc] m-0 p-0 list-none  !mb-0">
                                                                 <li class="post-date inline-block">
                                                                     <i class="uil uil-calendar-alt pr-[0.2rem] align-[-.05rem] before:content-['\e9ba']"></i>
-                                                                    <span>{{ $item->created_at ? $item->created_at->format('d M Y') : '14 Apr 2022' }}</span>
-                                                                </li>
-                                                                <li class="post-comments inline-block before:content-[''] before:inline-block before:w-[0.2rem] before:h-[0.2rem] before:opacity-50 before:m-[0_.6rem_0] before:rounded-[100%] before:align-[.15rem] before:bg-[#aab0bc]">
-                                                                    <a class="!text-[#aab0bc] hover:!text-[#3f78e0] hover:!border-[#3f78e0]" href="#"><i class="uil uil-comment pr-[0.2rem] align-[-.05rem] before:content-['\ea54']"></i>4</a>
+                                                                    <span>{{ $item->created_at ? $item->created_at->format('d M Y') : 'Tanggal Tidak Tampil' }}</span>
                                                                 </li>
                                                             </ul>
                                                         </div>
@@ -104,28 +102,9 @@
 
                                         @endforeach
                                     @else
-                                        <div class="swiper-slide">
-                                            <article>
-                                                <figure class="overlay overlay-1 hover-scale group rounded !mb-5">
-                                                    <a href="#"> <img class="!transition-all !duration-[0.35s] !ease-in-out group-hover:scale-105" src="{{ asset('assets/fe/assets/img/photos/b4.jpg') }}" alt="image"></a>
-                                                    <figcaption class="group-hover:opacity-100 absolute w-full h-full opacity-0 text-center px-4 py-3 inset-0 z-[5] pointer-events-none p-2">
-                                                        <h5 class="from-top  !mb-0 absolute w-full translate-y-[-80%] p-[.75rem_1rem] left-0 top-2/4">Read More</h5>
-                                                    </figcaption>
-                                                </figure>
-                                                <div class="post-header">
-                                                    <div class="inline-flex !mb-[.4rem] uppercase !tracking-[0.02rem] text-[0.7rem] font-bold !text-[#aab0bc] relative align-top !pl-[1.4rem] before:content-[''] before:absolute before:inline-block before:translate-y-[-60%] before:w-3 before:h-[0.05rem] before:left-0 before:top-2/4 before:bg-[#3f78e0]">
-                                                        <a href="#" class="hover" rel="category">Coding</a>
-                                                    </div>
-                                                    <h2 class="post-title h3 !mt-1 !mb-3"><a class="!text-[#343f52] hover:!text-[#3f78e0]" href="../blog-post.html">Ligula tristique quis risus</a></h2>
-                                                </div>
-                                                <div class="post-footer">
-                                                    <ul class="!text-[0.7rem] !text-[#aab0bc] m-0 p-0 list-none  !mb-0">
-                                                        <li class="post-date inline-block"><i class="uil uil-calendar-alt pr-[0.2rem] align-[-.05rem] before:content-['\e9ba']"></i><span>14 Apr 2022</span></li>
-                                                        <li class="post-comments inline-block before:content-[''] before:inline-block before:w-[0.2rem] before:h-[0.2rem] before:opacity-50 before:m-[0_.6rem_0] before:rounded-[100%] before:align-[.15rem] before:bg-[#aab0bc]"><a class="!text-[#aab0bc] hover:!text-[#3f78e0] hover:!border-[#3f78e0]" href="#"><i class="uil uil-comment pr-[0.2rem] align-[-.05rem] before:content-['\ea54']"></i>4</a></li>
-                                                    </ul>
-                                                </div>
-                                            </article>
-                                        </div>
+                                        <h1>
+                                            Data Tidak ada
+                                        </h1>
                                     @endif
                                 </div>
                                 <!--/.swiper-wrapper -->

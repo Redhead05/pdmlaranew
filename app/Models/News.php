@@ -31,9 +31,10 @@ class News extends Model
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
-    public function author()
+    public function user()
     {
-        return $this->HasMany(User::class, 'id', 'created_by');
+        // Correct relation: News belongs to a User via news.created_by -> users.id
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
     public function scopePublished($query)
     {

@@ -30,13 +30,12 @@ use App\Http\Controllers\Asesor\DashboardController as AsesorDashboardController
 use App\Http\Controllers\Asesor\Attendance\AttendanceController as AsesorAttendanceController;
 use App\Http\Controllers\PublicAttendanceController;
 
-Route::get('/', function () {
+Route::get('/mualesaku', function () {
     return view('auth.login');
 });
-Route::get('/landing', [FrontendHomeController::class, 'index'])->name('frontend.pages.home');
+Route::get('/', [FrontendHomeController::class, 'index'])->name('frontend.pages.home');
 Route::get('/news', [NewsFeController::class, 'index'])->name('frontend.pages.news');
 Route::get('/news/{slug}', [NewsFeController::class, 'show'])->name('frontend.pages.news-details');
-//Route::view('/news-details', 'frontend.pages.news-details')->name('frontend.pages.news-details');
 Route::get('/gallery', [FrontendGalleryController::class, 'index'])->name('frontend.pages.gallery');
 Route::get('/employees', [FrontendEmployeeController::class, 'index'])->name('frontend.pages.employes');
 

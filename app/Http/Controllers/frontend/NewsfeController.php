@@ -41,10 +41,11 @@ class NewsfeController extends Controller
     }
     public function show(string $slug)
     {
-        $news = News::with(['detail', 'category'])
+        $news = News::with(['detail', 'category','user'])
             ->where('slug', $slug)
             ->where('is_active', 1)
             ->firstOrFail();
+//        dd($news);
 
         return view('frontend.pages.news-details', compact('news'));
     }

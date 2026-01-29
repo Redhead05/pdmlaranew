@@ -13,9 +13,8 @@ class HomeController extends Controller
             ->orderBy('created_at','desc')
             ->take(3)
             ->get();
-//        dd($latestNews->takeArray());
+//        dd($latestNews->jsonSerialize());
 
         return view('frontend.pages.home', compact('latestNews'));
     }
-
 }
