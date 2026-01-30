@@ -85,7 +85,8 @@
                                                             </div>
                                                             <h2 class="post-title h3 !mt-1 !mb-3">
                                                                 <a class="!text-[#343f52] hover:!text-[#3f78e0]" href="{{ route('frontend.pages.news-details', $item->news->slug ?? $item->news_id ?? $item->id) }}">
-                                                                    {{ \Illuminate\Support\Str::limit($item->description ?? strip_tags($item->description ?? ''), 50) }}
+{{--                                                                    {{ \Illuminate\Support\Str::limit($item->description ?? strip_tags($item->description ?? ''), 50) }}--}}
+                                                                    {{ \Illuminate\Support\Str::limit(strip_tags($item->description ?? ''), 50) }}
                                                                 </a>
                                                             </h2>
                                                         </div>
