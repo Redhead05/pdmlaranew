@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('news_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('news_id')->constrained('news')->cascadeOnDelete();
-            $table->text('description')->nullable();
+            $table->longText('description')->nullable();
             $table->string('thumbnail')->nullable();
             $table->softDeletes();
             $table->timestamps();

@@ -38,40 +38,57 @@
                             {{-- Quill editor field --}}
                             <div class="form-group mb-4">
                                 <label class="label text-secondary fs-14">Description</label>
-                                <div id="standalone-container">
-                                    <div id="toolbar-container" class="rounded-top-2">
-                                        <span class="ql-formats">
-                                            <select class="ql-font"></select>
-                                            <select class="ql-size"></select>
-                                        </span>
-                                        <span class="ql-formats">
-                                            <button class="ql-bold"></button>
-                                            <button class="ql-italic"></button>
-                                            <button class="ql-underline"></button>
-                                            <button class="ql-strike"></button>
-                                        </span>
-                                        <span class="ql-formats">
-                                            <button class="ql-blockquote"></button>
-                                            <button class="ql-code-block"></button>
-                                        </span>
-                                        <span class="ql-formats">
-                                            <button class="ql-list" value="ordered"></button>
-                                            <button class="ql-list" value="bullet"></button>
-                                            <button class="ql-indent" value="-1"></button>
-                                            <button class="ql-indent" value="+1"></button>
-                                        </span>
-                                        <span class="ql-formats">
-                                            <button class="ql-link"></button>
-                                            <button class="ql-image"></button>
-                                            <button class="ql-video"></button>
-                                        </span>
-                                    </div>
-                                    <div id="editor-container" style="height: 250px; border: 1px solid #D5D9E2;" class="rounded-bottom-2"></div>
+                                <div id="toolbar-container">
+                                      <span class="ql-formats">
+                                        <select class="ql-font"></select>
+                                        <select class="ql-size"></select>
+                                      </span>
+                                                                        <span class="ql-formats">
+                                        <button class="ql-bold"></button>
+                                        <button class="ql-italic"></button>
+                                        <button class="ql-underline"></button>
+                                        <button class="ql-strike"></button>
+                                      </span>
+                                                                        <span class="ql-formats">
+                                        <select class="ql-color"></select>
+                                        <select class="ql-background"></select>
+                                      </span>
+                                                                        <span class="ql-formats">
+                                        <button class="ql-script" value="sub"></button>
+                                        <button class="ql-script" value="super"></button>
+                                      </span>
+                                                                        <span class="ql-formats">
+                                        <button class="ql-header" value="1"></button>
+                                        <button class="ql-header" value="2"></button>
+                                        <button class="ql-blockquote"></button>
+                                        <button class="ql-code-block"></button>
+                                      </span>
+                                                                        <span class="ql-formats">
+                                        <button class="ql-list" value="ordered"></button>
+                                        <button class="ql-list" value="bullet"></button>
+                                        <button class="ql-indent" value="-1"></button>
+                                        <button class="ql-indent" value="+1"></button>
+                                      </span>
+                                                                        <span class="ql-formats">
+                                        <button class="ql-direction" value="rtl"></button>
+                                        <select class="ql-align"></select>
+                                      </span>
+                                                                        <span class="ql-formats">
+                                        <button class="ql-link"></button>
+                                        <button class="ql-image"></button>
+                                        <button class="ql-video"></button>
+                                        <button class="ql-formula"></button>
+                                      </span>
+                                                                        <span class="ql-formats">
+                                        <button class="ql-clean"></button>
+                                      </span>
+
+                                    <div id="editor" style="height: 250px; border: 1px solid #D5D9E2;" class="rounded-bottom-2"></div>
                                 </div>
 
+                            </div>
                                 {{-- hidden textarea yang dikirim ke server --}}
                                 <textarea name="description" id="description" style="display:none;">{{ old('description') }}</textarea>
-                            </div>
 
                             <div class="mb-3">
                                 <label class="form-label fs-15">Category</label>
@@ -109,47 +126,52 @@
 
 @push('styles')
     {{-- Quill CSS --}}
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+{{--    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">--}}
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
 @endpush
 
 @push('scripts')
-    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+{{--    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>--}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // init quill
-            var quill = new Quill('#editor-container', {
-                modules: { toolbar: '#toolbar-container' },
-                theme: 'snow'
+            const quill = new Quill('#editor', {
+                modules: {
+                    syntax: true,
+                    toolbar: '#toolbar-container',
+                },
+                placeholder: '....',
+                theme: 'snow',
             });
 
-            // load old content if present
-            var oldContent = {!! json_encode(old('description')) !!};
-            if (oldContent) {
-                // use clipboard paste to restore html safely
-                quill.clipboard.dangerouslyPasteHTML(oldContent);
+            // restore old content if present
+            const oldHtml = {!! json_encode(old('description')) !!};
+            if (oldHtml) {
+                quill.clipboard.dangerouslyPasteHTML(oldHtml);
             }
 
+            // copy Quill HTML into hidden textarea
             function syncQuillToTextarea() {
-                var descriptionInput = document.getElementById('description');
-                if (!descriptionInput) return;
-                descriptionInput.value = quill.root.innerHTML;
+                const ta = document.getElementById('description');
+                if (!ta) return;
+                ta.value = quill.root.innerHTML;
             }
 
-            var form = document.getElementById('create-news-form');
-            if (!form) return;
-
-            // sync before actual submit (covers Enter and programmatic submits)
-            form.addEventListener('submit', function (e) {
-                syncQuillToTextarea();
-                // allow normal submit
-            });
-
-            // also sync if user clicks the submit button (race prevention)
-            var submitBtn = document.getElementById('submit-btn');
+            // sync on form submit and submit button click (race prevention)
+            const form = document.getElementById('create-news-form');
+            if (form) {
+                form.addEventListener('submit', syncQuillToTextarea);
+            }
+            const submitBtn = document.getElementById('submit-btn');
             if (submitBtn) {
-                submitBtn.addEventListener('click', function () {
-                    syncQuillToTextarea();
-                });
+                submitBtn.addEventListener('click', syncQuillToTextarea);
             }
         });
     </script>
