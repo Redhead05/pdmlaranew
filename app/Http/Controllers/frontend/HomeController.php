@@ -10,6 +10,9 @@ class HomeController extends Controller
     public function index()
     {
         $latestNews = NewsDetail::with('news')
+            ->whereHas('news', function ($q) {
+                $q->where('is_active', 1);
+            })
             ->orderBy('created_at','desc')
             ->take(3)
             ->get();

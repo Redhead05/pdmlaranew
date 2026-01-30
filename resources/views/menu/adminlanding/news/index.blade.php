@@ -44,7 +44,7 @@
                                     <th style="width:60px">No</th>
                                     <th>Thumbnail</th>
                                     <th>Title</th>
-                                    <th>Description</th>
+{{--                                    <th>Description</th>--}}
                                     <th>Category</th>
                                     <th>Status</th>
                                     <th>Created</th>
@@ -65,7 +65,7 @@
                                             <img src="{{ $thumbnailUrl }}" alt="thumb" style="width:80px; height:auto; border-radius:6px; object-fit:cover;">
                                         </td>
                                         <td>{{ $item->title }}</td>
-                                        <td>{{ \Illuminate\Support\Str::limit($detail->description ?? '-', 120) }}</td>
+{{--                                        <td>{{ \Illuminate\Support\Str::limit(strip_tags($detail->description ?? '-'), 120) }}</td>--}}
                                         <td>{{ $item->category->name ?? '-' }}</td>
                                         <td>
                                             <span class="badge {{ $item->is_active ? 'bg-success' : 'bg-secondary' }}">
