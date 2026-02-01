@@ -29,7 +29,7 @@ class NewsfeController extends Controller
             $query->where('category_id', $category);
         }
 
-        $news = $query->paginate(12)->withQueryString();
+        $news = $query->paginate(5)->withQueryString();
 
         $categories = Category::withCount(['news' => function ($q) {
             $q->where('is_active', 1);

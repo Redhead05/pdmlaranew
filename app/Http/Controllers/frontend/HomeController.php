@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\faq;
 use App\Models\NewsDetail;
 
 class HomeController extends Controller
@@ -18,6 +19,10 @@ class HomeController extends Controller
             ->get();
 //        dd($latestNews->jsonSerialize());
 
-        return view('frontend.pages.home', compact('latestNews'));
+        $faqs = faq::where('is_active',1)
+            ->orderBy('id','desc')
+            ->get();
+
+        return view('frontend.pages.home', compact('latestNews','faqs'));
     }
 }

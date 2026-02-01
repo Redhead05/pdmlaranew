@@ -274,62 +274,41 @@
                         <h3 class="!text-[calc(1.325rem_+_0.9vw)] font-bold !leading-[1.2] xl:!text-[2rem] !mb-8 xl:!px-6">Pertanyaan umum <span class="text-gradient gradient-7">FAQ</span></h3>
                     </div>
                     <div class="accordion accordion-wrapper" id="accordionExample" data-aos="fade-up">
-                        <div class="card accordion-item !mb-5">
-                            <div class="card-header !mb-0 !p-[.9rem_1.3rem_.85rem] !border-0 !bg-inherit" id="headingOne">
-                                <button class="accordion-button !text-[.85rem] before:!text-[#3f78e0] hover:!text-[#3f78e0]" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> Apa itu SISPENA BAN PDM? </button>
-                            </div>
-                            <!--/.card-header -->
-                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                <div class="card-body flex-[1_1_auto] p-[0_1.25rem_.25rem_2.35rem]">
-                                    <p>SISPENA adalah aplikasi penilaian akreditasi berbasis web yang digunakan oleh BAN PDM untuk memproses akreditasi Satuan Pendidikan
-                                        (Sekolah/Madrasah/PAUD/PNF). Sistem ini mencakup pengisian <span class="text-gradient gradient-7">Data Isian Akreditasi</span> (DIA) secara digital.</p>
+                        @if(isset($faqs) && $faqs->count())
+                            @foreach($faqs as $faq)
+                                <div class="card accordion-item !mb-5">
+                                    <div class="card-header !mb-0 !p-[.9rem_1.3rem_.85rem] !border-0 !bg-inherit" id="heading{{ $loop->index }}" data-aos="fade-up">
+                                        <button
+                                            class="accordion-button {{ $loop->first ? '' : 'collapsed' }} !text-[.85rem] before:!text-[#3f78e0] hover:!text-[#3f78e0]"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapse{{ $loop->index }}"
+                                            aria-expanded="{{ $loop->first ? 'true' : 'false' }}"
+                                            aria-controls="collapse{{ $loop->index }}"
+                                        >
+                                            {{ $faq->question }}
+                                        </button>
+                                    </div>
+                                    <div id="collapse{{ $loop->index }}" class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}" aria-labelledby="heading{{ $loop->index }}" data-bs-parent="#accordionExample">
+                                        <div class="card-body flex-[1_1_auto] p-[0_1.25rem_.25rem_2.35rem]">
+                                            {!! nl2br(strip_tags($faq->answer ?? '', '<a><strong><em><ul><ol><li><br><p>')) !!}
+                                        </div>
+                                    </div>
                                 </div>
-                                <!--/.card-body -->
-                            </div>
-                            <!--/.accordion-collapse -->
-                        </div>
-                        <!--/.accordion-item -->
-                        <div class="card accordion-item !mb-5">
-                            <div class="card-header !mb-0 !p-[.9rem_1.3rem_.85rem] !border-0 !bg-inherit text-center" id="headingTwo" data-aos="fade-up">
-                                <button class="collapsed !text-[.85rem] before:!text-[#3f78e0] hover:!text-[#3f78e0]" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    Bagaimana cara login ke SISPENA?
-                                </button>
-                            </div>
-                            <!--/.card-header -->
-                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                <div class="card-body flex-[1_1_auto] p-[0_1.25rem_.25rem_2.35rem]">
-                                    <p>Anda dapat mengaksesnya melalui laman resmi untuk sispena PAUD https://apps.ban-pdm.id/sispena-paud/index.php/login . dan untuk dasmen https://apps.ban-pdm.id/sispena3/login <br>
-
-                                        Username: NPSN (Nomor Pokok Sekolah Nasional).<br>
-
-                                        Password: Standar awal biasanya menggunakan NPSN juga, namun sangat disarankan untuk segera diubah demi keamanan data.</p>
+                            @endforeach
+                        @else
+                            <div class="card accordion-item !mb-5">
+                                <div class="card-header !mb-0 !p-[.9rem_1.3rem_.85rem] !border-0 !bg-inherit" id="headingFallback">
+                                    <button class="accordion-button !text-[.85rem] before:!text-[#3f78e0] hover:!text-[#3f78e0]" data-bs-toggle="collapse" data-bs-target="#collapseFallback" aria-expanded="true" aria-controls="collapseFallback">
+                                        Data Tidak ada
+                                    </button>
                                 </div>
-                                <!--/.card-body -->
-                            </div>
-                            <!--/.accordion-collapse -->
-                        </div>
-                        <!--/.accordion-item -->
-                        <div class="card accordion-item !mb-5">
-                            <div class="card-header !mb-0 !p-[.9rem_1.3rem_.85rem] !border-0 !bg-inherit" id="headingThree" data-aos="fade-up">
-                                <button class="collapsed !text-[.85rem] before:!text-[#3f78e0] hover:!text-[#3f78e0]" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"> Apa saja dokumen utama yang harus disiapkan? </button>
-                            </div>
-                            <!--/.card-header -->
-                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                                <div class="card-body flex-[1_1_auto] p-[0_1.25rem_.25rem_2.35rem]">
-                                    <p>Berdasarkan instrumen terbaru (IASP), fokus utama bukan lagi pada tumpukan kertas administrasi, melainkan bukti kinerja yang diunggah dalam bentuk PDF. Dokumen utama meliputi:<br>
-
-                                        1.Kurikulum Tingkat Satuan Pendidikan (KTSP/Kurikulum Satuan Pendidikan).<br>
-                                        2.Rencana Pelaksanaan Pembelajaran (RPP/Modul Ajar).<br>
-                                        3.Dokumen evaluasi diri sekolah.<br>
-                                        4.Laporan kegiatan pembiasaan karakter siswa.<br>
-                                    Bisa Dibaca nya di sispena BAN PDM
-                                    </p>
+                                <div id="collapseFallback" class="accordion-collapse collapse show" aria-labelledby="headingFallback" data-bs-parent="#accordionExample">
+                                    <div class="card-body flex-[1_1_auto] p-[0_1.25rem_.25rem_2.35rem]">
+                                        <p>Belum ada pertanyaan yang tersedia.</p>
+                                    </div>
                                 </div>
-                                <!--/.card-body -->
                             </div>
-                            <!--/.accordion-collapse -->
-                        </div>
-                        <!--/.accordion-item -->
+                        @endif
                     </div>
                 </div>
     </section>

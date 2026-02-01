@@ -70,6 +70,12 @@
                     <span class="title">Struktur organisasi</span>
                 </a>
             </li>
+            <li class="menu-item open">
+                <a href="{{ route ('adminlanding.faq.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.StrukturOrganisasi.index') ? 'active' : '' }}">
+                    <span class="material-symbols-outlined">cloud_circle</span>
+                    <span class="title">Faq</span>
+                </a>
+            </li>
             @endhasanyrole
             @role('asesor')
             <li class="menu-item open">

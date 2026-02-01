@@ -20,6 +20,7 @@ use App\Http\Controllers\frontend\HomeController as FrontendHomeController;
 
 //adminpage
 use App\Http\Controllers\Admin\LandingPage\DashboardController as AdminLandingDashboardController;
+use App\Http\Controllers\Admin\LandingPage\FaqController;
 
 //admin
 use App\Http\Controllers\Admin\Attendance\AttendanceController;
@@ -72,6 +73,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('gallery', GalleryController::class);
         Route::resource('news', NewsController::class);
         Route::resource('employee', EmployeeController::class);
+        Route::resource('faq', FaqController::class);
     });
 
     //Route asesor
