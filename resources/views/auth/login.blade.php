@@ -1,47 +1,84 @@
 <x-guest-layout>
-    <!-- Session Status -->
+    {{-- Session Status --}}
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+    <div class="container">
+        <div class="main-content d-flex flex-column p-0">
+            <div class="m-auto m-1230">
+                <div class="row align-items-center">
+                    <div class="col-sm-6 d-none d-lg-block">
+                        <img src="{{ asset('assets/images/sign-in.jpg') }}" class="rounded-3" alt="login">
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mw-480 ms-lg-auto">
+                            <div class="d-inline-block mb-4">
+                                <img src="{{ asset('assets/logo_BANPDMJATIM.png') }}" class="rounded-3 for-light-logo" alt="logo">
+                                <img src="{{ asset('assets/images/white-logo.svg') }}" class="rounded-3 for-dark-logo" alt="logo">
+                            </div>
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                            <h3 class="fs-28 mb-2">{{ __('Selamat Datang di MAS-JATIM !') }}</h3>
+                            <p class="fw-medium fs-16 mb-4">{{ __('Management Akreditasi Sistem - Jawa Timur') }}</p>
+
+                            <form method="POST" action="{{ route('login') }}">
+                                @csrf
+
+                                <div class="form-group mb-4">
+                                    <label for="email" class="form-label d-block mb-2">{{ __('Email') }}</label>
+                                    <x-text-input id="email" class="form-control h-[55px] rounded-md px-[17px] w-100" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="example@trezo.com" />
+                                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                                </div>
+
+                                <div class="form-group mb-4 position-relative" id="passwordHideShow">
+                                    <label for="password" class="form-label d-block mb-2">{{ __('Password') }}</label>
+                                    <x-text-input id="password" class="form-control h-[55px] rounded-md px-[17px] w-100" type="password" name="password" required autocomplete="current-password" placeholder="Type password" />
+                                    <button type="button" class="btn btn-sm position-absolute" id="toggleButton" style="right:16px;bottom:16px;">
+                                        <i class="ri-eye-off-line"></i>
+                                    </button>
+                                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <div class="form-check">
+                                        <input id="remember_me" type="checkbox" class="form-check-input" name="remember">
+                                        <label for="remember_me" class="form-check-label ms-2 text-muted">{{ __('Remember me') }}</label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-3 d-flex align-items-center justify-content-between gap-2">
+                                    @if (Route::has('password.request'))
+                                        <a href="{{ route('password.request') }}" class="text-primary fw-semibold">{{ __('Forgot Password?') }}</a>
+                                    @endif
+
+                                        <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-center gap-2 w-100 py-2" aria-label="{{ __('Log In') }}">
+                                            <i class="material-symbols-outlined" aria-hidden="true">login</i>
+                                            <span>{{ __('Log In') }}</span>
+                                        </button>
+                                </div>
+                            </form>
+
+                            {{-- register link intentionally removed --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+    @push('scripts')
+        <script>
+            // password show/hide toggle
+            document.addEventListener('click', function(e){
+                if (e.target.closest('#toggleButton')) {
+                    const input = document.getElementById('password');
+                    if (!input) return;
+                    input.type = (input.type === 'password') ? 'text' : 'password';
+                    // toggle icon class if desired
+                }
+            });
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
+            // optional: show preloader briefly (uncomment if needed)
+            // document.getElementById('preloader').style.display = 'block';
+            // window.addEventListener('load', () => document.getElementById('preloader').style.display = 'none');
+        </script>
+    @endpush
 </x-guest-layout>
