@@ -19,6 +19,7 @@
         "vite": "^7.0.4"
     },
     "dependencies": {
-        "@hotwired/turbo": "^8.0.20"
+        "@hotwired/turbo": "^8.0.20",
+        "bootstrap": "^5.3.8"
     }
 }

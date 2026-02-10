@@ -3,7 +3,7 @@
         <div class="flex flex-wrap mx-[-15px] !mt-[-30px] xl:!mt-0 lg:!mt-0">
           <div class="md:w-4/12 xl:w-3/12 lg:w-3/12 w-full flex-[0_0_auto] !px-[15px] max-w-full xl:!mt-0 lg:!mt-0 !mt-[30px]">
             <div class="widget !text-[#cacaca]">
-              <img class="!mb-2" src="{{ asset ('assets/logo_BANPDMJATIM.png')}}" srcset="{{ asset ('assets/logo_BANPDMJATIM.png')}} 2x" alt="image">
+{{--              <img class="!mb-2" src="{{ asset ('assets/logo_BANPDMJATIM.png')}}" srcset="{{ asset ('assets/logo_BANPDMJATIM.png')}} 2x" alt="image">--}}
               <p class="!mb-4">© 2024 BAN PDM JAWA TIMUR. <br class="hidden xl:block lg:block !text-[#cacaca]">All rights reserved.</p>
               <nav class="nav social social-white">
                 <a class="!text-[#cacaca] text-[1rem] transition-all duration-[0.2s] ease-in-out translate-y-0 motion-reduce:transition-none hover:translate-y-[-0.15rem] m-[0_.7rem_0_0]" href="#"><i class="uil uil-twitter before:content-['\ed59'] !text-white text-[1rem]"></i></a>
