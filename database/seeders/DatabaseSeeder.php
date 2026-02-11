@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             GallerySeeder::class,
             NewsSeeder::class,
             EmployeesTableSeeder::class,
+            KabkotSeeder::class,
         ]);
     }
 }
