@@ -17,7 +17,7 @@
                     <p class="lead !text-[1.05rem] !leading-[1.6] font-medium">We are a digital and branding company that believes in the power of creative strategy and along with great design.</p>
                     <p class="!mb-6">Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</p>
                     <div class="flex flex-wrap mx-[-15px] xl:mx-[-25px] !mt-[-30px]">
-                        <div class="xl:w-6/12 lg:w-6/12 md:w-6/12 w-full flex-[0_0_auto] xl:!px-[25px] !px-[15px] max-w-full !mt-[30px]">
+                        <div class="xl:w-6/12 lg:w-6/12 md:w-6/12C w-full flex-[0_0_auto] xl:!px-[25px] !px-[15px] max-w-full !mt-[30px]">
                             <div class="flex flex-row">
                                 <div>
                                     <img src="{{ asset ('assets/fe/assets/img/icons/lineal/target.svg') }}" class="svg-inject icon-svg !w-[2.2rem] !h-[2.2rem]  !mr-4" alt="image">
