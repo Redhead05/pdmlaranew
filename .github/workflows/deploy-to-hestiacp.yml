@@ -9,6 +9,9 @@ jobs:
   deploy:
     name: Deploy to HestiaCP Server
     runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout code
