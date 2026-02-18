@@ -21,6 +21,16 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
+## Automatic Deployment
+
+This project is configured with GitHub Actions for automatic deployment to HestiaCP servers. When code is pushed to the `main` branch, it will automatically:
+
+- Build the application with optimized dependencies
+- Compile frontend assets
+- Deploy to the configured HestiaCP server
+
+For detailed setup instructions, including required GitHub Secrets and server configuration, see [.github/DEPLOYMENT.md](.github/DEPLOYMENT.md).
+
 ## Learning Laravel
 
 Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
