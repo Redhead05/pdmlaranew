@@ -64,10 +64,10 @@
                                         @foreach($latestNews as $item)
                                                 <div class="swiper-slide">
                                                     <article>
-                                                        <figure class="overlay overlay-1 hover-scale group rounded !mb-5">
+                                                        <figure class="overlay overlay-1 hover-scale group rounded !mb-5 mx-auto" style="max-width: 350px;">
                                                             <a href="{{ route('frontend.pages.news-details', $item->news->slug ?? $item->news_id ?? $item->id) }}">
                                                                 <img
-                                                                    class="!transition-all !duration-[0.35s] !ease-in-out group-hover:scale-105 max-w-[120px] mx-auto h-28 sm:h-32 md:h-36 object-cover rounded"
+                                                                    class="!transition-all !duration-[0.35s] !ease-in-out group-hover:scale-105 w-[350px] h-[200px] object-cover rounded mx-auto"
                                                                     src="{{ $item->thumbnail ? Storage::url($item->thumbnail) : asset('assets/fe/assets/img/photos/b4.jpg') }}"
                                                                     alt="{{ $item->news->title ?? 'image' }}"
 

@@ -43,5 +43,20 @@
       }
   }
   </style>
+<style>
+    #journal-scroll::-webkit-scrollbar {
+        width: 6px;
+        cursor: pointer;
+    }
 
+    #journal-scroll::-webkit-scrollbar-track {
+        background-color: rgba(229, 231, 235 var(--bg-opacity));
+        cursor: pointer;
+    }
+
+    #journal-scroll::-webkit-scrollbar-thumb {
+        cursor: pointer;
+        background-color: #a0aec0;
+    }
+</style>
 @stack('styles')

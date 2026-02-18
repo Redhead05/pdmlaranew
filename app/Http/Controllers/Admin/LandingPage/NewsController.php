@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 
 class NewsController extends Controller
 {
@@ -45,7 +47,21 @@ class NewsController extends Controller
 
         $thumbnailPath = null;
         if ($request->hasFile('image')) {
-            $thumbnailPath = $request->file('image')->store('news_thumbnails', 'public');
+            // Create image manager with desired driver
+            $manager = new ImageManager(new Driver());
+
+            // Read and resize image to 350x200px
+            $image = $manager->read($request->file('image'));
+            $image->cover(350, 200); // Cover mode: crop to exact size
+
+            // Generate unique filename
+            $filename = 'news_' . time() . '_' . uniqid() . '.jpg';
+            $path = 'news_thumbnails/' . $filename;
+
+            // Save resized image to storage
+            Storage::disk('public')->put($path, (string) $image->encode());
+
+            $thumbnailPath = $path;
         }
 
         DB::beginTransaction();
@@ -60,7 +76,6 @@ class NewsController extends Controller
             $news = News::create([
                 'title' => $validated['title'],
                 'slug' => $slug,
-                // <-- set the correct column name
                 'is_active' => isset($validated['is_active']) ? (bool)$validated['is_active'] : false,
                 'category_id' => $validated['category_id'] ?? null,
                 'created_by' => auth()->id(),
@@ -120,7 +135,21 @@ class NewsController extends Controller
         $oldThumbnail = $news->detail->thumbnail ?? null;
 
         if ($request->hasFile('image')) {
-            $newThumbnailPath = $request->file('image')->store('news_thumbnails', 'public');
+            // Create image manager with desired driver
+            $manager = new ImageManager(new Driver());
+
+            // Read and resize image to 350x200px
+            $image = $manager->read($request->file('image'));
+            $image->cover(350, 200); // Cover mode: crop to exact size
+
+            // Generate unique filename
+            $filename = 'news_' . time() . '_' . uniqid() . '.jpg';
+            $path = 'news_thumbnails/' . $filename;
+
+            // Save resized image to storage
+            Storage::disk('public')->put($path, (string) $image->encode());
+
+            $newThumbnailPath = $path;
         }
 
         DB::beginTransaction();
@@ -137,7 +166,6 @@ class NewsController extends Controller
 
             $news->update([
                 'title' => $validated['title'],
-                // <-- use `is_active` here too
                 'is_active' => isset($validated['is_active']) ? (bool) $validated['is_active'] : $news->is_active,
                 'category_id' => $validated['category_id'] ?? $news->category_id,
             ]);
@@ -156,6 +184,7 @@ class NewsController extends Controller
 
             DB::commit();
 
+            // Delete old thumbnail after successful update
             if ($newThumbnailPath && $oldThumbnail && Storage::disk('public')->exists($oldThumbnail)) {
                 Storage::disk('public')->delete($oldThumbnail);
             }

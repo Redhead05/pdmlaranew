@@ -59,6 +59,9 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
    //Route admin
     Route::prefix('admin')->middleware('role:admin')->as('admin.')->group(function () {
+        // Custom routes harus sebelum resource routes
+        Route::post('user/{user}/toggle-status', [UserController::class, 'toggleStatus'])->name('user.toggle-status');
+
         Route::resource('user', UserController::class);
         // Employee management (admin)
         Route::resource('employees', EmployeeController::class);

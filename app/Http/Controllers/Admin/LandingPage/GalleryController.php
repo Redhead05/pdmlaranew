@@ -16,7 +16,7 @@ class GalleryController extends Controller
      */
     public function index()
     {
-        $galleries = Gallery::with('category')->orderByDesc('created_at')->paginate(20);
+        $galleries = Gallery::with('category')->orderByDesc('created_at')->get();
         $categories = Category::whereIn('name', ['photo', 'video'])->orderBy('name')->get();
         return view('menu.adminlanding.gallery.index', compact('galleries','categories'));
     }

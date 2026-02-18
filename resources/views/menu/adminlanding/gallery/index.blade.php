@@ -1,12 +1,97 @@
 @extends('app.layout')
 @section('title', 'Gallery Management')
 
+@push('styles')
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Styling untuk thumbnail gallery */
+        .thumb {
+            position: relative;
+            width: 80px;
+            height: 60px;
+            overflow: hidden;
+            border-radius: 4px;
+            display: inline-block;
+            background: #f5f5f5;
+        }
+
+        .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Play button untuk video */
+        .thumb .play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 24px;
+            height: 24px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .thumb .play .triangle {
+            width: 0;
+            height: 0;
+            border-left: 8px solid white;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            margin-left: 2px;
+        }
+
+        /* Hover effect */
+        .thumb:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .thumb {
+                width: 60px;
+                height: 45px;
+            }
+
+            .thumb .play {
+                width: 20px;
+                height: 20px;
+            }
+
+            .thumb .play .triangle {
+                border-left: 6px solid white;
+                border-top: 4px solid transparent;
+                border-bottom: 4px solid transparent;
+            }
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="container-fluid">
         <div class="main-content d-flex flex-column">
             <div class="card bg-white border-0 rounded-3 mb-4">
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show m-4" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+                @if (session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show m-4" role="alert">
+                        {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
                 @if ($errors->any())
-                    <div class="alert alert-danger">
+                    <div class="alert alert-danger m-4">
                         <ul class="mb-0">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
@@ -16,14 +101,13 @@
                 @endif
 
                 <div class="card-body p-4">
-                    <h1>Gallery</h1>
-
-                    <div class="mb-3 d-flex align-items-center gap-2">
-                        <button type="button" class="btn btn-primary py-2 px-4 te xt-white fw-semibold" data-bs-toggle="modal" data-bs-target="#exampleModallg">
-                            <i class="material-symbols-outlined align-middle">add</i> Create
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h1 class="mb-0">Gallery Management</h1>
+                        <button type="button" class="btn btn-primary py-2 px-4 text-white fw-semibold" data-bs-toggle="modal" data-bs-target="#exampleModallg">
+                            <i class="material-symbols-outlined align-middle">add</i> Create Gallery
                         </button>
-                        @include('menu.adminlanding.gallery.create')
                     </div>
+                    @include('menu.adminlanding.gallery.create')
 
                     <div class="default-table-area all-products">
                         <div class="table-responsive">
@@ -43,7 +127,7 @@
                                 <tbody>
                                 @forelse ($galleries as $index => $item)
                                     <tr>
-                                        <td>{{ $galleries->firstItem() + $index }}</td>
+                                        <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->title }}</td>
                                         <td>{{ \Illuminate\Support\Str::limit($item->description ?? '-', 90) }}</td>
                                         <td>
@@ -119,17 +203,36 @@
 @endsection
 
 @push('scripts')
-    <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="//cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         $(document).ready(function () {
             const table = $('#gallery-table').DataTable({
                 responsive: true,
                 pageLength: 10,
+                lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                order: [[6, 'desc']], // Order by Created date descending
                 columnDefs: [
                     { orderable: false, searchable: false, targets: 0 }, // No
+                    { orderable: false, searchable: false, targets: 3 }, // Photo
                     { orderable: false, searchable: false, targets: 7 }  // Action
-                ]
+                ],
+                language: {
+                    search: "Search:",
+                    lengthMenu: "Show _MENU_ entries",
+                    info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                    infoEmpty: "Showing 0 to 0 of 0 entries",
+                    infoFiltered: "(filtered from _MAX_ total entries)",
+                    emptyTable: "No gallery items found",
+                    zeroRecords: "No matching records found",
+                    paginate: {
+                        first: "First",
+                        last: "Last",
+                        next: "Next",
+                        previous: "Previous"
+                    }
+                }
             });
 
             // Re-number the "No" column after ordering, searching, paging or drawing
@@ -139,7 +242,7 @@
                 });
             });
 
-            // initial numbering
+            // Initial numbering
             table.draw();
         });
     </script>
