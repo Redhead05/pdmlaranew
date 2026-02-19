@@ -39,7 +39,8 @@
 
                                 <div class="form-group mb-3">
                                     <div class="form-check">
-                                        <input id="remember_me" type="checkbox" class="form-check-input" name="remember">
+                                        {{-- ensure checkbox submits a value and keeps checked state after validation error --}}
+                                        <input id="remember_me" type="checkbox" class="form-check-input" name="remember" value="1" {{ old('remember') ? 'checked' : '' }}>
                                         <label for="remember_me" class="form-check-label ms-2 text-muted">{{ __('Remember me') }}</label>
                                     </div>
                                 </div>
@@ -66,19 +67,96 @@
 
     @push('scripts')
         <script>
-            // password show/hide toggle
-            document.addEventListener('click', function(e){
-                if (e.target.closest('#toggleButton')) {
-                    const input = document.getElementById('password');
-                    if (!input) return;
-                    input.type = (input.type === 'password') ? 'text' : 'password';
-                    // toggle icon class if desired
+            document.addEventListener('DOMContentLoaded', function () {
+                const form = document.querySelector('form');
+                if (!form) return;
+                let submitted = false;
+
+                const submitBtn = form.querySelector('button[type="submit"]');
+
+                function markSubmitted() {
+                    if (submitted) return true;
+                    submitted = true;
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.setAttribute('aria-disabled', 'true');
+                    }
+                    return false;
+                }
+
+                // Capture keydown at the capture phase so we set "submitted" before the submit event can be queued
+                form.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter') {
+                        // ignore Enter in textareas
+                        const active = document.activeElement;
+                        if (active && active.tagName === 'TEXTAREA') return;
+
+                        if (submitted) {
+                            e.preventDefault();
+                            return;
+                        }
+
+                        // mark submission early to avoid race between two quick Enter presses
+                        markSubmitted();
+                        // allow the event to continue to submit the form once
+                    }
+                }, true); // useCapture = true
+
+                // Submit handler (final guard)
+                form.addEventListener('submit', function (e) {
+                    if (submitted) {
+                        // If already submitted we still allow the first submit to proceed.
+                        // But if somehow submit fires again after marking, prevent it.
+                        // Note: markSubmitted() already disabled the button, so this is mostly defensive.
+                        return;
+                    }
+
+                    // If not marked yet (e.g., user clicked the button without keydown), mark now
+                    markSubmitted();
+                });
+
+                // If user clicks the submit button, mark submission immediately
+                if (submitBtn) {
+                    submitBtn.addEventListener('click', function () {
+                        if (submitted) return;
+                        markSubmitted();
+                    });
+
+                    // keyboard activation on the button (space/enter)
+                    submitBtn.addEventListener('keydown', function (e) {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            if (submitted) {
+                                e.preventDefault();
+                                return;
+                            }
+                            markSubmitted();
+                        }
+                    });
+                }
+
+                // show/hide password toggle
+                const toggleButton = document.getElementById('toggleButton');
+                const passwordInput = document.getElementById('password');
+                if (toggleButton && passwordInput) {
+                    toggleButton.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const icon = toggleButton.querySelector('i');
+                        if (passwordInput.type === 'password') {
+                            passwordInput.type = 'text';
+                            if (icon) {
+                                icon.classList.remove('ri-eye-off-line');
+                                icon.classList.add('ri-eye-line');
+                            }
+                        } else {
+                            passwordInput.type = 'password';
+                            if (icon) {
+                                icon.classList.remove('ri-eye-line');
+                                icon.classList.add('ri-eye-off-line');
+                            }
+                        }
+                    });
                 }
             });
-
-            // optional: show preloader briefly (uncomment if needed)
-            // document.getElementById('preloader').style.display = 'block';
-            // window.addEventListener('load', () => document.getElementById('preloader').style.display = 'none');
         </script>
     @endpush
 </x-guest-layout>

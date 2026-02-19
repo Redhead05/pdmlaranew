@@ -64,7 +64,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()->route('login');
     }
     //addon
     private function isInactiveWithValidPassword(?User $user, string $password): bool

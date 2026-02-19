@@ -62,67 +62,68 @@
 	feather.replace();
 
 	// Header Burger Button
-	const getHeaderBurgerMenuId = document.getElementById('header-burger-menu');
-	if (getHeaderBurgerMenuId) {
-		const switchtoggle = document.querySelector(".header-burger-menu");
-		switchtoggle.addEventListener("click", function () {
-			if (document.body.getAttribute("sidebar-data-theme") === "sidebar-hide") {
-				document.body.setAttribute("sidebar-data-theme", "sidebar-show");
-			} else {
-				document.body.setAttribute("sidebar-data-theme", "sidebar-hide");
-			}
-		});
-	}
+	// Use event delegation so handlers work even if DOM is re-rendered quickly (e.g. after login redirect)
+	document.addEventListener('click', function (evt) {
+		const el = evt.target.closest('#header-burger-menu, .header-burger-menu');
+		if (!el) return;
+		// toggle sidebar attribute
+		if (document.body.getAttribute('sidebar-data-theme') === 'sidebar-hide') {
+			document.body.setAttribute('sidebar-data-theme', 'sidebar-show');
+		} else {
+			document.body.setAttribute('sidebar-data-theme', 'sidebar-hide');
+		}
+	});
 
 	// Sidebar Burger Button
-	const getSidebarBurgerMenuId = document.getElementById('sidebar-burger-menu');
-	if (getSidebarBurgerMenuId) {
-		const switchtoggle = document.querySelector(".sidebar-burger-menu");
-		switchtoggle.addEventListener("click", function () {
-			if (document.body.getAttribute("sidebar-data-theme") === "sidebar-hide") {
-				document.body.setAttribute("sidebar-data-theme", "sidebar-show");
-			} else {
-				document.body.setAttribute("sidebar-data-theme", "sidebar-hide");
-			}
-		});
-	}
+	// Delegate sidebar burger clicks as well
+	document.addEventListener('click', function (evt) {
+		const el = evt.target.closest('#sidebar-burger-menu, .sidebar-burger-menu');
+		if (!el) return;
+		if (document.body.getAttribute('sidebar-data-theme') === 'sidebar-hide') {
+			document.body.setAttribute('sidebar-data-theme', 'sidebar-show');
+		} else {
+			document.body.setAttribute('sidebar-data-theme', 'sidebar-hide');
+		}
+	});
 
 	// Fullscreen Button
-	const getFullscreenButtonId = document.getElementById('fullscreen-button');
-	if (getFullscreenButtonId) {
-		document.getElementById("fullscreen-button").addEventListener("click", function toggleFullScreen() {
-			if (
-				(document.fullScreenElement !== undefined && document.fullScreenElement === null) ||
-				(document.msFullscreenElement !== undefined && document.msFullscreenElement === null) ||
-				(document.mozFullScreen !== undefined && !document.mozFullScreen) ||
-				(document.webkitIsFullScreen !== undefined && !document.webkitIsFullScreen)
-			) {
-				if (document.documentElement.requestFullscreen) {
-					document.documentElement.requestFullscreen();
-				} else if (document.documentElement.mozRequestFullScreen) {
-					document.documentElement.mozRequestFullScreen();
-				} else if (document.documentElement.webkitRequestFullscreen) {
-					document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-				} else if (document.documentElement.msRequestFullscreen) {
-					document.documentElement.msRequestFullscreen();
-				}
-			} else {
-				if (document.exitFullscreen) {
-					document.exitFullscreen();
-				} else if (document.mozCancelFullScreen) {
-					document.mozCancelFullScreen();
-				} else if (document.webkitExitFullscreen) {
-					document.webkitExitFullscreen();
-				} else if (document.msExitFullscreen) {
-					document.msExitFullscreen();
-				}
+	// Delegate fullscreen toggle for robustness
+	document.addEventListener('click', function (evt) {
+		const el = evt.target.closest('#fullscreen-button, .fullscreen-btn');
+		if (!el) return;
+		// Toggle fullscreen programmatically
+		if (
+			(document.fullScreenElement !== undefined && document.fullScreenElement === null) ||
+			(document.msFullscreenElement !== undefined && document.msFullscreenElement === null) ||
+			(document.mozFullScreen !== undefined && !document.mozFullScreen) ||
+			(document.webkitIsFullScreen !== undefined && !document.webkitIsFullScreen)
+		) {
+			if (document.documentElement.requestFullscreen) {
+				document.documentElement.requestFullscreen();
+			} else if (document.documentElement.mozRequestFullScreen) {
+				document.documentElement.mozRequestFullScreen();
+			} else if (document.documentElement.webkitRequestFullscreen) {
+				document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+			} else if (document.documentElement.msRequestFullscreen) {
+				document.documentElement.msRequestFullscreen();
 			}
-		});
-	}
-	document.querySelectorAll('.fullscreen-btn').forEach(function(button) {
-		button.addEventListener('click', function() {
-			button.classList.toggle('active');
-		});
+		} else {
+			if (document.exitFullscreen) {
+				document.exitFullscreen();
+			} else if (document.mozCancelFullScreen) {
+				document.mozCancelFullScreen();
+			} else if (document.webkitExitFullscreen) {
+				document.webkitExitFullscreen();
+			} else if (document.msExitFullscreen) {
+				document.msExitFullscreen();
+			}
+		}
+	});
+	// Keep visual toggle behavior: delegated so it works when elements are added
+	document.addEventListener('click', function (evt) {
+		const btn = evt.target.closest('.fullscreen-btn');
+		if (!btn) return;
+		btn.classList.toggle('active');
 	});
 
 	// Init BS Tooltip
@@ -532,7 +533,7 @@
 			boto_next.className = 'boto-next';
 			boto_next.innerHTML = '';
 			titol.appendChild(boto_prev);
-			titol.appendChild(document.createElement('span')).innerHTML = 
+			titol.appendChild(document.createElement('span')).innerHTML =
 				mesos[data.getMonth()] + '<span class="any">' + data.getFullYear() + '</span>';
 			titol.appendChild(boto_next);
 			boto_prev.onclick = function() {
@@ -559,7 +560,7 @@
 			data.getMonth(),
 			-inici_mes);
 			/* 6 setmanes per cobrir totes les posiblitats
-			*  Quedaria mes consistent alhora de mostrar molts mesos 
+			*  Quedaria mes consistent alhora de mostrar molts mesos
 			*  en una quadricula */
 			for(var s = 0; s < 6; s++)
 			{
@@ -601,7 +602,7 @@
 	if (getEventCalendarId) {
 		document.addEventListener('DOMContentLoaded', function() {
 			var calendarEl = document.getElementById('calendar');
-	
+
 			var calendar = new FullCalendar.Calendar(calendarEl, {
 			headerToolbar: {
 				right: 'today,prev,next',
@@ -634,18 +635,18 @@
 					className: 'danger'
 				},
 			],
-		}); 
+		});
 		calendar.render();
 		});
 	}
-	
+
 	// Courses Slider JS
 	var swiper = new Swiper(".courses-slide", {
         slidesPerView: 1,
         spaceBetween: 24,
 		centeredSlides: false,
 		preventClicks: true,
-		loop: true, 
+		loop: true,
 		autoplay: {
 			delay: 8000,
 			disableOnInteraction: false,
@@ -663,7 +664,7 @@
         spaceBetween: 24,
 		centeredSlides: false,
 		preventClicks: true,
-		loop: true, 
+		loop: true,
 		autoplay: {
 			delay: 8000,
 			disableOnInteraction: false,
@@ -681,7 +682,7 @@
         spaceBetween: 24,
 		centeredSlides: false,
 		preventClicks: true,
-		loop: true, 
+		loop: true,
 		autoplay: {
 			delay: 8000,
 			disableOnInteraction: false,
@@ -719,7 +720,7 @@
         spaceBetween: 25,
 		centeredSlides: false,
 		preventClicks: true,
-		loop: true, 
+		loop: true,
 		autoplay: {
 			delay: 8000,
 			disableOnInteraction: false,
@@ -757,7 +758,7 @@
         spaceBetween: 25,
 		centeredSlides: false,
 		preventClicks: true,
-		loop: false, 
+		loop: false,
 		autoplay: {
 			delay: 8000,
 			disableOnInteraction: false,
@@ -798,7 +799,7 @@
         spaceBetween: 25,
 		centeredSlides: false,
 		preventClicks: true,
-		loop: false, 
+		loop: false,
 		autoplay: {
 			delay: 8000,
 			disableOnInteraction: false,
@@ -839,7 +840,7 @@
         spaceBetween: 25,
 		centeredSlides: false,
 		preventClicks: true,
-		loop: false, 
+		loop: false,
 		autoplay: {
 			delay: 8000,
 			disableOnInteraction: false,
@@ -880,7 +881,7 @@
         spaceBetween: 25,
 		centeredSlides: false,
 		preventClicks: true,
-		loop: false, 
+		loop: false,
 		autoplay: {
 			delay: 8000,
 			disableOnInteraction: false,
@@ -898,7 +899,7 @@
         spaceBetween: 25,
 		centeredSlides: false,
 		preventClicks: true,
-		loop: false, 
+		loop: false,
 		autoplay: {
 			delay: 15000,
 			disableOnInteraction: true,
@@ -929,13 +930,13 @@
 				reader.readAsDataURL(input.files[0]);
 			}
 		}
-		
+
 		document.getElementById('imageUpload').addEventListener('change', function() {
 			readURL(this);
 		});
 	}
 
-	// Days, Hrs, Min, Sec JS 
+	// Days, Hrs, Min, Sec JS
 	const getCountDownId = document.getElementsByClassName('clockdiv');
 	if (getCountDownId) {
 		document.addEventListener('readystatechange', event => {
@@ -971,7 +972,7 @@
 							countDownDate[i]['el'].querySelector('.minutes').innerHTML = countDownDate[i]['minutes'];
 							countDownDate[i]['el'].querySelector('.seconds').innerHTML = countDownDate[i]['seconds'];
 						}
-					}  
+					}
 				}, 1000);
 			}
 		});
@@ -981,7 +982,7 @@
 	try {
 		const multipleEvents = (element, eventNames, listener) => {
 			const events = eventNames.split(' ');
-		
+
 			events.forEach(event => {
 				element.addEventListener(event, listener, false);
 			});
@@ -991,18 +992,18 @@
 			const INPUT_CONTAINER = document.querySelector('#upload-container');
 			const FILES_LIST_CONTAINER = document.querySelector('#files-list-container')
 			const FILE_LIST = [];
-		
+
 			multipleEvents(INPUT_FILE, 'click dragstart dragover', () => {
 				INPUT_CONTAINER.classList.add('active');
 			});
-			
+
 			multipleEvents(INPUT_FILE, 'dragleave dragend drop change', () => {
 				INPUT_CONTAINER.classList.remove('active');
 			});
-			
+
 			INPUT_FILE.addEventListener('change', () => {
 			const files = [...INPUT_FILE.files];
-			
+
 			files.forEach(file => {
 				const fileURL = URL.createObjectURL(file);
 				const fileName = file.name;
@@ -1010,7 +1011,7 @@
 					name: fileName,
 					url: fileURL,
 				};
-				
+
 				FILE_LIST.push(uploadedFiles);
 			});
 			FILES_LIST_CONTAINER.innerHTML = '';
@@ -1024,7 +1025,7 @@
 					</div>
 					</div>
 				`;
-		
+
 				FILES_LIST_CONTAINER.insertAdjacentHTML('beforeEnd', content);
 				});
 			});
@@ -1044,7 +1045,7 @@
 			{ name: "Portugal", coords: [80.7069, -70.6043] },
 			{ name: "Spain", coords: [0.7069, -40.6043] },
 		];
-		  
+
 		var jvm = new jsVectorMap({
 			map: "world_merc",
 			selector: "#sales_by_locations_map",
@@ -1065,7 +1066,7 @@
 			markersSelectable: true,
 			selectedMarkers: markers.map((marker, index) => {
 				var name = marker.name;
-			
+
 				if (name === "Russia" || name === "Brazil") {
 					return index;
 				}
@@ -1094,7 +1095,7 @@
 			{ name: "United Kingdom", coords: [56.1304, -106.3468] },
 			{ name: "Canada", coords: [71.7069, -42.6043] },
 		];
-		  
+
 		var jvm = new jsVectorMap({
 			map: "world_merc",
 			selector: "#enrolled_by_countries_map",
@@ -1115,7 +1116,7 @@
 			markersSelectable: true,
 			selectedMarkers: markers.map((marker, index) => {
 				var name = marker.name;
-			
+
 				if (name === "Russia" || name === "Brazil") {
 					return index;
 				}
@@ -1144,7 +1145,7 @@
 			{ name: "United States", coords: [26.8206, 30.8025] },
 			{ name: "United Kingdom", coords: [61.524, 105.3188] },
 		];
-		  
+
 		var jvm = new jsVectorMap({
 			map: "world_merc",
 			selector: "#users_by_country_map",
@@ -1165,7 +1166,7 @@
 			markersSelectable: true,
 			selectedMarkers: markers.map((marker, index) => {
 				var name = marker.name;
-			
+
 				if (name === "Russia" || name === "Brazil") {
 					return index;
 				}
@@ -1194,7 +1195,7 @@
 			{ name: "United States", coords: [26.8206, 30.8025] },
 			{ name: "United Kingdom", coords: [61.524, 105.3188] },
 		];
-		  
+
 		var jvm = new jsVectorMap({
 			map: "world_merc",
 			selector: "#worldwide_top_creators_map",
@@ -1215,7 +1216,7 @@
 			markersSelectable: true,
 			selectedMarkers: markers.map((marker, index) => {
 				var name = marker.name;
-			
+
 				if (name === "Russia" || name === "Brazil") {
 					return index;
 				}
@@ -1244,7 +1245,7 @@
 			{ name: "United States", coords: [26.8206, 30.8025] },
 			{ name: "Germany", coords: [61.524, 105.3188] },
 		];
-		  
+
 		var jvm = new jsVectorMap({
 			map: "world_merc",
 			selector: "#sales_by_country_map",
@@ -1265,7 +1266,7 @@
 			markersSelectable: true,
 			selectedMarkers: markers.map((marker, index) => {
 				var name = marker.name;
-			
+
 				if (name === "Russia" || name === "Brazil") {
 					return index;
 				}
@@ -1297,7 +1298,7 @@
 			{ name: "Spain", coords: [0.7069, -40.6043] },
 			{ name: "France", coords: [70.7069, -100.6043] },
 		];
-		  
+
 		var jvm = new jsVectorMap({
 			map: "world_merc",
 			selector: "#most_sales_location",
@@ -1318,7 +1319,7 @@
 			markersSelectable: true,
 			selectedMarkers: markers.map((marker, index) => {
 				var name = marker.name;
-			
+
 				if (name === "Russia" || name === "Brazil") {
 					return index;
 				}
@@ -1344,7 +1345,7 @@
 		var markers = [
 			{ name: "United States", coords: [26.8206, 30.8025] },
 		];
-		  
+
 		var jvm = new jsVectorMap({
 			map: "world_merc",
 			selector: "#shipment_to_top",
@@ -1365,7 +1366,7 @@
 			markersSelectable: true,
 			selectedMarkers: markers.map((marker, index) => {
 				var name = marker.name;
-			
+
 				if (name === "Russia" || name === "Brazil") {
 					return index;
 				}
@@ -1393,7 +1394,7 @@
 			{ name: "Canada", coords: [71.7069, -42.6043] },
 			{ name: "Brazil", coords: [0.7069, -40.6043] },
 		];
-		  
+
 		var jvm = new jsVectorMap({
 			map: "world_merc",
 			selector: "#call_center_geography",
@@ -1414,7 +1415,7 @@
 			markersSelectable: true,
 			selectedMarkers: markers.map((marker, index) => {
 				var name = marker.name;
-			
+
 				if (name === "Russia" || name === "Brazil") {
 					return index;
 				}
@@ -1518,7 +1519,7 @@
         spaceBetween: 25,
 		centeredSlides: false,
 		preventClicks: true,
-		loop: false, 
+		loop: false,
 		autoplay: {
 			delay: 8000,
 			disableOnInteraction: false,
@@ -1658,7 +1659,7 @@
         spaceBetween: 25,
 		centeredSlides: false,
 		preventClicks: true,
-		loop: false, 
+		loop: false,
 		autoplay: {
 			delay: 8000,
 			disableOnInteraction: false,
@@ -1695,7 +1696,7 @@
 			},
 		}
     });
-	
+
 	// Theme Settings
 	// Dark/Light Toggle
 	const getSwitchToggleId = document.getElementById('switch-toggle');
@@ -1879,10 +1880,10 @@
 		button.addEventListener('click', () => {
 		// Toggle 'followed' class
 		button.classList.toggle('followed');
-		
+
 		// Find the span with the 'follow-text' class inside this button
 		const followText = button.querySelector('.follow-text');
-		
+
 		// Update button text
 		followText.textContent = button.classList.contains('followed') ? 'Following' : 'Follow';
 		});
@@ -1953,20 +1954,20 @@
 		const progressContainer = document.querySelector('.progress');
 		const currentTimeDisplay = document.getElementById('current-time');
 		const durationDisplay = document.getElementById('duration');
-		
+
 		document.getElementById('rewind').addEventListener('click', () => {
 			audio.currentTime = Math.max(audio.currentTime - 10, 0);
 		});
-		
+
 		document.getElementById('fast-forward').addEventListener('click', () => {
 			audio.currentTime = Math.min(audio.currentTime + 10, audio.duration);
 		});
-		
+
 		document.getElementById('restart').addEventListener('click', () => {
 			audio.currentTime = 0;
 			audio.play();
 		});
-		
+
 		document.getElementById('play-pause').addEventListener('click', () => {
 			if (audio.paused) {
 			audio.play();
@@ -1976,24 +1977,24 @@
 			playPauseButton.innerHTML = '<i class="ri-play-fill fs-18"></i>';
 			}
 		});
-		
+
 		progressContainer.addEventListener('click', (event) => {
 			const rect = progressContainer.getBoundingClientRect();
 			const clickX = event.clientX - rect.left;
 			const newTime = (clickX / rect.width) * audio.duration;
 			audio.currentTime = newTime;
 		});
-		
+
 		audio.addEventListener('loadedmetadata', () => {
 			durationDisplay.textContent = formatTime(audio.duration);
 		});
-		
+
 		audio.addEventListener('timeupdate', () => {
 			const progress = (audio.currentTime / audio.duration) * 100;
 			progressBar.style.width = `${progress}%`;
 			currentTimeDisplay.textContent = formatTime(audio.currentTime);
 		});
-		
+
 		function formatTime(seconds) {
 			const minutes = Math.floor(seconds / 60);
 			const secs = Math.floor(seconds % 60);
@@ -2012,9 +2013,9 @@
 			const waveBars = document.querySelectorAll(".wave-bar");
 			const progressBar = document.querySelector(".progress-bar");
 			const durationLabel = document.querySelector(".duration");
-		
+
 			let isPlaying = false;
-		
+
 			// Toggle Play/Pause
 			playButton.addEventListener("click", () => {
 				if (isPlaying) {
@@ -2023,31 +2024,31 @@
 					audio.play();
 				}
 			});
-		
+
 			// Play event
 			audio.addEventListener("play", () => {
 				isPlaying = true;
 				playIcon.classList.replace("ri-play-large-fill", "ri-pause-fill");
 				waveBars.forEach(bar => (bar.style.animationPlayState = "running"));
 			});
-		
+
 			// Pause event
 			audio.addEventListener("pause", () => {
 				isPlaying = false;
 				playIcon.classList.replace("ri-pause-fill", "ri-play-large-fill");
 				waveBars.forEach(bar => (bar.style.animationPlayState = "paused"));
 			});
-		
+
 			// Update Progress Bar and Duration
 			audio.addEventListener("timeupdate", () => {
 				const progress = (audio.currentTime / audio.duration) * 100;
 				progressBar.style.width = `${progress}%`;
-		
+
 				const minutes = Math.floor(audio.currentTime / 60);
 				const seconds = Math.floor(audio.currentTime % 60);
 				durationLabel.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
 			});
-		
+
 			// Reset on End
 			audio.addEventListener("ended", () => {
 				isPlaying = false;
@@ -2070,7 +2071,7 @@
 			const nextBtn = document.getElementById("next-btn");
 			let itemsPerPage = 8; // Default value
 			let currentIndex = 0;
-		
+
 			// Function to update menu visibility
 			function updateMenu() {
 				menuItems.forEach((item, index) => {
@@ -2079,11 +2080,11 @@
 							? "block"
 							: "none";
 				});
-		
+
 				prevBtn.disabled = currentIndex === 0;
 				nextBtn.disabled = currentIndex + itemsPerPage >= menuItems.length;
 			}
-		
+
 			// Function to update itemsPerPage based on screen size
 			function updateItemsPerPage() {
 				if (window.matchMedia("(max-width: 992px)").matches) {
@@ -2096,7 +2097,7 @@
 				currentIndex = 0; // Reset index when itemsPerPage changes
 				updateMenu();
 			}
-		
+
 			// Event listeners for buttons
 			prevBtn.addEventListener("click", () => {
 				if (currentIndex > 0) {
@@ -2104,28 +2105,28 @@
 					updateMenu();
 				}
 			});
-		
+
 			nextBtn.addEventListener("click", () => {
 				if (currentIndex + itemsPerPage < menuItems.length) {
 					currentIndex += 1; // Move forward by one item
 					updateMenu();
 				}
 			});
-		
+
 			// Add event listener for screen size changes
 			window.addEventListener("resize", updateItemsPerPage);
-		
+
 			// Initial setup
 			updateItemsPerPage();
 		});
-		
+
 		// document.addEventListener("DOMContentLoaded", () => {
         //     const menuItems = document.querySelectorAll("#menu > li");
         //     const prevBtn = document.getElementById("prev-btn");
         //     const nextBtn = document.getElementById("next-btn");
         //     const itemsPerPage = 7;
         //     let currentIndex = 0;
-        
+
         //     // Function to update menu visibility
         //     function updateMenu() {
         //         menuItems.forEach((item, index) => {
@@ -2134,11 +2135,11 @@
         //                     ? "block"
         //                     : "none";
         //         });
-        
+
         //         prevBtn.disabled = currentIndex === 0;
         //         nextBtn.disabled = currentIndex + itemsPerPage >= menuItems.length;
         //     }
-        
+
         //     // Add fade effect
         //     function fadeEffect(callback) {
         //         const menu = document.getElementById("menu");
@@ -2148,7 +2149,7 @@
         //             menu.style.opacity = 1;
         //         }, 500);
         //     }
-        
+
         //     // Event listeners for buttons
         //     prevBtn.addEventListener("click", () => {
         //         if (currentIndex > 0) {
@@ -2158,7 +2159,7 @@
         //             });
         //         }
         //     });
-        
+
         //     nextBtn.addEventListener("click", () => {
         //         if (currentIndex + itemsPerPage < menuItems.length) {
         //             fadeEffect(() => {
@@ -2167,7 +2168,7 @@
         //             });
         //         }
         //     });
-        
+
         //     // Initial display
         //     updateMenu();
         // });
@@ -2179,7 +2180,7 @@
 		document.addEventListener("DOMContentLoaded", function() {
 			// Get the calendar body
 			const calendarBody = document.getElementById("calendarBody");
-	
+
 			// Add click event listener to the calendar body
 			calendarBody.addEventListener("click", function(event) {
 				// Check if a table cell (td) was clicked
@@ -2189,14 +2190,14 @@
 					if (activeCell) {
 						activeCell.classList.remove("active");
 					}
-	
+
 					// Add active class to the clicked cell
 					event.target.classList.add("active");
 				}
 			});
 		});
 	}
-	
+
 	// Dtae Pikar
 	const getDatePikarPopId = document.getElementById('date_pikar_pop');
 	if (getDatePikarPopId) {
@@ -2204,51 +2205,51 @@
 		document.addEventListener("DOMContentLoaded", function () {
 			const dateInput = document.getElementById("date-input");
 			const datepicker = document.getElementById("datepicker");
-	  
+
 			let selectedDate = null;
-	  
+
 			function generateCalendar(year, month) {
 			  const firstDay = new Date(year, month, 1).getDay();
 			  const daysInMonth = new Date(year, month + 1, 0).getDate();
 			  let html = "<table>";
 			  html += "<tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr><tr>";
-	  
+
 			  for (let i = 0; i < firstDay; i++) {
 				html += "<td></td>";
 			  }
-	  
+
 			  for (let day = 1; day <= daysInMonth; day++) {
 				if ((firstDay + day - 1) % 7 === 0 && day !== 1) {
 				  html += "</tr><tr>";
 				}
 				html += `<td data-day="${day}">${day}</td>`;
 			  }
-	  
+
 			  html += "</tr></table>";
 			  datepicker.innerHTML = html;
-	  
+
 			  const days = datepicker.querySelectorAll("td[data-day]");
 			  days.forEach((day) => {
 				day.addEventListener("click", function () {
 				  selectedDate = new Date(year, month, this.dataset.day);
 				  dateInput.value = selectedDate.toLocaleDateString();
-	  
+
 				  // Highlight selected date
 				  days.forEach((d) => d.classList.remove("selected"));
 				  this.classList.add("selected");
-	  
+
 				  // Close datepicker
 				  datepicker.classList.remove("active");
 				});
 			  });
 			}
-	  
+
 			dateInput.addEventListener("click", function () {
 			  datepicker.classList.toggle("active");
 			  const today = new Date();
 			  generateCalendar(today.getFullYear(), today.getMonth());
 			});
-	  
+
 			document.addEventListener("click", function (e) {
 			  if (!e.target.closest(".datepicker-container")) {
 				datepicker.classList.remove("active");
@@ -2266,13 +2267,13 @@
 			const closeBtn = document.querySelector('.close-btn');
 			const searchBtn = document.querySelector('.search-btn');
 			const searchOverlay = document.querySelector('.search-overlay');
-		
+
 			closeBtn.addEventListener('click', () => {
 				searchOverlay.style.display = 'none';
 				searchBtn.style.display = 'block';
 				closeBtn.classList.remove('active');
 			});
-		
+
 			searchBtn.addEventListener('click', () => {
 				searchBtn.style.display = 'none';
 				searchOverlay.style.display = 'block';
@@ -2298,7 +2299,7 @@ try {
 			setTheme('rtl');
 		}
 	}
-	
+
 	// Immediately invoked function to set the theme on initial load
 	(function () {
 		if (localStorage.getItem('trezo_rtl') === 'rtl') {
@@ -2310,3 +2311,4 @@ try {
 		}
 	})();
 } catch { }
+
