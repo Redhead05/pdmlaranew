@@ -13,9 +13,14 @@
                 </div>
                 <!--/column -->
                 <div class="xl:w-6/12 lg:w-6/12 w-full flex-[0_0_auto] xl:!px-[35px] lg:!px-[20px] !px-[15px] max-w-full !mt-[50px]" data-aos="fade-right">
-                    <h2 class="text-[calc(1.305rem_+_0.66vw)] font-bold xl:!text-[1.8rem] !leading-[1.3] !mb-3">Who Are We?</h2>
-                    <p class="lead !text-[1.05rem] !leading-[1.6] font-medium">We are a digital and branding company that believes in the power of creative strategy and along with great design.</p>
-                    <p class="!mb-6">Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</p>
+                    <h2 class="text-[calc(1.305rem_+_0.66vw)] font-bold xl:!text-[1.8rem] !leading-[1.3] !mb-3">Badan Akreditasi Jawa Timur</h2>
+{{--                    <p class="lead !text-[1.05rem] !leading-[1.6] font-medium">We are a digital and branding company that believes in the power of creative strategy and along with great design.</p>--}}
+                    <p class="!mb-6 text-justify">Pemerintah melalui BAN-PDM Jawa Timur, negara hadir untuk memastikan setiap
+                        lembaga pendidikan kita tumbuh lebih kuat dan berkualitas. Kami sangat bangga dapat
+                        mempersembahkan layanan akreditasi gratis yang kini dapat diakses sepenuhnya secara online,
+                        memberikan proses yang jauh lebih mudah dan transparan bagi seluruh satuan pendidikan di wilayah Jawa Timur.
+                        Dengan kemudahan ini, kami berharap Bapak dan Ibu dapat menjalani proses evaluasi mutu dengan perasaan tenang
+                        dan bahagia, demi mencetak generasi emas Indonesia yang unggul dan berdaya saing global.</p>
                     <div class="flex flex-wrap mx-[-15px] xl:mx-[-25px] !mt-[-30px]">
                         <div class="xl:w-6/12 lg:w-6/12 md:w-6/12C w-full flex-[0_0_auto] xl:!px-[25px] !px-[15px] max-w-full !mt-[30px]">
                             <div class="flex flex-row">
@@ -23,8 +28,8 @@
                                     <img src="{{ asset ('assets/fe/assets/img/icons/lineal/target.svg') }}" class="svg-inject icon-svg !w-[2.2rem] !h-[2.2rem]  !mr-4" alt="image">
                                 </div>
                                 <div>
-                                    <h4 class="!mb-1">Our Mission</h4>
-                                    <p class="!mb-0">Dapibus eu leo quam ornare curabitur blandit tempus.</p>
+                                    <h4 class="!mb-1">Misi Kami</h4>
+                                    <p class="!mb-0">Mengakreditasi seluruh sekolah di jawa timur.</p>
                                 </div>
                             </div>
                         </div>
@@ -35,8 +40,8 @@
                                     <img src="{{ asset ('assets/fe/assets/img/icons/lineal/award-2.svg') }}" class="svg-inject icon-svg !w-[2.2rem] !h-[2.2rem]  !mr-4" alt="image">
                                 </div>
                                 <div>
-                                    <h4 class="!mb-1">Our Values</h4>
-                                    <p class="!mb-0">Aenean lacinia bibendum nulla sed consectetur.</p>
+                                    <h4 class="!mb-1">Integritas</h4>
+                                    <p class="!mb-0">Menjadi Lembaga yang bersih. akreditasi yang mudah gratis dan menyenangkan. laporkan jika suap dll.</p>
                                 </div>
                             </div>
                         </div>
