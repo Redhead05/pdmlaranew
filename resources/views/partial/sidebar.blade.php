@@ -14,66 +14,85 @@
             @role('admin')
             <li class="menu-item open">
                 <a href="{{ route ('admin.dashboard') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('admin.dashboard') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined">cloud_circle</span>
-                    <span class="title"> Dashboard</span>
+                    <div class="flex gap-2">
+                        <span class="ri-eth-line"></span>
+                        <span class="title"> Dashboard</span>
+                    </div>
                 </a>
             </li>
             <li class="menu-item open">
                 <a href="{{ route ('admin.user.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('admin.user.index') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined">cloud_circle</span>
-                    <span class="title">User</span>
+                    <div class="flex gap-2">
+                        <i class="ri-group-2-fill"></i>
+                        <span class="title">User</span>
+                    </div>
                 </a>
             </li>
             <li class="menu-item open">
                 <a href="{{ route ('admin.attendance.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs(['admin.attendance.index','admin.attendance.detail']) ? 'active' : '' }}">
-                    <span class="material-symbols-outlined">foggy</span>
-                    <span class="title"> Attendance</span>
-                </a>
-            </li>
-
-            <li class="menu-item">
-                <a href="contacts.html" data-turbo-frame="main_frame" class="menu-link">
-                    <span class="material-symbols-outlined menu-icon">contact_page</span>
-                    <span class="title">Contacts</span>
+                    <div class="flex gap-2">
+                        <i class="ri-calendar-check-line"></i>
+                        <span class="title"> Attendance</span>
+                    </div>
                 </a>
             </li>
             @endrole
 
             @hasanyrole('adminlanding|admin')
-            <li class="menu-item open">
+            <li class="menu-item open ">
                 <a href="{{ route ('adminlanding.dashboard') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.dashboard') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined">cloud_circle</span>
-                    <span class="title"> Dashboard Landing Page</span>
+                    <div class="flex gap-2">
+                        <span class="ri-eth-line"></span>
+                        <span class="title"> Dashboard Landing Page</span>
+                    </div>
                 </a>
             </li>
             <li class="menu-item open">
                 <a href="{{ route ('adminlanding.home.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.home.index') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined">cloud_circle</span>
-                    <span class="title">Home</span>
+                    <div class="flex gap-2">
+                        <span class="ri-home-line"></span>
+                        <span class="title">Home</span>
+                    </div>
                 </a>
             </li>
             <li class="menu-item open">
                 <a href="{{ route ('adminlanding.gallery.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.gallery.index') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined">cloud_circle</span>
-                    <span class="title">Gallery</span>
+                    <div class="flex gap-2">
+                        <i class="ri-image-2-line"></i>
+                        <span class="title">Gallery</span>
+                    </div>
                 </a>
             </li>
             <li class="menu-item open">
                 <a href="{{ route ('adminlanding.news.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.news.index') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined">cloud_circle</span>
-                    <span class="title">News</span>
+                    <div class="flex gap-2">
+                        <i class="ri-article-line"></i>
+                        <span class="title">News</span>
+                    </div>
                 </a>
             </li>
             <li class="menu-item open">
                 <a href="{{ route ('adminlanding.employee.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.StrukturOrganisasi.index') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined">cloud_circle</span>
-                    <span class="title">Struktur organisasi</span>
+                    <div class="flex gap-2">
+                        <i class="ri-home-office-fill"></i>
+                        <span class="title">Struktur organisasi</span>
+                    </div>
                 </a>
             </li>
             <li class="menu-item open">
                 <a href="{{ route ('adminlanding.faq.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.StrukturOrganisasi.index') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined">cloud_circle</span>
-                    <span class="title">Faq</span>
+                    <div class="flex gap-2">
+                        <i class="ri-question-fill"></i>
+                        <span class="title">Faq</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item open">
+                <a href="{{ route ('adminlanding.chat.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.chat.index') ? 'active' : '' }}">
+                    <div class="flex gap-2">
+                        <i class="ri-question-answer-fill"></i>
+                        <span class="title">Chat</span>
+                    </div>
                 </a>
             </li>
             @endhasanyrole

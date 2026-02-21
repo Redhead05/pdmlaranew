@@ -17054,6 +17054,9 @@ Swiper Slider Style
   border-radius: 5px;
   white-space: nowrap;
   transition: all ease 0.5s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .menu-vertical .menu-item .menu-link.menu-toggle::after {
   width: 8px;
@@ -17272,6 +17275,7 @@ Swiper Slider Style
 .menu-vertical .menu-sub .menu-item.after-sub-menu.open .menu-link.active.menu-toggle::after {
   border-color: #fff;
 }
+
 .menu-vertical .menu-sub .menu-item.open > .menu-sub {
   margin-right: 0;
 }
@@ -23778,6 +23782,80 @@ Theme Settings Style
 }
 [card-bg-data-theme=card-bg-gray] .offcanvas {
   background-color: #F6F7F9 !important;
+}
+
+/* Footer Area - Sticky Bottom Scrolling */
+.footer-area {
+  position: sticky;
+  bottom: 0;
+  z-index: 40;
+  background-color: #fff;
+  border-top: 1px solid #e5e7eb;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.footer-area.dark {
+  background-color: #0f172a;
+  border-top-color: #1e293b;
+}
+
+[data-theme=dark] .footer-area {
+  background-color: #0f172a;
+  border-top-color: #1e293b;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.footer-area a {
+  transition: all 0.3s ease;
+}
+
+.footer-area a:hover {
+  color: #605dff !important;
+}
+
+.footer-social-icon {
+  transition: all 0.3s ease;
+  border: 1px solid #e5e7eb;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+[data-theme=dark] .footer-social-icon {
+  border-color: #1e293b;
+}
+
+.footer-social-icon:hover {
+  background-color: #605dff !important;
+  border-color: #605dff !important;
+  transform: translateY(-2px);
+}
+
+/* Sidebar Wrapper - Adjusted for sticky footer */
+.sidebar-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+}
+
+.sidebar-wrapper .sidebar-area {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.sidebar-wrapper .footer-area {
+  flex-shrink: 0;
+  margin-top: auto;
+  position: relative;
+  bottom: auto;
+  z-index: 30;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\LandingPage\ChatController;
 use App\Http\Controllers\Admin\LandingPage\EmployeeController;
 use App\Http\Controllers\Admin\LandingPage\GalleryController;
 use App\Http\Controllers\Admin\LandingPage\HomeController;
@@ -72,11 +73,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //Route adminlanding
     Route::prefix('adminlanding')->middleware('role:adminlanding|admin')->as('adminlanding.')->group(function () {
         Route::get('dashboard', [AdminLandingDashboardController::class, 'index'])->name('dashboard');
+        Route::get('chat', [ChatController::class, 'index'])->name('chat.index');
         Route::resource('home', HomeController::class);
         Route::resource('gallery', GalleryController::class);
         Route::resource('news', NewsController::class);
         Route::resource('employee', EmployeeController::class);
         Route::resource('faq', FaqController::class);
+
     });
 
     //Route asesor
