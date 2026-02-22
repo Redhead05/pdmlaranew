@@ -1,12 +1,5 @@
-<footer class="footer-area bg-white text-center py-3 dark:bg-gray-900">
-    <p class="fs-14">
-        © <span class="text-primary-div">BAN PDM JAWA TIMUR</span> is Proudly
-        Owned by mbuh gak eruh
-        <a
-            href="https://banpdm-jatim/"
-            target="_blank"
-            class="text-decoration-none text-primary hover:text-primary-dark"
-        >Nasi Goreng Mahal</a
-        >
+<footer class="bg-white dark:bg-[#0c1427] rounded-t-md px-[20px] md:px-[25px] py-[15px] md:py-[20px] text-center">
+    <p>
+        © <span class="text-purple-500">Trezo</span> is Proudly Owned by <a href="https://envytheme.com/" target="_blank" class="text-primary-500 transition-all hover:underline">EnvyTheme</a>
     </p>
 </footer>

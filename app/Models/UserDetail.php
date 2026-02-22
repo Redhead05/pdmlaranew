@@ -17,6 +17,9 @@ class UserDetail extends Model
         'work_city',
         'gender',
         'type_asesor',
+        'latitude',
+        'longitude',
+        'location_enabled',
     ];
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo

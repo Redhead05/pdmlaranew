@@ -16,9 +16,12 @@
                         @yield('content')
                     </div>
 
+        <div class="flex-grow-1"></div>
         @include('partial.theme-setting')
         @include('partial.footer')
-       @include('partial.scripts')
+
+
+        @include('partial.scripts')
         @stack('scripts')
     </body>
 </html>

@@ -54,6 +54,7 @@
                                     <th>Gender</th>
                                     <th>City</th>
                                     <th>Status</th>
+                                    <th>Location</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -75,17 +76,23 @@
                                             <span class="badge status-badge {{ $user->is_active ? 'bg-success' : 'bg-danger' }}"
                                                   style="cursor: pointer;"
                                                   data-user-id="{{ $user->id }}"
+                                                  data-user-slug="{{ $user->slug }}"
                                                   data-is-active="{{ $user->is_active ? '1' : '0' }}"
                                                   title="Click to toggle status">
                                                 {{ $user->is_active ? 'Active' : 'Inactive' }}
                                             </span>
                                         </td>
                                         <td>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input location-toggle" type="checkbox" role="switch" id="locationSwitch-{{ $user->id }}" data-user-slug="{{ $user->slug }}" {{ optional($user->detail)->location_enabled ? 'checked' : '' }}>
+                                            </div>
+                                        </td>
+                                        <td>
                                             <div class="d-flex align-items-center gap-1">
-                                                <a href="{{ route('admin.user.show', $user->id) }}" class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-title="View">
+                                                <a href="{{ route('admin.user.show', $user->slug) }}" class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-title="View">
                                                     <i class="material-symbols-outlined fs-16 text-info">visibility</i>
                                                 </a>
-                                                <a href="{{ route('admin.user.edit', $user->id) }}" class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-title="Edit">
+                                                <a href="{{ route('admin.user.edit', $user->slug) }}" class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-title="Edit">
                                                     <i class="material-symbols-outlined fs-16 text-body">edit</i>
                                                 </a>
                                                 <button type="button" class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $user->id }}" data-bs-title="Delete">
@@ -106,7 +113,7 @@
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                            <form action="{{ route('admin.user.destroy', $user->id) }}" method="POST" class="d-inline">
+                                                            <form action="{{ route('admin.user.destroy', $user->slug) }}" method="POST" class="d-inline">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button type="submit" class="btn btn-danger">Delete</button>
@@ -147,7 +154,7 @@
                 searching: true,
                 columnDefs: [
                     { orderable: false, searchable: false, targets: 0 }, // No
-                    { orderable: false, searchable: false, targets: 8 }  // Action
+                    { orderable: false, searchable: false, targets: 9 }  // Action
                 ],
                 language: {
                     search: "Search:",
@@ -176,6 +183,7 @@
             $(document).on('click', '.status-badge', function() {
                 const badge = $(this);
                 const userId = badge.data('user-id');
+                const userSlug = badge.data('user-slug');
                 const currentStatus = badge.data('is-active');
 
                 // Disable badge temporarily to prevent multiple clicks
@@ -183,7 +191,7 @@
 
                 // Send AJAX request
                 $.ajax({
-                    url: '{{ url("admin/user") }}/' + userId + '/toggle-status',
+                    url: '{{ url("admin/user") }}/' + userSlug + '/toggle-status',
                     type: 'POST',
                     data: {
                         _token: $('meta[name="csrf-token"]').attr('content')
@@ -212,6 +220,43 @@
                     complete: function() {
                         // Re-enable badge
                         badge.css('pointer-events', 'auto').css('opacity', '1');
+                    }
+                });
+            });
+
+            // Toggle location on switch change
+            $(document).on('change', '.location-toggle', function() {
+                const toggle = $(this);
+                const userSlug = toggle.data('user-slug');
+                const isChecked = toggle.is(':checked') ? 1 : 0;
+
+                // Disable toggle temporarily to prevent multiple clicks
+                toggle.prop('disabled', true);
+
+                // Send AJAX request
+                $.ajax({
+                    url: '{{ url("admin/user") }}/' + userSlug + '/toggle-location',
+                    type: 'POST',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        location_enabled: isChecked
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Show success message
+                            // showAlert('success', response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        const errorMsg = xhr.responseJSON?.message || 'Failed to update location';
+                        // showAlert('danger', errorMsg);
+
+                        // Revert toggle state on error
+                        toggle.prop('checked', !isChecked);
+                    },
+                    complete: function() {
+                        // Re-enable toggle
+                        toggle.prop('disabled', false);
                     }
                 });
             });

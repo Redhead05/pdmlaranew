@@ -13,7 +13,7 @@
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h1 class="mb-0">User Detail</h1>
                         <div>
-                            <a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-warning text-white me-2">
+                            <a href="{{ route('admin.user.edit', $user->slug) }}" class="btn btn-warning text-white me-2">
                                 <i class="material-symbols-outlined align-middle">edit</i> Edit
                             </a>
                             <a href="{{ route('admin.user.index') }}" class="btn btn-secondary">

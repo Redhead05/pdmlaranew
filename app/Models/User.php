@@ -19,6 +19,7 @@ class User extends Authenticatable
         'email',
         'password',
         'is_active',
+        'slug',
     ];
 
     protected $hidden = [
@@ -42,5 +43,11 @@ class User extends Authenticatable
     public function organizationStructures()
     {
         return $this->hasMany(\App\Models\OrganizationStructure::class);
+    }
+
+    // Use slug for route model binding
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
     }
 }

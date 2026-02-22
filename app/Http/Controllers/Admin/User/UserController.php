@@ -52,6 +52,11 @@ class UserController extends Controller
 
         DB::beginTransaction();
         try {
+            // Generate unique numeric slug
+            do {
+                $slug = (string) random_int(1000000, 9999999);
+            } while (User::where('slug', $slug)->exists());
+
             // Create user
             $user = User::create([
                 'name' => $validated['name'],
@@ -59,6 +64,7 @@ class UserController extends Controller
                 'email' => $validated['email'],
                 'password' => Hash::make($validated['password']),
                 'is_active' => $validated['is_active'],
+                'slug' => $slug,
             ]);
 
             // Create user detail
@@ -140,7 +146,7 @@ class UserController extends Controller
 
             // Update or create user detail
             $user->detail()->updateOrCreate(
-                ['user_id' => $user->id],
+                [],
                 [
                     'gender' => $validated['gender'],
                     'address_home' => $validated['address_home'] ?? null,
@@ -198,6 +204,32 @@ class UserController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to update status: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Toggle user location status
+     */
+    public function toggleLocation(User $user)
+    {
+        try {
+            $detail = $user->detail;
+            if (!$detail) {
+                $detail = $user->detail()->create([ 'location_enabled' => true ]);
+            } else {
+                $detail->location_enabled = !$detail->location_enabled;
+                $detail->save();
+            }
+
+            return response()->json([
+                'success' => true,
+                'location_enabled' => (bool) $detail->location_enabled,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to toggle location: ' . $e->getMessage(),
             ], 500);
         }
     }

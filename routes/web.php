@@ -51,17 +51,23 @@ Route::post('/attendance/public/store', [PublicAttendanceController::class, 'sto
 //    return view('dashboard');
 //})->middleware(['auth', 'verified'])->name('dasfhboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+//Route::middleware('auth')->group(function () {
+//    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+//});
 
 Route::middleware(['auth', 'verified'])->group(function () {
-   //Route admin
+    // General profile routes (fallback for non-prefixed users)
+    Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    //Route admin
     Route::prefix('admin')->middleware('role:admin')->as('admin.')->group(function () {
         // Custom routes harus sebelum resource routes
         Route::post('user/{user}/toggle-status', [UserController::class, 'toggleStatus'])->name('user.toggle-status');
+        Route::post('user/{user}/toggle-location', [UserController::class, 'toggleLocation'])->name('user.toggle-location');
 
         Route::resource('user', UserController::class);
         // Employee management (admin)
@@ -72,6 +78,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
     //Route adminlanding
     Route::prefix('adminlanding')->middleware('role:adminlanding|admin')->as('adminlanding.')->group(function () {
+        // Profile routes for adminlanding/admin users
+        Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
         Route::get('dashboard', [AdminLandingDashboardController::class, 'index'])->name('dashboard');
         Route::get('chat', [ChatController::class, 'index'])->name('chat.index');
         Route::resource('home', HomeController::class);
@@ -84,6 +95,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Route asesor
     Route::prefix('asesor')->middleware('role:asesor')->as('asesor.')->group(function () {
+        // Profile routes for asesor users
+        Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
         Route::get('dashboard', [AsesorDashboardController::class, 'index'])->name('dashboard');
         Route::resource('attendance',AsesorAttendanceController::class);
     });

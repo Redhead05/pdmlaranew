@@ -13,7 +13,7 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ url()->current() }}" class="mt-6 space-y-6">
         @csrf
         @method('patch')
 
@@ -27,38 +27,72 @@
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
+        </div>
 
-            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-                <div>
-                    <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
-                        {{ __('Your email address is unverified.') }}
+        <!-- Admin-only fields: role and is_active -->
+        @if(auth()->check() && method_exists(auth()->user(), 'hasAnyRole') && auth()->user()->hasAnyRole(['admin','adminlanding']))
+            <div>
+                <x-input-label for="role" :value="__('Role')" />
+                <select id="role" name="role" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 rounded-md">
+                    @foreach(\Spatie\Permission\Models\Role::all() as $r)
+                        <option value="{{ $r->name }}" {{ old('role', $user->roles->pluck('name')->first() ?? '') == $r->name ? 'selected' : '' }}>{{ ucfirst($r->name) }}</option>
+                    @endforeach
+                </select>
+                <x-input-error class="mt-2" :messages="$errors->get('role')" />
+            </div>
 
-                        <button form="send-verification" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
-                            {{ __('Click here to re-send the verification email.') }}
-                        </button>
-                    </p>
+            <div class="flex items-center gap-4">
+                <x-input-label for="is_active" :value="__('Active')" />
+                <input type="checkbox" id="is_active" name="is_active" value="1" class="ms-2" {{ old('is_active', $user->is_active) ? 'checked' : '' }}>
+                <x-input-error class="mt-2" :messages="$errors->get('is_active')" />
+            </div>
+        @endif
 
-                    @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
-                            {{ __('A new verification link has been sent to your email address.') }}
-                        </p>
-                    @endif
-                </div>
-            @endif
+        <!-- User detail fields -->
+        <div>
+            <x-input-label for="gender" :value="__('Gender')" />
+            <select id="gender" name="gender" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 rounded-md">
+                <option value="">Select gender</option>
+                <option value="L" {{ old('gender', $user->detail->gender ?? '') == 'L' ? 'selected' : '' }}>L</option>
+                <option value="P" {{ old('gender', $user->detail->gender ?? '') == 'P' ? 'selected' : '' }}>P</option>
+            </select>
+            <x-input-error class="mt-2" :messages="$errors->get('gender')" />
+        </div>
+
+        <div>
+            <x-input-label for="address_home" :value="__('Home Address')" />
+            <x-text-input id="address_home" name="address_home" type="text" class="mt-1 block w-full" :value="old('address_home', $user->detail->address_home ?? '')" />
+            <x-input-error class="mt-2" :messages="$errors->get('address_home')" />
+        </div>
+
+        <div>
+            <x-input-label for="home_city" :value="__('Home City')" />
+            <x-text-input id="home_city" name="home_city" type="text" class="mt-1 block w-full" :value="old('home_city', $user->detail->home_city ?? '')" />
+            <x-input-error class="mt-2" :messages="$errors->get('home_city')" />
+        </div>
+
+        <div>
+            <x-input-label for="address_work" :value="__('Work Address')" />
+            <x-text-input id="address_work" name="address_work" type="text" class="mt-1 block w-full" :value="old('address_work', $user->detail->address_work ?? '')" />
+            <x-input-error class="mt-2" :messages="$errors->get('address_work')" />
+        </div>
+
+        <div>
+            <x-input-label for="work_city" :value="__('Work City')" />
+            <x-text-input id="work_city" name="work_city" type="text" class="mt-1 block w-full" :value="old('work_city', $user->detail->work_city ?? '')" />
+            <x-input-error class="mt-2" :messages="$errors->get('work_city')" />
+        </div>
+
+        <div>
+            <x-input-label for="type_asesor" :value="__('Type Asesor')" />
+            <x-text-input id="type_asesor" name="type_asesor" type="text" class="mt-1 block w-full" :value="old('type_asesor', $user->detail->type_asesor ?? '')" />
+            <x-input-error class="mt-2" :messages="$errors->get('type_asesor')" />
         </div>
 
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
-            @if (session('status') === 'profile-updated')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600 dark:text-gray-400"
-                >{{ __('Saved.') }}</p>
-            @endif
+            {{-- toast is handled globally by profile.edit view using session('toast') --}}
         </div>
     </form>
 </section>
