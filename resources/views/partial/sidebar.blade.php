@@ -95,6 +95,30 @@
                     </div>
                 </a>
             </li>
+            <li class="menu-item open">
+                <a href="{{ route ('adminlanding.chat.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.chat.index') ? 'active' : '' }}">
+                    <div class="flex gap-2">
+                        <i class="ri-question-answer-fill"></i>
+                        <span class="title">Chat</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item open">
+                <a href="{{ route ('adminlanding.chat.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.chat.index') ? 'active' : '' }}">
+                    <div class="flex gap-2">
+                        <i class="ri-question-answer-fill"></i>
+                        <span class="title">Chat</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu-item open">
+                <a href="{{ route ('adminlanding.chat.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.chat.index') ? 'active' : '' }}">
+                    <div class="flex gap-2">
+                        <i class="ri-question-answer-fill"></i>
+                        <span class="title">Chat</span>
+                    </div>
+                </a>
+            </li>
             @endhasanyrole
             @role('asesor')
             <li class="menu-item open">

@@ -6,7 +6,12 @@ export default defineConfig({
     plugins: [
         tailwindcss(),
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js'],
+            input: [
+                'resources/css/app.css',
+                'resources/js/app.js',
+                'resources/js/chat-frontend.js',
+                'resources/js/adminlanding-chat.js',
+            ],
             refresh: true,
         }),
     ],

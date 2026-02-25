@@ -31,6 +31,8 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Asesor\DashboardController as AsesorDashboardController;
 use App\Http\Controllers\Asesor\Attendance\AttendanceController as AsesorAttendanceController;
 use App\Http\Controllers\PublicAttendanceController;
+use App\Http\Controllers\Chat\GuestChatController;
+use App\Http\Controllers\Chat\GuestBroadcastAuthController;
 
 Route::get('/login', function () {
     return view('auth.login');
@@ -85,6 +87,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::get('dashboard', [AdminLandingDashboardController::class, 'index'])->name('dashboard');
         Route::get('chat', [ChatController::class, 'index'])->name('chat.index');
+        Route::get('chat/conversations', [ChatController::class, 'conversations'])->name('chat.conversations');
+        Route::get('chat/conversations/{conversation}/messages', [ChatController::class, 'messages'])->name('chat.messages');
+        Route::post('chat/conversations/{conversation}/reply', [ChatController::class, 'reply'])->name('chat.reply');
+        Route::post('chat/conversations/{conversation}/read', [ChatController::class, 'markRead'])->name('chat.read');
         Route::resource('home', HomeController::class);
         Route::resource('gallery', GalleryController::class);
         Route::resource('news', NewsController::class);
@@ -109,3 +115,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 //    })->middleware('role:user')->name('dashboard.user');
 });
 require __DIR__.'/auth.php';
+
+Route::post('/chat/guest/start', [GuestChatController::class, 'start'])->middleware('throttle:6,1')->name('chat.guest.start');
+Route::get('/chat/conversations/{conversation}/messages', [GuestChatController::class, 'messages'])->name('chat.guest.messages');
+Route::post('/chat/conversations/{conversation}/messages', [GuestChatController::class, 'send'])->middleware('throttle:30,1')->name('chat.guest.send');
+Route::post('/chat/broadcasting/auth', GuestBroadcastAuthController::class)->name('chat.broadcast.auth');

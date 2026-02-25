@@ -6,6 +6,9 @@ import "@hotwired/turbo";
 
 import Alpine from 'alpinejs';
 
+// Chat widget (guest -> admin realtime)
+import './chat-widget';
+
 window.Alpine = Alpine;
 
 Alpine.start();

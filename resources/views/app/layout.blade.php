@@ -20,8 +20,11 @@
         @include('partial.theme-setting')
         @include('partial.footer')
 
-
         @include('partial.scripts')
+
+        {{-- Vite entry untuk halaman adminlanding chat (aman karena script hanya jalan jika ada data-adminlanding-chat) --}}
+        @vite(['resources/js/adminlanding-chat.js'])
+
         @stack('scripts')
     </body>
 </html>
