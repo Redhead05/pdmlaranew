@@ -89,10 +89,10 @@
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center gap-1">
-                                                <a href="{{ route('admin.user.show', $user->slug) }}" class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-title="View">
+                                                <a href="{{ route('admin.user.show', ['user' => $user]) }}" class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-title="View">
                                                     <i class="material-symbols-outlined fs-16 text-info">visibility</i>
                                                 </a>
-                                                <a href="{{ route('admin.user.edit', $user->slug) }}" class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-title="Edit">
+                                                <a href="{{ route('admin.user.edit', ['user' => $user]) }}" class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="tooltip" data-bs-title="Edit">
                                                     <i class="material-symbols-outlined fs-16 text-body">edit</i>
                                                 </a>
                                                 <button type="button" class="ps-0 border-0 bg-transparent lh-1 position-relative top-2" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $user->id }}" data-bs-title="Delete">
@@ -113,7 +113,7 @@
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                            <form action="{{ route('admin.user.destroy', $user->slug) }}" method="POST" class="d-inline">
+                                                            <form action="{{ route('admin.user.destroy', ['user' => $user]) }}" method="POST" class="d-inline">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button type="submit" class="btn btn-danger">Delete</button>

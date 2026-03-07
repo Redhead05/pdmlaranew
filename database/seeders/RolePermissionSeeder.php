@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -11,6 +10,18 @@ use Illuminate\Support\Facades\Hash;
 
 class RolePermissionSeeder extends Seeder
 {
+    /**
+     * Generate unique numeric 7-digit slug for users.
+     */
+    private function uniqueNumericSlug(): string
+    {
+        do {
+            $slug = (string) random_int(1000000, 9999999);
+        } while (User::where('slug', $slug)->exists());
+
+        return $slug;
+    }
+
     /**
      * Run the database seeds.
      */
@@ -41,19 +52,21 @@ class RolePermissionSeeder extends Seeder
             'name' => 'Admin',
             'password' => Hash::make('password'),
             'is_active' => true,
+            'slug' => $this->uniqueNumericSlug(),
         ]);
         $admin->assignRole('admin');
 
-        // Buat user $adminlandingRole
-        $admin = User::firstOrCreate([
-            'email' => 'adminlandingRole@example.com',
+        // Buat user adminlanding
+        $adminLanding = User::firstOrCreate([
+            'email' => 'adminlanding@example.com',
         ], [
             'nia' => '123456789012',
-            'name' => '$adminlandingRole',
+            'name' => 'Admin Landing',
             'password' => Hash::make('password'),
             'is_active' => true,
+            'slug' => $this->uniqueNumericSlug(),
         ]);
-        $admin->assignRole('$adminlandingRole');
+        $adminLanding->assignRole('adminlanding');
 
         // Buat user asesor
         $asesor = User::firstOrCreate([
@@ -63,6 +76,7 @@ class RolePermissionSeeder extends Seeder
             'name' => 'Asesor',
             'password' => Hash::make('password'),
             'is_active' => true,
+            'slug' => $this->uniqueNumericSlug(),
         ]);
         $asesor->assignRole('asesor');
 
@@ -74,6 +88,7 @@ class RolePermissionSeeder extends Seeder
             'name' => 'User',
             'password' => Hash::make('password'),
             'is_active' => true,
+            'slug' => $this->uniqueNumericSlug(),
         ]);
         $user->assignRole('user');
     }
