@@ -19,9 +19,9 @@
                             <h3 class="fs-28 mb-2">{{ __('Selamat Datang di MAS-JATIM !') }}</h3>
                             <p class="fw-medium fs-16 mb-4">{{ __('Management Akreditasi Sistem - Jawa Timur') }}</p>
 
-                            <form method="POST" action="{{ route('login') }}">
+                            <!-- disable turbo so redirects from server are followed by browser -->
+                            <form method="POST" action="{{ route('login') }}" data-turbo="false">
                                 @csrf
-
                                 <div class="form-group mb-4">
                                     <label for="email" class="form-label d-block mb-2">{{ __('Email') }}</label>
                                     <x-text-input id="email" class="form-control h-[55px] rounded-md px-[17px] w-100" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="example@trezo.com" />

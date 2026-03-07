@@ -8,15 +8,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Kabkot extends Model
 {
     protected $table = 'kabkots';
-    protected $primaryKey = 'idkabkot';
-    public $incrementing = false;
-    protected $keyType = 'int';
-    protected $guarded = [];
+    protected $fillable = ['nama_kabkot', 'latitude', 'longitude'];
 
-
-    public function kecamatans(): HasMany
+    public function kecamatans()
     {
-        // foreign key on kecamatans is `idkabkot`, local key is `idkabkot`
-        return $this->hasMany(Kecamatan::class, 'idkabkot', 'idkabkot');
+        return $this->hasMany(Kecamatan::class, 'kabkot_id');
     }
 }

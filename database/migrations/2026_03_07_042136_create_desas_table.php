@@ -12,15 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('desas', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_des')->primary();
-            $table->unsignedBigInteger('id_kec');
-            $table->string('nama');
-            $table->decimal('long_des', 17, 11)->nullable();
-            $table->decimal('lat_des', 17, 11)->nullable();
-            $table->timestamps();
+            $table->id();
+            // foreign key ke kecamatans (id)
+            $table->foreignId('kecamatan_id')->constrained('kecamatans')->onDelete('cascade');
+            $table->string('nama_desa');
+            $table->decimal('latitude', 14, 11)->nullable();
+            $table->decimal('longitude', 14, 11)->nullable();
 
-            $table->foreign('id_kec')->references('id_kec')->on('kecamatans')->cascadeOnDelete();
-            $table->index('id_kec');
+            $table->timestamps();
         });
     }
 

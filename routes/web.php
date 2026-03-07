@@ -34,9 +34,6 @@ use App\Http\Controllers\PublicAttendanceController;
 use App\Http\Controllers\Chat\GuestChatController;
 use App\Http\Controllers\Chat\GuestBroadcastAuthController;
 
-Route::get('/login', function () {
-    return view('auth.login');
-});
 Route::get('/', [FrontendHomeController::class, 'index'])->name('frontend.pages.home');
 Route::get('/news', [NewsfeController::class, 'index'])->name('frontend.pages.news');
 Route::get('/news/{slug}', [NewsfeController::class, 'show'])->name('frontend.pages.news-details');

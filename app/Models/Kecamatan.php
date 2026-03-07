@@ -9,18 +9,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Kecamatan extends Model
 {
     protected $table = 'kecamatans';
-    protected $primaryKey = 'id_kec';
-    public $incrementing = false;
-    protected $keyType = 'int';
-    protected $guarded = [];
+    protected $fillable = ['kabkot_id', 'nama_kec', 'latitude', 'longitude'];
 
-    public function kabkot(): BelongsTo
+    public function kabkot()
     {
-        return $this->belongsTo(KabKot::class, 'idkabkot', 'idkabkot');
+        return $this->belongsTo(Kabkot::class, 'kabkot_id');
     }
 
-    public function desas(): HasMany
+    public function desas()
     {
-        return $this->hasMany(Desa::class, 'id_kec', 'id_kec');
+        return $this->hasMany(Desa::class, 'kecamatan_id');
     }
 }

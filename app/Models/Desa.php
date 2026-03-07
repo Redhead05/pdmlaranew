@@ -8,13 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Desa extends Model
 {
     protected $table = 'desas';
-    protected $primaryKey = 'id_des';
-    public $incrementing = false;
-    protected $keyType = 'int';
-    protected $guarded = [];
+    protected $fillable = ['kecamatan_id', 'nama_desa', 'latitude', 'longitude'];
 
-    public function kecamatan(): BelongsTo
+    public function kecamatan()
     {
-        return $this->belongsTo(Kecamatan::class, 'id_kec', 'id_kec');
+        return $this->belongsTo(Kecamatan::class, 'kecamatan_id');
     }
 }

@@ -12,15 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kecamatans', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_kec')->primary();
-            $table->unsignedBigInteger('idkabkot');
-            $table->string('nama');
-            $table->decimal('long_kec', 17, 11)->nullable();
-            $table->decimal('lat_kec', 17, 11)->nullable();
-            $table->timestamps();
+            $table->id();
+            // foreign key ke kabkots (id)
+            $table->foreignId('kabkot_id')->constrained('kabkots')->onDelete('cascade');
+            $table->string('nama_kec');
+            $table->decimal('latitude', 14, 11)->nullable();
+            $table->decimal('longitude', 14, 11)->nullable();
 
-            $table->foreign('idkabkot')->references('idkabkot')->on('kabkots')->cascadeOnDelete();
-            $table->index('idkabkot');
+
+            $table->timestamps();
         });
     }
 

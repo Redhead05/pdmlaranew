@@ -12,10 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kabkots', function (Blueprint $table) {
-            $table->unsignedBigInteger('idkabkot')->primary();
+            $table->id();
             $table->string('nama_kabkot');
-            $table->decimal('long_kabkot', 17, 11)->nullable();
-            $table->decimal('lat_kabkot', 17, 11)->nullable();
+            // latitude & longitude - gunakan decimal supaya tepat (contoh presisi 10,7)
+            $table->decimal('latitude', 14, 11)->nullable();
+            $table->decimal('longitude', 14, 11)->nullable();
             $table->timestamps();
         });
     }

@@ -8,8 +8,11 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route as RouteFacade;
 use Illuminate\View\View;
 use Illuminate\Validation\ValidationException;
 
@@ -23,7 +26,14 @@ class AuthenticatedSessionController extends Controller
         return view('auth.login');
     }
 
-    public function store(LoginRequest $request): RedirectResponse
+    /**
+     * Handle an incoming authentication request.
+     * Return RedirectResponse or Response (HTML) when forcing client redirect for Turbo.
+     *
+     * @param  \App\Http\Requests\Auth\LoginRequest  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     */
+    public function store(LoginRequest $request): RedirectResponse|Response
     {
         $credentials = $request->validate([
             'email' => ['required', 'string', 'email'],
@@ -41,16 +51,53 @@ class AuthenticatedSessionController extends Controller
             'password' => $credentials['password'],
             'is_active' => true,
         ], $request->boolean('remember'))) {
+            Log::info('Login failed attempt', ['email' => $credentials['email']]);
             return $this->sendFailedLoginResponse($request);
         }
 
         $request->session()->regenerate();
 
-        // tandai sukses untuk view biasa
-        $request->session()->flash('login_success', true);
+        Log::info('Login successful', ['user_id' => Auth::id(), 'email' => Auth::user()->email]);
+
+        // Ambil intended (jika ada) lalu tarik dari session
+        $intended = session()->pull('url.intended', null);
+        $target = null;
+        if ($intended) {
+            // jika intended mengarah ke /login atau /logout, abaikan
+            if (! str_contains($intended, '/login') && ! str_contains($intended, '/logout')) {
+                Log::info('Redirecting to intended', ['intended' => $intended]);
+                $target = $intended;
+            }
+        }
 
         $user = Auth::user();
-        return $this->redirectToByRole($user);
+
+        // fallback role-based jika target belum ditentukan
+        if (! $target) {
+            if ($user->hasRole('admin') && RouteFacade::has('admin.dashboard')) {
+                $target = route('admin.dashboard');
+            } elseif ($user->hasRole('adminlanding') && RouteFacade::has('adminlanding.dashboard')) {
+                $target = route('adminlanding.dashboard');
+            } elseif ($user->hasRole('asesor') && RouteFacade::has('asesor.dashboard')) {
+                $target = route('asesor.dashboard');
+            } elseif ($user->hasRole('user') && RouteFacade::has('dashboard.user')) {
+                $target = route('dashboard.user');
+            } else {
+                $target = RouteServiceProvider::HOME;
+            }
+        }
+
+        // Jika permintaan berasal dari Turbo (Hotwire), beberapa versi Turbo tidak mengikuti redirect
+        // walau server mengirim 302. Kita deteksi header x-turbo-request-id dan kirim small HTML yang
+        // memaksa redirect di sisi klien.
+        if ($request->header('x-turbo-request-id')) {
+            $escaped = e($target);
+            $html = '<!doctype html><meta charset="utf-8"><title>Redirecting...</title>' .
+                '<script>window.location.replace("' . $escaped . '");</script>';
+            return response($html, 200)->header('Content-Type', 'text/html');
+        }
+
+        return redirect()->to($target);
     }
 
     /**
@@ -106,27 +153,5 @@ class AuthenticatedSessionController extends Controller
         ]);
     }
 
-    /**
-     * Redirect user based on role.
-     */
-    private function redirectToByRole(User $user): RedirectResponse
-    {
-        if ($user->hasRole('admin')) {
-            return redirect()->route('admin.dashboard');
-        }
-        if ($user->hasRole('adminlanding')) {
-            return redirect()->route('adminlanding.dashboard');
-        }
-
-        if ($user->hasRole('asesor')) {
-            return redirect()->route('asesor.dashboard');
-        }
-
-        if ($user->hasRole('user')) {
-            return redirect()->route('dashboard.user');
-        }
-
-        return redirect()->intended(RouteServiceProvider::HOME);
-    }
 
 }

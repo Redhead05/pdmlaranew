@@ -206,7 +206,7 @@
           <div class="flex flex-wrap mx-[-15px] !text-center !mt-[3.5rem]">
             <div class="xl:w-10/12 lg:w-10/12 w-full flex-[0_0_auto] !px-[15px] max-w-full !mx-auto">
                 {{--<h2 class="!text-[0.8rem] !tracking-[0.02rem] uppercase !text-[#aab0bc] !mb-3 !leading-[1.35]">Liputan Proses Bisnis BAN PDM JAWA TIMUR</h2>--}}
-              <h3 class="xl:!text-[2.1rem] !text-[calc(1.335rem_+_1.02vw)] !leading-[1.2] font-semibold xl:!px-10 xxl:!px-20 !mb-10">Liputan Proses Bisnis BAN PDM JAWA TIMUR</h3>
+              <h3 class="xl:!text-[2.1rem] !text-[calc(1.335rem_+_1.02vw)] !leading-[1.2] font-semibold xl:!px-10 xxl:!px-20 !mb-10">Liputan Kegiatan BAN PDM JAWA TIMUR</h3>
 
               <!--/.row -->
             </div>

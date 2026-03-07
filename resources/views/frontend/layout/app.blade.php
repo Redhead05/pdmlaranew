@@ -91,13 +91,12 @@
                <div class="bg-slate-800 h-full rounded-[15px] overflow-hidden border border-slate-700 flex flex-col">
                    <!-- Header -->
                    <div class="flex items-center gap-2 py-2 px-3 bg-cyan-400 border-b border-cyan-500/40">
-                       <div class="flex items-center [&>*]:w-[1.4rem] [&>*]:h-[1.4rem] [&>*]:rounded-full [&>*]:bg-rose-400 [&>*]:p-0.5">
-                           <div><img src="{{ asset('assets/logotab.png') }}" alt="" class="w-full h-full object-cover rounded-full"></div>
-                       </div>
+{{--                       <div class="flex items-center [&>*]:w-[1.4rem] [&>*]:h-[1.4rem] [&>*]:rounded-full [&>*]:bg-rose-400 [&>*]:p-0.5">--}}
+{{--                           <div><img src="{{ asset('assets/logotab.png') }}" alt="" class="w-full h-full object-cover rounded-full"></div>--}}
+{{--                       </div>--}}
 
-                       <div class="text-black leading-tight">
+                       <div class="text-black leading-tight px-3">
                            <div class="font-semibold text-xs">Admin BAN PDM JATIM</div>
-                           <div class="text-[10px]">Reply in minutes</div>
                        </div>
 
                        <div class="ml-auto flex items-center gap-2">
@@ -107,6 +106,7 @@
                    </div>
 
                    <!-- Message list (scrollable) -->
+                   <!-- dibuat lebih tinggi: pakai tinggi relatif viewport agar mudah terlihat lebih besar -->
                    <ul class="chatbot__box px-3 py-2 space-y-2 flex-1 overflow-y-auto">
                        <li class="chatbot__chat incoming flex gap-2">
 
