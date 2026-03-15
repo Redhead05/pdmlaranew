@@ -1,5 +1,5 @@
 @extends('app.layout')
-@section('title', 'User Management')
+@section('title', 'Visitasi')
 
 @push('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.min.css">

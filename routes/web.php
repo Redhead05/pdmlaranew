@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\LandingPage\GalleryController;
 use App\Http\Controllers\Admin\LandingPage\HomeController;
 use App\Http\Controllers\Admin\LandingPage\NewsController;
 //use App\Http\Controllers\Admin\LandingPage\OrganizationStructureController;
+use App\Http\Controllers\Admin\Tahap\TahapController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\frontend\NewsfeController;
 use App\Http\Controllers\ProfileController;
@@ -74,6 +75,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('attendance', AttendanceController::class);
         Route::get('/attendance/{slug}/detail', [AttendanceController::class, 'detail'])->name('attendance.detail');
+        Route::resource('tahap', TahapController::class);
     });
     //Route adminlanding
     Route::prefix('adminlanding')->middleware('role:adminlanding|admin')->as('adminlanding.')->group(function () {

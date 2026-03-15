@@ -36,6 +36,24 @@
                     </div>
                 </a>
             </li>
+            <li @class(['menu-item', 'open' => Request::routeIs('admin.tahap.*')])>
+                <a href="javascript:void(0);" @class(['menu-link', 'menu-toggle', 'active' => Request::routeIs('admin.tahap.*')])>
+                    <i class="ri-crosshair-line"></i>
+                    <span class="title">Visitasi</span>
+                </a>
+                <ul class="menu-sub">
+                    <li @class(['menu-item', 'open' => Request::routeIs('admin.tahap.index')])>
+                        <a href="{{ route('admin.tahap.index') }}" data-turbo-frame="main_frame" @class(['menu-link', 'active' => Request::routeIs('admin.tahap.index')])>
+                            Tahap
+                        </a>
+                    </li>
+                    <li @class(['menu-item', 'open' => Request::routeIs('admin.tahap.index')])>
+                        <a href="{{ route('admin.tahap.index') }}" data-turbo-frame="main_frame" @class(['menu-link', 'active' => Request::routeIs('admin.tahap.index')])>
+                            Kesanggupan
+                        </a>
+                    </li>
+                </ul>
+            </li>
             @endrole
 
             @hasanyrole('adminlanding|admin')
