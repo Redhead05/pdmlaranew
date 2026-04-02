@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -36,6 +37,7 @@ class User extends Authenticatable
         ];
     }
 
+    //Relationship
     public function detail(): HasOne
     {
         return $this->hasOne(UserDetail::class);
@@ -43,6 +45,11 @@ class User extends Authenticatable
     public function organizationStructures()
     {
         return $this->hasMany(\App\Models\OrganizationStructure::class);
+    }
+
+    public function kesanggupans(): HasMany
+    {
+        return $this->hasMany(Kesanggupan::class);
     }
 
     // Use slug for route model binding

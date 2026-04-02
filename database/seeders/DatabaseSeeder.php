@@ -24,6 +24,9 @@ class DatabaseSeeder extends Seeder
             NewsSeeder::class,
             EmployeesTableSeeder::class,
             KabkotkecdesCsvSeeder::class,
+//            AsesorFromMasterWilayahSeeder::class,
+            UsersCsvAsesorSeeder::class,
+            TahapSeeder::class,
         ]);
     }
 }

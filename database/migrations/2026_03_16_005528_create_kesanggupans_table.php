@@ -14,18 +14,21 @@ return new class extends Migration
     {
         Schema::create('kesanggupans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tahap_id')->constrained('tahaps')->onDelete('cascade');
-            $table->boolean('kesediaan')->default(false); // false = tidak, true = ya
-            $table->unsignedTinyInteger('kesanggupan')->comment('Allowed values: 2..6');
-            $table->text('alasan')->nullable();
-            $table->timestamps();
+            $table->foreignId('tahap_id')
+                ->constrained('tahaps')
+                ->onDelete('cascade');
+            $table->foreignId('user_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
 
-            $table->index('tahap_id');
+            // null = belum mengisi, false = tidak, true = ya
+            $table->boolean('kesediaan')->nullable()->default(null);
+            $table->integer('kesanggupan')->nullable();
+            $table->longText('alasan')->nullable();
+            $table->timestamps();
+            $table->index(['user_id', 'tahap_id']);
         });
 
-        // Optional DB-level check constraint to enforce 2..6 (MySQL 8+/Postgres)
-        // If your DB does not support check constraints, remove the statement.
-        DB::statement("ALTER TABLE kesanggupans ADD CONSTRAINT chk_kesanggupan_range CHECK (kesanggupan BETWEEN 2 AND 6)");
     }
 
     public function down(): void

@@ -21,6 +21,11 @@ return new class extends Migration
             $table->string('work_city')->nullable();
             $table->string('gender')->nullable(); // bisa 'L' / 'P' atau 'male'/'female'
             $table->string('type_asesor')->nullable();
+            $table->string('unit_kerja')->nullable();
+            $table->date('date_born')->nullable();
+            $table->string('ktp')->nullable();
+            $table->string('phone')->nullable();
+            $table->boolean('lintas_rumpun')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

@@ -11,6 +11,7 @@ class Kesanggupan extends Model
 
     protected $fillable = [
         'tahap_id',
+        'user_id',
         'kesediaan',     // boolean: 1 = ya, 0 = tidak
         'kesanggupan',   // integer: 2..6
         'alasan',
@@ -21,8 +22,13 @@ class Kesanggupan extends Model
         'kesanggupan' => 'integer',
     ];
 
+    // relationship
     public function tahap(): BelongsTo
     {
         return $this->belongsTo(Tahap::class, 'tahap_id');
+    }
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

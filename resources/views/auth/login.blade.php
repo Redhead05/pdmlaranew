@@ -23,8 +23,18 @@
                             <form method="POST" action="{{ route('login') }}" data-turbo="false">
                                 @csrf
                                 <div class="form-group mb-4">
-                                    <label for="email" class="form-label d-block mb-2">{{ __('Email') }}</label>
-                                    <x-text-input id="email" class="form-control h-[55px] rounded-md px-[17px] w-100" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="example@trezo.com" />
+                                    <label for="email" class="form-label d-block mb-2">{{ __('Email atau NIA') }}</label>
+                                    <x-text-input
+                                        id="email"
+                                        class="form-control h-[55px] rounded-md px-[17px] w-100"
+                                        type="text"
+                                        name="email"
+                                        :value="old('email')"
+                                        required
+                                        autofocus
+                                        autocomplete="username"
+                                        placeholder="contoh@domain.com atau ASES001"
+                                    />
                                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                                 </div>
 

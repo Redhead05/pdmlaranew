@@ -35,23 +35,31 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse|Response
     {
+        // NOTE: field di form tetap bernama "email" agar blade tidak perlu diubah.
+        // Di sini kita treat input itu sebagai "login" (email atau NIA).
         $credentials = $request->validate([
-            'email' => ['required', 'string', 'email'],
+            'email' => ['required', 'string'],
             'password' => ['required', 'string'],
         ]);
 
-        // Jika user ada tapi nonaktif dan password cocok -> pesan khusus
-        $user = User::where('email', $credentials['email'])->first();
-        if ($this->isInactiveWithValidPassword($user, $credentials['password'])) {
+        $login = trim((string) $credentials['email']);
+        $password = (string) $credentials['password'];
+
+        // Tentukan kolom login berdasarkan format input
+        $loginField = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'nia';
+
+        // Cari user untuk kebutuhan pesan khusus (akun nonaktif)
+        $user = User::query()->where($loginField, $login)->first();
+        if ($this->isInactiveWithValidPassword($user, $password)) {
             return $this->respondInactive($request);
         }
 
         if (! Auth::attempt([
-            'email' => $credentials['email'],
-            'password' => $credentials['password'],
+            $loginField => $login,
+            'password' => $password,
             'is_active' => true,
         ], $request->boolean('remember'))) {
-            Log::info('Login failed attempt', ['email' => $credentials['email']]);
+            Log::info('Login failed attempt', ['login' => $login, 'login_field' => $loginField]);
             return $this->sendFailedLoginResponse($request);
         }
 
@@ -113,7 +121,8 @@ class AuthenticatedSessionController extends Controller
 
         return redirect()->route('login');
     }
-    //addon
+
+    // addon
     private function isInactiveWithValidPassword(?User $user, string $password): bool
     {
         if (! $user) {
@@ -152,6 +161,5 @@ class AuthenticatedSessionController extends Controller
             'email' => trans('auth.failed'),
         ]);
     }
-
 
 }

@@ -13,8 +13,13 @@ return new class extends Migration
     {
         Schema::create('tahaps', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('year');
+            $table->string('tahap');
+            $table->string('surat_keputusan');
+            $table->json('allowed_kesanggupan'); // e.g. [2,3,4,5,6]
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
+
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }

@@ -27,7 +27,9 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
+            // Input ini sekarang boleh email ATAU nia (mis. ASES001)
+            // (nama field tetap 'email' agar blade tidak perlu diubah)
+            'email' => ['required', 'string'],
             'password' => ['required', 'string'],
         ];
     }
@@ -41,7 +43,12 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        $login = trim((string) $this->string('email'));
+        $password = (string) $this->input('password');
+
+        $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'nia';
+
+        if (! Auth::attempt([$field => $login, 'password' => $password], $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
@@ -80,6 +87,7 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
+        // Tetap pakai input field yang sama, tapi sekarang nilainya bisa email atau NIA.
         return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
     }
 }

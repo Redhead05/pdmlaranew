@@ -1,10 +1,7 @@
 <?php
 
-use App\Http\Controllers\Admin\LandingPage\ChatController;
-use App\Http\Controllers\Admin\LandingPage\EmployeeController;
-use App\Http\Controllers\Admin\LandingPage\GalleryController;
-use App\Http\Controllers\Admin\LandingPage\HomeController;
-use App\Http\Controllers\Admin\LandingPage\NewsController;
+
+
 //use App\Http\Controllers\Admin\LandingPage\OrganizationStructureController;
 use App\Http\Controllers\Admin\Tahap\TahapController;
 use App\Http\Controllers\Admin\User\UserController;
@@ -23,14 +20,21 @@ use App\Http\Controllers\frontend\HomeController as FrontendHomeController;
 //adminpage
 use App\Http\Controllers\Admin\LandingPage\DashboardController as AdminLandingDashboardController;
 use App\Http\Controllers\Admin\LandingPage\FaqController;
+use App\Http\Controllers\Admin\LandingPage\ChatController;
+use App\Http\Controllers\Admin\LandingPage\EmployeeController;
+use App\Http\Controllers\Admin\LandingPage\GalleryController;
+use App\Http\Controllers\Admin\LandingPage\HomeController;
+use App\Http\Controllers\Admin\LandingPage\NewsController;
 
 //admin
 use App\Http\Controllers\Admin\Attendance\AttendanceController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\KesanggupanController;
 
 //asesor
 use App\Http\Controllers\Asesor\DashboardController as AsesorDashboardController;
 use App\Http\Controllers\Asesor\Attendance\AttendanceController as AsesorAttendanceController;
+use App\Http\Controllers\Asesor\Kesanggupan\KesanggupanController as AsesorKesanggupanController;
 use App\Http\Controllers\PublicAttendanceController;
 use App\Http\Controllers\Chat\GuestChatController;
 use App\Http\Controllers\Chat\GuestBroadcastAuthController;
@@ -76,6 +80,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('attendance', AttendanceController::class);
         Route::get('/attendance/{slug}/detail', [AttendanceController::class, 'detail'])->name('attendance.detail');
         Route::resource('tahap', TahapController::class);
+        Route::resource('kesanggupan', KesanggupanController::class);
     });
     //Route adminlanding
     Route::prefix('adminlanding')->middleware('role:adminlanding|admin')->as('adminlanding.')->group(function () {
@@ -107,6 +112,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::get('dashboard', [AsesorDashboardController::class, 'index'])->name('dashboard');
         Route::resource('attendance',AsesorAttendanceController::class);
+        Route::resource('kesanggupan', AsesorKesanggupanController::class);
     });
 
 //    Route::get('user/dashboard/', function () {
