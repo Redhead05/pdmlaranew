@@ -48,8 +48,13 @@
                         </a>
                     </li>
                     <li @class(['menu-item', 'open' => Request::routeIs('admin.kesanggupan.index')])>
-                        <a href="{{ route('admin.kesanggupan.index') }}" data-turbo-frame="main_frame" @class(['menu-link', 'active' => Request::routeIs('admin.kesanggupan.index')])>
-                            Kesanggupan
+                        <a href="#" data-turbo-frame="main_frame" @class(['menu-link', 'active' => Request::routeIs('admin.kesanggupan.index')])>
+                            Penetapan
+                        </a>
+                    </li>
+                    <li @class(['menu-item', 'open' => Request::routeIs('admin.kesanggupan.index')])>
+                        <a href="#" data-turbo-frame="main_frame" @class(['menu-link', 'active' => Request::routeIs('admin.kesanggupan.index')])>
+                            Pemetaan
                         </a>
                     </li>
                 </ul>
