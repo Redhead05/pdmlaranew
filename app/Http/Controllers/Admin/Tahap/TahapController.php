@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Kesanggupan;
 use App\Models\Tahap;
 use App\Models\User;
+use App\Models\TeamGenerationRun;
+use App\Models\TeamDraft;
+use App\Models\TeamDraftMember;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -120,11 +123,21 @@ class TahapController extends Controller
             ->orderBy('name')
             ->get();
 
+        // Load latest draft run (if any) and related teams/unmatched
+        $run = TeamGenerationRun::where('tahap_id', $tahap->id)->latest()->first();
+        $teams = $run ? TeamDraft::with(['members.user.detail'])->where('run_id', $run->id)->get() : collect();
+        $eligibleUserIds = Kesanggupan::where('tahap_id', $tahap->id)->where('kesediaan', true)->pluck('user_id')->toArray();
+        $assignedUserIds = $run ? TeamDraftMember::where('run_id', $run->id)->pluck('user_id')->toArray() : [];
+        $unmatched = User::whereIn('id', array_diff($eligibleUserIds, $assignedUserIds))->with('detail')->get();
+
         return view('menu.admin.tahap.kesanggupan.detilTahapKesanggupan', [
             'tahap' => $tahap,
             'can' => $can,
             'cannot' => $cannot,
             'notFilledUsers' => $notFilledUsers,
+            'run' => $run,
+            'teams' => $teams,
+            'unmatched' => $unmatched,
         ]);
     }
 

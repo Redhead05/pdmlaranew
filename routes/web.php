@@ -80,6 +80,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('attendance', AttendanceController::class);
         Route::get('/attendance/{slug}/detail', [AttendanceController::class, 'detail'])->name('attendance.detail');
         Route::resource('tahap', TahapController::class);
+        // Custom kesanggupan routes (must be before resource to avoid conflicts)
+        Route::post('kesanggupan/{tahap}/generate-teams', [KesanggupanController::class, 'generateTeams'])->name('kesanggupan.generate-teams');
+        Route::get('kesanggupan/{tahap}/team-draft', [KesanggupanController::class, 'teamDraft'])->name('kesanggupan.team-draft');
+        Route::post('kesanggupan/{tahap}/team-draft/assign', [KesanggupanController::class, 'assignDraftMember'])->name('kesanggupan.team-draft.assign');
+        Route::post('kesanggupan/{tahap}/team-draft/unassign', [KesanggupanController::class, 'unassignDraftMember'])->name('kesanggupan.team-draft.unassign');
+        Route::post('kesanggupan/{tahap}/finalize-teams', [KesanggupanController::class, 'finalizeTeams'])->name('kesanggupan.finalize-teams');
+        // Download / Upload / Cancel draft
+        Route::get('kesanggupan/{tahap}/team-draft/download', [KesanggupanController::class, 'downloadDraft'])->name('kesanggupan.team-draft.download');
+        Route::post('kesanggupan/{tahap}/team-draft/upload', [KesanggupanController::class, 'uploadDraft'])->name('kesanggupan.team-draft.upload');
+        Route::post('kesanggupan/{tahap}/team-draft/cancel', [KesanggupanController::class, 'cancelDraft'])->name('kesanggupan.team-draft.cancel');
         Route::resource('kesanggupan', KesanggupanController::class);
     });
     //Route adminlanding
