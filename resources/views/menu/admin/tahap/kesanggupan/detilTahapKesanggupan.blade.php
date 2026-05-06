@@ -15,12 +15,30 @@
         $run = $run ?? null;
         $teams = $teams ?? collect();
         $unmatched = $unmatched ?? collect();
+        $isFinal = ($run && ($run->status === 'final'));
     @endphp
+
+    <style>
+        .ksg-btn { min-width: 150px; }
+    </style>
 
     <div class="container-fluid">
         <div class="main-content d-flex flex-column">
             <div class="card bg-white border-0 rounded-3 mb-4">
                 <div class="card-body p-4">
+                    {{-- Flash messages --}}
+                    @if (session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+                    @if (session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
 
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <div>
@@ -33,11 +51,26 @@
 
                         {{-- Generate form: posts to admin.kesanggupan.generate-teams --}}
                         @if($tahap->end_date && $tahap->end_date->lte(now()))
-                            <form action="{{ route('admin.kesanggupan.generate-teams', ['tahap' => $tahap->id]) }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="team_size" value="2">
-                                <button type="submit" class="btn btn-primary fw-medium text-white py-2 px-4 rounded-pill">Generate Draft Teams</button>
-                            </form>
+                            @if(!$run)
+                                <form action="{{ route('admin.kesanggupan.generate-teams', ['tahap' => $tahap->slug]) }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="team_size" value="2">
+                                    <button type="submit" class="btn btn-primary fw-medium text-white py-2 px-4 rounded-pill">Generate Draft Teams</button>
+                                </form>
+                            @elseif($run->status === 'draft')
+                                <form action="{{ route('admin.kesanggupan.generate-teams', ['tahap' => $tahap->slug]) }}" method="POST" onsubmit="return confirm('Generate ulang akan mengganti draft saat ini. Lanjutkan?');">
+                                    @csrf
+                                    <input type="hidden" name="team_size" value="2">
+                                    <button type="submit" class="btn btn-outline-primary fw-medium py-2 px-4 rounded-pill">Regenerate Draft Teams</button>
+                                </form>
+                            @else
+                                <div class="text-muted small">Tahap ini sudah difinalisasi (Run #{{ $run->id }}). Untuk mengubah, buka kembali run.</div>
+                                <form action="{{ route('admin.kesanggupan.team-draft.reopen', ['tahap' => $tahap->slug]) }}" method="POST" class="d-inline ms-2" onsubmit="return confirm('Buka kembali run final ini? Final teams akan dihapus dan draft akan dikembalikan sebagai draft.');">
+                                    @csrf
+                                    <input type="hidden" name="run_id" value="{{ $run->id }}">
+                                    <button type="submit" class="btn btn-warning btn-sm">Re-open Final</button>
+                                </form>
+                            @endif
                         @else
                             <div class="text-muted small">
                                 Generate teams hanya bisa dilakukan setelah tahap selesai. End date: {{ $tahap->end_date?->format('d M Y H:i') ?? 'N/A' }}
@@ -51,31 +84,38 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <div>
-                                        <strong>Draft Run:</strong> #{{ $run->id }} — status: <span class="badge bg-warning text-dark">{{ ucfirst($run->status) }}</span>
+                                        <strong>Draft Run:</strong> #{{ $run->id }} — status: <span class="badge bg-{{ $isFinal ? 'secondary' : 'warning' }} text-dark">{{ ucfirst($run->status) }}</span>
                                         <div class="text-muted small">Dibuat oleh: {{ optional($run->created_by ? \App\Models\User::find($run->created_by) : null)->name ?? '-' }} | {{ $run->created_at?->format('d M Y H:i') }}</div>
+                                        @if(!$isFinal && count($unmatched ?? []) > 0)
+                                            <div class="text-danger small">Belum bisa Finalize: masih ada {{ count($unmatched) }} user yang belum ter-assign.</div>
+                                        @endif
                                     </div>
                                     <div class="d-flex gap-2">
                                         {{-- Download, Upload, Cancel, Finalize forms --}}
-                                        <a href="{{ route('admin.kesanggupan.team-draft.download', ['tahap' => $tahap->id]) }}" class="btn btn-outline-secondary btn-sm">Download Excel (.xlsx)</a>
+                                        @if(!$isFinal)
+                                            <a href="{{ route('admin.kesanggupan.team-draft.download', ['tahap' => $tahap->slug]) }}" class="btn btn-outline-secondary btn-sm ksg-btn">Download Excel (.xlsx)</a>
 
-                                        <form action="{{ route('admin.kesanggupan.team-draft.upload', ['tahap' => $tahap->id]) }}" method="POST" enctype="multipart/form-data" class="d-inline-block ms-2">
-                                            @csrf
-                                            <input type="hidden" name="run_id" value="{{ $run->id }}">
-                                            <label class="btn btn-outline-primary btn-sm mb-0">Upload CSV<input type="file" name="file" accept=".csv" onchange="this.form.submit()" hidden></label>
-                                        </form>
+                                            <form action="{{ route('admin.kesanggupan.team-draft.upload', ['tahap' => $tahap->slug]) }}" method="POST" enctype="multipart/form-data" class="d-inline-block ms-2">
+                                                @csrf
+                                                <input type="hidden" name="run_id" value="{{ $run->id }}">
+                                                <label class="btn btn-outline-primary btn-sm mb-0 ksg-btn">Upload CSV<input type="file" name="file" accept=".csv" onchange="this.form.submit()" hidden></label>
+                                            </form>
 
-                                        <form action="{{ route('admin.kesanggupan.team-draft.cancel', ['tahap' => $tahap->id]) }}" method="POST" class="d-inline ms-2" onsubmit="return confirm('Batalkan draft ini? Semua data draft akan dihapus');">
-                                            @csrf
-                                            <input type="hidden" name="run_id" value="{{ $run->id }}">
-                                            <button type="submit" class="btn btn-outline-danger btn-sm">Cancel Draft</button>
-                                        </form>
+                                            <form action="{{ route('admin.kesanggupan.team-draft.cancel', ['tahap' => $tahap->slug]) }}" method="POST" class="d-inline ms-2" onsubmit="return confirm('Batalkan draft ini? Semua data draft akan dihapus');">
+                                                @csrf
+                                                <input type="hidden" name="run_id" value="{{ $run->id }}">
+                                                <button type="submit" class="btn btn-outline-danger btn-sm ksg-btn">Cancel Draft</button>
+                                            </form>
 
-                                        {{-- Finalize form --}}
-                                        <form action="{{ route('admin.kesanggupan.finalize-teams', ['tahap' => $tahap->id]) }}" method="POST" onsubmit="return confirm('Finalize teams? Setelah difinalisasi tidak dapat diubah.');" class="ms-2">
-                                            @csrf
-                                            <input type="hidden" name="run_id" value="{{ $run->id }}">
-                                            <button type="submit" class="btn btn-success btn-sm" {{ (count($unmatched ?? []) > 0) ? 'disabled' : '' }}>Finalize Teams</button>
-                                        </form>
+                                            {{-- Finalize form --}}
+                                            <form action="{{ route('admin.kesanggupan.finalize-teams', ['tahap' => $tahap->slug]) }}" method="POST" onsubmit="return confirm('Finalize teams? Setelah difinalisasi tidak dapat diubah.');" class="ms-2">
+                                                @csrf
+                                                <input type="hidden" name="run_id" value="{{ $run->id }}">
+                                                <button type="submit" class="btn btn-success btn-sm ksg-btn" {{ (count($unmatched ?? []) > 0) ? 'disabled' : '' }}>Finalize Teams</button>
+                                            </form>
+                                        @else
+                                            <div class="text-muted small">Draft telah difinalisasi. Semua kontrol pengeditan dinonaktifkan.</div>
+                                        @endif
                                     </div>
                                 </div>
 
@@ -91,18 +131,22 @@
                                                 </div>
                                                 <div class="d-flex align-items-center gap-2">
                                                     {{-- Assign dropdown + button --}}
-                                                    <form action="{{ route('admin.kesanggupan.team-draft.assign', ['tahap' => $tahap->id]) }}" method="POST" class="d-flex gap-2 align-items-center">
-                                                        @csrf
-                                                        <input type="hidden" name="run_id" value="{{ $run->id }}">
-                                                        <input type="hidden" name="team_id" value="{{ $team->id }}">
-                                                        <select name="user_id" class="form-select form-select-sm" style="min-width:220px;">
-                                                            <option value="">-- Pilih Unmatched --</option>
-                                                            @foreach($unmatched as $u)
-                                                                <option value="{{ $u->id }}">{{ $u->name }} — {{ $u->email }} ({{ $u->detail->work_city ?? '-' }})</option>
-                                                            @endforeach
-                                                        </select>
-                                                        <button type="submit" class="btn btn-primary btn-sm">Assign</button>
-                                                    </form>
+                                                    @if(!$isFinal)
+                                                        <form action="{{ route('admin.kesanggupan.team-draft.assign', ['tahap' => $tahap->slug]) }}" method="POST" class="d-flex gap-2 align-items-center">
+                                                            @csrf
+                                                            <input type="hidden" name="run_id" value="{{ $run->id }}">
+                                                            <input type="hidden" name="team_id" value="{{ $team->id }}">
+                                                            <select name="user_id" class="form-select form-select-sm" style="min-width:220px;">
+                                                                <option value="">-- Pilih Unmatched --</option>
+                                                                @foreach($unmatched as $u)
+                                                                    <option value="{{ $u->id }}">{{ $u->name }} — {{ $u->email }} ({{ $u->detail->work_city ?? '-' }})</option>
+                                                                @endforeach
+                                                            </select>
+                                                            <button type="submit" class="btn btn-primary btn-sm">Assign</button>
+                                                        </form>
+                                                    @else
+                                                        <div class="text-muted small">Assign dinonaktifkan (final run)</div>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="card-footer bg-light">
@@ -117,12 +161,16 @@
                                                                 </div>
                                                                 <div>
                                                                     {{-- Unassign button --}}
-                                                                    <form action="{{ route('admin.kesanggupan.team-draft.unassign', ['tahap' => $tahap->id]) }}" method="POST" onsubmit="return confirm('Remove member from team?');">
-                                                                        @csrf
-                                                                        <input type="hidden" name="run_id" value="{{ $run->id }}">
-                                                                        <input type="hidden" name="member_id" value="{{ $member->id }}">
-                                                                        <button type="submit" class="btn btn-outline-danger btn-sm">Remove</button>
-                                                                    </form>
+                                                                    @if(!$isFinal)
+                                                                        <form action="{{ route('admin.kesanggupan.team-draft.unassign', ['tahap' => $tahap->slug]) }}" method="POST" onsubmit="return confirm('Remove member from team?');">
+                                                                            @csrf
+                                                                            <input type="hidden" name="run_id" value="{{ $run->id }}">
+                                                                            <input type="hidden" name="member_id" value="{{ $member->id }}">
+                                                                            <button type="submit" class="btn btn-outline-danger btn-sm">Remove</button>
+                                                                        </form>
+                                                                    @else
+                                                                        <span class="text-muted small">Locked</span>
+                                                                    @endif
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -158,14 +206,18 @@
                                                     <td>{{ $u->detail->work_city ?? '-' }}</td>
                                                     <td>
                                                         {{-- Create new team + assign --}}
-                                                        <form action="{{ route('admin.kesanggupan.team-draft.assign', ['tahap' => $tahap->id]) }}" method="POST" class="d-inline">
-                                                            @csrf
-                                                            <input type="hidden" name="run_id" value="{{ $run->id }}">
-                                                            {{-- Create new team on the fly by leaving team_id empty and controller will create a new team if needed --}}
-                                                            <input type="hidden" name="team_id" value="{{ optional($teams->first())->id ?? '' }}">
-                                                            <input type="hidden" name="user_id" value="{{ $u->id }}">
-                                                            <button type="submit" class="btn btn-sm btn-outline-primary">Assign to First Team</button>
-                                                        </form>
+                                                        @if(!$isFinal)
+                                                            <form action="{{ route('admin.kesanggupan.team-draft.assign', ['tahap' => $tahap->slug]) }}" method="POST" class="d-inline">
+                                                                @csrf
+                                                                <input type="hidden" name="run_id" value="{{ $run->id }}">
+                                                                {{-- Create new team on the fly by leaving team_id empty and controller will create a new team if needed --}}
+                                                                <input type="hidden" name="team_id" value="{{ optional($teams->first())->id ?? '' }}">
+                                                                <input type="hidden" name="user_id" value="{{ $u->id }}">
+                                                                <button type="submit" class="btn btn-sm btn-outline-primary">Assign to First Team</button>
+                                                            </form>
+                                                        @else
+                                                            <span class="text-muted small">Locked</span>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @empty
@@ -349,9 +401,7 @@
                                 </table>
                             </div>
                         </div>
-
                     </div>
-
                 </div> {{-- card-body --}}
             </div>
         </div>

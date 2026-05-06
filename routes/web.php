@@ -90,6 +90,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('kesanggupan/{tahap}/team-draft/download', [KesanggupanController::class, 'downloadDraft'])->name('kesanggupan.team-draft.download');
         Route::post('kesanggupan/{tahap}/team-draft/upload', [KesanggupanController::class, 'uploadDraft'])->name('kesanggupan.team-draft.upload');
         Route::post('kesanggupan/{tahap}/team-draft/cancel', [KesanggupanController::class, 'cancelDraft'])->name('kesanggupan.team-draft.cancel');
+        Route::post('kesanggupan/{tahap}/team-draft/reopen', [KesanggupanController::class, 'reopenDraft'])->name('kesanggupan.team-draft.reopen');
         Route::resource('kesanggupan', KesanggupanController::class);
     });
     //Route adminlanding

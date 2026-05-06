@@ -47,8 +47,15 @@
                                                 <a href="{{ route('admin.tahap.show', $tahap) }}"
                                                    class="ps-0 border-0 bg-transparent lh-1 position-relative top-2"
                                                    data-bs-toggle="tooltip"
-                                                   title="Detail">
+                                                   title="Lihat Asesor">
                                                     <i class="material-symbols-outlined fs-16 text-info">visibility</i>
+                                                </a>
+                                                <a href="javascript:void(0)"
+                                                   class="ps-0 border-0 bg-transparent lh-1 position-relative top-2"
+                                                   data-bs-toggle="modal"
+                                                   data-bs-target="#addLembaga"
+                                                   title="Lihat Lembaga">
+                                                    <i class="material-symbols-outlined fs-16 text-body">add_circle</i>
                                                 </a>
                                                 <a href="javascript:void(0)"
                                                    class="ps-0 border-0 bg-transparent lh-1 position-relative top-2"

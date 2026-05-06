@@ -113,23 +113,38 @@ class KesanggupanController extends Controller
     /**
      * Generate draft teams for a given tahap using existing rules.
      */
-    public function generateTeams(Request $request, $tahapId)
+    public function generateTeams(Request $request, Tahap $tahap)
     {
-        $tahap = Tahap::findOrFail($tahapId);
+        $tahapId = $tahap->id;
 
         // Pastikan tahap sudah melewati end_date sebelum generate
         if (! $tahap->end_date || $tahap->end_date->gt(now())) {
             return back()->with('error', 'Generate teams hanya dapat dilakukan setelah tahap berakhir (end_date).');
         }
 
-        // basic validation
         $data = $request->validate([
             'team_size' => ['nullable', 'integer', 'min:2', 'max:3'],
         ]);
 
         DB::beginTransaction();
         try {
-            // create a new run
+            // lock tahap row to prevent concurrent generate
+            $lockedTahap = Tahap::where('id', $tahapId)->lockForUpdate()->first();
+
+            $existingRun = TeamGenerationRun::where('tahap_id', $tahap->id)->latest()->first();
+            if ($existingRun && $existingRun->status === 'final') {
+                DB::rollBack();
+                return back()->with('error', 'Run sudah final. Silakan Re-open terlebih dahulu untuk generate ulang.');
+            }
+
+            // Jika ada run draft sebelumnya, hapus sepenuhnya (draft teams, members, dan run)
+            if ($existingRun && $existingRun->status === 'draft') {
+                TeamDraftMember::where('run_id', $existingRun->id)->delete();
+                TeamDraft::where('run_id', $existingRun->id)->delete();
+                $existingRun->delete();
+            }
+
+            // buat run baru
             $run = TeamGenerationRun::create([
                 'tahap_id' => $tahap->id,
                 'status' => 'draft',
@@ -180,7 +195,7 @@ class KesanggupanController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('admin.kesanggupan.team-draft', ['tahap' => $tahap->id]);
+            return redirect()->route('admin.kesanggupan.team-draft', ['tahap' => $tahap->slug]);
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Gagal generate teams: ' . $e->getMessage());
@@ -209,8 +224,9 @@ class KesanggupanController extends Controller
         // Helper: safe get detail field
         $get = fn($id, $field) => $byId[$id]['user']->detail->{$field} ?? null;
 
-        // Stage 1: strict pairing with priority weights
-        // Priorities (weights): type_asesor prio1 (100), jml_kesanggupan equal prio2 (50), gender prio3 (20), work_city prio4 (10)
+        // Stage 1: strict pairing with priority weights + proximity bonus
+// Priorities (weights): type_asesor prio1 (100), jml_kesanggupan equal prio2 (50),
+// gender prio3 (20), work_city prio4 (10), proximity bonus (scaled up to 30)
         $pairs = [];
         $ids = array_keys($byId);
         $n = count($ids);
@@ -223,19 +239,36 @@ class KesanggupanController extends Controller
                 $aKes = $byId[$a->id]['kes'] ?? 0;
                 $bKes = $byId[$b->id]['kes'] ?? 0;
                 if ($aKes <= 0 || $bKes <= 0 || $aKes !== $bKes) {
-                    // skip: kesanggupan not equal -> leave to later stages (Stage3)
                     continue;
                 }
 
                 $score = 0;
                 // type_asesor (prio1)
-                if (($a->detail->type_asesor ?? null) && ($b->detail->type_asesor ?? null) && $a->detail->type_asesor === $b->detail->type_asesor) $score += 100;
-                // kesanggupan equal (prio2) -- already guaranteed by check, still give bonus
+                if (($a->detail->type_asesor ?? null) && ($b->detail->type_asesor ?? null) && $a->detail->type_asesor === $b->detail->type_asesor) {
+                    $score += 100;
+                }
+                // kesanggupan equal (prio2)
                 $score += 50;
                 // gender (prio3)
-                if (($a->detail->gender ?? null) && ($b->detail->gender ?? null) && $a->detail->gender === $b->detail->gender) $score += 20;
+                if (($a->detail->gender ?? null) && ($b->detail->gender ?? null) && $a->detail->gender === $b->detail->gender) {
+                    $score += 20;
+                }
                 // work_city same (prio4)
-                if (($a->detail->work_city ?? null) && ($b->detail->work_city ?? null) && $a->detail->work_city === $b->detail->work_city) $score += 10;
+                if (($a->detail->work_city ?? null) && ($b->detail->work_city ?? null) && $a->detail->work_city === $b->detail->work_city) {
+                    $score += 10;
+                }
+
+                // Proximity bonus: use haversine distance (km).
+                // Give a scaled bonus up to +30 when distance <= 20 km (closer => larger bonus).
+                $d = $this->haversineDistance($a->detail->latitude ?? null, $a->detail->longitude ?? null, $b->detail->latitude ?? null, $b->detail->longitude ?? null);
+                if ($d !== null) {
+                    if ($d <= 50) {
+                        // linear scale: distance 0 => +30, distance 20 => +0
+                        $proxBonus = (50 - $d) * 1.5; // max 30
+                        $score += $proxBonus;
+                    }
+                    // else: no proximity bonus for >20km (keeps Stage1 preference local)
+                }
 
                 if ($score > 0) {
                     $pairs[] = ['a' => $a->id, 'b' => $b->id, 'score' => $score];
@@ -243,12 +276,12 @@ class KesanggupanController extends Controller
             }
         }
 
-        usort($pairs, fn($x,$y) => $y['score'] <=> $x['score']);
+        usort($pairs, fn($x, $y) => $y['score'] <=> $x['score']);
 
         foreach ($pairs as $p) {
             if (!isset($byId[$p['a']]) || !isset($byId[$p['b']])) continue;
             if ($byId[$p['a']]['matched'] || $byId[$p['b']]['matched']) continue;
-            $groups[] = [$p['a'],$p['b']];
+            $groups[] = [$p['a'], $p['b']];
             $byId[$p['a']]['matched'] = $byId[$p['b']]['matched'] = true;
         }
 
@@ -276,8 +309,8 @@ class KesanggupanController extends Controller
                 if (($a->detail->gender ?? null) && ($b->detail->gender ?? null) && $a->detail->gender === $b->detail->gender) $score += 50;
 
                 $d = $this->haversineDistance($a->detail->latitude ?? null, $a->detail->longitude ?? null, $b->detail->latitude ?? null, $b->detail->longitude ?? null);
-                // interpret "not more than 2 kabkot different" as distance <= 80 km (configurable)
-                if ($d !== null && $d <= 80) $score += 30;
+                // interpret "not more than 2 kabkot different" as distance <= 20 km (configurable)
+                if ($d !== null && $d <= 20) $score += 30;
 
                 if (($byId[$a->id]['kes'] ?? 0) === ($byId[$b->id]['kes'] ?? 0) && $byId[$a->id]['kes'] > 0) $score += 10;
 
@@ -372,9 +405,9 @@ class KesanggupanController extends Controller
     /**
      * Show the current draft teams and unmatched users
      */
-    public function teamDraft(Request $request, $tahapId)
+    public function teamDraft(Request $request, Tahap $tahap)
     {
-        $tahap = Tahap::findOrFail($tahapId);
+        $tahapId = $tahap->id;
 
         // Build the same datasets as TahapController@show so view has all variables it expects
         $filled = Kesanggupan::query()
@@ -418,8 +451,10 @@ class KesanggupanController extends Controller
     /**
      * Assign an unmatched user to a draft team
      */
-    public function assignDraftMember(Request $request, $tahapId)
+    public function assignDraftMember(Request $request, Tahap $tahap)
     {
+        $tahapId = $tahap->id;
+
         $data = $request->validate([
             'run_id' => ['required', 'integer', 'exists:team_generation_runs,id'],
             'team_id' => ['nullable', 'integer', 'exists:team_drafts,id'],
@@ -473,8 +508,10 @@ class KesanggupanController extends Controller
     /**
      * Unassign member from draft
      */
-    public function unassignDraftMember(Request $request, $tahapId)
+    public function unassignDraftMember(Request $request, Tahap $tahap)
     {
+        $tahapId = $tahap->id;
+
         $data = $request->validate([
             'run_id' => ['required', 'integer', 'exists:team_generation_runs,id'],
             'member_id' => ['required', 'integer', 'exists:team_draft_members,id'],
@@ -498,13 +535,16 @@ class KesanggupanController extends Controller
     /**
      * Finalize teams
      */
-    public function finalizeTeams(Request $request, $tahapId)
+    public function finalizeTeams(Request $request, Tahap $tahap)
     {
+        $tahapId = $tahap->id;
+
         $data = $request->validate([
             'run_id' => ['required', 'integer', 'exists:team_generation_runs,id'],
         ]);
 
-        $run = TeamGenerationRun::findOrFail($data['run_id']);
+        // lock the run row to avoid races
+        $run = TeamGenerationRun::where('id', $data['run_id'])->lockForUpdate()->firstOrFail();
         if ($run->tahap_id != $tahapId || $run->status !== 'draft') {
             return back()->with('error', 'Invalid run');
         }
@@ -527,6 +567,14 @@ class KesanggupanController extends Controller
 
         DB::beginTransaction();
         try {
+            // Jika sudah ada teams final untuk tahap ini, hapus dulu agar tidak bentrok unique (tahap_id, code)
+            $existingTeams = Team::where('tahap_id', $run->tahap_id)->get();
+            if ($existingTeams->isNotEmpty()) {
+                $teamIds = $existingTeams->pluck('id');
+                TeamMember::whereIn('team_id', $teamIds)->delete();
+                Team::whereIn('id', $teamIds)->delete();
+            }
+
             // copy draft teams -> final teams
             $finalTeamsMap = []; // draft_team_id => final_team_id
             foreach ($teams as $d) {
@@ -536,6 +584,7 @@ class KesanggupanController extends Controller
                     'created_by' => $run->created_by,
                     'finalized_by' => Auth::id(),
                     'finalized_at' => now(),
+                    // 'run_id' removed to keep DB schema focused on slug only
                 ]);
                 $finalTeamsMap[$d->id] = $final->id;
 
@@ -568,8 +617,10 @@ class KesanggupanController extends Controller
     /**
      * Export current draft to CSV for offline editing.
      */
-    public function downloadDraft(Request $request, $tahapId)
+    public function downloadDraft(Request $request, Tahap $tahap)
     {
+        $tahapId = $tahap->id;
+
         $run = TeamGenerationRun::where('tahap_id', $tahapId)->latest()->first();
         if (! $run) {
             return back()->with('error', 'Tidak ada draft run untuk tahap ini');
@@ -621,8 +672,10 @@ class KesanggupanController extends Controller
      * Upload CSV to overwrite current draft teams for a run.
      * Expected CSV columns: team_code, user_id (or nia or email)
      */
-    public function uploadDraft(Request $request, $tahapId)
+    public function uploadDraft(Request $request, Tahap $tahap)
     {
+        $tahapId = $tahap->id;
+
         $request->validate([
             'run_id' => ['required','integer','exists:team_generation_runs,id'],
             'file' => ['required','file','mimes:csv,txt'],
@@ -748,8 +801,10 @@ class KesanggupanController extends Controller
     /**
      * Cancel/delete current draft run so admin bisa generate/upload ulang.
      */
-    public function cancelDraft(Request $request, $tahapId)
+    public function cancelDraft(Request $request, Tahap $tahap)
     {
+        $tahapId = $tahap->id;
+
         $data = $request->validate([
             'run_id' => ['required','integer','exists:team_generation_runs,id'],
         ]);
@@ -774,6 +829,52 @@ class KesanggupanController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Gagal membatalkan draft: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Re-open a finalized run so admin can modify draft again.
+     */
+    public function reopenDraft(Request $request, Tahap $tahap)
+    {
+        $tahapId = $tahap->id;
+
+        $data = $request->validate([
+            'run_id' => ['required','integer','exists:team_generation_runs,id'],
+        ]);
+
+        $run = TeamGenerationRun::where('id', $data['run_id'])->lockForUpdate()->firstOrFail();
+        if ($run->tahap_id != $tahapId) {
+            return back()->with('error', 'Run tidak cocok');
+        }
+
+        if ($run->status !== 'final') {
+            return back()->with('error', 'Hanya run dengan status final yang dapat dibuka kembali');
+        }
+
+        DB::beginTransaction();
+        try {
+            // find final teams created by this run via finalized_by + finalized_at
+            $teams = Team::where('tahap_id', $run->tahap_id)
+                ->where('finalized_by', $run->finalized_by)
+                ->where('finalized_at', $run->finalized_at)
+                ->get();
+
+            foreach ($teams as $t) {
+                TeamMember::where('team_id', $t->id)->delete();
+                $t->delete();
+            }
+
+            $run->status = 'draft';
+            $run->finalized_by = null;
+            $run->finalized_at = null;
+            $run->save();
+
+            DB::commit();
+            return back()->with('success', 'Run berhasil dibuka kembali. Anda dapat mengedit draft sekarang.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Gagal membuka ulang run: ' . $e->getMessage());
         }
     }
 }
