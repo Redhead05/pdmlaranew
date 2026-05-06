@@ -33,6 +33,14 @@ class Tahap extends Model
     }
 
     /**
+     * Relasi many-to-many ke lembagas melalui pivot table lembaga_tahap
+     */
+    public function lembagas()
+    {
+        return $this->belongsToMany(\App\Models\Lembaga::class, 'lembaga_tahap', 'tahap_id', 'lembaga_id')->withTimestamps();
+    }
+
+    /**
      * Use slug for route model binding instead of id.
      */
     public function getRouteKeyName()

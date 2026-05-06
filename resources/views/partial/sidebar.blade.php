@@ -36,6 +36,12 @@
                     </div>
                 </a>
             </li>
+            <li class="menu-item open">
+                <a href="#" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('') ? 'active' : '' }}">
+                    <span class="material-symbols-outlined">foggy</span>
+                    <span class="title">Master Lembaga</span>
+                </a>
+            </li>
             <li @class(['menu-item', 'open' => Request::routeIs('admin.tahap.*','admin.kesanggupan.*')])>
                 <a href="javascript:void(0);" @class(['menu-link', 'menu-toggle', 'active' => Request::routeIs('admin.tahap.*','admin.kesanggupan.*')])>
                     <i class="ri-crosshair-line"></i>
@@ -156,6 +162,7 @@
                     <span class="title"> Attendance</span>
                 </a>
             </li>
+
             <li class="menu-item">
                 <a href="{{ route ('asesor.kesanggupan.index') }}" data-turbo-frame="main_frame" class="menu-link">
                     <span class="material-symbols-outlined menu-icon">chat</span>

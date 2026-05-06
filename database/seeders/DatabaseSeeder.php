@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
 //            AsesorFromMasterWilayahSeeder::class,
             UsersCsvAsesorSeeder::class,
             TahapSeeder::class,
+            DatlemCsvSeeder::class,
         ]);
     }
 }

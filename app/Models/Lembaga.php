@@ -17,4 +17,10 @@ class Lembaga extends Model
     {
         return $this->hasOne(lembagadetail::class);
     }
+
+
+    public function tahaps()
+    {
+        return $this->belongsToMany(\App\Models\Tahap::class, 'lembaga_tahap', 'lembaga_id', 'tahap_id')->withTimestamps();
+    }
 }

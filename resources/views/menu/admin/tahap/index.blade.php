@@ -50,10 +50,8 @@
                                                    title="Lihat Asesor">
                                                     <i class="material-symbols-outlined fs-16 text-info">visibility</i>
                                                 </a>
-                                                <a href="javascript:void(0)"
+                                                <a href="{{ route('admin.tahap.lembaga.index', ['tahap' => $tahap->slug]) }}"
                                                    class="ps-0 border-0 bg-transparent lh-1 position-relative top-2"
-                                                   data-bs-toggle="modal"
-                                                   data-bs-target="#addLembaga"
                                                    title="Lihat Lembaga">
                                                     <i class="material-symbols-outlined fs-16 text-body">add_circle</i>
                                                 </a>
