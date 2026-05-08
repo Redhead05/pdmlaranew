@@ -37,8 +37,8 @@
                 </a>
             </li>
             <li class="menu-item open">
-                <a href="#" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined">foggy</span>
+                <a href="{{ route ('admin.masterlembaga.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('admin.masterlembaga.index') ? 'active' : '' }}">
+                    <i class="ri-school-fill"></i>
                     <span class="title">Master Lembaga</span>
                 </a>
             </li>

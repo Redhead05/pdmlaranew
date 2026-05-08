@@ -29,14 +29,13 @@
                         </div>
                     </div>
 
-                    @if(session('error'))
-                        <div class="alert alert-danger">{!! nl2br(e(session('error'))) !!}</div>
-                    @endif
-                    @if(session('success'))
-                        <div class="alert alert-success">{{ session('success') }}</div>
-                    @endif
+                    {{-- Toast messages --}}
+                    <div aria-live="polite" aria-atomic="true" class="position-relative">
+                        <div id="toast-container" class="position-fixed top-0 end-0 p-3" style="z-index: 1080"></div>
+                    </div>
 
                     <div class="table-responsive mt-3">
+
                         <table id="lembaga-table" class="display table table-sm align-middle" style="width:100%">
                             <thead>
                                 <tr>
@@ -50,25 +49,7 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @foreach($lembagas as $i => $l)
-                                    <tr>
-                                        <td>{{ $i + 1 }}</td>
-                                        <td>{{ $l->npsn }}</td>
-                                        <td>{{ $l->satuan_pen }}</td>
-                                        <td>{{ $l->kabupaten ?? ($l->kabupaten ?? '-') }}</td>
-                                        <td>{{ $l->kecamatan ?? ($l->kecamatan ?? '-') }}</td>
-                                        <td>{{ $l->latitude ?? '-' }}</td>
-                                        <td>{{ $l->longitude ?? '-' }}</td>
-                                        <td>
-                                            <form action="{{ route('admin.tahap.lembaga.detach', ['tahap' => $tahap->slug, 'lembaga' => $l->id]) }}" method="POST" onsubmit="return confirm('Hapus lembaga ini dari tahap?');" class="d-inline">
-                                                @csrf
-                                                <button class="btn btn-sm btn-outline-danger">Detach</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
 
@@ -81,24 +62,79 @@
 @push('scripts')
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         $(function () {
             if (!$.fn || !$.fn.DataTable) return;
 
-            $('#lembaga-table').DataTable({
+            const table = $('#lembaga-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('admin.tahap.lembaga.index', ['tahap' => $tahap->slug]) }}",
+                    type: 'GET'
+                },
+                // preview handling via session on server
+                columns: [
+                    { data: null, orderable: false, searchable: false },
+                    { data: 'npsn' },
+                    { data: 'satuan_pen' },
+                    { data: 'kabupaten' },
+                    { data: 'kecamatan' },
+                    { data: 'latitude' },
+                    { data: 'longitude' },
+                    { data: 'action', orderable: false, searchable: false }
+                ],
                 pageLength: 25,
                 responsive: true,
-                columns: [
-                    { width: '5%' },
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    { orderable: false, searchable: false, width: '10%' }
-                ]
+                order: [[1, 'asc']],
+                drawCallback: function (settings) {
+                    var api = this.api();
+                    api.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                        cell.innerHTML = settings._iDisplayStart + i + 1;
+                    });
+                }
             });
+
+            // show toasts based on session flash
+            const toastContainer = $('#toast-container');
+            function showToast(title, body, type = 'success') {
+                const toastId = 'toast-' + Math.random().toString(36).substr(2, 9);
+                const toastHtml = `
+                    <div id="${toastId}" class="toast align-items-center text-bg-${type} border-0 mb-2" role="alert" aria-live="assertive" aria-atomic="true">
+                      <div class="d-flex">
+                        <div class="toast-body">
+                          <strong>${title}</strong><br>${body}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                      </div>
+                    </div>`;
+                toastContainer.append(toastHtml);
+                const el = document.getElementById(toastId);
+                const bsToast = new bootstrap.Toast(el, { delay: 8000 });
+                bsToast.show();
+            }
+
+            // server flashed messages
+            @if(session('success'))
+                showToast('Sukses', `{!! addslashes(session('success')) !!}`, 'success');
+            @endif
+
+            @if(session('unmatched') && count(session('unmatched')) > 0)
+                showToast('NPSN Tidak Ditemukan', `{!! addslashes(implode('<br>', (array) session('unmatched'))) !!}`, 'warning');
+            @endif
+
+            @if(session('conflicts') && count(session('conflicts')) > 0)
+                @php
+                    $confLines = [];
+                    foreach((array) session('conflicts') as $c) {
+                        $tname = $c['tahap'] ?? 'Unknown Tahap';
+                        $npsn = $c['npsn'] ?? '';
+                        $confLines[] = "Tahap [{$tname}] - NPSN: {$npsn}";
+                    }
+                @endphp
+                showToast('Conflict', `{!! addslashes('Beberapa lembaga sudah terpakai di tahap lain:<br>' . implode('<br>', $confLines)) !!}`, 'danger');
+            @endif
         });
     </script>
 @endpush

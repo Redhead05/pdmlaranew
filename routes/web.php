@@ -3,7 +3,9 @@
 
 
 //use App\Http\Controllers\Admin\LandingPage\OrganizationStructureController;
+use App\Http\Controllers\Admin\MasterLembaga\MasterLembagaController;
 use App\Http\Controllers\Admin\Tahap\TahapController;
+use App\Http\Controllers\Admin\Tahap\TahapLembagaController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\frontend\NewsfeController;
 use App\Http\Controllers\ProfileController;
@@ -80,6 +82,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('attendance', AttendanceController::class);
         Route::get('/attendance/{slug}/detail', [AttendanceController::class, 'detail'])->name('attendance.detail');
         Route::resource('tahap', TahapController::class);
+        // Tahap -> Lembaga management (upload CSV, list attached lembaga, detach)
+        Route::get('tahap/{tahap}/lembaga', [\App\Http\Controllers\Admin\Tahap\TahapLembagaController::class, 'index'])->name('tahap.lembaga.index');
+        Route::get('tahap/{tahap}/lembaga/template', [\App\Http\Controllers\Admin\Tahap\TahapLembagaController::class, 'template'])->name('tahap.lembaga.template');
+        Route::post('tahap/{tahap}/lembaga/upload', [\App\Http\Controllers\Admin\Tahap\TahapLembagaController::class, 'upload'])->name('tahap.lembaga.upload');
+        Route::post('tahap/{tahap}/lembaga/{lembaga}/detach', [\App\Http\Controllers\Admin\Tahap\TahapLembagaController::class, 'detach'])->name('tahap.lembaga.detach');
+        // upload/attach handled directly without preview
         // Custom kesanggupan routes (must be before resource to avoid conflicts)
         Route::post('kesanggupan/{tahap}/generate-teams', [KesanggupanController::class, 'generateTeams'])->name('kesanggupan.generate-teams');
         Route::get('kesanggupan/{tahap}/team-draft', [KesanggupanController::class, 'teamDraft'])->name('kesanggupan.team-draft');
@@ -92,6 +100,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('kesanggupan/{tahap}/team-draft/cancel', [KesanggupanController::class, 'cancelDraft'])->name('kesanggupan.team-draft.cancel');
         Route::post('kesanggupan/{tahap}/team-draft/reopen', [KesanggupanController::class, 'reopenDraft'])->name('kesanggupan.team-draft.reopen');
         Route::resource('kesanggupan', KesanggupanController::class);
+        // Master lembaga resource (index will handle AJAX/data responses)
+        Route::resource('masterlembaga', MasterLembagaController::class);
     });
     //Route adminlanding
     Route::prefix('adminlanding')->middleware('role:adminlanding|admin')->as('adminlanding.')->group(function () {
