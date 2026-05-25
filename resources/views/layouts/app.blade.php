@@ -34,7 +34,7 @@
             <main>
                 {{-- Wrap the main content in a Turbo Frame so navigation can replace this part only --}}
                 <turbo-frame id="main_frame">
-                    {{ $slot }}
+                    @yield('content')
                 </turbo-frame>
             </main>
         </div>

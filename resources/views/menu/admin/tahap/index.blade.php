@@ -42,8 +42,8 @@
                                         <td>{{ $tahap->surat_keputusan }}</td>
                                         <td>{{ optional($tahap->start_date)->format('d-m-Y H:i') ?? '-' }}</td>
                                         <td>{{ optional($tahap->end_date)->format('d-m-Y H:i') ?? '-' }}</td>
-                                        <td>
-                                            <div class="d-flex align-items-center gap-1">
+                                <td>
+                                            <div class="d-flex align-items-center gap-1 flex-wrap">
                                                 <a href="{{ route('admin.tahap.show', $tahap) }}"
                                                    class="ps-0 border-0 bg-transparent lh-1 position-relative top-2"
                                                    data-bs-toggle="tooltip"
@@ -62,6 +62,30 @@
                                                    title="Edit">
                                                     <i class="material-symbols-outlined fs-16 text-body">edit</i>
                                                 </a>
+
+                                                {{-- Tombol Generate: muncul jika ada lembaga DAN ada tim yang sudah final --}}
+                                                @if($tahap->lembagas_count > 0 && $tahap->finalized_teams_count > 0)
+                                                    <form method="POST"
+                                                          action="{{ route('admin.tahap.generate', ['tahap' => $tahap->slug]) }}"
+                                                          class="d-inline"
+                                                          onsubmit="return confirm('Jalankan generate pairing untuk {{ addslashes($tahap->tahap) }}?');">
+                                                        @csrf
+                                                        <button type="submit"
+                                                                class="ps-0 border-0 bg-transparent lh-1 position-relative top-2"
+                                                                title="Generate Pairing ({{ $tahap->lembagas_count }} lembaga, {{ $tahap->finalized_teams_count }} tim final)">
+                                                            <i class="material-symbols-outlined fs-16 text-success">bolt</i>
+                                                        </button>
+                                                    </form>
+                                                @endif
+
+                                                {{-- Link ke halaman Hasil Generate jika sudah pernah generate --}}
+                                                @if($tahap->generation_runs_count > 0)
+                                                    <a href="{{ route('admin.tahap.generation.index', ['tahap' => $tahap->slug]) }}"
+                                                       class="ps-0 border-0 bg-transparent lh-1 position-relative top-2"
+                                                       title="Lihat Hasil Generate ({{ $tahap->generation_runs_count }} run)">
+                                                        <i class="material-symbols-outlined fs-16 text-warning">table_chart</i>
+                                                    </a>
+                                                @endif
                                             </div>
 
                                             @include('menu.admin.tahap.edit', ['tahap' => $tahap])

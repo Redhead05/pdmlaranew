@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class AttendanceDetail extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'attendance_id',
@@ -19,6 +21,7 @@ class AttendanceDetail extends Model
     protected $casts = [
         'form_data' => 'array',
         'signed_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
     public function attendance()

@@ -82,6 +82,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('attendance', AttendanceController::class);
         Route::get('/attendance/{slug}/detail', [AttendanceController::class, 'detail'])->name('attendance.detail');
         Route::resource('tahap', TahapController::class);
+
+        // Certifications management for asesor records
+        Route::resource('certifications', \App\Http\Controllers\Admin\CertificationController::class);
+        // Generation: pairing teams <-> lembaga
+        Route::get('tahap/{tahap}/generation', [\App\Http\Controllers\Admin\Tahap\GenerationController::class, 'index'])->name('tahap.generation.index');
+        Route::post('tahap/{tahap}/generate', [\App\Http\Controllers\Admin\Tahap\GenerationController::class, 'generate'])->name('tahap.generate');
+        Route::get('tahap/{tahap}/generation/{run}/download', [\App\Http\Controllers\Admin\Tahap\GenerationController::class, 'downloadExcel'])->name('tahap.generation.download');
+        Route::post('tahap/{tahap}/generation/{run}/upload', [\App\Http\Controllers\Admin\Tahap\GenerationController::class, 'uploadExcel'])->name('tahap.generation.upload');
+        Route::delete('tahap/{tahap}/generation/{run}', [\App\Http\Controllers\Admin\Tahap\GenerationController::class, 'destroy'])->name('tahap.generation.destroy');
         // Tahap -> Lembaga management (upload CSV, list attached lembaga, detach)
         Route::get('tahap/{tahap}/lembaga', [\App\Http\Controllers\Admin\Tahap\TahapLembagaController::class, 'index'])->name('tahap.lembaga.index');
         Route::get('tahap/{tahap}/lembaga/template', [\App\Http\Controllers\Admin\Tahap\TahapLembagaController::class, 'template'])->name('tahap.lembaga.template');

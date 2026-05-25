@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Kesanggupan extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'kesanggupans';
 
     protected $fillable = [
@@ -20,6 +23,7 @@ class Kesanggupan extends Model
     protected $casts = [
         'kesediaan' => 'boolean',
         'kesanggupan' => 'integer',
+        'deleted_at' => 'datetime',
     ];
 
     // relationship

@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class Tahap extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'tahap',
@@ -24,6 +25,7 @@ class Tahap extends Model
         'allowed_kesanggupan' => 'array',
         'start_date' => 'datetime',
         'end_date' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
     //collection rellationship
@@ -38,6 +40,22 @@ class Tahap extends Model
     public function lembagas()
     {
         return $this->belongsToMany(\App\Models\Lembaga::class, 'lembaga_tahap', 'tahap_id', 'lembaga_id')->withTimestamps();
+    }
+
+    /**
+     * Relasi ke teams yang dibuat untuk tahap ini.
+     */
+    public function teams(): HasMany
+    {
+        return $this->hasMany(\App\Models\Team::class, 'tahap_id');
+    }
+
+    /**
+     * Relasi ke generation runs untuk tahap ini.
+     */
+    public function generationRuns(): HasMany
+    {
+        return $this->hasMany(\App\Models\TeamGenerationRun::class, 'tahap_id');
     }
 
     /**

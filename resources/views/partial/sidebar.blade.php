@@ -42,6 +42,12 @@
                     <span class="title">Master Lembaga</span>
                 </a>
             </li>
+            <li class="menu-item open">
+                <a href="{{ route('admin.certifications.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('admin.certifications.*') ? 'active' : '' }}">
+                    <i class="ri-award-line"></i>
+                    <span class="title">Certifications</span>
+                </a>
+            </li>
             <li @class(['menu-item', 'open' => Request::routeIs('admin.tahap.*','admin.kesanggupan.*')])>
                 <a href="javascript:void(0);" @class(['menu-link', 'menu-toggle', 'active' => Request::routeIs('admin.tahap.*','admin.kesanggupan.*')])>
                     <i class="ri-crosshair-line"></i>
@@ -53,14 +59,9 @@
                             Tahap
                         </a>
                     </li>
-                    <li @class(['menu-item', 'open' => Request::routeIs('admin.kesanggupan.index')])>
-                        <a href="#" data-turbo-frame="main_frame" @class(['menu-link', 'active' => Request::routeIs('admin.kesanggupan.index')])>
-                            Penetapan
-                        </a>
-                    </li>
-                    <li @class(['menu-item', 'open' => Request::routeIs('admin.kesanggupan.index')])>
-                        <a href="#" data-turbo-frame="main_frame" @class(['menu-link', 'active' => Request::routeIs('admin.kesanggupan.index')])>
-                            Pemetaan
+                    <li @class(['menu-item', 'open' => Request::routeIs('admin.tahap.generation.*')])>
+                        <a href="javascript:void(0);" data-turbo-frame="main_frame" @class(['menu-link', 'active' => Request::routeIs('admin.tahap.generation.*')])>
+                            Hasil Generate
                         </a>
                     </li>
                 </ul>
@@ -113,30 +114,6 @@
                     <div class="flex gap-2">
                         <i class="ri-question-fill"></i>
                         <span class="title">Faq</span>
-                    </div>
-                </a>
-            </li>
-            <li class="menu-item open">
-                <a href="{{ route ('adminlanding.chat.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.chat.index') ? 'active' : '' }}">
-                    <div class="flex gap-2">
-                        <i class="ri-question-answer-fill"></i>
-                        <span class="title">Chat</span>
-                    </div>
-                </a>
-            </li>
-            <li class="menu-item open">
-                <a href="{{ route ('adminlanding.chat.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.chat.index') ? 'active' : '' }}">
-                    <div class="flex gap-2">
-                        <i class="ri-question-answer-fill"></i>
-                        <span class="title">Chat</span>
-                    </div>
-                </a>
-            </li>
-            <li class="menu-item open">
-                <a href="{{ route ('adminlanding.chat.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.chat.index') ? 'active' : '' }}">
-                    <div class="flex gap-2">
-                        <i class="ri-question-answer-fill"></i>
-                        <span class="title">Chat</span>
                     </div>
                 </a>
             </li>

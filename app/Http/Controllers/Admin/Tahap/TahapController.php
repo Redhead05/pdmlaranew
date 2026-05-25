@@ -21,10 +21,15 @@ class TahapController extends Controller
     {
         $tahaps = Tahap::query()
             ->select(['id', 'slug','tahap', 'surat_keputusan', 'allowed_kesanggupan', 'created_at', 'start_date', 'end_date'])
+            ->withCount([
+                'lembagas',
+                'teams as finalized_teams_count' => fn ($q) => $q->whereNotNull('finalized_at'),
+                'generationRuns',
+            ])
             ->with([
                 'kesanggupans' => function ($q) {
                     $q->whereNotNull('kesediaan')
-                        ->with('user:id,name,email'); // adjust columns if needed
+                        ->with('user:id,name,email');
                 },
             ])
             ->latest('id')

@@ -32,41 +32,32 @@ class TahapSeeder extends Seeder
             };
 
             $tahaps = [];
-            $tahaps[] = Tahap::query()->create([
-                'tahap' => '1',
-                'surat_keputusan' => 'SK/TAHAP/001/2026',
-                'allowed_kesanggupan' => [2, 3, 4, 5, 6],
-                'start_date' => now()->subDays(1)->setTime(9, 0, 0),
-                'end_date' => now()->addDays(5)->setTime(17, 0, 0),
-                'slug' => $makeSlug(),
-            ]);
 
-            $tahaps[] = Tahap::query()->create([
-                'tahap' => '2',
-                'surat_keputusan' => 'SK/TAHAP/002/2026',
-                'allowed_kesanggupan' => [2, 4, 6, 8],
-                'start_date' => now()->addDays(1)->setTime(8, 30, 0),
-                'end_date' => now()->addDays(6)->setTime(16, 0, 0),
-                'slug' => $makeSlug(),
-            ]);
+            // Create 5 tahap records where end_date is already in the past
+            // so they appear as finished/expired. We space them 1 day apart
+            // and set the end time to earlier today or previous days.
+            for ($i = 1; $i <= 5; $i++) {
+                $daysAgo = $i * 2; // each tahap ended further in the past
+                $start = now()->subDays($daysAgo + 10)->setTime(9, 0, 0);
+                $end = now()->subDays($daysAgo)->setTime(17, 0, 0);
 
-            $tahaps[] = Tahap::query()->create([
-                'tahap' => '3',
-                'surat_keputusan' => 'SK/TAHAP/003/2026',
-                'allowed_kesanggupan' => [3, 5, 7, 10],
-                'start_date' => now()->addDays(3)->setTime(10, 0, 0),
-                'end_date' => now()->addDays(10)->setTime(18, 0, 0),
-                'slug' => $makeSlug(),
-            ]);
+                $allowedSets = [
+                    [1,2,3],
+                    [2,3,4],
+                    [2,4,6],
+                    [3,5,7],
+                    [2,3,5,7]
+                ];
 
-            $tahaps[] = Tahap::query()->create([
-                'tahap' => '4',
-                'surat_keputusan' => 'SK/TAHAP/004/2026',
-                'allowed_kesanggupan' => [1, 2, 3],
-                'start_date' => now()->addDays(7)->setTime(9, 0, 0),
-                'end_date' => now()->addDays(14)->setTime(17, 0, 0),
-                'slug' => $makeSlug(),
-            ]);
+                $tahaps[] = Tahap::query()->create([
+                    'tahap' => (string) $i,
+                    'surat_keputusan' => "SK/TAHAP/00{$i}/2026",
+                    'allowed_kesanggupan' => $allowedSets[$i-1] ?? [1],
+                    'start_date' => $start,
+                    'end_date' => $end,
+                    'slug' => $makeSlug(),
+                ]);
+            }
 
             $now = now();
             $rows = [];
