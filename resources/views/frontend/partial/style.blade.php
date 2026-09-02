@@ -108,7 +108,7 @@
         bottom: 110px;
         right: 110px;
         width: 350px;
-        height: 300px;
+        height: 500px;
         background-color: #f3f7f8;
         border-radius: 15px;
         box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1), 0 32px 64px -48px rgba(0, 0, 0, 0.5);
@@ -138,7 +138,7 @@
     }
 
     .chatbot__box {
-        padding: 10px 10px;
+        padding: 30px 30px;
         display: flex;
         flex-direction: column;
         gap: 10px;
@@ -170,8 +170,8 @@
     .chatbot__chat p {
         margin: 0;
         max-width: 78%;
-        padding: 8px 10px;
-        font-size: 12px;
+        padding: 4px 7px;
+        font-size: 16px;
         line-height: 1.25;
         letter-spacing: 0.1px;
     }

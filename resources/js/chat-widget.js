@@ -300,7 +300,7 @@ function initChatWidget() {
     lastBodyAt = now;
 
     if (textarea) textarea.value = '';
-    appendMessage(chatList, { body }, 'outgoing');
+    // appendMessage(chatList, { body }, 'outgoing');
 
     try {
       await jsonFetch(`/chat/conversations/${conversationId}/messages`, {
@@ -353,6 +353,11 @@ function initChatWidget() {
   resumeIfPossible();
 }
 
-document.addEventListener('DOMContentLoaded', initChatWidget);
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initChatWidget);
+} else {
+    // DOM sudah siap (module script bersifat defer), langsung jalankan
+    initChatWidget();
+}
 document.addEventListener('turbo:load', initChatWidget);
 

@@ -85,14 +85,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // Certifications management for asesor records
         Route::resource('certifications', \App\Http\Controllers\Admin\CertificationController::class);
-        // Generation: pairing teams <-> lembaga
+        // Generation: pairing teams <-> lembaga (auto-match + manual override)
         Route::get('tahap/{tahap}/generation', [\App\Http\Controllers\Admin\Tahap\GenerationController::class, 'index'])->name('tahap.generation.index');
         Route::post('tahap/{tahap}/generate', [\App\Http\Controllers\Admin\Tahap\GenerationController::class, 'generate'])->name('tahap.generate');
-        Route::get('tahap/{tahap}/generation/{run}/download', [\App\Http\Controllers\Admin\Tahap\GenerationController::class, 'downloadExcel'])->name('tahap.generation.download');
-        Route::post('tahap/{tahap}/generation/{run}/upload', [\App\Http\Controllers\Admin\Tahap\GenerationController::class, 'uploadExcel'])->name('tahap.generation.upload');
-        Route::delete('tahap/{tahap}/generation/{run}', [\App\Http\Controllers\Admin\Tahap\GenerationController::class, 'destroy'])->name('tahap.generation.destroy');
-        // Tahap -> Lembaga management (upload CSV, list attached lembaga, detach)
+        Route::post('tahap/{tahap}/generation/assign', [\App\Http\Controllers\Admin\Tahap\GenerationController::class, 'assign'])->name('tahap.generation.assign');
+        Route::delete('tahap/{tahap}/generation/{assignment}', [\App\Http\Controllers\Admin\Tahap\GenerationController::class, 'unassign'])->name('tahap.generation.unassign');
+        // Tahap -> Lembaga management (upload CSV, list attached lembaga, pilih dari master, detach)
         Route::get('tahap/{tahap}/lembaga', [\App\Http\Controllers\Admin\Tahap\TahapLembagaController::class, 'index'])->name('tahap.lembaga.index');
+        Route::get('tahap/{tahap}/lembaga/pilih', [\App\Http\Controllers\Admin\Tahap\TahapLembagaController::class, 'pilih'])->name('tahap.lembaga.pilih');
+        Route::post('tahap/{tahap}/lembaga/attach', [\App\Http\Controllers\Admin\Tahap\TahapLembagaController::class, 'attach'])->name('tahap.lembaga.attach');
         Route::get('tahap/{tahap}/lembaga/template', [\App\Http\Controllers\Admin\Tahap\TahapLembagaController::class, 'template'])->name('tahap.lembaga.template');
         Route::post('tahap/{tahap}/lembaga/upload', [\App\Http\Controllers\Admin\Tahap\TahapLembagaController::class, 'upload'])->name('tahap.lembaga.upload');
         Route::post('tahap/{tahap}/lembaga/{lembaga}/detach', [\App\Http\Controllers\Admin\Tahap\TahapLembagaController::class, 'detach'])->name('tahap.lembaga.detach');
@@ -143,6 +144,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('dashboard', [AsesorDashboardController::class, 'index'])->name('dashboard');
         Route::resource('attendance',AsesorAttendanceController::class);
         Route::resource('kesanggupan', AsesorKesanggupanController::class);
+        Route::get('rekomendasi-lembaga', [\App\Http\Controllers\Asesor\LembagaRecommendationController::class, 'index'])->name('rekomendasi-lembaga');
     });
 
 //    Route::get('user/dashboard/', function () {

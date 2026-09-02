@@ -203,203 +203,77 @@ class KesanggupanController extends Controller
     }
 
     /**
-     * Matching helper implementing Stage 1-3 pairing rules described by user.
+     * Bentuk tim asesor dari data yang eligible.
+     * Prioritas berjenjang: gender sama (P-P / L-L) -> kab/kota sama -> kesanggupan sama.
+     * Sisa asesor yang tidak mendapat pasangan diserahkan ke admin (manual override).
+     *
      * Input: Collection of User (with detail), map user_id => kesanggupan integer
      * Output: array of groups (each group is array of user_ids)
      */
     private function generateTeamsByRules($users, $kesMap)
     {
-        // prepare data array
-        $byId = [];
+        // Susun data asesor: gender, kota, dan jumlah kesanggupan.
+        $roster = [];
         foreach ($users as $u) {
-            $byId[$u->id] = [
-                'user' => $u,
-                'kes' => max(0, (int) ($kesMap[$u->id] ?? 0)),
-                'matched' => false,
+            $roster[$u->id] = [
+                'id'     => $u->id,
+                'kes'    => max(0, (int) ($kesMap[$u->id] ?? 0)),
+                'gender' => strtoupper(trim((string) ($u->detail->gender ?? ''))),
+                'city'   => strtolower(trim((string) ($u->detail->work_city ?? $u->detail->home_city ?? ''))),
             ];
         }
 
         $groups = [];
 
-        // Helper: safe get detail field
-        $get = fn($id, $field) => $byId[$id]['user']->detail->{$field} ?? null;
-
-        // Stage 1: strict pairing with priority weights + proximity bonus
-// Priorities (weights): type_asesor prio1 (100), jml_kesanggupan equal prio2 (50),
-// gender prio3 (20), work_city prio4 (10), proximity bonus (scaled up to 30)
-        $pairs = [];
-        $ids = array_keys($byId);
-        $n = count($ids);
-        for ($i = 0; $i < $n; $i++) {
-            for ($j = $i + 1; $j < $n; $j++) {
-                $a = $byId[$ids[$i]]['user'];
-                $b = $byId[$ids[$j]]['user'];
-
-                // Enforce: Stage1 only pairs if kesanggupan equal and > 0
-                $aKes = $byId[$a->id]['kes'] ?? 0;
-                $bKes = $byId[$b->id]['kes'] ?? 0;
-                if ($aKes <= 0 || $bKes <= 0 || $aKes !== $bKes) {
-                    continue;
-                }
-
-                $score = 0;
-                // type_asesor (prio1)
-                if (($a->detail->type_asesor ?? null) && ($b->detail->type_asesor ?? null) && $a->detail->type_asesor === $b->detail->type_asesor) {
-                    $score += 100;
-                }
-                // kesanggupan equal (prio2)
-                $score += 50;
-                // gender (prio3)
-                if (($a->detail->gender ?? null) && ($b->detail->gender ?? null) && $a->detail->gender === $b->detail->gender) {
-                    $score += 20;
-                }
-                // work_city same (prio4)
-                if (($a->detail->work_city ?? null) && ($b->detail->work_city ?? null) && $a->detail->work_city === $b->detail->work_city) {
-                    $score += 10;
-                }
-
-                // Proximity bonus: use haversine distance (km).
-                // Give a scaled bonus up to +30 when distance <= 20 km (closer => larger bonus).
-                $d = $this->haversineDistance($a->detail->latitude ?? null, $a->detail->longitude ?? null, $b->detail->latitude ?? null, $b->detail->longitude ?? null);
-                if ($d !== null) {
-                    if ($d <= 50) {
-                        // linear scale: distance 0 => +30, distance 20 => +0
-                        $proxBonus = (50 - $d) * 1.5; // max 30
-                        $score += $proxBonus;
-                    }
-                    // else: no proximity bonus for >20km (keeps Stage1 preference local)
-                }
-
-                if ($score > 0) {
-                    $pairs[] = ['a' => $a->id, 'b' => $b->id, 'score' => $score];
-                }
-            }
-        }
-
-        usort($pairs, fn($x, $y) => $y['score'] <=> $x['score']);
-
-        foreach ($pairs as $p) {
-            if (!isset($byId[$p['a']]) || !isset($byId[$p['b']])) continue;
-            if ($byId[$p['a']]['matched'] || $byId[$p['b']]['matched']) continue;
-            $groups[] = [$p['a'], $p['b']];
-            $byId[$p['a']]['matched'] = $byId[$p['b']]['matched'] = true;
-        }
-
-        // Stage 2: relaxed pairing if still unmatched
-        // Priorities: type_asesor (100), gender (50), proximity (<= X km) prio3 (30), same kesanggupan prio4 (10)
-        // reindex remaining to numeric indexes to safely iterate by index
-        $remaining = array_values(array_filter(array_keys($byId), fn($id) => !$byId[$id]['matched']));
-        $pairs2 = [];
-        $m = count($remaining);
-        for ($i = 0; $i < $m; $i++) {
-            for ($j = $i + 1; $j < $m; $j++) {
-                $ai = $remaining[$i]; $bj = $remaining[$j];
-                $a = $byId[$ai]['user']; $b = $byId[$bj]['user'];
-
-                // Enforce: Stage2 also require same kesanggupan (>0) to form pair of 2
-                $aKes = $byId[$a->id]['kes'] ?? 0;
-                $bKes = $byId[$b->id]['kes'] ?? 0;
-                if ($aKes <= 0 || $bKes <= 0 || $aKes !== $bKes) {
-                    // skip pairing here; leave for Stage3 grouping
-                    continue;
-                }
-
-                $score = 0;
-                if (($a->detail->type_asesor ?? null) && ($b->detail->type_asesor ?? null) && $a->detail->type_asesor === $b->detail->type_asesor) $score += 100;
-                if (($a->detail->gender ?? null) && ($b->detail->gender ?? null) && $a->detail->gender === $b->detail->gender) $score += 50;
-
-                $d = $this->haversineDistance($a->detail->latitude ?? null, $a->detail->longitude ?? null, $b->detail->latitude ?? null, $b->detail->longitude ?? null);
-                // interpret "not more than 2 kabkot different" as distance <= 20 km (configurable)
-                if ($d !== null && $d <= 20) $score += 30;
-
-                if (($byId[$a->id]['kes'] ?? 0) === ($byId[$b->id]['kes'] ?? 0) && $byId[$a->id]['kes'] > 0) $score += 10;
-
-                if ($score > 0) $pairs2[] = ['a'=>$a->id,'b'=>$b->id,'score'=>$score];
-            }
-        }
-        usort($pairs2, fn($x,$y) => $y['score'] <=> $x['score']);
-        foreach ($pairs2 as $p) {
-            if ($byId[$p['a']]['matched'] || $byId[$p['b']]['matched']) continue;
-            $groups[] = [$p['a'],$p['b']];
-            $byId[$p['a']]['matched'] = $byId[$p['b']]['matched'] = true;
-        }
-
-        // Stage 3: build teams of 2-3 to satisfy capacity (kesanggupan totals)
-        // reindex remaining to numeric indexes for later indexing operations
-        $remaining = array_values(array_filter(array_keys($byId), fn($id) => !$byId[$id]['matched']));
-        // sort remaining by kes desc (higher capacity first)
-        usort($remaining, fn($x,$y) => ($byId[$y]['kes'] <=> $byId[$x]['kes']));
-
-        while (count($remaining) > 0) {
-            if (count($remaining) == 1) {
-                // single leftover, leave unmatched (admin will handle)
-                break;
-            }
-
-            // take lead (highest kes)
-            $lead = array_shift($remaining);
-            $leadKes = $byId[$lead]['kes'];
-
-            // try to find best combination of 2 partners (to form team of 3) where combined partner kes approximates leadKes
-            $bestCombo = null; $bestComboScore = -1e9;
-            $rCount = count($remaining);
-            // try pairs of partners
-            for ($i=0;$i<$rCount;$i++) {
-                for ($j=$i+1;$j<$rCount;$j++) {
-                    $aId = $remaining[$i]; $bId = $remaining[$j];
-                    $sum = $byId[$aId]['kes'] + $byId[$bId]['kes'];
-                    // prefer sum closer to leadKes (but not exceeding by too much). score = -(abs(leadKes - sum)) + small bonus by sum
-                    $score = -abs($leadKes - $sum) + ($sum * 0.01);
-                    if ($score > $bestComboScore) { $bestComboScore = $score; $bestCombo = [$i,$j]; }
-                }
-            }
-
-            // try single best partner
-            $bestSingle = null; $bestSingleScore = -1e9;
-            foreach ($remaining as $idx => $cand) {
-                $sum = $byId[$cand]['kes'];
-                $score = -abs($leadKes - $sum) + ($sum * 0.01);
-                if ($score > $bestSingleScore) { $bestSingleScore = $score; $bestSingle = $idx; }
-            }
-
-            // decide whether to pick pair or single: prefer pair if it gives better score
-            // Prefer a 3-member combo when available to respect differing kesanggupan rules
-            if ($bestCombo !== null) {
-                $aIdx = $bestCombo[0]; $bIdx = $bestCombo[1];
-                $aId = $remaining[$aIdx]; $bId = $remaining[$bIdx];
-                // remove larger index first
-                if ($aIdx > $bIdx) { unset($remaining[$aIdx]); unset($remaining[$bIdx]); } else { unset($remaining[$bIdx]); unset($remaining[$aIdx]); }
-                $remaining = array_values($remaining);
-                $groups[] = [$lead, $aId, $bId];
-                $byId[$lead]['matched']=true; $byId[$aId]['matched']=true; $byId[$bId]['matched']=true;
-            } elseif ($bestSingle !== null) {
-                $memberId = $remaining[$bestSingle];
-                unset($remaining[$bestSingle]);
-                $remaining = array_values($remaining);
-                $groups[] = [$lead, $memberId];
-                $byId[$lead]['matched']=true; $byId[$memberId]['matched']=true;
-            } else {
-                // cannot find partner
-                break;
-            }
+        // Auto-pairing hanya untuk asesor dengan kesanggupan sama (> 0).
+        foreach (collect($roster)->where('kes', '>', 0)->groupBy('kes') as $pool) {
+            $groups = array_merge($groups, $this->pairPool($pool->values()->all()));
         }
 
         return $groups;
     }
 
     /**
-     * Haversine distance in kilometers between two lat/lng points. Returns null if coords missing.
+     * Pasangkan asesor dalam satu kelompok kesanggupan secara greedy.
+     * Setiap tier: [harus_gender_sama, harus_kota_sama].
+     * Tier 1 (gender sama + kota sama) dicoba lebih dulu, dst.
      */
-    private function haversineDistance($lat1, $lon1, $lat2, $lon2)
+    private function pairPool(array $pool)
     {
-        if ($lat1 === null || $lon1 === null || $lat2 === null || $lon2 === null) return null;
-        $lat1 = floatval($lat1); $lon1 = floatval($lon1); $lat2 = floatval($lat2); $lon2 = floatval($lon2);
-        $earthRadius = 6371; // km
-        $dLat = deg2rad($lat2 - $lat1);
-        $dLon = deg2rad($lon2 - $lon1);
-        $a = sin($dLat/2) * sin($dLat/2) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * sin($dLon/2) * sin($dLon/2);
-        $c = 2 * atan2(sqrt($a), sqrt(1-$a));
-        return $earthRadius * $c;
+        $groups = [];
+        $used   = [];
+
+        $tiers = [
+            [true, true],
+            [true, false],
+            [false, true],
+            [false, false],
+        ];
+
+        foreach ($tiers as [$sameGender, $sameCity]) {
+            for ($i = 0; $i < count($pool); $i++) {
+                if (isset($used[$i])) {
+                    continue;
+                }
+                for ($j = $i + 1; $j < count($pool); $j++) {
+                    if (isset($used[$j])) {
+                        continue;
+                    }
+                    if ($sameGender && $pool[$i]['gender'] !== $pool[$j]['gender']) {
+                        continue;
+                    }
+                    if ($sameCity && ($pool[$i]['city'] === '' || $pool[$i]['city'] !== $pool[$j]['city'])) {
+                        continue;
+                    }
+
+                    $groups[] = [$pool[$i]['id'], $pool[$j]['id']];
+                    $used[$i] = $used[$j] = true;
+                    break;
+                }
+            }
+        }
+
+        return $groups;
     }
 
     /**

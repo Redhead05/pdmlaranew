@@ -309,28 +309,27 @@ function initAdminLandingChat() {
     }
   });
 
-  replyForm?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if (!activeId) return;
+    replyForm?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!activeId) return;
 
-    const body = (replyBody.value || '').trim();
-    if (!body) return;
+        const body = (replyBody.value || '').trim();
+        if (!body) return;
 
-    replyBody.value = '';
+        replyBody.value = '';
 
-    renderActiveAppend({ conversation_id: activeId, sender_type: 'admin', body, sent_at: new Date().toISOString() });
+        try {
+            await jsonFetch(`${routes.replyBase}/${activeId}/reply`, {
+                method: 'POST',
+                body: JSON.stringify({ body }),
+            });
+        } catch (err) {
+            alert(err.message);
+        }
+    });
 
-    try {
-      await jsonFetch(`${routes.replyBase}/${activeId}/reply`, {
-        method: 'POST',
-        body: JSON.stringify({ body }),
-      });
-    } catch (err) {
-      alert(err.message);
-    }
-  });
 
-  elSearch?.addEventListener('input', renderConversations);
+    elSearch?.addEventListener('input', renderConversations);
   elRefresh?.addEventListener('click', () => loadConversations());
 
   // init echo is optional; polling will always run

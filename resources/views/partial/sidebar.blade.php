@@ -148,6 +148,13 @@
             </li>
 
             <li class="menu-item">
+                <a href="{{ route ('asesor.rekomendasi-lembaga') }}" data-turbo-frame="main_frame" class="menu-link">
+                    <span class="material-symbols-outlined menu-icon">near_me</span>
+                    <span class="title">Rekomendasi Lembaga</span>
+                </a>
+            </li>
+
+            <li class="menu-item">
                 <a href="javascript:void(0);" class="menu-link menu-toggle active">
                     <span class="material-symbols-outlined menu-icon">mail</span>
                     <span class="title">Email</span>

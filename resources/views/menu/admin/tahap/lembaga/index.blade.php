@@ -18,6 +18,7 @@
                         </div>
 
                         <div class="d-flex gap-2">
+                            <a href="{{ route('admin.tahap.lembaga.pilih', ['tahap' => $tahap->slug]) }}" class="btn btn-success">Tambah dari Master</a>
                             <a href="{{ route('admin.tahap.lembaga.template', ['tahap' => $tahap->slug]) }}" class="btn btn-outline-secondary">Download Template (.csv)</a>
 
                             {{-- Inline upload form: submits to upload route --}}
@@ -122,6 +123,10 @@
 
             @if(session('unmatched') && count(session('unmatched')) > 0)
                 showToast('NPSN Tidak Ditemukan', `{!! addslashes(implode('<br>', (array) session('unmatched'))) !!}`, 'warning');
+            @endif
+
+            @if(session('already') && count(session('already')) > 0)
+                showToast('Sudah Ada', `{!! addslashes(implode('<br>', (array) session('already'))) !!}`, 'secondary');
             @endif
 
             @if(session('conflicts') && count(session('conflicts')) > 0)

@@ -40,9 +40,9 @@
             <!-- /.widget -->
           </div>
           <!-- /column -->
-          <div class="md:w-full xl:w-3/12 lg:w-3/12 w-full flex-[0_0_auto] !px-[15px] max-w-full xl:!mt-0 lg:!mt-0 !mt-[30px]">
-            <div class="widget !text-[#cacaca]">
-                <img class="!mb-2" src="{{ asset ('assets/logo_BANPDMJATIM.png')}}" srcset="{{ asset ('assets/logo_BANPDMJATIM.png')}} 2x" alt="image">
+{{--          <div class="md:w-full xl:w-3/12 lg:w-3/12 w-full flex-[0_0_auto] !px-[15px] max-w-full xl:!mt-0 lg:!mt-0 !mt-[30px]">--}}
+{{--            <div class="widget !text-[#cacaca]">--}}
+{{--                <img class="!mb-2" src="{{ asset ('assets/logo_BANPDMJATIM.png')}}" srcset="{{ asset ('assets/logo_BANPDMJATIM.png')}} 2x" alt="image">--}}
 {{--              <h4 class="widget-title !text-white !mb-3">Our Newsletter</h4>--}}
 {{--              <p class="!mb-5">Subscribe to our newsletter to get our news & deals delivered to you.</p>--}}
 {{--              <div class="newsletter-wrapper">--}}
@@ -67,9 +67,9 @@
 {{--                <!--End mc_embed_signup-->--}}
 {{--              </div>--}}
               <!-- /.newsletter-wrapper -->
-            </div>
+{{--            </div>--}}
             <!-- /.widget -->
-          </div>
+{{--          </div>--}}
           <!-- /column -->
         </div>
         <!--/.row -->

@@ -11,15 +11,15 @@
         </head>
     <body style="background-color: #F6F7F9;">
         @include('partial.header')
-                @include('partial.sidebar')
-                    <div class="main-content-container overflow-hidden">
+        @include('partial.sidebar')
+
+                    <div class="main-content transition-all flex flex-col overflow-hidden min-h-screen" id="main-content">
                         @yield('content')
                     </div>
 
         <div class="flex-grow-1"></div>
-        @include('partial.theme-setting')
+{{--        @include('partial.theme-setting')--}}
         @include('partial.footer')
-
         @include('partial.scripts')
 
         {{-- Vite entry untuk halaman adminlanding chat (aman karena script hanya jalan jika ada data-adminlanding-chat) --}}

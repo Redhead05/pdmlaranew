@@ -214,6 +214,87 @@ class TahapLembagaController extends Controller
     }
 
     /**
+     * Halaman pilih lembaga dari master (browse + centang massal).
+     * Saat AJAX, kembalikan JSON DataTables dari seluruh master lembaga.
+     */
+    public function pilih(Request $request, Tahap $tahap)
+    {
+        if ($request->ajax()) {
+            $query = Lembaga::with('tahaps:id,tahap')->select([
+                'id', 'npsn', 'satuan_pen', 'kabupaten', 'kecamatan', 'jenjang',
+            ]);
+
+            return DataTables::of($query)
+                ->addIndexColumn()
+                ->addColumn('status', function ($l) use ($tahap) {
+                    $attached = $l->tahaps->first();
+                    if ($attached && $attached->id === $tahap->id) {
+                        return '<span class="badge bg-secondary">Sudah di tahap ini</span>';
+                    }
+                    if ($attached) {
+                        return '<span class="badge bg-warning text-dark">Dipakai: ' . e($attached->tahap) . '</span>';
+                    }
+                    return '<span class="badge bg-success">Tersedia</span>';
+                })
+                ->addColumn('select', function ($l) use ($tahap) {
+                    $attached = $l->tahaps->first();
+                    $disabled = $attached ? 'disabled' : '';
+                    return '<input type="checkbox" class="lembaga-check" data-id="' . $l->id . '" ' . $disabled . '>';
+                })
+                ->rawColumns(['status', 'select'])
+                ->make(true);
+        }
+
+        return view('menu.admin.tahap.lembaga.pilih', compact('tahap'));
+    }
+
+    /**
+     * Attach lembaga terpilih ke tahap (skip yang sudah ada / dipakai tahap lain).
+     */
+    public function attach(Request $request, Tahap $tahap)
+    {
+        $data = $request->validate([
+            'lembaga_ids' => ['required', 'array', 'min:1'],
+            'lembaga_ids.*' => ['integer', 'exists:lembagas,id'],
+        ]);
+
+        $ids = array_values(array_unique(array_map('intval', $data['lembaga_ids'])));
+
+        $lembagas = Lembaga::whereIn('id', $ids)->with('tahaps:id,tahap')->get()->keyBy('id');
+
+        $already = [];
+        $conflicts = [];
+        $valid = [];
+
+        foreach ($ids as $id) {
+            if (! isset($lembagas[$id])) {
+                continue;
+            }
+            $l = $lembagas[$id];
+            $attached = $l->tahaps->first();
+            if ($attached && $attached->id === $tahap->id) {
+                $already[] = $l->npsn;
+            } elseif ($attached) {
+                $conflicts[] = ['npsn' => $l->npsn, 'tahap' => $attached->tahap];
+            } else {
+                $valid[] = $id;
+            }
+        }
+
+        if (! empty($valid)) {
+            $tahap->lembagas()->syncWithoutDetaching($valid);
+        }
+
+        return redirect()
+            ->route('admin.tahap.lembaga.index', ['tahap' => $tahap->slug])
+            ->with([
+                'success' => count($valid) . ' lembaga berhasil ditambahkan ke tahap.',
+                'already' => $already,
+                'conflicts' => $conflicts,
+            ]);
+    }
+
+    /**
      * Detach lembaga from tahap
      */
     public function detach(Request $request, Tahap $tahap, Lembaga $lembaga)
