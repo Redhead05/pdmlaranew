@@ -13,12 +13,14 @@
         @include('partial.header')
         @include('partial.sidebar')
 
-                    <div class="main-content transition-all flex flex-col overflow-hidden min-h-screen" id="main-content">
-                        @yield('content')
-                    </div>
+            {{--main-content di matikan karena merusak halaman kerja--}}
+            <div class="transition-all flex flex-col overflow-hidden min-h-screen" id="main-content">
+                @yield('content')
+            </div>
 
         <div class="flex-grow-1"></div>
-{{--        @include('partial.theme-setting')--}}
+
+        {{--@include('partial.theme-setting')--}}
         @include('partial.footer')
         @include('partial.scripts')
 
