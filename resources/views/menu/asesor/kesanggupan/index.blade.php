@@ -156,14 +156,16 @@
                         </div>
                     @endforeach
                 </div>
+
+                <div class="d-flex justify-content-center mt-2">
+                    {{ $kesanggupans->links('pagination::bootstrap-5') }}
+                </div>
             @endif
         </div>
     </div>
 @endsection
 
 @push('scripts')
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
 
     <script>

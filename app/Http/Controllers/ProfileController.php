@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Kabkot;
+use App\Models\Setting;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,6 +26,9 @@ class ProfileController extends Controller
         if (method_exists($user, 'hasAnyRole') && $user->hasAnyRole(['asesor', 'admin', 'adminlanding'])) {
             return view('profile.edit', [
                 'user' => $user,
+                'kabkots' => Kabkot::orderBy('nama_kabkot')->get(),
+                'homeCityEnabled' => (bool) Setting::get('home_city_enabled', '0'),
+                'workCityEnabled' => (bool) Setting::get('work_city_enabled', '0'),
             ]);
         }
 
@@ -81,13 +86,18 @@ class ProfileController extends Controller
             $longitude = $existingDetail->longitude;
         }
 
+        // Kota rumah/kerja hanya boleh diubah asesor bila admin mengaktifkan toggle global-nya.
+        $homeCityEnabled = (bool) Setting::get('home_city_enabled', '0');
+        $workCityEnabled = (bool) Setting::get('work_city_enabled', '0');
+
         $detailData = [
             'gender' => $request->input('gender'),
             'address_home' => $request->input('address_home'),
-            'home_city' => $request->input('home_city'),
+            'home_city' => $homeCityEnabled ? $request->input('home_city') : ($existingDetail->home_city ?? null),
             'address_work' => $request->input('address_work'),
-            'work_city' => $request->input('work_city'),
-            'type_asesor' => $request->input('type_asesor'),
+            'work_city' => $workCityEnabled ? $request->input('work_city') : ($existingDetail->work_city ?? null),
+            // tipe asesor tidak dapat diubah oleh asesor (field disabled)
+            'type_asesor' => $existingDetail->type_asesor ?? null,
             'latitude' => $latitude,
             'longitude' => $longitude,
         ];

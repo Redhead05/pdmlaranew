@@ -9,6 +9,7 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
+                'resources/js/turbo.js',
                 'resources/js/chat-frontend.js',
                 'resources/js/adminlanding-chat.js',
             ],

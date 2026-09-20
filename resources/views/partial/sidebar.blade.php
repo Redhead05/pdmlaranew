@@ -1,7 +1,7 @@
 <!-- Start Sidebar Area -->
 <div class="sidebar-area" id="sidebar-area">
     <div class="logo position-relative">
-        <a href="{{route('adminlanding.dashboard')}}" data-turbo-frame="main_frame" class="d-block text-decoration-none position-relative">
+        <a href="{{route('adminlanding.dashboard')}}" data-turbo-frame="main_frame" data-turbo-action="advance" class="d-block text-decoration-none position-relative">
             <img src="{{ asset('assets/logo_BANPDMJATIM.png') }}" alt="logo-icon">
         </a>
         <button class="sidebar-burger-menu bg-transparent p-0 border-0 opacity-0 z-n1 position-absolute top-50 end-0 translate-middle-y" id="sidebar-burger-menu">
@@ -13,7 +13,7 @@
         <ul class="menu-inner">
             @role('admin')
             <li class="menu-item open">
-                <a href="{{ route ('admin.dashboard') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('admin.dashboard') ? 'active' : '' }}">
+                <a href="{{ route ('admin.dashboard') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('admin.dashboard') ? 'active' : '' }}">
                     <div class="flex gap-2">
                         <span class="ri-eth-line"></span>
                         <span class="title"> Dashboard</span>
@@ -21,7 +21,7 @@
                 </a>
             </li>
             <li class="menu-item open">
-                <a href="{{ route ('admin.user.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('admin.user.index') ? 'active' : '' }}">
+                <a href="{{ route ('admin.user.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('admin.user.index') ? 'active' : '' }}">
                     <div class="flex gap-2">
                         <i class="ri-group-2-fill"></i>
                         <span class="title">User</span>
@@ -29,7 +29,7 @@
                 </a>
             </li>
             <li class="menu-item open">
-                <a href="{{ route ('admin.attendance.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs(['admin.attendance.index','admin.attendance.detail']) ? 'active' : '' }}">
+                <a href="{{ route ('admin.attendance.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs(['admin.attendance.index','admin.attendance.detail']) ? 'active' : '' }}">
                     <div class="flex gap-2">
                         <i class="ri-calendar-check-line"></i>
                         <span class="title"> Attendance</span>
@@ -37,13 +37,13 @@
                 </a>
             </li>
             <li class="menu-item open">
-                <a href="{{ route ('admin.masterlembaga.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('admin.masterlembaga.index') ? 'active' : '' }}">
+                <a href="{{ route ('admin.masterlembaga.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('admin.masterlembaga.index') ? 'active' : '' }}">
                     <i class="ri-school-fill"></i>
                     <span class="title">Master Lembaga</span>
                 </a>
             </li>
             <li class="menu-item open">
-                <a href="{{ route('admin.certifications.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('admin.certifications.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.certifications.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('admin.certifications.*') ? 'active' : '' }}">
                     <i class="ri-award-line"></i>
                     <span class="title">Certifications</span>
                 </a>
@@ -55,7 +55,7 @@
                 </a>
                 <ul class="menu-sub">
                     <li @class(['menu-item', 'open' => Request::routeIs('admin.tahap.index')])>
-                        <a href="{{ route('admin.tahap.index') }}" data-turbo-frame="main_frame" @class(['menu-link', 'active' => Request::routeIs('admin.tahap.index')])>
+                        <a href="{{ route('admin.tahap.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" @class(['menu-link', 'active' => Request::routeIs('admin.tahap.index')])>
                             Tahap
                         </a>
                     </li>
@@ -66,11 +66,32 @@
                     </li>
                 </ul>
             </li>
+            <li @class(['menu-item', 'open' => Request::routeIs('admin.validasi.*')])>
+                <a href="{{ route('admin.validasi.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance"
+                   @class(['menu-link', 'active' => Request::routeIs('admin.validasi.*')])>
+                    <i class="ri-shield-check-line"></i>
+                    <span class="title">Validasi</span>
+                </a>
+            </li>
+            <li @class(['menu-item', 'open' => Request::routeIs('admin.berkas.*')])>
+                <a href="{{ route('admin.berkas.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance"
+                   @class(['menu-link', 'active' => Request::routeIs('admin.berkas.*')])>
+                    <i class="ri-folder-check-line"></i>
+                    <span class="title">Berkas Visitasi</span>
+                </a>
+            </li>
+            <li @class(['menu-item', 'open' => Request::routeIs('admin.ticket.*')])>
+                <a href="{{ route('admin.ticket.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance"
+                   @class(['menu-link', 'active' => Request::routeIs('admin.ticket.*')])>
+                    <i class="ri-customer-service-2-line"></i>
+                    <span class="title">Ticket Support</span>
+                </a>
+            </li>
             @endrole
 
             @hasanyrole('adminlanding|admin')
             <li class="menu-item open ">
-                <a href="{{ route ('adminlanding.dashboard') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.dashboard') ? 'active' : '' }}">
+                <a href="{{ route ('adminlanding.dashboard') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('adminlanding.dashboard') ? 'active' : '' }}">
                     <div class="flex gap-2">
                         <span class="ri-eth-line"></span>
                         <span class="title"> Dashboard Landing Page</span>
@@ -78,7 +99,7 @@
                 </a>
             </li>
             <li class="menu-item open">
-                <a href="{{ route ('adminlanding.home.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.home.index') ? 'active' : '' }}">
+                <a href="{{ route ('adminlanding.home.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('adminlanding.home.index') ? 'active' : '' }}">
                     <div class="flex gap-2">
                         <span class="ri-home-line"></span>
                         <span class="title">Home</span>
@@ -86,7 +107,7 @@
                 </a>
             </li>
             <li class="menu-item open">
-                <a href="{{ route ('adminlanding.gallery.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.gallery.index') ? 'active' : '' }}">
+                <a href="{{ route ('adminlanding.gallery.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('adminlanding.gallery.index') ? 'active' : '' }}">
                     <div class="flex gap-2">
                         <i class="ri-image-2-line"></i>
                         <span class="title">Gallery</span>
@@ -94,7 +115,7 @@
                 </a>
             </li>
             <li class="menu-item open">
-                <a href="{{ route ('adminlanding.news.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.news.index') ? 'active' : '' }}">
+                <a href="{{ route ('adminlanding.news.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('adminlanding.news.index') ? 'active' : '' }}">
                     <div class="flex gap-2">
                         <i class="ri-article-line"></i>
                         <span class="title">News</span>
@@ -102,7 +123,7 @@
                 </a>
             </li>
             <li class="menu-item open">
-                <a href="{{ route ('adminlanding.employee.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.StrukturOrganisasi.index') ? 'active' : '' }}">
+                <a href="{{ route ('adminlanding.employee.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('adminlanding.StrukturOrganisasi.index') ? 'active' : '' }}">
                     <div class="flex gap-2">
                         <i class="ri-home-office-fill"></i>
                         <span class="title">Struktur organisasi</span>
@@ -110,7 +131,7 @@
                 </a>
             </li>
             <li class="menu-item open">
-                <a href="{{ route ('adminlanding.faq.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.StrukturOrganisasi.index') ? 'active' : '' }}">
+                <a href="{{ route ('adminlanding.faq.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('adminlanding.StrukturOrganisasi.index') ? 'active' : '' }}">
                     <div class="flex gap-2">
                         <i class="ri-question-fill"></i>
                         <span class="title">Faq</span>
@@ -118,7 +139,7 @@
                 </a>
             </li>
             <li class="menu-item open">
-                <a href="{{ route ('adminlanding.chat.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('adminlanding.chat.index') ? 'active' : '' }}">
+                <a href="{{ route ('adminlanding.chat.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('adminlanding.chat.index') ? 'active' : '' }}">
                     <div class="flex gap-2">
                         <i class="ri-question-answer-fill"></i>
                         <span class="title">Chat</span>
@@ -128,30 +149,51 @@
             @endhasanyrole
             @role('asesor')
             <li class="menu-item open">
-                <a href="{{ route ('asesor.dashboard') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('dashboard.asesor') ? 'active' : '' }}">
+                <a href="{{ route ('asesor.dashboard') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('dashboard.asesor') ? 'active' : '' }}">
                     <span class="material-symbols-outlined">cloud_circle</span>
                     <span class="title"> Dashboard</span>
                 </a>
             </li>
             <li class="menu-item open">
-                <a href="{{ route ('asesor.attendance.index') }}" data-turbo-frame="main_frame" class="menu-link {{ Request::routeIs('asesor.attendance.index') ? 'active' : '' }}">
+                <a href="{{ route ('asesor.attendance.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('asesor.attendance.index') ? 'active' : '' }}">
                     <span class="material-symbols-outlined">foggy</span>
                     <span class="title"> Attendance</span>
                 </a>
             </li>
 
             <li class="menu-item">
-                <a href="{{ route ('asesor.kesanggupan.index') }}" data-turbo-frame="main_frame" class="menu-link">
-                    <span class="material-symbols-outlined menu-icon">chat</span>
-                    <span class="title">Kesanggupan</span>
+                <a href="{{ route ('asesor.validasi.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance"
+                   class="menu-link {{ Request::routeIs('asesor.validasi.*') ? 'active' : '' }}">
+                    <span class="material-symbols-outlined menu-icon">verified</span>
+                    <span class="title">Validasi</span>
                 </a>
             </li>
 
             <li class="menu-item">
-                <a href="{{ route ('asesor.rekomendasi-lembaga') }}" data-turbo-frame="main_frame" class="menu-link">
-                    <span class="material-symbols-outlined menu-icon">near_me</span>
-                    <span class="title">Rekomendasi Lembaga</span>
+                <a href="{{ route ('asesor.ticket.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance"
+                   class="menu-link {{ Request::routeIs('asesor.ticket.*') ? 'active' : '' }}">
+                    <span class="material-symbols-outlined menu-icon">support_agent</span>
+                    <span class="title">Ticket Support</span>
                 </a>
+            </li>
+
+            <li @class(['menu-item', 'open' => Request::routeIs('asesor.kesanggupan.*','asesor.visitasi.*','asesor.surat-tugas.*')])>
+                <a href="javascript:void(0);" @class(['menu-link', 'menu-toggle', 'active' => Request::routeIs('asesor.kesanggupan.*','asesor.visitasi.*','asesor.surat-tugas.*')])>
+                    <span class="material-symbols-outlined">fact_check</span>
+                    <span class="title">Visitasi</span>
+                </a>
+                <ul class="menu-sub">
+                    <li @class(['menu-item', 'open' => Request::routeIs('asesor.kesanggupan.index')])>
+                        <a href="{{ route('asesor.kesanggupan.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" @class(['menu-link', 'active' => Request::routeIs('asesor.kesanggupan.index')])>
+                            Kesanggupan
+                        </a>
+                    </li>
+                    <li @class(['menu-item', 'open' => Request::routeIs('asesor.visitasi.*','asesor.surat-tugas.*')])>
+                        <a href="{{ route('asesor.visitasi.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" @class(['menu-link', 'active' => Request::routeIs('asesor.visitasi.*','asesor.surat-tugas.*')])>
+                            Visitasi
+                        </a>
+                    </li>
+                </ul>
             </li>
 
             <li class="menu-item">

@@ -1,467 +1,742 @@
 @extends('app.layout')
-@section('title', 'Kesanggupan')
+@section('title', 'Kesanggupan & Pasangan Asesor — ' . $tahap->tahap)
 
 @push('styles')
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.min.css">
-    {{-- Bootstrap sudah dimuat oleh layout/partial, jangan load ulang di halaman agar tidak konflik styling/JS --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    @include('partial.table-ux')
+    <style>
+        .ksg-stat { min-width: 132px; }
+        .ksg-stat .ksg-value { font-size: 1.05rem; font-weight: 600; line-height: 1.1; }
+        .ksg-stat .ksg-label { font-size: .75rem; opacity: .75; }
+        .ksg-actions .btn { white-space: nowrap; }
+        #pairs-table_wrapper .btn-group-sm > .btn,
+        #pairs-table_wrapper .btn-sm { padding: .12rem .4rem; }
+        .nav-tabs .nav-link { font-size: .875rem; }
+    </style>
 @endpush
 
 @section('content')
-    @php
-        // Pastikan variabel yang dipakai di view selalu terdefinisi agar tidak terjadi Undefined variable
-        $can = $can ?? collect();
-        $cannot = $cannot ?? collect();
-        $notFilledUsers = $notFilledUsers ?? collect();
-        $run = $run ?? null;
-        $teams = $teams ?? collect();
-        $unmatched = $unmatched ?? collect();
-        $isFinal = ($run && ($run->status === 'final'));
-    @endphp
+@php
+    $uploadUrl = route('admin.tahap.pairing.upload', ['tahap' => $tahap->slug]);
+    $downloadUrl = route('admin.tahap.pairing.download', ['tahap' => $tahap->slug]);
+@endphp
+<div class="container-fluid">
+    <div class="main-content d-flex flex-column">
 
-    <style>
-        .ksg-btn { min-width: 150px; }
-    </style>
+        {{-- ============================ HEADER ============================ --}}
+        <div class="card bg-white border-0 rounded-3 mb-4">
+            <div class="card-body p-4">
+                <nav aria-label="breadcrumb" class="mb-3">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="{{ route('admin.tahap.index') }}">Visitasi</a></li>
+                        <li class="breadcrumb-item active">Kesanggupan &amp; Pasangan Asesor — {{ $tahap->tahap }}</li>
+                    </ol>
+                </nav>
 
-    <div class="container-fluid">
-        <div class="main-content d-flex flex-column">
-            <div class="card bg-white border-0 rounded-3 mb-4">
-                <div class="card-body p-4">
-                    {{-- Flash messages --}}
-                    @if (session('success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            {{ session('success') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    @endif
-                    @if (session('error'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            {{ session('error') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    @endif
-
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div>
-                            <h1 class="mb-0">Kesanggupan</h1>
-
-                            <div class="text-secondary">
-                                Tahap {{ $tahap->tahap }} | SK: {{ $tahap->surat_keputusan }}
-                            </div>
-                        </div>
-
-                        {{-- Generate form: posts to admin.kesanggupan.generate-teams --}}
-                        @if($tahap->end_date && $tahap->end_date->lte(now()))
-                            @if(!$run)
-                                <form action="{{ route('admin.kesanggupan.generate-teams', ['tahap' => $tahap->slug]) }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="team_size" value="2">
-                                    <button type="submit" class="btn btn-primary fw-medium text-white py-2 px-4 rounded-pill">Generate Draft Teams</button>
-                                </form>
-                            @elseif($run->status === 'draft')
-                                <form action="{{ route('admin.kesanggupan.generate-teams', ['tahap' => $tahap->slug]) }}" method="POST" onsubmit="return confirm('Generate ulang akan mengganti draft saat ini. Lanjutkan?');">
-                                    @csrf
-                                    <input type="hidden" name="team_size" value="2">
-                                    <button type="submit" class="btn btn-outline-primary fw-medium py-2 px-4 rounded-pill">Regenerate Draft Teams</button>
-                                </form>
-                            @else
-                                <div class="text-muted small">Tahap ini sudah difinalisasi (Run #{{ $run->id }}). Untuk mengubah, buka kembali run.</div>
-                                <form action="{{ route('admin.kesanggupan.team-draft.reopen', ['tahap' => $tahap->slug]) }}" method="POST" class="d-inline ms-2" onsubmit="return confirm('Buka kembali run final ini? Final teams akan dihapus dan draft akan dikembalikan sebagai draft.');">
-                                    @csrf
-                                    <input type="hidden" name="run_id" value="{{ $run->id }}">
-                                    <button type="submit" class="btn btn-warning btn-sm">Re-open Final</button>
-                                </form>
+                <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+                    <div>
+                        <h4 class="mb-1">Kesanggupan &amp; Pasangan Asesor</h4>
+                        <p class="text-muted mb-0 fs-14">
+                            {{ $tahap->tahap }} &middot; SK: {{ $tahap->surat_keputusan }}
+                        </p>
+                        <div class="d-flex flex-wrap gap-2 mt-2">
+                            <span class="badge bg-light text-dark border">Periode: {{ optional($tahap->start_date)->translatedFormat('d M Y') ?? '-' }} — {{ optional($tahap->end_date)->translatedFormat('d M Y') ?? '-' }}</span>
+                            <span class="badge bg-{{ $mode === 'final' ? 'success' : ($mode === 'draft' ? 'warning text-dark' : 'secondary') }}">Pasangan: {{ $modeLabel }}</span>
+                            @if($locked)
+                                <span class="badge bg-danger">
+                                    <i class="material-symbols-outlined align-middle" style="font-size:16px">lock</i>
+                                    Data terkunci — {{ optional($tahap->pairing_locked_at)->translatedFormat('d M Y H:i') }}
+                                </span>
                             @endif
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-2 ksg-actions">
+                        <a href="{{ route('admin.tahap.generation.index', ['tahap' => $tahap->slug]) }}" class="btn btn-outline-secondary">
+                            <i class="material-symbols-outlined align-middle" style="font-size:18px">hub</i>
+                            Pairing Lembaga
+                        </a>
+
+                        @if($locked)
+                            <form method="POST" action="{{ route('admin.tahap.generation.unlock', ['tahap' => $tahap->slug]) }}">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-danger">
+                                    <i class="material-symbols-outlined align-middle" style="font-size:18px">lock_open</i>
+                                    Buka Kunci
+                                </button>
+                            </form>
                         @else
-                            <div class="text-muted small">
-                                Generate teams hanya bisa dilakukan setelah tahap selesai. End date: {{ $tahap->end_date?->format('d M Y H:i') ?? 'N/A' }}
-                            </div>
+                            <form method="POST" action="{{ route('admin.tahap.pairing.generate', ['tahap' => $tahap->slug]) }}"
+                                  onsubmit="return konfirmasiGenerate();">
+                                @csrf
+                                <input type="hidden" name="reset_pairing" value="1">
+                                <button type="submit" class="btn btn-success" {{ $canGenerate ? '' : 'disabled' }}
+                                        title="{{ $canGenerate ? 'Pasangkan asesor otomatis sesuai kriteria kesanggupan, gender, dan kab/kota' : 'Generate tersedia setelah masa tahap berakhir' }}">
+                                    <i class="material-symbols-outlined align-middle" style="font-size:18px">bolt</i>
+                                    Generate Pasangan Asesor
+                                </button>
+                            </form>
+                            <form method="POST" action="{{ route('admin.tahap.generation.lock', ['tahap' => $tahap->slug]) }}"
+                                  onsubmit="return confirm('Kunci data pasangan? Setelah dikunci, data tidak bisa diubah sampai dibuka kembali.');">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-warning">
+                                    <i class="material-symbols-outlined align-middle" style="font-size:18px">lock</i>
+                                    Kunci Data
+                                </button>
+                            </form>
                         @endif
                     </div>
+                </div>
 
-                    {{-- If a run exists, show draft overview --}}
-                    @if(isset($run) && $run)
-                        <div class="card mb-4 border-1">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <div>
-                                        <strong>Draft Run:</strong> #{{ $run->id }} — status: <span class="badge bg-{{ $isFinal ? 'secondary' : 'warning' }} text-dark">{{ ucfirst($run->status) }}</span>
-                                        <div class="text-muted small">Dibuat oleh: {{ optional($run->created_by ? \App\Models\User::find($run->created_by) : null)->name ?? '-' }} | {{ $run->created_at?->format('d M Y H:i') }}</div>
-                                        @if(!$isFinal && count($unmatched ?? []) > 0)
-                                            <div class="text-danger small">Belum bisa Finalize: masih ada {{ count($unmatched) }} user yang belum ter-assign.</div>
-                                        @endif
-                                    </div>
-                                    <div class="d-flex gap-2">
-                                        {{-- Download, Upload, Cancel, Finalize forms --}}
-                                        @if(!$isFinal)
-                                            <a href="{{ route('admin.kesanggupan.team-draft.download', ['tahap' => $tahap->slug]) }}" class="btn btn-outline-secondary btn-sm ksg-btn">Download Excel (.xlsx)</a>
+                @unless($canGenerate)
+                    <div class="alert alert-light border mt-3 mb-0 py-2 fs-13">
+                        <i class="material-symbols-outlined align-middle" style="font-size:16px">info</i>
+                        Generate pasangan asesor hanya dapat dijalankan setelah masa tahap berakhir
+                        (end date: {{ optional($tahap->end_date)->translatedFormat('d M Y H:i') ?? 'belum ditentukan' }}).
+                    </div>
+                @endunless
 
-                                            <form action="{{ route('admin.kesanggupan.team-draft.upload', ['tahap' => $tahap->slug]) }}" method="POST" enctype="multipart/form-data" class="d-inline-block ms-2">
-                                                @csrf
-                                                <input type="hidden" name="run_id" value="{{ $run->id }}">
-                                                <label class="btn btn-outline-primary btn-sm mb-0 ksg-btn">Upload CSV<input type="file" name="file" accept=".csv" onchange="this.form.submit()" hidden></label>
-                                            </form>
+                {{-- Statistik ringkas --}}
+                <div class="d-flex flex-wrap gap-2 mt-3">
+                    <div class="ksg-stat badge bg-light text-dark border text-start px-3 py-2">
+                        <div class="ksg-value">{{ number_format($stats['bersedia']) }}</div>
+                        <div class="ksg-label">Bersedia</div>
+                    </div>
+                    <div class="ksg-stat badge bg-light text-dark border text-start px-3 py-2">
+                        <div class="ksg-value">{{ number_format($stats['tidak_bisa']) }}</div>
+                        <div class="ksg-label">Tidak Bisa</div>
+                    </div>
+                    <div class="ksg-stat badge bg-light text-dark border text-start px-3 py-2">
+                        <div class="ksg-value">{{ number_format($stats['belum_mengisi']) }}</div>
+                        <div class="ksg-label">Belum Mengisi</div>
+                    </div>
+                    <div class="ksg-stat badge bg-light text-dark border text-start px-3 py-2">
+                        <div class="ksg-value">{{ number_format($stats['tim']) }}</div>
+                        <div class="ksg-label">Tim / Pasangan</div>
+                    </div>
+                    <div class="ksg-stat badge {{ $stats['belum_terpasang'] > 0 ? 'bg-warning text-dark' : 'bg-light text-dark border' }} text-start px-3 py-2">
+                        <div class="ksg-value">{{ number_format($stats['belum_terpasang']) }}</div>
+                        <div class="ksg-label">Asesor Bersedia Belum Terpasang</div>
+                    </div>
+                    <div class="ksg-stat badge bg-light text-dark border text-start px-3 py-2">
+                        <div class="ksg-value">{{ number_format($stats['lembaga_terpasang']) }} / {{ number_format($stats['lembaga_tahap']) }}</div>
+                        <div class="ksg-label">Lembaga Terpasang</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                                            <form action="{{ route('admin.kesanggupan.team-draft.cancel', ['tahap' => $tahap->slug]) }}" method="POST" class="d-inline ms-2" onsubmit="return confirm('Batalkan draft ini? Semua data draft akan dihapus');">
-                                                @csrf
-                                                <input type="hidden" name="run_id" value="{{ $run->id }}">
-                                                <button type="submit" class="btn btn-outline-danger btn-sm ksg-btn">Cancel Draft</button>
-                                            </form>
+        {{-- ====================== PASANGAN ASESOR ====================== --}}
+        <div class="card bg-white border-0 rounded-3 mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+                    <div>
+                        <h5 class="fw-semibold mb-1">Pasangan Asesor (Tim)</h5>
+                        <p class="text-muted fs-13 mb-0">
+                            Hasil pembagian tim asesor untuk tahap ini. Ubah pasangan secara manual
+                            (@if(!$locked) klik ikon <span class="material-symbols-outlined align-middle" style="font-size:14px">edit</span> di samping NIA @else data terkunci @endif)
+                            atau melalui unduh &rarr; edit &rarr; upload Excel.
+                        </p>
+                    </div>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="{{ $downloadUrl }}" class="btn btn-sm btn-outline-success">
+                            <i class="material-symbols-outlined align-middle" style="font-size:16px">download</i>
+                            Download Excel
+                        </a>
+                    </div>
+                </div>
 
-                                            {{-- Finalize form --}}
-                                            <form action="{{ route('admin.kesanggupan.finalize-teams', ['tahap' => $tahap->slug]) }}" method="POST" onsubmit="return confirm('Finalize teams? Setelah difinalisasi tidak dapat diubah.');" class="ms-2">
-                                                @csrf
-                                                <input type="hidden" name="run_id" value="{{ $run->id }}">
-                                                <button type="submit" class="btn btn-success btn-sm ksg-btn" {{ (count($unmatched ?? []) > 0) ? 'disabled' : '' }}>Finalize Teams</button>
-                                            </form>
-                                        @else
-                                            <div class="text-muted small">Draft telah difinalisasi. Semua kontrol pengeditan dinonaktifkan.</div>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                {{-- Teams list --}}
-                                <div class="mb-3">
-                                    <h5>Draft Teams</h5>
-                                    @forelse($teams as $team)
-                                        <div class="card mb-2">
-                                            <div class="card-body d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    <strong>{{ $team->team_code ?? ('Team ' . $team->id) }}</strong>
-                                                    <div class="small text-muted">Anggota: {{ $team->members->count() }} (max 3)</div>
-                                                </div>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    {{-- Assign dropdown + button --}}
-                                                    @if(!$isFinal)
-                                                        <form action="{{ route('admin.kesanggupan.team-draft.assign', ['tahap' => $tahap->slug]) }}" method="POST" class="d-flex gap-2 align-items-center">
-                                                            @csrf
-                                                            <input type="hidden" name="run_id" value="{{ $run->id }}">
-                                                            <input type="hidden" name="team_id" value="{{ $team->id }}">
-                                                            <select name="user_id" class="form-select form-select-sm" style="min-width:220px;">
-                                                                <option value="">-- Pilih Unmatched --</option>
-                                                                @foreach($unmatched as $u)
-                                                                    <option value="{{ $u->id }}">{{ $u->name }} — {{ $u->email }} ({{ $u->detail->work_city ?? '-' }})</option>
-                                                                @endforeach
-                                                            </select>
-                                                            <button type="submit" class="btn btn-primary btn-sm">Assign</button>
-                                                        </form>
-                                                    @else
-                                                        <div class="text-muted small">Assign dinonaktifkan (final run)</div>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <div class="card-footer bg-light">
-                                                <div class="row">
-                                                    @foreach($team->members as $member)
-                                                        <div class="col-md-4 mb-2">
-                                                            <div class="d-flex justify-content-between align-items-center">
-                                                                <div>
-                                                                    <strong>{{ $member->user->nia ?? '' }} - {{ $member->user->name ?? '-' }}</strong>
-                                                                    <div class="small text-muted">{{ $member->user->email ?? '-' }} | {{ $member->user->detail->work_city ?? '-' }}</div>
-                                                                    <div class="small text-muted">Kesanggupan: {{ \App\Models\Kesanggupan::where('tahap_id', $run->tahap_id)->where('user_id', $member->user->id)->value('kesanggupan') ?? '-' }}</div>
-                                                                </div>
-                                                                <div>
-                                                                    {{-- Unassign button --}}
-                                                                    @if(!$isFinal)
-                                                                        <form action="{{ route('admin.kesanggupan.team-draft.unassign', ['tahap' => $tahap->slug]) }}" method="POST" onsubmit="return confirm('Remove member from team?');">
-                                                                            @csrf
-                                                                            <input type="hidden" name="run_id" value="{{ $run->id }}">
-                                                                            <input type="hidden" name="member_id" value="{{ $member->id }}">
-                                                                            <button type="submit" class="btn btn-outline-danger btn-sm">Remove</button>
-                                                                        </form>
-                                                                    @else
-                                                                        <span class="text-muted small">Locked</span>
-                                                                    @endif
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @empty
-                                        <div class="text-muted">Belum ada tim</div>
-                                    @endforelse
-                                </div>
-
-                                {{-- Unmatched list --}}
-                                <div>
-                                    <h5>Unmatched (Belum ter-assign)</h5>
-                                    <div class="table-responsive">
-                                        <table class="table table-sm">
-                                            <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Nama</th>
-                                                <th>Email</th>
-                                                <th>Work City</th>
-                                                <th>Action</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            @forelse($unmatched as $i => $u)
-                                                <tr>
-                                                    <td>{{ $i + 1 }}</td>
-                                                    <td>{{ $u->name }}</td>
-                                                    <td>{{ $u->email }}</td>
-                                                    <td>{{ $u->detail->work_city ?? '-' }}</td>
-                                                    <td>
-                                                        {{-- Create new team + assign --}}
-                                                        @if(!$isFinal)
-                                                            <form action="{{ route('admin.kesanggupan.team-draft.assign', ['tahap' => $tahap->slug]) }}" method="POST" class="d-inline">
-                                                                @csrf
-                                                                <input type="hidden" name="run_id" value="{{ $run->id }}">
-                                                                {{-- Create new team on the fly by leaving team_id empty and controller will create a new team if needed --}}
-                                                                <input type="hidden" name="team_id" value="{{ optional($teams->first())->id ?? '' }}">
-                                                                <input type="hidden" name="user_id" value="{{ $u->id }}">
-                                                                <button type="submit" class="btn btn-sm btn-outline-primary">Assign to First Team</button>
-                                                            </form>
-                                                        @else
-                                                            <span class="text-muted small">Locked</span>
-                                                        @endif
-                                                    </td>
-                                                </tr>
-                                            @empty
-                                                <tr><td colspan="4" class="text-muted">Tidak ada unmatched</td></tr>
-                                            @endforelse
-                                            </tbody>
-                                        </table>
+                @unless($locked)
+                    <div class="card border mb-3">
+                        <div class="card-body py-3">
+                            <div class="row g-2 align-items-center">
+                                <div class="col-lg-5">
+                                    <strong class="fs-14">Upload Pasangan Asesor (Excel / CSV)</strong>
+                                    <div class="text-muted fs-13">
+                                        Unduh <em>Download Excel</em>, ubah kolom <code>NIA Asesor A</code> / <code>NIA Asesor B</code>
+                                        (kosongkan bila slot ingin dikosongkan), lalu upload kembali file yang sama.
                                     </div>
                                 </div>
-
-                            </div>
-                        </div>
-                    @endif
-
-                    {{-- Tabs --}}
-                    <ul class="nav nav-tabs" id="kesanggupanTabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button
-                                class="nav-link active"
-                                id="tab-can"
-                                data-bs-toggle="tab"
-                                data-bs-target="#pane-can"
-                                type="button"
-                                role="tab"
-                                aria-controls="pane-can"
-                                aria-selected="true"
-                            >
-                                Bisa ({{ $can->count() }})
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button
-                                class="nav-link"
-                                id="tab-cannot"
-                                data-bs-toggle="tab"
-                                data-bs-target="#pane-cannot"
-                                type="button"
-                                role="tab"
-                                aria-controls="pane-cannot"
-                                aria-selected="false"
-                            >
-                                Tidak Bisa ({{ $cannot->count() }})
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button
-                                class="nav-link"
-                                id="tab-notfilled"
-                                data-bs-toggle="tab"
-                                data-bs-target="#pane-notfilled"
-                                type="button"
-                                role="tab"
-                                aria-controls="pane-notfilled"
-                                aria-selected="false"
-                            >
-                                Belum Mengisi ({{ $notFilledUsers->count() }})
-                            </button>
-                        </li>
-                    </ul>
-
-                    <div class="tab-content pt-3" id="kesanggupanTabsContent">
-                        {{-- Can --}}
-                        <div class="tab-pane fade show active default-table-area all-products mt-3" id="pane-can" role="tabpanel" aria-labelledby="tab-can" tabindex="0">
-                            <div class="table-responsive">
-                                <table id="kesanggupan-can" class="display table align-middle" style="width:100%">
-                                    <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>NIA</th>
-                                        <th>Nama</th>
-                                        <th>Kab/Kot (Work City)</th>
-                                        <th>Gender</th>
-                                        <th>Tipe Asesor</th>
-                                        <th>Latitude</th>
-                                        <th>Longitude</th>
-                                        <th>Kesanggupan</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @forelse($can as $i => $k)
-                                        @php
-                                            $detail = $k->user?->detail;
-                                        @endphp
-                                        <tr>
-                                            <td>{{ $i + 1 }}</td>
-                                            <td>{{ $k->user->nia ?? '-' }}</td>
-                                            <td>{{ $k->user->name ?? '-' }}</td>
-                                            <td>{{ $detail->work_city ?? '-' }}</td>
-                                            <td>{{ $detail->gender ?? '-' }}</td>
-                                            <td>{{ $detail->type_asesor ?? '-' }}</td>
-                                            <td>{{ $detail->latitude ?? '-' }}</td>
-                                            <td>{{ $detail->longitude ?? '-' }}</td>
-                                            <td>{{ $k->kesanggupan ?? '-' }}</td>
-                                        </tr>
-                                    @empty
-                                        <tr><td colspan="9" class="text-center text-muted">No data.</td></tr>
-                                    @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        {{-- Cannot --}}
-                        <div class="tab-pane fade default-table-area all-products mt-3" id="pane-cannot" role="tabpanel" aria-labelledby="tab-cannot" tabindex="0">
-                            <div class="table-responsive">
-                                <table id="kesanggupan-cannot" class="display table align-middle" style="width:100%">
-                                    <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Nama</th>
-                                        <th>Email</th>
-                                        <th>Kab/Kot (Work City)</th>
-                                        <th>Gender</th>
-                                        <th>Tipe Asesor</th>
-                                        <th>Latitude</th>
-                                        <th>Longitude</th>
-                                        <th>Alasan</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @forelse($cannot as $i => $k)
-                                        @php
-                                            $detail = $k->user?->detail;
-                                        @endphp
-                                        <tr>
-                                            <td>{{ $i + 1 }}</td>
-                                            <td>{{ $k->user->name ?? '-' }}</td>
-                                            <td>{{ $k->user->email ?? '-' }}</td>
-                                            <td>{{ $detail->work_city ?? '-' }}</td>
-                                            <td>{{ $detail->gender ?? '-' }}</td>
-                                            <td>{{ $detail->type_asesor ?? '-' }}</td>
-                                            <td>{{ $detail->latitude ?? '-' }}</td>
-                                            <td>{{ $detail->longitude ?? '-' }}</td>
-                                            <td>{{ $k->alasan ?? '-' }}</td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="9" class="text-center text-muted">No data.</td>
-                                        </tr>
-                                    @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        {{-- Not filled --}}
-                        <div class="tab-pane fade default-table-area all-products mt-3" id="pane-notfilled" role="tabpanel" aria-labelledby="tab-notfilled" tabindex="0">
-                            <div class="table-responsive">
-                                <table id="kesanggupan-notfilled" class="display table align-middle" style="width:100%">
-                                    <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Nama</th>
-                                        <th>Email</th>
-                                        <th>Kab/Kot (Work City)</th>
-                                        <th>Gender</th>
-                                        <th>Tipe Asesor</th>
-                                        <th>Latitude</th>
-                                        <th>Longitude</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @forelse($notFilledUsers as $i => $u)
-                                        @php
-                                            $detail = $u->detail;
-                                        @endphp
-                                        <tr>
-                                            <td>{{ $i + 1 }}</td>
-                                            <td>{{ $u->name }}</td>
-                                            <td>{{ $u->email }}</td>
-                                            <td>{{ $detail->work_city ?? '-' }}</td>
-                                            <td>{{ $detail->gender ?? '-' }}</td>
-                                            <td>{{ $detail->type_asesor ?? '-' }}</td>
-                                            <td>{{ $detail->latitude ?? '-' }}</td>
-                                            <td>{{ $detail->longitude ?? '-' }}</td>
-                                        </tr>
-                                    @empty
-                                        <tr><td colspan="8" class="text-center text-muted">No data.</td></tr>
-                                    @endforelse
-                                    </tbody>
-                                </table>
+                                <div class="col-lg-7">
+                                    <form method="POST" action="{{ $uploadUrl }}" enctype="multipart/form-data"
+                                          class="d-flex gap-2 flex-wrap"
+                                          onsubmit="return confirm('Terapkan pasangan asesor dari file ini? Pasangan pada file akan menggantikan data saat ini.');">
+                                        @csrf
+                                        <input type="file" name="file" accept=".csv,.txt,.xlsx" class="form-control form-control-sm" style="max-width:340px" required>
+                                        <button type="submit" class="btn btn-sm btn-primary text-nowrap">Upload &amp; Terapkan</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div> {{-- card-body --}}
+                @endunless
+
+                @if(!$hasPairs)
+                    <div class="alert alert-light border mb-0">
+                        Belum ada pasangan asesor pada tahap ini.
+                        @if($canGenerate && !$locked)
+                            Klik <strong>Generate Pasangan Asesor</strong> untuk membentuk tim secara otomatis.
+                        @endif
+                    </div>
+                @else
+                    <div class="table-responsive">
+                        <table id="pairs-table" class="display table table-sm align-middle" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th style="width:48px">No</th>
+                                    <th>Tim</th>
+                                    <th>NIA A</th>
+                                    <th>Nama Asesor A</th>
+                                    <th>Kab/Kota A</th>
+                                    <th>Kes.</th>
+                                    <th>NIA B</th>
+                                    <th>Nama Asesor B</th>
+                                    <th>Kab/Kota B</th>
+                                    <th>Kes.</th>
+                                    <th>Lembaga</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                @endif
+            </div>
+        </div>
+
+        {{-- ================= ASESOR BERSEDIA BELUM TERPASANG ================= --}}
+        <div class="card bg-white border-0 rounded-3 mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                    <div>
+                        <h5 class="fw-semibold mb-1">Asesor Bersedia Belum Terpasang</h5>
+                        <p class="text-muted fs-13 mb-0">Asesor yang menyatakan bersedia tetapi belum masuk tim mana pun.</p>
+                    </div>
+                    <span class="badge bg-warning text-dark px-3 py-2">{{ number_format($stats['belum_terpasang']) }} asesor</span>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="unmatched-table" class="display table table-sm align-middle" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th style="width:48px">No</th>
+                                <th>NIA</th>
+                                <th>Nama</th>
+                                <th>Email</th>
+                                <th>Kab/Kota</th>
+                                <th>Gender</th>
+                                <th>Kesanggupan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        {{-- ==================== DATA KESANGGUPAN ASESOR ==================== --}}
+        <div class="card bg-white border-0 rounded-3 mb-4">
+            <div class="card-body p-4">
+                <h5 class="fw-semibold mb-1">Data Kesanggupan Asesor</h5>
+                <p class="text-muted fs-13 mb-3">Rekap isian form kesanggupan pada tahap ini.</p>
+
+                <ul class="nav nav-tabs" id="kesanggupanTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="tab-bisa" data-bs-toggle="tab" data-bs-target="#pane-bisa"
+                                type="button" role="tab" aria-controls="pane-bisa" aria-selected="true">
+                            Bersedia ({{ number_format($stats['bersedia']) }})
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="tab-tidak" data-bs-toggle="tab" data-bs-target="#pane-tidak"
+                                type="button" role="tab" aria-controls="pane-tidak" aria-selected="false">
+                            Tidak Bisa ({{ number_format($stats['tidak_bisa']) }})
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="tab-belum" data-bs-toggle="tab" data-bs-target="#pane-belum"
+                                type="button" role="tab" aria-controls="pane-belum" aria-selected="false">
+                            Belum Mengisi ({{ number_format($stats['belum_mengisi']) }})
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content pt-3" id="kesanggupanTabsContent">
+                    <div class="tab-pane fade show active" id="pane-bisa" role="tabpanel" aria-labelledby="tab-bisa" tabindex="0">
+                        <div class="table-responsive">
+                            <table id="table-bisa" class="display table table-sm align-middle" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th style="width:48px">No</th>
+                                        <th>NIA</th>
+                                        <th>Nama</th>
+                                        <th>Email</th>
+                                        <th>Kab/Kota</th>
+                                        <th>Gender</th>
+                                        <th>Tipe Asesor</th>
+                                        <th>Kesanggupan</th>
+                                        <th>Tim</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pane-tidak" role="tabpanel" aria-labelledby="tab-tidak" tabindex="0">
+                        <div class="table-responsive">
+                            <table id="table-tidak" class="display table table-sm align-middle" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th style="width:48px">No</th>
+                                        <th>NIA</th>
+                                        <th>Nama</th>
+                                        <th>Email</th>
+                                        <th>Kab/Kota</th>
+                                        <th>Gender</th>
+                                        <th>Tipe Asesor</th>
+                                        <th>Alasan</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pane-belum" role="tabpanel" aria-labelledby="tab-belum" tabindex="0">
+                        <div class="table-responsive">
+                            <table id="table-belum" class="display table table-sm align-middle" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th style="width:48px">No</th>
+                                        <th>NIA</th>
+                                        <th>Nama</th>
+                                        <th>Email</th>
+                                        <th>Kab/Kota</th>
+                                        <th>Gender</th>
+                                        <th>Tipe Asesor</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{{-- ======================= MODAL: PILIH ASESOR ======================= --}}
+<div class="modal fade" id="asesor-modal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="asesor-modal-title">Pilih Asesor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted fs-13 mb-2" id="asesor-modal-hint">
+                    Hanya asesor yang menyatakan <strong>bersedia</strong> pada tahap ini.
+                    Memilih asesor yang sudah punya tim akan menukar posisinya dengan asesor yang tergeser.
+                </p>
+                <div class="table-responsive">
+                    <table id="asesor-table" class="display table table-sm align-middle" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>NIA</th>
+                                <th>Nama</th>
+                                <th>Kab/Kota</th>
+                                <th>Kes.</th>
+                                <th>Tim</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
+</div>
+
+{{-- ==================== MODAL: PASANGKAN KE TIM ==================== --}}
+<div class="modal fade" id="team-modal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Pasangkan Asesor ke Tim</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted fs-13 mb-2" id="team-modal-hint"></p>
+                @if(count($teamOptions) === 0)
+                    <div class="alert alert-warning py-2 mb-0 fs-13">
+                        Belum ada tim pada tahap ini. Jalankan <strong>Generate Pasangan Asesor</strong> terlebih dahulu.
+                    </div>
+                @else
+                    <label class="form-label fs-14">Pilih tim tujuan</label>
+                    <select class="form-select form-select-sm" id="team-modal-select">
+                        <option value="">— pilih tim —</option>
+                        @foreach($teamOptions as $opt)
+                            <option value="{{ $opt['id'] }}">{{ $opt['code'] }} — {{ $opt['info'] }}</option>
+                        @endforeach
+                    </select>
+                @endif
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-sm btn-primary" id="team-modal-submit" {{ count($teamOptions) === 0 ? 'disabled' : '' }}>Pasangkan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- Toast container --}}
+<div class="toast-container position-fixed top-0 end-0 p-3" id="toast-container" style="z-index:1080"></div>
 @endsection
 
 @push('scripts')
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
-    {{-- Bootstrap bundle sudah dimuat oleh layout/partial, jangan load ulang di halaman --}}
     <script>
+        const LOCKED = @json($locked);
+        const HAS_LEMBAGA_PAIRING = {{ (int) $stats['lembaga_terpasang'] > 0 ? 'true' : 'false' }};
+
+        function konfirmasiGenerate() {
+            if (HAS_LEMBAGA_PAIRING) {
+                return confirm('Tahap ini sudah memiliki pasangan tim ↔ lembaga.\n\nGenerate ulang akan MENGHAPUS seluruh pemetaan lembaga tersebut sehingga admin harus menjalankan Auto-Match lagi.\n\nLanjutkan?');
+            }
+
+            return confirm('Bentuk ulang pasangan asesor sesuai kriteria kesanggupan, gender, dan kab/kota?');
+        }
+
         $(function () {
-            if (!$.fn || !$.fn.DataTable) return;
+            const csrf = '{{ csrf_token() }}';
+            const pairsUrl = "{{ route('admin.tahap.pairing.data', ['tahap' => $tahap->slug]) }}";
+            const unmatchedUrl = "{{ route('admin.tahap.pairing.unmatched', ['tahap' => $tahap->slug]) }}";
+            const asesorOptionsUrl = "{{ route('admin.tahap.pairing.asesor-options', ['tahap' => $tahap->slug]) }}";
+            const setSlotUrl = "{{ route('admin.tahap.pairing.set-slot', ['tahap' => $tahap->slug]) }}";
+            const addMemberUrl = "{{ route('admin.tahap.pairing.add-member', ['tahap' => $tahap->slug]) }}";
+            const removeMemberUrl = "{{ route('admin.tahap.pairing.remove-member', ['tahap' => $tahap->slug]) }}";
+            const bisaUrl = "{{ route('admin.tahap.kesanggupan.bisa', ['tahap' => $tahap->slug]) }}";
+            const tidakUrl = "{{ route('admin.tahap.kesanggupan.tidak-bisa', ['tahap' => $tahap->slug]) }}";
+            const belumUrl = "{{ route('admin.tahap.kesanggupan.belum-mengisi', ['tahap' => $tahap->slug]) }}";
 
-            const options = {
-                pageLength: 10,
-                autoWidth: false,
-                // penting: jangan destroy wrapper saat pindah tab
-                destroy: false,
-                retrieve: true,
+            // ---------------------- Helper ----------------------
+            function esc(s) {
+                return String(s ?? '').replace(/[&<>"']/g, c => ({
+                    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+                }[c]));
+            }
+
+            function showToast(title, message, type) {
+                if (!message) return;
+                type = type || 'success';
+                const box = document.getElementById('toast-container');
+                if (!box) return;
+                const el = document.createElement('div');
+                el.className = 'toast align-items-center text-bg-' + type + ' border-0 show';
+                el.innerHTML = '<div class="d-flex">'
+                    + '<div class="toast-body"><strong>' + esc(title) + '</strong>'
+                    + '<div class="fs-14">' + message + '</div></div>'
+                    + '<button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>'
+                    + '</div>';
+                box.appendChild(el);
+                new bootstrap.Toast(el, { delay: 8000 }).show();
+                el.addEventListener('hidden.bs.toast', () => el.remove());
+            }
+
+            const flash = {
+                success: @json(session('success')),
+                error: @json(session('error')),
+                info: @json(session('info')),
             };
+            if (flash.success) showToast('Sukses', flash.success, 'success');
+            else if (flash.error) showToast('Gagal', flash.error, 'danger');
+            else if (flash.info) showToast('Info', flash.info, 'info');
 
-            function initOnce(selector) {
-                const $el = $(selector);
-                if (!$el.length) return;
+            function numbering(col) {
+                return function (settings) {
+                    this.api().column(col, { search: 'applied', order: 'applied' }).nodes()
+                        .each(function (cell, i) { cell.innerHTML = settings._iDisplayStart + i + 1; });
+                };
+            }
 
-                // Jangan init ulang kalau sudah pernah
-                if ($.fn.DataTable.isDataTable($el)) return;
+            function emptyCell(data, type) {
+                if (type !== 'display') return data;
+                return (data === null || data === undefined || data === '') ? '<span class="text-muted">—</span>' : esc(data);
+            }
 
-                // Pastikan tbody punya struktur kolom konsisten
-                const colCount = $el.find('thead th').length;
-                $el.find('tbody tr').each(function () {
-                    const tdCount = $(this).children('td').length;
-                    if (tdCount > 0 && tdCount !== colCount) {
-                        $(this).remove();
-                    }
+            function niaEditCell(slot) {
+                return function (data, type, row) {
+                    if (type !== 'display') return data;
+                    const text = data ? esc(data) : '<span class="text-muted">—</span>';
+                    if (LOCKED) return text;
+                    return '<div class="d-flex align-items-center gap-1">' + text
+                        + '<button type="button" class="btn btn-link btn-sm p-0 btn-pilih-asesor"'
+                        + ' data-team="' + row.team_id + '" data-slot="' + slot + '"'
+                        + ' title="Ubah asesor ' + slot.toUpperCase() + '"><span class="material-symbols-outlined align-middle" style="font-size:16px">edit</span></button></div>';
+                };
+            }
+
+            function ajaxPost(url, payload, onDone) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: Object.assign({ _token: csrf }, payload),
+                    dataType: 'json',
+                }).done(function (res) {
+                    onDone(null, res);
+                }).fail(function (xhr) {
+                    const res = xhr.responseJSON || {};
+                    onDone(res.message || 'Terjadi kesalahan.', null);
                 });
-
-                $el.DataTable(options);
             }
 
-            function adjustVisible() {
-                // adjust hanya untuk tabel yg sudah di-init
-                $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+            // ------------------ DataTable: Pasangan Asesor ------------------
+            let pairsTable = null;
+            if ($.fn && $.fn.DataTable && $('#pairs-table').length) {
+                pairsTable = $('#pairs-table').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: { url: pairsUrl, type: 'GET' },
+                    pageLength: 10,
+                    order: [[1, 'asc']],
+                    columns: [
+                        { data: null, render: function () { return ''; }, orderable: false, searchable: false },
+                        { data: 'code', render: function (data, type, row) {
+                            if (type !== 'display') return data;
+                            const badge = row.anggota > 2
+                                ? ' <span class="badge bg-info text-dark" title="' + esc(row.anggota_title) + '">' + row.anggota + ' asesor</span>'
+                                : '';
+                            return esc(data) + badge;
+                        } },
+                        { data: 'nia_a', render: niaEditCell('a') },
+                        { data: 'nama_a', render: emptyCell },
+                        { data: 'kota_a', render: emptyCell },
+                        { data: 'kes_a', render: emptyCell },
+                        { data: 'nia_b', render: niaEditCell('b') },
+                        { data: 'nama_b', render: emptyCell },
+                        { data: 'kota_b', render: emptyCell },
+                        { data: 'kes_b', render: emptyCell },
+                        { data: 'lembaga' },
+                        { data: 'action', orderable: false, searchable: false },
+                    ],
+                    language: { emptyTable: 'Belum ada pasangan asesor.' },
+                    drawCallback: numbering(0),
+                });
             }
 
-            // Init semua tabel sekali di awal (aman, tabel di tab tersembunyi tetap boleh di-init)
-            initOnce('#kesanggupan-can');
-            initOnce('#kesanggupan-cannot');
-            initOnce('#kesanggupan-notfilled');
+            // ------------------ DataTable: Belum Terpasang ------------------
+            let unmatchedTable = null;
+            if ($.fn && $.fn.DataTable && $('#unmatched-table').length) {
+                unmatchedTable = $('#unmatched-table').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: { url: unmatchedUrl, type: 'GET' },
+                    pageLength: 10,
+                    order: [[2, 'asc']],
+                    columns: [
+                        { data: null, render: function () { return ''; }, orderable: false, searchable: false },
+                        { data: 'nia', render: emptyCell },
+                        { data: 'name' },
+                        { data: 'email', render: emptyCell },
+                        { data: 'kota', render: emptyCell },
+                        { data: 'gender', render: emptyCell },
+                        { data: 'kesanggupan', render: emptyCell },
+                        { data: 'action', orderable: false, searchable: false },
+                    ],
+                    language: { emptyTable: 'Semua asesor bersedia sudah terpasang pada tim.' },
+                    drawCallback: numbering(0),
+                });
+            }
 
-            // Saat tab dibuka: cukup adjust kolom
-            document.querySelectorAll('button[data-bs-toggle="tab"]').forEach((btn) => {
-                btn.addEventListener('shown.bs.tab', () => {
-                    adjustVisible();
+            // ------------------ DataTables: Kesanggupan ------------------
+            function initSimpleTable(selector, url, cols, emptyText) {
+                if (!$.fn || !$.fn.DataTable || !$(selector).length) return null;
+
+                return $(selector).DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: { url: url, type: 'GET' },
+                    pageLength: 10,
+                    order: [[1, 'asc']],
+                    columns: cols,
+                    language: { emptyTable: emptyText },
+                    drawCallback: numbering(0),
+                });
+            }
+
+            // Nomor urut: selalu dibuat baru agar tidak dibagi antar tabel.
+            function noCol() {
+                return { data: null, render: function () { return ''; }, orderable: false, searchable: false };
+            }
+
+            initSimpleTable('#table-bisa', bisaUrl, [
+                noCol(),
+                { data: 'nia', render: emptyCell },
+                { data: 'name' },
+                { data: 'email', render: emptyCell },
+                { data: 'kota', render: emptyCell },
+                { data: 'gender', render: emptyCell },
+                { data: 'tipe', render: emptyCell },
+                { data: 'kesanggupan', render: emptyCell },
+                { data: 'tim', render: emptyCell },
+            ], 'Belum ada asesor yang bersedia.');
+
+            let tidakInited = false;
+            let belumInited = false;
+
+            $('#tab-tidak').on('shown.bs.tab', function () {
+                if (tidakInited) return;
+                tidakInited = true;
+                initSimpleTable('#table-tidak', tidakUrl, [
+                    noCol(),
+                    { data: 'nia', render: emptyCell },
+                    { data: 'name' },
+                    { data: 'email', render: emptyCell },
+                    { data: 'kota', render: emptyCell },
+                    { data: 'gender', render: emptyCell },
+                    { data: 'tipe', render: emptyCell },
+                    { data: 'alasan', render: emptyCell },
+                ], 'Tidak ada asesor yang menolak.');
+            });
+
+            $('#tab-belum').on('shown.bs.tab', function () {
+                if (belumInited) return;
+                belumInited = true;
+                initSimpleTable('#table-belum', belumUrl, [
+                    noCol(),
+                    { data: 'nia', render: emptyCell },
+                    { data: 'name' },
+                    { data: 'email', render: emptyCell },
+                    { data: 'kota', render: emptyCell },
+                    { data: 'gender', render: emptyCell },
+                    { data: 'tipe', render: emptyCell },
+                ], 'Semua asesor sudah mengisi kesanggupan.');
+            });
+
+            // --------------- Modal: pilih / ubah asesor ---------------
+            let asesorTable = null;
+            let asesorCache = null;
+            let ubahCtx = null;
+
+            function openAsesorModal(teamId, slot) {
+                ubahCtx = { team_id: teamId, slot: slot };
+                $('#asesor-modal-title').text('Ubah Asesor ' + slot.toUpperCase() + ' — Tim ini saja');
+
+                if (asesorTable) {
+                    asesorTable.destroy();
+                    asesorTable = null;
+                }
+
+                const init = function (data) {
+                    if (asesorTable) return;
+                    asesorTable = $('#asesor-table').DataTable({
+                        data: data,
+                        pageLength: 10,
+                        order: [[1, 'asc']],
+                        columns: [
+                            { data: 'nia', render: emptyCell },
+                            { data: 'name' },
+                            { data: 'kota', render: emptyCell },
+                            { data: 'kesanggupan', render: emptyCell },
+                            { data: 'tim', render: emptyCell },
+                            { data: null, orderable: false, searchable: false,
+                              render: function (d, type) {
+                                  return type === 'display'
+                                      ? '<button type="button" class="btn btn-sm btn-primary btn-pilih-asesor-row">Pilih</button>'
+                                      : '';
+                              } },
+                        ],
+                        language: { emptyTable: 'Tidak ada asesor bersedia pada tahap ini.' },
+                    });
+                    new bootstrap.Modal(document.getElementById('asesor-modal')).show();
+                };
+
+                if (asesorCache) {
+                    init(asesorCache);
+                    return;
+                }
+
+                $.getJSON(asesorOptionsUrl, function (res) {
+                    asesorCache = res.data || [];
+                    init(asesorCache);
+                }).fail(function () {
+                    showToast('Gagal', 'Tidak dapat memuat daftar asesor.', 'danger');
+                });
+            }
+
+            $(document).on('click', '.btn-pilih-asesor', function () {
+                openAsesorModal($(this).data('team'), $(this).data('slot'));
+            });
+
+            $(document).on('click', '.btn-isi-slot', function () {
+                openAsesorModal($(this).data('team'), $(this).data('slot'));
+            });
+
+            $(document).on('click', '.btn-pilih-asesor-row', function () {
+                if (!asesorTable || !ubahCtx) return;
+                const row = asesorTable.row($(this).closest('tr')).data();
+                if (!row) return;
+
+                const btn = $(this).prop('disabled', true);
+                ajaxPost(setSlotUrl, {
+                    team_id: ubahCtx.team_id,
+                    slot: ubahCtx.slot,
+                    user_id: row.id,
+                }, function (err, res) {
+                    btn.prop('disabled', false);
+                    if (err) {
+                        showToast('Gagal', esc(err), 'danger');
+                        return;
+                    }
+                    showToast('Berhasil', esc(res.message), 'success');
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('asesor-modal'));
+                    if (modal) modal.hide();
+                    asesorCache = null;
+                    if (pairsTable) pairsTable.ajax.reload(null, false);
+                    if (unmatchedTable) unmatchedTable.ajax.reload(null, false);
                 });
             });
 
-            // adjust pertama kali
-            adjustVisible();
+            // --------------- Keluarkan asesor dari tim ---------------
+            $(document).on('click', '.btn-keluarkan', function () {
+                const teamId = $(this).data('team');
+                const userId = $(this).data('user');
+                if (!confirm('Keluarkan asesor ini dari tim? Asesor akan masuk daftar "Belum Terpasang".')) return;
+                ajaxPost(removeMemberUrl, { team_id: teamId, user_id: userId }, function (err, res) {
+                    if (err) { showToast('Gagal', esc(err), 'danger'); return; }
+                    showToast('Berhasil', esc(res.message), 'success');
+                    asesorCache = null;
+                    if (pairsTable) pairsTable.ajax.reload(null, false);
+                    if (unmatchedTable) unmatchedTable.ajax.reload(null, false);
+                });
+            });
+
+            // --------------- Pasangkan asesor ke tim ---------------
+            let pasangkanUser = null;
+
+            $(document).on('click', '.btn-pasangkan', function () {
+                pasangkanUser = { id: $(this).data('user'), name: $(this).closest('tr').find('td').eq(2).text() };
+                $('#team-modal-hint').html('Pasangkan <strong>' + esc(pasangkanUser.name) + '</strong> ke tim tujuan.');
+                $('#team-modal-select').val('');
+                new bootstrap.Modal(document.getElementById('team-modal')).show();
+            });
+
+            $('#team-modal-submit').on('click', function () {
+                const teamId = $('#team-modal-select').val();
+                if (!teamId || !pasangkanUser) {
+                    showToast('Pilih Tim', 'Silakan pilih tim tujuan terlebih dahulu.', 'warning');
+                    return;
+                }
+                const btn = $(this).prop('disabled', true);
+                ajaxPost(addMemberUrl, { team_id: teamId, user_id: pasangkanUser.id }, function (err, res) {
+                    btn.prop('disabled', false);
+                    if (err) { showToast('Gagal', esc(err), 'danger'); return; }
+                    showToast('Berhasil', esc(res.message), 'success');
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('team-modal'));
+                    if (modal) modal.hide();
+                    asesorCache = null;
+                    if (pairsTable) pairsTable.ajax.reload(null, false);
+                    if (unmatchedTable) unmatchedTable.ajax.reload(null, false);
+                });
+            });
         });
     </script>
 @endpush

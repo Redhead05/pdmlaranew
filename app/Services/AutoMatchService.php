@@ -2,17 +2,19 @@
 
 namespace App\Services;
 
+use App\Models\Kesanggupan;
+use App\Models\Lembaga;
+use Illuminate\Support\Collection;
+
 class AutoMatchService
 {
-    /**
-     * Hitung jarak Haversine (km) antara dua koordinat.
-     */
     public static function haversine($lat1, $lon1, $lat2, $lon2)
     {
         $R = 6371;
         $dLat = deg2rad($lat2 - $lat1);
         $dLon = deg2rad($lon2 - $lon1);
         $a = sin($dLat / 2) ** 2 + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * sin($dLon / 2) ** 2;
+
         return $R * 2 * atan2(sqrt($a), sqrt(1 - $a));
     }
 
@@ -21,7 +23,7 @@ class AutoMatchService
      * Anggota/lembaga tanpa koordinat menghasilkan null.
      *
      * @param  iterable  $members  koleksi TeamMember (sudah load user.detail)
-     * @param  \App\Models\Lembaga  $lembaga
+     * @param  Lembaga  $lembaga
      * @return array<int, float|null>
      */
     public static function memberDistances($members, $lembaga)
@@ -33,6 +35,7 @@ class AutoMatchService
             $d = $m->user->detail ?? null;
             if (! $hasLembaga || ! $d || ! $d->latitude || ! $d->longitude) {
                 $distances[] = null;
+
                 continue;
             }
             $distances[] = round(self::haversine((float) $d->latitude, (float) $d->longitude, (float) $lembaga->latitude, (float) $lembaga->longitude), 2);
@@ -43,7 +46,6 @@ class AutoMatchService
 
     /**
      * Jarak tim ke lembaga = nilai maksimum jarak anggota (minimax).
-     * Memastikan lembaga terdekat tidak terlalu jauh bagi anggota mana pun.
      */
     public static function teamDistanceToLembaga($members, $lembaga)
     {
@@ -53,72 +55,130 @@ class AutoMatchService
     }
 
     /**
-     * Pasangkan tim asesor ke lembaga terdekat secara otomatis (minimax).
+     * Kuota tiap tim = nilai kesanggupan terkecil anggota yang menyatakan
+     * kesediaan (kesediaan = true) pada tahap tsb. Tanpa anggota eligible -> 0.
+     * Dihitung dengan SATU query untuk semua tim (menghilangkan N+1).
      *
-     * Algoritma: bangun semua pasangan (tim, lembaga) beserta jarak tim,
-     * urutkan dari terdekat, lalu pasangkan secara greedy sambil menghormati:
-     * - kuota tiap tim (jumlah lembaga maksimal sesuai kesanggupan), dan
-     * - satu lembaga hanya untuk satu tim.
-     *
-     * @param  \Illuminate\Support\Collection  $teams    koleksi Team (sudah load members.user.detail)
-     * @param  \Illuminate\Support\Collection  $lembagas koleksi Lembaga
-     * @return array  daftar ['team' => Team, 'lembaga_id' => int, 'distance_km' => float]
+     * @param  iterable  $teams  koleksi Team yang relasi members-nya sudah di-load
+     * @return array<int, int> map team_id => kuota
      */
-    public static function autoMatch($teams, $lembagas)
+    public static function kuotaMap(int $tahapId, iterable $teams): array
     {
-        // 1. Siapkan deskripsi tiap tim: kuota (koordinat dibaca dari anggota).
+        $map = [];
+        $userTeams = [];
+        foreach ($teams as $team) {
+            $map[$team->id] = null;
+            foreach ($team->members as $m) {
+                if ($m->user) {
+                    $userTeams[$m->user_id][] = $team->id;
+                }
+            }
+        }
+
+        if ($userTeams) {
+            $rows = Kesanggupan::where('tahap_id', $tahapId)
+                ->where('kesediaan', true)
+                ->whereNotNull('kesanggupan')
+                ->whereIn('user_id', array_keys($userTeams))
+                ->pluck('kesanggupan', 'user_id');
+
+            foreach ($rows as $userId => $kuota) {
+                foreach ($userTeams[$userId] ?? [] as $teamId) {
+                    $v = (int) $kuota;
+                    $map[$teamId] = $map[$teamId] === null ? $v : min($map[$teamId], $v);
+                }
+            }
+        }
+
+        foreach ($map as $id => $v) {
+            $map[$id] = $v ?? 0;
+        }
+
+        return $map;
+    }
+
+    /**
+     * Pasangkan tim asesor ke lembaga terdekat secara otomatis (minimax),
+     * versi MEMORI-TERBATAS: greedy per-lembaga -> tim terdekat yang masih
+     * punya kapasitas. Tidak membangun array semua pasangan (tim x lembaga)
+     * lalu usort seperti versi lama, sehingga aman untuk ribuan lembaga x
+     * ratusan tim.
+     *
+     * @param  Collection  $teams  koleksi Team (sudah load members.user.detail)
+     * @param  Collection  $lembagas  koleksi Lembaga
+     * @return array<int, array{team_id:int, lembaga_id:int, distance_km:float}>
+     */
+    public static function autoMatch(Collection $teams, Collection $lembagas): array
+    {
+        $tahapId = $teams->first()?->tahap_id ?? 0;
+        $kuotaMap = self::kuotaMap($tahapId, $teams);
+
+        // Deskripsi tim: koordinat anggota (dari user.detail) + sisa kapasitas.
         $teamDesc = [];
         foreach ($teams as $team) {
-            $kuota = $team->kuota();
+            $kuota = $kuotaMap[$team->id] ?? 0;
             if ($kuota < 1) {
                 continue;
             }
-            $teamDesc[$team->id] = [
-                'team' => $team,
-                'kuota' => $kuota,
-                'used' => 0,
-            ];
+            $coords = [];
+            foreach ($team->members as $m) {
+                $d = $m->user->detail ?? null;
+                if ($d && $d->latitude !== null && $d->longitude !== null) {
+                    $coords[] = [(float) $d->latitude, (float) $d->longitude];
+                }
+            }
+            if (! $coords) {
+                continue;
+            }
+            $teamDesc[$team->id] = ['coords' => $coords, 'remaining' => $kuota];
         }
 
-        // 2. Bangun semua edge (tim -> lembaga) dan urutkan berdasarkan jarak minimax.
-        $edges = [];
-        foreach ($teamDesc as $t) {
-            foreach ($lembagas as $l) {
-                if (! $l->latitude || ! $l->longitude) {
+        if (! $teamDesc) {
+            return [];
+        }
+        $teamIds = array_keys($teamDesc);
+        sort($teamIds);
+
+        $assignments = [];
+        foreach ($lembagas as $l) {
+            if ($l->latitude === null || $l->longitude === null) {
+                continue; // tanpa koordinat tidak bisa dihitung jaraknya
+            }
+            $llat = (float) $l->latitude;
+            $llng = (float) $l->longitude;
+
+            $bestId = null;
+            $bestD = INF;
+            foreach ($teamIds as $tid) {
+                $desc = $teamDesc[$tid];
+                if ($desc['remaining'] <= 0) {
                     continue;
                 }
-                $d = self::teamDistanceToLembaga($t['team']->members, $l);
-                if ($d === null) {
-                    continue;
+                // Jarak tim = max jarak anggota; henti lebih awal bila sudah tidak bisa menang.
+                $mx = 0.0;
+                foreach ($desc['coords'] as $c) {
+                    $d = self::haversine($c[0], $c[1], $llat, $llng);
+                    if ($d > $mx) {
+                        $mx = $d;
+                    }
+                    if ($mx >= $bestD) {
+                        break;
+                    }
                 }
-                $edges[] = [
-                    'team_id' => $t['team']->id,
+                if ($mx < $bestD) {
+                    $bestD = $mx;
+                    $bestId = $tid;
+                }
+            }
+
+            if ($bestId !== null) {
+                $teamDesc[$bestId]['remaining']--;
+                $assignments[] = [
+                    'team_id' => $bestId,
                     'lembaga_id' => $l->id,
-                    'd' => $d,
+                    'distance_km' => round($bestD, 3),
                 ];
             }
-        }
-        usort($edges, fn ($a, $b) => $a['d'] <=> $b['d']);
-
-        // 3. Pasangkan dari jarak terdekat, hormati kuota & keunikan lembaga.
-        $taken = [];
-        $assignments = [];
-        foreach ($edges as $e) {
-            $td = &$teamDesc[$e['team_id']];
-            if ($td['used'] >= $td['kuota']) {
-                continue;
-            }
-            if (isset($taken[$e['lembaga_id']])) {
-                continue;
-            }
-
-            $taken[$e['lembaga_id']] = true;
-            $td['used']++;
-            $assignments[] = [
-                'team' => $td['team'],
-                'lembaga_id' => $e['lembaga_id'],
-                'distance_km' => round($e['d'], 3),
-            ];
         }
 
         return $assignments;

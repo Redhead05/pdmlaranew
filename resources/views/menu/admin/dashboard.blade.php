@@ -45,16 +45,16 @@
                             <div class="col-lg-4 col-sm-4">
                                 <div class="card bg-white border-0 rounded-3 mb-4">
                                     <div class="card-body p-4">
-                                        <span>Total Courses</span>
-                                        <h3 class="mb-0 fs-20">45.6k</h3>
+                                        <span>Jumlah Asesor</span>
+                                        <h3 class="mb-0 fs-20">{{ number_format($totalAsesor) }}</h3>
                                         <div class="py-3">
                                             <div class="wh-77 lh-97 text-center m-auto bg-primary bg-opacity-25 rounded-circle">
-                                                <i class="material-symbols-outlined fs-32 text-primary">auto_stories</i>
+                                                <i class="material-symbols-outlined fs-32 text-primary">group</i>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <span class="fs-12">This Month</span>
-                                            <i class="material-symbols-outlined text-success">timeline</i>
+                                            <span class="fs-12">Total</span>
+                                            <i class="material-symbols-outlined text-success">group</i>
                                         </div>
                                     </div>
                                 </div>
@@ -62,36 +62,92 @@
                             <div class="col-lg-4 col-sm-4">
                                 <div class="card bg-white border-0 rounded-3 mb-4">
                                     <div class="card-body p-4">
-                                        <span>Total Enrolled</span>
-                                        <h3 class="mb-0 fs-20">75k+</h3>
+                                        <span>Sudah Bertugas</span>
+                                        <h3 class="mb-0 fs-20">{{ number_format($sudahBertugas) }}</h3>
                                         <div class="py-3">
                                             <div class="wh-77 lh-97 text-center m-auto bg-primary-div bg-opacity-25 rounded-circle">
-                                                <i class="material-symbols-outlined fs-32 text-primary-div">collections_bookmark</i>
+                                                <i class="material-symbols-outlined fs-32 text-primary-div">task_alt</i>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <span class="fs-12">This Month</span>
+                                            <span class="fs-12">Visitasi</span>
+                                            <i class="material-symbols-outlined text-success">trending_up</i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-4">
+                                <div class="card bg-white border-0 rounded-3 mb-4">
+                                    <div class="card-body p-4">
+                                        <span>Belum Bertugas</span>
+                                        <h3 class="mb-0 fs-20">{{ number_format($belumBertugas) }}</h3>
+                                        <div class="py-3">
+                                            <div class="wh-77 lh-97 text-center m-auto bg-danger bg-opacity-25 rounded-circle">
+                                                <i class="material-symbols-outlined fs-32 text-danger">person_off</i>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="fs-12">Visitasi</span>
                                             <i class="material-symbols-outlined text-danger">trending_down</i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-sm-4">
-                                <div class="card bg-white border-0 rounded-3 mb-4">
-                                    <div class="card-body p-4">
-                                        <span>Total Mentors</span>
-                                        <h3 class="mb-0 fs-20">1.5k</h3>
-                                        <div class="py-3">
-                                            <div class="wh-77 lh-97 text-center m-auto bg-danger bg-opacity-25 rounded-circle">
-                                                <i class="material-symbols-outlined fs-32 text-danger">group</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-xxl-12">
+                        <div class="card bg-white border-0 rounded-3 mb-4">
+                            <div class="card-body p-4">
+                                <h3 class="mb-3">KPI Penyelesaian Ticket Support</h3>
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-4 col-sm-4 mb-3">
+                                        <a href="{{ route('admin.ticket.index', ['status' => 'open']) }}" class="text-decoration-none">
+                                            <div class="card bg-warning bg-opacity-25 border-0 rounded-3">
+                                                <div class="card-body p-4 text-center">
+                                                    <h3 class="mb-0 fs-20 text-dark">{{ $ticketOpen }}</h3>
+                                                    <span class="text-body">Tiket Open</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <span class="fs-12">This Month</span>
-                                            <i class="material-symbols-outlined text-success">trending_up</i>
-                                        </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-4 mb-3">
+                                        <a href="{{ route('admin.ticket.index', ['status' => 'in_progress']) }}" class="text-decoration-none">
+                                            <div class="card bg-primary bg-opacity-25 border-0 rounded-3">
+                                                <div class="card-body p-4 text-center">
+                                                    <h3 class="mb-0 fs-20 text-primary">{{ $ticketInProgress }}</h3>
+                                                    <span class="text-body">Tiket Diproses</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-4 mb-3">
+                                        <a href="{{ route('admin.ticket.index', ['status' => 'closed']) }}" class="text-decoration-none">
+                                            <div class="card bg-success bg-opacity-25 border-0 rounded-3">
+                                                <div class="card-body p-4 text-center">
+                                                    <h3 class="mb-0 fs-20 text-success">{{ $ticketClosed }}</h3>
+                                                    <span class="text-body">Tiket Selesai</span>
+                                                </div>
+                                            </div>
+                                        </a>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-xxl-12">
+                        <div class="card bg-white border-0 rounded-3 mb-4">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
+                                    <h3 class="mb-0">Kalender</h3>
+                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#calendarEventModal">
+                                        <i class="material-symbols-outlined align-middle" style="font-size:18px">add</i> Tambah Event
+                                    </button>
+                                </div>
+                                <div id="dashboard-calendar"></div>
                             </div>
                         </div>
                     </div>
@@ -1276,4 +1332,61 @@
         </div>
     </div>
     <!-- Start Main Content Area -->
+{{-- Modal tambah event kalender --}}
+<div class="modal fade" id="calendarEventModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{ route('admin.calendar.store') }}" method="POST">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Event Kalender</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label fs-14">Judul Event</label>
+                        <input type="text" name="title" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fs-14">Tanggal Mulai</label>
+                        <input type="date" name="start_date" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fs-14">Tanggal Selesai (opsional — kosongkan untuk 1 hari)</label>
+                        <input type="date" name="end_date" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
+
+@push('scripts')
+<script>
+$(function () {
+    var el = document.getElementById('dashboard-calendar');
+    if (!el || !window.FullCalendar) return;
+    var cal = new FullCalendar.Calendar(el, {
+        initialView: 'dayGridMonth',
+        height: 'auto',
+        headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,listMonth' },
+        events: "{{ route('admin.calendar.events') }}",
+        eventClick: function (info) {
+            if (confirm('Hapus event ini?')) {
+                fetch("{{ route('admin.calendar.destroy', ':id') }}".replace(':id', info.event.id), {
+                    method: 'POST',
+                    headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
+                    body: new URLSearchParams({ _method: 'DELETE' })
+                }).then(function () { info.event.remove(); });
+            }
+        }
+    });
+    cal.render();
+});
+</script>
+@endpush

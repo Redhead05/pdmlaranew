@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Tahap extends Model
@@ -19,16 +19,19 @@ class Tahap extends Model
         'start_date',
         'end_date',
         'slug',
+        'pairing_locked_at',
+        'pairing_locked_by',
     ];
 
     protected $casts = [
         'allowed_kesanggupan' => 'array',
         'start_date' => 'datetime',
         'end_date' => 'datetime',
+        'pairing_locked_at' => 'datetime',
         'deleted_at' => 'datetime',
     ];
 
-    //collection rellationship
+    // collection rellationship
     public function kesanggupans(): HasMany
     {
         return $this->hasMany(Kesanggupan::class, 'tahap_id');
@@ -39,7 +42,7 @@ class Tahap extends Model
      */
     public function lembagas()
     {
-        return $this->belongsToMany(\App\Models\Lembaga::class, 'lembaga_tahap', 'tahap_id', 'lembaga_id')->withTimestamps();
+        return $this->belongsToMany(Lembaga::class, 'lembaga_tahap', 'tahap_id', 'lembaga_id')->withTimestamps();
     }
 
     /**
@@ -47,7 +50,7 @@ class Tahap extends Model
      */
     public function teams(): HasMany
     {
-        return $this->hasMany(\App\Models\Team::class, 'tahap_id');
+        return $this->hasMany(Team::class, 'tahap_id');
     }
 
     /**
@@ -55,7 +58,7 @@ class Tahap extends Model
      */
     public function generationRuns(): HasMany
     {
-        return $this->hasMany(\App\Models\TeamGenerationRun::class, 'tahap_id');
+        return $this->hasMany(TeamGenerationRun::class, 'tahap_id');
     }
 
     /**
@@ -73,11 +76,11 @@ class Tahap extends Model
     {
         static::creating(function ($model) {
             if (empty($model->slug)) {
-                $base = Str::slug(($model->tahap ?? 'tahap') . '-' . now()->timestamp);
+                $base = Str::slug(($model->tahap ?? 'tahap').'-'.now()->timestamp);
                 $slug = $base;
                 $i = 1;
                 while (static::where('slug', $slug)->exists()) {
-                    $slug = $base . '-' . $i++;
+                    $slug = $base.'-'.$i++;
                 }
                 $model->slug = $slug;
             }

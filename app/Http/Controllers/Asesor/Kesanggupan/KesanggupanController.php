@@ -46,7 +46,8 @@ class KesanggupanController extends Controller
             ->orderBy('tahaps.start_date', 'desc')
             ->orderBy('kesanggupans.id', 'desc')
             ->select('kesanggupans.*')
-            ->get();
+            ->paginate(3)
+            ->withQueryString();
 
         return view('menu.asesor.kesanggupan.index', compact('kesanggupans', 'authUser'));
     }

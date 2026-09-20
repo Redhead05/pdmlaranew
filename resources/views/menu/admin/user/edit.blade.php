@@ -3,6 +3,7 @@
 
 @push('styles')
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    @include('partial.table-ux')
 @endpush
 
 @section('content')
@@ -106,25 +107,49 @@
                                 <!-- Home Address Field -->
                                 <div class="mb-3">
                                     <label for="address_home" class="form-label">Home Address</label>
-                                    <textarea class="form-control" id="address_home" name="address_home" rows="3">{{ old('address_home', $user->detail?->address_home) }}</textarea>
+                                    <textarea class="form-control" id="address_home" name="address_home" rows="2">{{ old('address_home', $user->detail?->address_home) }}</textarea>
                                 </div>
 
-                                <!-- Home City Field -->
+                                <!-- Home City (aktifkan toggle di daftar user) -->
+                                @php $homeCity = old('home_city', $user->detail?->home_city); @endphp
                                 <div class="mb-3">
                                     <label for="home_city" class="form-label">Home City</label>
-                                    <input type="text" class="form-control" id="home_city" name="home_city" value="{{ old('home_city', $user->detail?->home_city) }}">
+                                    <select class="form-select" id="home_city" name="home_city" {{ $homeCityEnabled ? '' : 'disabled' }}>
+                                        <option value="">— pilih kabupaten/kota —</option>
+                                        @if($homeCity && !$kabkots->pluck('nama_kabkot')->contains($homeCity))
+                                            <option value="{{ $homeCity }}" selected>{{ $homeCity }}</option>
+                                        @endif
+                                        @foreach($kabkots as $k)
+                                            <option value="{{ $k->nama_kabkot }}" {{ $homeCity == $k->nama_kabkot ? 'selected' : '' }}>{{ $k->nama_kabkot }}</option>
+                                        @endforeach
+                                    </select>
+                                    @unless($homeCityEnabled)
+                                        <div class="form-text text-muted">Aktifkan toggle global "Home City" di daftar user.</div>
+                                    @endunless
                                 </div>
 
                                 <!-- Work Address Field -->
                                 <div class="mb-3">
                                     <label for="address_work" class="form-label">Work Address</label>
-                                    <textarea class="form-control" id="address_work" name="address_work" rows="3">{{ old('address_work', $user->detail?->address_work) }}</textarea>
+                                    <textarea class="form-control" id="address_work" name="address_work" rows="2">{{ old('address_work', $user->detail?->address_work) }}</textarea>
                                 </div>
 
-                                <!-- Work City Field -->
+                                <!-- Work City (aktifkan toggle di daftar user) -->
+                                @php $workCity = old('work_city', $user->detail?->work_city); @endphp
                                 <div class="mb-3">
                                     <label for="work_city" class="form-label">Work City</label>
-                                    <input type="text" class="form-control" id="work_city" name="work_city" value="{{ old('work_city', $user->detail?->work_city) }}">
+                                    <select class="form-select" id="work_city" name="work_city" {{ $workCityEnabled ? '' : 'disabled' }}>
+                                        <option value="">— pilih kabupaten/kota —</option>
+                                        @if($workCity && !$kabkots->pluck('nama_kabkot')->contains($workCity))
+                                            <option value="{{ $workCity }}" selected>{{ $workCity }}</option>
+                                        @endif
+                                        @foreach($kabkots as $k)
+                                            <option value="{{ $k->nama_kabkot }}" {{ $workCity == $k->nama_kabkot ? 'selected' : '' }}>{{ $k->nama_kabkot }}</option>
+                                        @endforeach
+                                    </select>
+                                    @unless($workCityEnabled)
+                                        <div class="form-text text-muted">Aktifkan toggle global "Work City" di daftar user.</div>
+                                    @endunless
                                 </div>
 
                                 <!-- Type Asesor Field -->
@@ -132,6 +157,7 @@
                                     <label for="type_asesor" class="form-label">Type Asesor</label>
                                     <input type="text" class="form-control" id="type_asesor" name="type_asesor" value="{{ old('type_asesor', $user->detail?->type_asesor) }}">
                                 </div>
+
                             </div>
                         </div>
 
@@ -147,6 +173,15 @@
 @endsection
 
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.city-toggle').forEach(function (t) {
+            t.addEventListener('change', function () {
+                const sel = document.querySelector(this.dataset.target);
+                if (sel) sel.disabled = !this.checked;
+            });
+        });
+    });
+</script>
 @endpush
 

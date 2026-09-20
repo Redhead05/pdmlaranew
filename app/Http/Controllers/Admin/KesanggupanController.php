@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\DraftTeamsExport;
+use App\Services\TahapPairingService;
 
 class KesanggupanController extends Controller
 {
@@ -25,11 +26,12 @@ class KesanggupanController extends Controller
     public function index()
     {
         $kesanggupans = Kesanggupan::query()
-            ->with('tahap')
+            ->with(['tahap', 'user:id,name,nia'])
             ->whereHas('tahap', function ($q) {
                 $q->whereNull('end_date')->orWhere('end_date', '>=', now());
             })
-            ->orderByDesc('id')
+            ->orderBy('user_id')
+            ->orderByDesc('tahap_id')
             ->get();
 
         return view('menu.admin.kesanggupan.index', compact('kesanggupans'));
@@ -212,68 +214,9 @@ class KesanggupanController extends Controller
      */
     private function generateTeamsByRules($users, $kesMap)
     {
-        // Susun data asesor: gender, kota, dan jumlah kesanggupan.
-        $roster = [];
-        foreach ($users as $u) {
-            $roster[$u->id] = [
-                'id'     => $u->id,
-                'kes'    => max(0, (int) ($kesMap[$u->id] ?? 0)),
-                'gender' => strtoupper(trim((string) ($u->detail->gender ?? ''))),
-                'city'   => strtolower(trim((string) ($u->detail->work_city ?? $u->detail->home_city ?? ''))),
-            ];
-        }
-
-        $groups = [];
-
-        // Auto-pairing hanya untuk asesor dengan kesanggupan sama (> 0).
-        foreach (collect($roster)->where('kes', '>', 0)->groupBy('kes') as $pool) {
-            $groups = array_merge($groups, $this->pairPool($pool->values()->all()));
-        }
-
-        return $groups;
-    }
-
-    /**
-     * Pasangkan asesor dalam satu kelompok kesanggupan secara greedy.
-     * Setiap tier: [harus_gender_sama, harus_kota_sama].
-     * Tier 1 (gender sama + kota sama) dicoba lebih dulu, dst.
-     */
-    private function pairPool(array $pool)
-    {
-        $groups = [];
-        $used   = [];
-
-        $tiers = [
-            [true, true],
-            [true, false],
-            [false, true],
-            [false, false],
-        ];
-
-        foreach ($tiers as [$sameGender, $sameCity]) {
-            for ($i = 0; $i < count($pool); $i++) {
-                if (isset($used[$i])) {
-                    continue;
-                }
-                for ($j = $i + 1; $j < count($pool); $j++) {
-                    if (isset($used[$j])) {
-                        continue;
-                    }
-                    if ($sameGender && $pool[$i]['gender'] !== $pool[$j]['gender']) {
-                        continue;
-                    }
-                    if ($sameCity && ($pool[$i]['city'] === '' || $pool[$i]['city'] !== $pool[$j]['city'])) {
-                        continue;
-                    }
-
-                    $groups[] = [$pool[$i]['id'], $pool[$j]['id']];
-                    $used[$i] = $used[$j] = true;
-                    break;
-                }
-            }
-        }
-
-        return $groups;
+        // Aturan pairing dipusatkan di TahapPairingService agar halaman
+        // Detail Tahap (generate final) dan draft memakai kriteria yang sama.
+        return app(TahapPairingService::class)->buildGroups(collect($users), $kesMap);
     }
 
     /**
@@ -281,45 +224,12 @@ class KesanggupanController extends Controller
      */
     public function teamDraft(Request $request, Tahap $tahap)
     {
-        $tahapId = $tahap->id;
-
-        // Build the same datasets as TahapController@show so view has all variables it expects
-        $filled = Kesanggupan::query()
-            ->where('tahap_id', $tahap->id)
-            ->where(function ($q) {
-                $q->whereNotNull('kesanggupan')
-                    ->orWhereNotNull('alasan');
-            })
-            ->with([
-                'user:id,name,email',
-                'user.detail:user_id,work_city,gender,type_asesor,latitude,longitude',
-            ])
-            ->get();
-
-        $can = $filled->where('kesediaan', true)->values();
-        $cannot = $filled->where('kesediaan', false)->values();
-
-        $filledUserIds = $filled->pluck('user_id')->unique()->values();
-
-        $notFilledUsers = User::query()
-            ->select(['id', 'name', 'email'])
-            ->with(['detail:user_id,work_city,gender,type_asesor,latitude,longitude'])
-            ->role('asesor')
-            ->when($filledUserIds->isNotEmpty(), fn ($q) => $q->whereNotIn('id', $filledUserIds))
-            ->orderBy('name')
-            ->get();
-
-        $run = TeamGenerationRun::where('tahap_id', $tahap->id)->latest()->first();
-
-        $teams = $run ? TeamDraft::with(['members.user.detail'])->where('run_id', $run->id)->get() : collect();
-
-        // users eligible but not assigned in this run
-        $eligibleUserIds = Kesanggupan::where('tahap_id', $tahap->id)->where('kesediaan', true)->pluck('user_id')->toArray();
-        $assignedUserIds = $run ? TeamDraftMember::where('run_id', $run->id)->pluck('user_id')->toArray() : [];
-
-        $unmatched = User::whereIn('id', array_diff($eligibleUserIds, $assignedUserIds))->with('detail')->get();
-
-        return view('menu.admin.tahap.kesanggupan.detilTahapKesanggupan', compact('tahap', 'can', 'cannot', 'notFilledUsers', 'run', 'teams', 'unmatched'));
+        // Halaman yang sama dengan admin.tahap.show — satu sumber data
+        // (TahapPairingService) agar tampilan pasangan asesor selalu konsisten.
+        return view(
+            'menu.admin.tahap.kesanggupan.detilTahapKesanggupan',
+            app(TahapPairingService::class)->pageData($tahap)
+        );
     }
 
     /**

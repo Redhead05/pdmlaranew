@@ -27,6 +27,12 @@ class NotificationController extends Controller
 			$item->markAsRead();
 		}
 
-		return redirect($item->data['action_url'] ?? route('notifications.index'));
+		$url = $item->data['action_url'] ?? route('notifications.index');
+
+		if ($request->ajax() || $request->wantsJson()) {
+			return response()->json(['ok' => true, 'url' => $url]);
+		}
+
+		return redirect($url);
 	}
 }

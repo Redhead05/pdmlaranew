@@ -2,7 +2,6 @@
 @section('title', 'Visitasi')
 
 @push('styles')
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 @endpush
 
@@ -38,9 +37,20 @@
                         <h1 class="mb-0">User Management</h1>
 
                     </div>
-                    <a href="{{ route('admin.user.create') }}" class="btn btn-primary py-2 px-4 text-white fw-semibold">
-                        <i class="material-symbols-outlined align-middle">add</i> Create User
-                    </a>
+                    <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                        <a href="{{ route('admin.user.create') }}" class="btn btn-primary py-2 px-4 text-white fw-semibold">
+                            <i class="material-symbols-outlined align-middle">add</i> Create User
+                        </a>
+                        <span class="text-muted fs-13 ms-2">Pengaturan global (semua asesor):</span>
+                        <div class="form-check form-switch mb-0">
+                            <input class="form-check-input global-flag-toggle" type="checkbox" role="switch" id="global-home-city" data-field="home_city_enabled" {{ $homeCityEnabled ? 'checked' : '' }}>
+                            <label class="form-check-label" for="global-home-city">Buka Home City</label>
+                        </div>
+                        <div class="form-check form-switch mb-0">
+                            <input class="form-check-input global-flag-toggle" type="checkbox" role="switch" id="global-work-city" data-field="work_city_enabled" {{ $workCityEnabled ? 'checked' : '' }}>
+                            <label class="form-check-label" for="global-work-city">Buka Work City</label>
+                        </div>
+                    </div>
                     <div class="default-table-area all-products">
                         <div class="table-responsive">
                             <table id="user-table" class="display table align-middle" style="width:100%">
@@ -83,8 +93,8 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input location-toggle" type="checkbox" role="switch" id="locationSwitch-{{ $user->id }}" data-user-slug="{{ $user->slug }}" {{ optional($user->detail)->location_enabled ? 'checked' : '' }}>
+                                            <div class="form-check form-switch mb-0">
+                                                <input class="form-check-input flag-toggle" type="checkbox" role="switch" data-user-slug="{{ $user->slug }}" data-field="location_enabled" {{ optional($user->detail)->location_enabled ? 'checked' : '' }}>
                                             </div>
                                         </td>
                                         <td>
@@ -136,9 +146,6 @@
 @endsection
 
 @push('scripts')
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         $(document).ready(function() {
             // Setup CSRF token for AJAX requests
@@ -224,38 +231,60 @@
                 });
             });
 
-            // Toggle location on switch change
-            $(document).on('change', '.location-toggle', function() {
+            // Toggle flag (location) per user on switch change
+            $(document).on('change', '.flag-toggle', function() {
                 const toggle = $(this);
                 const userSlug = toggle.data('user-slug');
+                const field = toggle.data('field');
                 const isChecked = toggle.is(':checked') ? 1 : 0;
 
-                // Disable toggle temporarily to prevent multiple clicks
                 toggle.prop('disabled', true);
 
-                // Send AJAX request
                 $.ajax({
-                    url: '{{ url("admin/user") }}/' + userSlug + '/toggle-location',
+                    url: '{{ url("admin/user") }}/' + userSlug + '/toggle-flag',
                     type: 'POST',
                     data: {
                         _token: $('meta[name="csrf-token"]').attr('content'),
-                        location_enabled: isChecked
+                        field: field
                     },
                     success: function(response) {
-                        if (response.success) {
-                            // Show success message
-                            // showAlert('success', response.message);
+                        if (!response.success) {
+                            toggle.prop('checked', !isChecked);
                         }
                     },
-                    error: function(xhr) {
-                        const errorMsg = xhr.responseJSON?.message || 'Failed to update location';
-                        // showAlert('danger', errorMsg);
-
-                        // Revert toggle state on error
+                    error: function() {
                         toggle.prop('checked', !isChecked);
                     },
                     complete: function() {
-                        // Re-enable toggle
+                        toggle.prop('disabled', false);
+                    }
+                });
+            });
+
+            // Toggle flag global (home city / work city) untuk semua asesor
+            $(document).on('change', '.global-flag-toggle', function() {
+                const toggle = $(this);
+                const field = toggle.data('field');
+                const isChecked = toggle.is(':checked') ? 1 : 0;
+
+                toggle.prop('disabled', true);
+
+                $.ajax({
+                    url: '{{ url("admin/user") }}/toggle-global-flag',
+                    type: 'POST',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        field: field
+                    },
+                    success: function(response) {
+                        if (!response.success) {
+                            toggle.prop('checked', !isChecked);
+                        }
+                    },
+                    error: function() {
+                        toggle.prop('checked', !isChecked);
+                    },
+                    complete: function() {
                         toggle.prop('disabled', false);
                     }
                 });

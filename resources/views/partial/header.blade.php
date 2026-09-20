@@ -33,104 +33,88 @@
                                     <i class="material-symbols-outlined text-body">fullscreen</i>
                                 </button>
                             </li>
-{{--                            <li class="header-right-item">--}}
-{{--                                <div class="dropdown notifications noti">--}}
-{{--                                    <button class="btn btn-secondary border-0 p-0 position-relative badge" type="button" data-bs-toggle="dropdown" aria-expanded="false">--}}
-{{--                                        <span class="material-symbols-outlined">notifications</span>--}}
-{{--                                    </button>--}}
-{{--                                    <div class="dropdown-menu dropdown-lg p-0 border-0 p-0 dropdown-menu-end">--}}
-{{--                                        <div class="d-flex justify-content-between align-items-center title">--}}
-{{--                                            <span class="fw-semibold fs-15 text-secondary">Notifications <span class="fw-normal text-body fs-14">(03)</span></span>--}}
-{{--                                            <button class="p-0 m-0 bg-transparent border-0 fs-14 text-primary">Clear All</button>--}}
-{{--                                        </div>--}}
+                            <li class="header-right-item">
+                                @php
+                                    $headerNotifications = auth()->check()
+                                        ? auth()->user()->unreadNotifications()->latest()->limit(6)->get()
+                                        : collect();
+                                    $headerNotificationCount = auth()->check()
+                                        ? auth()->user()->unreadNotifications()->count()
+                                        : 0;
+                                @endphp
+                                <div class="dropdown notifications noti">
+                                    <button class="btn btn-secondary border-0 p-0 position-relative" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="material-symbols-outlined">notifications</span>
+                                        @if($headerNotificationCount > 0)
+                                            <span id="notificationBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size:10px;">
+                                                {{ $headerNotificationCount > 99 ? '99+' : $headerNotificationCount }}
+                                            </span>
+                                        @endif
+                                    </button>
+                                    <div class="dropdown-menu dropdown-lg p-0 border-0 dropdown-menu-end">
+                                        <div class="d-flex justify-content-between align-items-center title">
+                                            <span class="fw-semibold fs-15 text-secondary">Notifications <span class="fw-normal text-body fs-14">({{ $headerNotificationCount }})</span></span>
+                                            <a href="{{ route('notifications.index') }}" class="p-0 m-0 bg-transparent border-0 fs-14 text-primary text-decoration-none">Lihat Semua</a>
+                                        </div>
 
-{{--                                        <div class="max-h-217" data-simplebar>--}}
-{{--                                            <div class="notification-menu">--}}
-{{--                                                <a href="notification.html" class="dropdown-item">--}}
-{{--                                                    <div class="d-flex align-items-center">--}}
-{{--                                                        <div class="flex-shrink-0">--}}
-{{--                                                            <i class="material-symbols-outlined text-primary">sms</i>--}}
-{{--                                                        </div>--}}
-{{--                                                        <div class="flex-grow-1 ms-3">--}}
-{{--                                                            <p>You have requested to <span class="fw-semibold">withdrawal</span></p>--}}
-{{--                                                            <span class="fs-13">2 hrs ago</span>--}}
-{{--                                                        </div>--}}
-{{--                                                    </div>--}}
-{{--                                                </a>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="notification-menu unseen">--}}
-{{--                                                <a href="notification.html" class="dropdown-item">--}}
-{{--                                                    <div class="d-flex align-items-center">--}}
-{{--                                                        <div class="flex-shrink-0">--}}
-{{--                                                            <i class="material-symbols-outlined text-info">person</i>--}}
-{{--                                                        </div>--}}
-{{--                                                        <div class="flex-grow-1 ms-3">--}}
-{{--                                                            <p>A new user added in Trezo</p>--}}
-{{--                                                            <span class="fs-13">3 hrs ago</span>--}}
-{{--                                                        </div>--}}
-{{--                                                    </div>--}}
-{{--                                                </a>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="notification-menu">--}}
-{{--                                                <a href="notification.html" class="dropdown-item">--}}
-{{--                                                    <div class="d-flex align-items-center">--}}
-{{--                                                        <div class="flex-shrink-0">--}}
-{{--                                                            <i class="material-symbols-outlined text-success">mark_email_unread</i>--}}
-{{--                                                        </div>--}}
-{{--                                                        <div class="flex-grow-1 ms-3">--}}
-{{--                                                            <p>You have requested to <span class="fw-semibold">withdrawal</span></p>--}}
-{{--                                                            <span class="fs-13">1 day ago</span>--}}
-{{--                                                        </div>--}}
-{{--                                                    </div>--}}
-{{--                                                </a>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="notification-menu">--}}
-{{--                                                <a href="notification.html" class="dropdown-item">--}}
-{{--                                                    <div class="d-flex align-items-center">--}}
-{{--                                                        <div class="flex-shrink-0">--}}
-{{--                                                            <i class="material-symbols-outlined text-primary">sms</i>--}}
-{{--                                                        </div>--}}
-{{--                                                        <div class="flex-grow-1 ms-3">--}}
-{{--                                                            <p>You have requested to <span class="fw-semibold">withdrawal</span></p>--}}
-{{--                                                            <span class="fs-13">2 hrs ago</span>--}}
-{{--                                                        </div>--}}
-{{--                                                    </div>--}}
-{{--                                                </a>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="notification-menu unseen">--}}
-{{--                                                <a href="notification.html" class="dropdown-item">--}}
-{{--                                                    <div class="d-flex align-items-center">--}}
-{{--                                                        <div class="flex-shrink-0">--}}
-{{--                                                            <i class="material-symbols-outlined text-info">person</i>--}}
-{{--                                                        </div>--}}
-{{--                                                        <div class="flex-grow-1 ms-3">--}}
-{{--                                                            <p>A new user added in Trezo</p>--}}
-{{--                                                            <span class="fs-13">3 hrs ago</span>--}}
-{{--                                                        </div>--}}
-{{--                                                    </div>--}}
-{{--                                                </a>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="notification-menu">--}}
-{{--                                                <a href="notification.html" class="dropdown-item">--}}
-{{--                                                    <div class="d-flex align-items-center">--}}
-{{--                                                        <div class="flex-shrink-0">--}}
-{{--                                                            <i class="material-symbols-outlined text-success">mark_email_unread</i>--}}
-{{--                                                        </div>--}}
-{{--                                                        <div class="flex-grow-1 ms-3">--}}
-{{--                                                            <p>You have requested to <span class="fw-semibold">withdrawal</span></p>--}}
-{{--                                                            <span class="fs-13">1 day ago</span>--}}
-{{--                                                        </div>--}}
-{{--                                                    </div>--}}
-{{--                                                </a>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
+                                        <div class="max-h-217" data-simplebar>
+                                            @forelse($headerNotifications as $notification)
+                                                <div class="notification-menu {{ is_null($notification->read_at) ? 'unseen' : '' }}">
+                                                    <form action="{{ route('notifications.read', $notification->id) }}" method="POST">
+                                                        @csrf
+                                                        <button type="submit" class="dropdown-item text-start border-0 bg-transparent w-100">
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="flex-shrink-0">
+                                                                    <i class="material-symbols-outlined text-primary">assignment</i>
+                                                                </div>
+                                                                <div class="flex-grow-1 ms-3">
+                                                                    <p class="mb-0 text-body">{{ $notification->data['title'] ?? 'Notifikasi' }}</p>
+                                                                    <span class="fs-13">{{ $notification->created_at->diffForHumans() }}</span>
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            @empty
+                                                <div class="text-center text-muted py-4 fs-14">Belum ada notifikasi baru.</div>
+                                            @endforelse
+                                        </div>
 
-{{--                                        <a href="notification.html" class="dropdown-item text-center text-primary d-block view-all fw-medium rounded-bottom-3">--}}
-{{--                                            <span>See All Notifications </span>--}}
-{{--                                        </a>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </li>--}}
+                                        <a href="{{ route('notifications.index') }}" class="dropdown-item text-center text-primary d-block view-all fw-medium rounded-bottom-3">
+                                            <span>See All Notifications </span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                            <script>
+                            document.addEventListener('click', function (e) {
+                                var form = e.target.closest('.notification-menu form');
+                                if (!form) return;
+                                e.preventDefault();
+                                var token = document.querySelector('meta[name="csrf-token"]');
+                                fetch(form.action, {
+                                    method: 'POST',
+                                    headers: {
+                                        'X-CSRF-TOKEN': token ? token.content : '',
+                                        'Accept': 'application/json',
+                                        'X-Requested-With': 'XMLHttpRequest'
+                                    }
+                                }).then(function (r) { return r.json(); }).then(function (res) {
+                                    var item = form.closest('.notification-menu');
+                                    if (item) item.remove();
+                                    var badge = document.getElementById('notificationBadge');
+                                    if (badge) {
+                                        var n = parseInt(badge.textContent.replace(/D/g, ''), 10) || 0;
+                                        n = Math.max(0, n - 1);
+                                        if (n <= 0) badge.remove();
+                                        else badge.textContent = n > 99 ? '99+' : n;
+                                    }
+                                    if (res.url) window.location.href = res.url;
+                                }).catch(function () {
+                                    if (form.action) window.location.href = form.action;
+                                });
+                            });
+                            </script>
                             <li class="header-right-item">
                                 <div class="dropdown admin-profile">
                                     {{-- Trigger: ubah dari div d-xxl-flex ke button d-flex agar selalu klikable --}}

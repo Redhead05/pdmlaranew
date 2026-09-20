@@ -97,6 +97,18 @@
                     </div>
                 </div>
                 <div class="row justify-content-center">
+                    <div class="col-xxl-12">
+                        <div class="card bg-white border-0 rounded-3 mb-4">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
+                                    <h3 class="mb-0">Kalender</h3>
+                                </div>
+                                <div id="dashboard-calendar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
                     <div class="col-xxl-7 col-lg-6">
                         <div class="card bg-white border-0 rounded-3 mb-4">
                             <div class="card-body p-4">
@@ -1277,3 +1289,19 @@
     </div>
     <!-- Start Main Content Area -->
 @endsection
+
+@push('scripts')
+<script>
+$(function () {
+    var el = document.getElementById('dashboard-calendar');
+    if (!el || !window.FullCalendar) return;
+    var cal = new FullCalendar.Calendar(el, {
+        initialView: 'dayGridMonth',
+        height: 'auto',
+        headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,listMonth' },
+        events: "{{ route('asesor.calendar.events') }}"
+    });
+    cal.render();
+});
+</script>
+@endpush

@@ -2,7 +2,6 @@
 @section('title', 'organizationstructure Management')
 
 @push('styles')
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 @endpush
 
@@ -129,8 +128,6 @@
         @endsection
 
         @push('scripts')
-            <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
-            <script src="//cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
             <script>
                 $(document).ready(function () {
                     const table = $('#organizationstructure-table').DataTable({

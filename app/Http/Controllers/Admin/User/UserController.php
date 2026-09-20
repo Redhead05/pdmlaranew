@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Kabkot;
+use App\Models\Setting;
 use App\Models\User;
 use App\Models\UserDetail;
 use Illuminate\Http\Request;
@@ -18,7 +20,10 @@ class UserController extends Controller
     public function index()
     {
         $users = User::with(['detail', 'roles'])->orderBy('created_at', 'desc')->get();
-        return view('menu.admin.user.index', compact('users'));
+        $homeCityEnabled = (bool) Setting::get('home_city_enabled', '0');
+        $workCityEnabled = (bool) Setting::get('work_city_enabled', '0');
+
+        return view('menu.admin.user.index', compact('users', 'homeCityEnabled', 'workCityEnabled'));
     }
 
     /**
@@ -104,7 +109,11 @@ class UserController extends Controller
     {
         $roles = Role::all();
         $user->load(['detail', 'roles']);
-        return view('menu.admin.user.edit', compact('user', 'roles'));
+        $kabkots = Kabkot::orderBy('nama_kabkot')->get();
+        $homeCityEnabled = (bool) Setting::get('home_city_enabled', '0');
+        $workCityEnabled = (bool) Setting::get('work_city_enabled', '0');
+
+        return view('menu.admin.user.edit', compact('user', 'roles', 'kabkots', 'homeCityEnabled', 'workCityEnabled'));
     }
 
     /**
@@ -232,5 +241,50 @@ class UserController extends Controller
                 'message' => 'Failed to toggle location: ' . $e->getMessage(),
             ], 500);
         }
+    }
+
+    /**
+     * Toggle flag pada user detail (location / home city / work city).
+     */
+    public function toggleFlag(Request $request, User $user)
+    {
+        $allowed = ['location_enabled'];
+        $field = $request->input('field');
+
+        if (! in_array($field, $allowed, true)) {
+            return response()->json(['success' => false, 'message' => 'Field tidak valid.'], 422);
+        }
+
+        try {
+            $detail = $user->detail ?? $user->detail()->create([]);
+            $detail->{$field} = ! (bool) $detail->{$field};
+            $detail->save();
+
+            return response()->json([
+                'success' => true,
+                $field => (bool) $detail->{$field},
+                'message' => 'Updated.',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Toggle flag global (berlaku untuk semua asesor): home_city / work_city.
+     */
+    public function toggleGlobalFlag(Request $request)
+    {
+        $allowed = ['home_city_enabled', 'work_city_enabled'];
+        $field = $request->input('field');
+
+        if (! in_array($field, $allowed, true)) {
+            return response()->json(['success' => false, 'message' => 'Field tidak valid.'], 422);
+        }
+
+        $current = (bool) Setting::get($field, '0');
+        Setting::set($field, $current ? '0' : '1');
+
+        return response()->json(['success' => true, $field => ! $current]);
     }
 }

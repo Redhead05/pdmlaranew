@@ -18,10 +18,19 @@ class TeamGenerationRun extends Model
         'created_by',
         'finalized_by',
         'finalized_at',
+        'final_pairs_payload',
+        'surat_tugas_number',
+        'surat_tugas_slug',
+        'surat_tugas_generated_by',
+        'surat_tugas_generated_at',
+        'surat_tugas_notification_sent_at',
     ];
 
     protected $casts = [
         'finalized_at' => 'datetime',
+        'surat_tugas_generated_at' => 'datetime',
+        'surat_tugas_notification_sent_at' => 'datetime',
+        'final_pairs_payload' => 'array',
     ];
 
     public function tahap(): BelongsTo

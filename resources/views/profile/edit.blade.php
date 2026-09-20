@@ -85,9 +85,23 @@
                             <input type="text" name="address_home" class="form-control" value="{{ old('address_home', optional($user->detail)->address_home) }}">
                         </div>
 
+                        @php
+                            $homeCity = old('home_city', optional($user->detail)->home_city);
+                        @endphp
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Kota Rumah</label>
-                            <input type="text" name="home_city" class="form-control" value="{{ old('home_city', optional($user->detail)->home_city) }}">
+                            <select name="home_city" class="form-select" {{ $homeCityEnabled ? '' : 'disabled' }}>
+                                <option value="">— pilih kabupaten/kota —</option>
+                                @if($homeCity && !$kabkots->pluck('nama_kabkot')->contains($homeCity))
+                                    <option value="{{ $homeCity }}" selected>{{ $homeCity }}</option>
+                                @endif
+                                @foreach($kabkots as $k)
+                                    <option value="{{ $k->nama_kabkot }}" {{ $homeCity == $k->nama_kabkot ? 'selected' : '' }}>{{ $k->nama_kabkot }}</option>
+                                @endforeach
+                            </select>
+                            @unless($homeCityEnabled)
+                                <div class="form-text text-muted">Dinonaktifkan oleh admin.</div>
+                            @endunless
                         </div>
 
                         <div class="col-md-6 mb-3">
@@ -95,18 +109,33 @@
                             <input type="text" name="address_work" class="form-control" value="{{ old('address_work', optional($user->detail)->address_work) }}">
                         </div>
 
+                        @php
+                            $workCity = old('work_city', optional($user->detail)->work_city);
+                        @endphp
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Kota Kerja</label>
-                            <input type="text" name="work_city" class="form-control" value="{{ old('work_city', optional($user->detail)->work_city) }}">
+                            <select name="work_city" class="form-select" {{ $workCityEnabled ? '' : 'disabled' }}>
+                                <option value="">— pilih kabupaten/kota —</option>
+                                @if($workCity && !$kabkots->pluck('nama_kabkot')->contains($workCity))
+                                    <option value="{{ $workCity }}" selected>{{ $workCity }}</option>
+                                @endif
+                                @foreach($kabkots as $k)
+                                    <option value="{{ $k->nama_kabkot }}" {{ $workCity == $k->nama_kabkot ? 'selected' : '' }}>{{ $k->nama_kabkot }}</option>
+                                @endforeach
+                            </select>
+                            @unless($workCityEnabled)
+                                <div class="form-text text-muted">Dinonaktifkan oleh admin.</div>
+                            @endunless
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Tipe Asesor</label>
-                            <select name="type_asesor" class="form-select">
-                                <option value="" {{ old('type_asesor', optional($user->detail)->type_asesor)=='' ? 'selected' : '' }}>Pilih</option>
-                                <option value="internal" {{ old('type_asesor', optional($user->detail)->type_asesor)=='internal' ? 'selected' : '' }}>Internal</option>
-                                <option value="eksternal" {{ old('type_asesor', optional($user->detail)->type_asesor)=='eksternal' ? 'selected' : '' }}>Eksternal</option>
+                            <select name="type_asesor" class="form-select" disabled>
+                                <option value="" {{ optional($user->detail)->type_asesor=='' ? 'selected' : '' }}>Pilih</option>
+                                <option value="internal" {{ optional($user->detail)->type_asesor=='internal' ? 'selected' : '' }}>Internal</option>
+                                <option value="eksternal" {{ optional($user->detail)->type_asesor=='eksternal' ? 'selected' : '' }}>Eksternal</option>
                             </select>
+                            <div class="form-text text-muted">Tipe asesor hanya dapat diubah oleh admin.</div>
                         </div>
 
                         {{-- Asesor-only: latitude/longitude + map --}}

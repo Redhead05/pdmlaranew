@@ -16,6 +16,8 @@ class TeamLembaga extends Model
         'distance_km',
         'is_manual',
         'assigned_by',
+        'asesor_a_user_id',
+        'asesor_b_user_id',
     ];
 
     protected $casts = [

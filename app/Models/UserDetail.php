@@ -27,6 +27,8 @@ class UserDetail extends Model
         'latitude',
         'longitude',
         'location_enabled',
+        'home_city_enabled',
+        'work_city_enabled',
     ];
 
     protected $casts = [
@@ -35,6 +37,8 @@ class UserDetail extends Model
         'latitude' => 'decimal:7',
         'longitude' => 'decimal:7',
         'location_enabled' => 'boolean',
+        'home_city_enabled' => 'boolean',
+        'work_city_enabled' => 'boolean',
     ];
 
     public function user(): BelongsTo
