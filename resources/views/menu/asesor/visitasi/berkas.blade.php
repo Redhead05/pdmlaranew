@@ -229,7 +229,7 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-0 text-center">
-                <img id="imageModalImg" src="" class="img-fluid" style="max-height:85vh" alt="gambar">
+                <img id="imageModalImg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" class="img-fluid" style="max-height:85vh" alt="gambar">
             </div>
         </div>
     </div>
@@ -248,7 +248,7 @@ $(function () {
 
     function esc(s){return String(s ?? '').replace(/[&<>"']/g, function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
     function rupiah(n){ return (n != null && n !== '') ? 'Rp ' + Number(n).toLocaleString('id-ID') : '-'; }
-    function toast(title, msg, type){ type=type||'success'; var box=document.getElementById('toast-container'); var el=document.createElement('div'); el.className='toast align-items-center text-bg-'+type+' border-0 show'; el.innerHTML='<div class="d-flex"><div class="toast-body"><strong>'+esc(title)+'</strong><div class="fs-14">'+esc(msg)+'</div></div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div>'; box.appendChild(el); new bootstrap.Toast(el,{delay:6000}).show(); }
+    function toast(title, msg, type){ type=type||'success'; var box=document.getElementById('toast-container'); var el=document.createElement('div'); el.className='toast align-items-center text-bg-'+type+' border-0 show ksg-toast-in'; el.innerHTML='<div class="d-flex"><div class="toast-body"><strong>'+esc(title)+'</strong><div class="fs-14">'+esc(msg)+'</div></div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div>'; box.appendChild(el); new bootstrap.Toast(el,{delay:6000}).show(); }
 
     // Tab filter
     $('#berkasTabs').on('click', '.nav-link', function () {
@@ -262,7 +262,10 @@ $(function () {
 
     // Toggle alasan penolakan
     $(document).on('click', '.js-toggle-komentar', function () {
-        $($(this).data('target')).toggleClass('d-none');
+        var $t = $($(this).data('target'));
+        var willShow = $t.hasClass('d-none');
+        $t.toggleClass('d-none');
+        if (willShow) window.KsgMotion && KsgMotion.reveal($t);
     });
 
     // Rupiah formatting

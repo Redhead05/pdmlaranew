@@ -220,11 +220,14 @@
             function showError($form, message) {
                 $form.find('.js-success').addClass('d-none');
                 $form.find('.js-error').removeClass('d-none').text(message || 'Gagal menyimpan.');
+                window.KsgMotion && KsgMotion.feedback($form.find('.js-error'));
             }
 
             function showSuccess($form) {
                 $form.find('.js-error').addClass('d-none').text('');
                 $form.find('.js-success').removeClass('d-none');
+                window.KsgMotion && KsgMotion.feedback($form.find('.js-success'));
+                window.KsgMotion && KsgMotion.pulse($form.closest('.card'));
                 setTimeout(function () {
                     $form.find('.js-success').addClass('d-none');
                 }, 1200);
@@ -256,7 +259,10 @@
 
             $(document).on('change', '.js-kesediaan', function () {
                 const $form = $(this).closest('form.js-kesanggupan-form');
+                const isYa = String($(this).val()) === '1';
                 setUIState($form);
+                const $reveal = isYa ? $form.find('.js-wrap-kesanggupan') : $form.find('.js-wrap-alasan');
+                window.KsgMotion && KsgMotion.reveal($reveal);
             });
 
             $(document).on('click', '.js-save', function () {

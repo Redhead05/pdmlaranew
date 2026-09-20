@@ -356,11 +356,13 @@ class TahapController extends Controller
         $reset = $request->boolean('reset_pairing');
         $result = $this->pairing->generate($tahap, $reset);
 
+        $redirect = redirect()->route('admin.tahap.show', ['tahap' => $tahap->slug]);
+
         if (! $result['ok']) {
-            return back()->with('error', implode(' ', $result['errors']));
+            return $redirect->with('error', implode(' ', $result['errors']));
         }
 
-        return back()->with('success', $result['message']);
+        return $redirect->with('success', $result['message']);
     }
 
     // ==================================================================
@@ -373,7 +375,9 @@ class TahapController extends Controller
 
         $rows = $this->pairing->exportRows($tahap);
         if (! $rows) {
-            return back()->with('error', 'Belum ada pasangan asesor untuk diunduh. Jalankan Generate terlebih dahulu.');
+            return redirect()
+                ->route('admin.tahap.show', ['tahap' => $tahap->slug])
+                ->with('error', 'Belum ada pasangan asesor untuk diunduh. Jalankan Generate terlebih dahulu.');
         }
 
         $filename = 'pasangan_asesor_tahap_'.$tahap->slug.'_'.now()->format('Ymd_His').'.xlsx';
@@ -391,20 +395,21 @@ class TahapController extends Controller
 
         $errors = [];
         $rows = $this->readPairingUpload($request->file('file'), $errors);
+        $redirect = redirect()->route('admin.tahap.show', ['tahap' => $tahap->slug]);
         if ($rows === null) {
-            return back()->with('error', implode('<br>', $errors));
+            return $redirect->with('error', implode('<br>', $errors));
         }
         if (! $rows) {
-            return back()->with('error', 'File tidak berisi baris pasangan asesor. Gunakan file hasil unduhan tanpa mengubah baris header.');
+            return $redirect->with('error', 'File tidak berisi baris pasangan asesor. Gunakan file hasil unduhan tanpa mengubah baris header.');
         }
 
         $result = $this->pairing->applyUploadRows($tahap, $rows);
 
         if (! $result['ok']) {
-            return back()->with('error', 'Upload ditolak:<br>'.implode('<br>', $result['errors']));
+            return $redirect->with('error', 'Upload ditolak:<br>'.implode('<br>', $result['errors']));
         }
 
-        return back()->with('success', $result['message']);
+        return $redirect->with('success', $result['message']);
     }
 
     /**
@@ -525,7 +530,7 @@ class TahapController extends Controller
 
         $result = $this->pairing->setSlot($tahap, (int) $data['team_id'], $data['slot'], (int) $data['user_id']);
 
-        return $this->manualResponse($request, $result);
+        return $this->manualResponse($request, $tahap, $result);
     }
 
     public function addMember(Request $request, Tahap $tahap)
@@ -537,7 +542,7 @@ class TahapController extends Controller
 
         $result = $this->pairing->addMember($tahap, (int) $data['team_id'], (int) $data['user_id']);
 
-        return $this->manualResponse($request, $result);
+        return $this->manualResponse($request, $tahap, $result);
     }
 
     public function removeMember(Request $request, Tahap $tahap)
@@ -549,16 +554,18 @@ class TahapController extends Controller
 
         $result = $this->pairing->removeMember($tahap, (int) $data['team_id'], (int) $data['user_id']);
 
-        return $this->manualResponse($request, $result);
+        return $this->manualResponse($request, $tahap, $result);
     }
 
-    protected function manualResponse(Request $request, array $result)
+    protected function manualResponse(Request $request, Tahap $tahap, array $result)
     {
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json($result, $result['ok'] ? 200 : 422);
         }
 
-        return back()->with($result['ok'] ? 'success' : 'error', $result['message']);
+        return redirect()
+            ->route('admin.tahap.show', ['tahap' => $tahap->slug])
+            ->with($result['ok'] ? 'success' : 'error', $result['message']);
     }
 
     protected function assertAjax(Request $request): void

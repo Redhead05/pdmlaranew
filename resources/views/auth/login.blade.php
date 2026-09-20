@@ -61,7 +61,7 @@
                                     @endif
 
                                         <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-center gap-2 w-100 py-2" aria-label="{{ __('Log In') }}">
-                                            <i class="material-symbols-outlined" aria-hidden="true">login</i>
+                                            <i class="ri-login-box-line" aria-hidden="true"></i>
                                             <span>{{ __('Log In') }}</span>
                                         </button>
                                 </div>

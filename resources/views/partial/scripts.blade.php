@@ -1,4 +1,6 @@
+@if(empty($skipBootstrapJs))
 <script src="{{ asset ('assets/js/bootstrap.bundle.min.js')}}"></script>
+@endif
 <script src="{{ asset ('assets/js/sidebar-menu.js') }}"></script>
 <script src="{{ asset ('assets/js/dragdrop.js') }}"></script>
 <script src="{{ asset ('assets/js/rangeslider.min.js') }}"></script>

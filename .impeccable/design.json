@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-20T14:32:00+07:00",
+  "title": "Design System: pdmlaranew (BAN-PDM Jawa Timur)",
+  "extensions": {
+    "colorMeta": {
+      "indigo-violet": { "role": "primary", "displayName": "Indigo Violet", "canonical": "#605DFF", "tonalRamp": ["#DDE4FF", "#605DFF", "#4936F5", "#3225AE"] },
+      "slate-ink": { "role": "secondary", "displayName": "Slate Ink", "canonical": "#3A4252", "tonalRamp": ["#3A4252", "#23272E"] },
+      "slate-body": { "role": "neutral", "displayName": "Slate Body", "canonical": "#64748B", "tonalRamp": ["#8695AA", "#64748B", "#526077"] },
+      "page-bg": { "role": "neutral", "displayName": "Page Background", "canonical": "#F6F7F9" },
+      "ember-orange": { "role": "danger", "displayName": "Ember Orange", "canonical": "#FD5812", "tonalRamp": ["#FFE1DD", "#FD5812", "#EE3E08", "#EC1F00"] },
+      "lime": { "role": "success", "displayName": "Lime", "canonical": "#37D80A", "tonalRamp": ["#D8FFC8", "#37D80A", "#25B003"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Page and section hero headings." },
+      "body": { "displayName": "Body", "purpose": "Default copy across the dashboard." },
+      "label": { "displayName": "Label", "purpose": "Field labels and small headings." }
+    },
+    "shadows": [
+      { "name": "default", "value": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px", "purpose": "Cards and floating elements." },
+      { "name": "small", "value": "0px 2px 4px 0px rgba(0, 0, 0, 0.1)", "purpose": "Light lift for small controls." },
+      { "name": "primary-glow", "value": "0px 4px 4px 0px rgba(101, 96, 240, 0.10)", "purpose": "Soft accent glow under primary elements." }
+    ],
+    "motion": [
+      { "name": "default-transition", "value": "all ease 0.5s", "purpose": "System-wide state transition." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "576px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "992px" },
+      { "name": "xl", "value": "1200px" },
+      { "name": "xxl", "value": "1400px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Default primary action.",
+      "html": "<button class=\"ds-btn-primary\">Simpan</button>",
+      "css": ".ds-btn-primary { background: #605DFF; color: #ffffff; padding: 8px 16px; border: none; border-radius: 4px; font-family: Inter, sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.5s ease; } .ds-btn-primary:hover { background: #4936F5; } .ds-btn-primary:focus-visible { outline: none; border: 1px solid #605DFF; box-shadow: 0px 4px 4px 0px rgba(101, 96, 240, 0.10); }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Standard form field.",
+      "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"Cari…\" />",
+      "css": ".ds-input { width: 100%; height: 50px; padding: 14px 16px; background: #ffffff; border: 1px solid #D5D9E2; border-radius: 7px; font-family: Inter, sans-serif; font-size: 15px; color: #3A4252; transition: all 0.5s ease; } .ds-input::placeholder { color: #64748B; font-size: 14px; } .ds-input:focus { outline: none; border: 1px solid #605DFF; box-shadow: none; }"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Flat content container.",
+      "html": "<div class=\"ds-card\">Content</div>",
+      "css": ".ds-card { background: #ffffff; border-radius: 8px; padding: 24px; font-family: Inter, sans-serif; color: #64748B; }"
+    },
+    {
+      "name": "Active Sidebar Link",
+      "kind": "nav",
+      "refersTo": "nav-link-active",
+      "description": "Active item in the left navigation.",
+      "html": "<a class=\"ds-nav-active\" href=\"#\">Dashboard</a>",
+      "css": ".ds-nav-active { display: block; padding: 12px 16px; background: #605DFF; color: #ffffff; border-radius: 4px; font-family: Inter, sans-serif; font-size: 14px; text-decoration: none; }"
+    },
+    {
+      "name": "Status Chip (Success)",
+      "kind": "chip",
+      "refersTo": "chip-success",
+      "description": "Success/verified status tag.",
+      "html": "<span class=\"ds-chip ds-chip-success\">Aktif</span>",
+      "css": ".ds-chip { display: inline-block; padding: 4px 10px; border-radius: 50px; font-family: Inter, sans-serif; font-size: 11px; } .ds-chip-success { background: #D8FFC8; color: #25B003; }"
+    },
+    {
+      "name": "Table Header Cell",
+      "kind": "custom",
+      "refersTo": "table-header",
+      "description": "DataTables column header.",
+      "html": "<th class=\"ds-th\">Nama</th>",
+      "css": ".ds-th { background: #F6F7F9; color: #445164; padding: 12px 16px; font-family: Inter, sans-serif; font-size: 12px; font-weight: 600; text-align: left; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Dense indigo-violet operating dashboard on light surfaces, with a matching dark mode.",
+    "overview": "BAN-PDM Jawa Timur is a school-accreditation management system (admin, asesor, end-user, and public landing page) built on the Trezo Bootstrap 5 admin template. Its visual world is a light, high-density operating dashboard with an indigo-violet accent, slate-blue text, and a matching dark mode. The design source of truth lives in the SCSS files under public/assets/scss/ (_variables.scss and the components/*.scss partials); Blade views consume it through Bootstrap utility and component classes.",
+    "keyCharacteristics": [
+      "Light surfaces (white cards on a #F6F7F9 page) with a full dark-mode counterpart.",
+      "One accent — indigo-violet #605DFF — for primary actions, active navigation, and input focus.",
+      "Inter as the single typeface; bold dark-slate headings, muted slate body text.",
+      "Bootstrap 5 as the layout/component system; Tailwind is configured but not the source of truth.",
+      "Small radii (4px–8px) with pills (50px) reserved for avatars and status chips.",
+      "Slow, uniform motion (all ease 0.5s).",
+      "Two icon families split by surface: Remix for navigation, auth, and the public landing; Material Symbols for content and data views."
+    ],
+    "rules": [
+      { "name": "The One Accent Rule", "body": "Indigo Violet #605DFF is the only accent for actions and active states; semantic colors are reserved for status and feedback.", "section": "colors" }
+    ],
+    "dos": [
+      "Source colors from _variables.scss and consume them via Bootstrap theme-color utilities so dark mode keeps working.",
+      "Use Inter for all text; build hierarchy with weight (700) and the heading scale.",
+      "Keep radii at 4px / 7px / 8px; reserve 50px pills for avatars and status chips.",
+      "Show focus by switching border color to #605DFF (no shadow ring).",
+      "Keep motion at the system transition (all ease 0.5s).",
+      "Keep the icon split: Remix in navigation, auth, and the public landing; Material Symbols in content and data views."
+    ],
+    "donts": [
+      "Don't introduce a second accent color for primary actions; keep #605DFF as the single action accent.",
+      "Don't use Tailwind utilities for layout or color — Bootstrap is the source of truth.",
+      "Don't mix icon families within a single surface — Remix for navigation, auth, and the public landing; Material Symbols for content and data views; Feather is retired.",
+      "Don't use shadows for focus indication; the system communicates focus via border color."
+    ]
+  }
+}

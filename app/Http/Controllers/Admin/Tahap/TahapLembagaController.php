@@ -8,6 +8,7 @@ use App\Models\Tahap;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class TahapLembagaController extends Controller
 {
@@ -116,10 +117,12 @@ class TahapLembagaController extends Controller
             'file' => 'required|file|mimes:csv,txt'
         ]);
 
+        $redirect = redirect()->route('admin.tahap.lembaga.index', ['tahap' => $tahap->slug]);
+
         $path = $request->file('file')->getRealPath();
         $handle = fopen($path, 'rb');
         if ($handle === false) {
-            return redirect()->back()->with('error', 'Unable to open uploaded file');
+            return $redirect->with('error', 'Unable to open uploaded file');
         }
 
         $header = null;
@@ -144,7 +147,7 @@ class TahapLembagaController extends Controller
         fclose($handle);
 
         if (empty($npsns)) {
-            return redirect()->back()->with('error', 'CSV tidak mengandung NPSN yang valid');
+            return $redirect->with('error', 'CSV tidak mengandung NPSN yang valid');
         }
 
         // find lembagas by npsn
@@ -180,12 +183,128 @@ class TahapLembagaController extends Controller
 
         $message = 'Upload selesai. ' . count($attachIds) . ' lembaga berhasil ditambahkan.';
         // flash success and errors for toast display
-        return redirect()->back()->with([
+        return $redirect->with([
             'success' => $message,
             'unmatched' => $unmatched,
             // return full conflict details (tahap name + npsn)
             'conflicts' => $conflicts,
         ]);
+    }
+
+    /**
+     * Parse NPSN dari file Excel/CSV (upload via halaman pilih),
+     * lalu kembalikan status setiap NPSN terhadap master lembaga.
+     * Dipakai untuk auto-centang checkbox yang cocok + toast NPSN yang tidak ada.
+     */
+    public function checkNpsn(Request $request, Tahap $tahap)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,xls,csv,txt',
+        ]);
+
+        $file = $request->file('file');
+        $ext = strtolower((string) $file->getClientOriginalExtension());
+        $raw = [];
+
+        if (in_array($ext, ['csv', 'txt'], true)) {
+            $handle = fopen($file->getRealPath(), 'rb');
+            if ($handle === false) {
+                return response()->json(['message' => 'Gagal membuka file.'], 422);
+            }
+            while (($row = fgetcsv($handle)) !== false) {
+                $raw[] = array_map(fn ($c) => $this->normalizeNpsnCell($c), (array) $row);
+            }
+            fclose($handle);
+        } else {
+            try {
+                $reader = IOFactory::createReaderForFile($file->getRealPath());
+                $reader->setReadDataOnly(true);
+                $spreadsheet = $reader->load($file->getRealPath());
+                $sheet = $spreadsheet->getActiveSheet();
+                foreach ($sheet->toArray(null, true, true, false) as $row) {
+                    $raw[] = array_map(fn ($c) => $this->normalizeNpsnCell($c), (array) $row);
+                }
+                $spreadsheet->disconnectWorksheets();
+                unset($spreadsheet);
+            } catch (\Throwable $e) {
+                return response()->json(['message' => 'Gagal membaca file Excel: '.$e->getMessage()], 422);
+            }
+        }
+
+        // Buang baris kosong.
+        $raw = array_values(array_filter($raw, fn ($r) => count(array_filter($r, fn ($c) => trim((string) $c) !== '')) > 0));
+        if (! $raw) {
+            return response()->json(['message' => 'File kosong.'], 422);
+        }
+
+        // Cari kolom NPSN; jika tidak ada header NPSN, asumsikan kolom pertama.
+        $header = array_map(fn ($h) => strtolower(trim((string) $h)), $raw[0]);
+        $npsnIndex = array_search('npsn', $header, true);
+        if ($npsnIndex === false) {
+            $npsnIndex = 0;
+        }
+
+        $npsns = [];
+        foreach (array_slice($raw, 1) as $row) {
+            $value = trim((string) ($row[$npsnIndex] ?? ''));
+            if ($value === '') {
+                continue;
+            }
+            $npsns[] = $value;
+        }
+        $npsns = array_values(array_unique($npsns));
+
+        if (empty($npsns)) {
+            return response()->json(['message' => 'Tidak ada NPSN yang terbaca dari file.'], 422);
+        }
+
+        $found = Lembaga::whereIn('npsn', $npsns)->with('tahaps:id,tahap')->get()->keyBy('npsn');
+
+        $available = [];
+        $already = [];
+        $conflict = [];
+        $missing = [];
+
+        foreach ($npsns as $npsn) {
+            $lembaga = $found->get($npsn);
+            if (! $lembaga) {
+                $missing[] = $npsn;
+                continue;
+            }
+
+            $attached = $lembaga->tahaps->first();
+            if ($attached && $attached->id === $tahap->id) {
+                $already[] = $npsn;
+            } elseif ($attached) {
+                $conflict[] = ['npsn' => $npsn, 'tahap' => $attached->tahap];
+            } else {
+                $available[] = ['id' => $lembaga->id, 'npsn' => $npsn];
+            }
+        }
+
+        return response()->json([
+            'message' => count($available).' NPSN ditemukan dan siap dicentang.',
+            'available' => $available,
+            'already' => $already,
+            'conflict' => $conflict,
+            'missing' => $missing,
+        ]);
+    }
+
+    /**
+     * Normalisasi nilai sel NPSN: angka float bulat diubah ke string integer,
+     * sisanya di-trim sebagai string (pertahankan nol di depan).
+     */
+    protected function normalizeNpsnCell($value): string
+    {
+        if ($value === null) {
+            return '';
+        }
+        if (is_float($value) && floor($value) === $value) {
+            return (string) (int) $value;
+        }
+
+        return trim((string) $value);
     }
 
     /**
@@ -201,7 +320,9 @@ class TahapLembagaController extends Controller
         // clear preview session
         session()->forget(['tahap_preview_ids', 'tahap_preview_unmatched']);
 
-        return redirect()->back()->with('success', 'Preview berhasil di-attach ke tahap.');
+        return redirect()
+            ->route('admin.tahap.lembaga.index', ['tahap' => $tahap->slug])
+            ->with('success', 'Preview berhasil di-attach ke tahap.');
     }
 
     /**
@@ -210,7 +331,9 @@ class TahapLembagaController extends Controller
     public function cancelPreview(Request $request, Tahap $tahap)
     {
         session()->forget(['tahap_preview_ids', 'tahap_preview_unmatched']);
-        return redirect()->back()->with('success', 'Preview dibatalkan.');
+        return redirect()
+            ->route('admin.tahap.lembaga.index', ['tahap' => $tahap->slug])
+            ->with('success', 'Preview dibatalkan.');
     }
 
     /**
@@ -300,6 +423,8 @@ class TahapLembagaController extends Controller
     public function detach(Request $request, Tahap $tahap, Lembaga $lembaga)
     {
         $tahap->lembagas()->detach($lembaga->id);
-        return redirect()->back()->with('success', 'Lembaga berhasil dilepas dari tahap');
+        return redirect()
+            ->route('admin.tahap.lembaga.index', ['tahap' => $tahap->slug])
+            ->with('success', 'Lembaga berhasil dilepas dari tahap');
     }
 }

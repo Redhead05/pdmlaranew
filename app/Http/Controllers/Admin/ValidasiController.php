@@ -179,7 +179,7 @@ class ValidasiController extends Controller
         if ($validasi->pairing_locked_at !== null) {
             $msg = 'Validasi sudah dikunci.';
 
-            return $isJson ? response()->json(['ok' => false, 'message' => $msg], 422) : back()->with('error', $msg);
+            return $isJson ? response()->json(['ok' => false, 'message' => $msg], 422) : redirect()->route('admin.validasi.show', $validasi)->with('error', $msg);
         }
 
         $data = $request->validate([
@@ -195,7 +195,7 @@ class ValidasiController extends Controller
 
         $msg = 'Asesor ditandai sebagai "Bisa".';
 
-        return $isJson ? response()->json(['ok' => true, 'message' => $msg]) : back()->with('success', $msg);
+        return $isJson ? response()->json(['ok' => true, 'message' => $msg]) : redirect()->route('admin.validasi.show', $validasi)->with('success', $msg);
     }
 
     /**
@@ -208,7 +208,7 @@ class ValidasiController extends Controller
         if ($validasi->pairing_locked_at !== null) {
             $msg = 'Validasi sudah dikunci.';
 
-            return $isJson ? response()->json(['ok' => false, 'message' => $msg], 422) : back()->with('error', $msg);
+            return $isJson ? response()->json(['ok' => false, 'message' => $msg], 422) : redirect()->route('admin.validasi.show', $validasi)->with('error', $msg);
         }
 
         $data = $request->validate([
@@ -226,7 +226,7 @@ class ValidasiController extends Controller
 
         $msg = 'Asesor dipindahkan ke "Tidak Bisa" beserta bukti.';
 
-        return $isJson ? response()->json(['ok' => true, 'message' => $msg]) : back()->with('success', $msg);
+        return $isJson ? response()->json(['ok' => true, 'message' => $msg]) : redirect()->route('admin.validasi.show', $validasi)->with('success', $msg);
     }
 
     /**
@@ -239,7 +239,7 @@ class ValidasiController extends Controller
         if ($validasi->pairing_locked_at !== null) {
             $msg = 'Validasi sudah dikunci.';
 
-            return $isJson ? response()->json(['ok' => false, 'message' => $msg], 422) : back()->with('error', $msg);
+            return $isJson ? response()->json(['ok' => false, 'message' => $msg], 422) : redirect()->route('admin.validasi.show', $validasi)->with('error', $msg);
         }
 
         $data = $request->validate([
@@ -250,7 +250,7 @@ class ValidasiController extends Controller
 
         $msg = 'Asesor dipindahkan ke "Belum Mengisi".';
 
-        return $isJson ? response()->json(['ok' => true, 'message' => $msg]) : back()->with('success', $msg);
+        return $isJson ? response()->json(['ok' => true, 'message' => $msg]) : redirect()->route('admin.validasi.show', $validasi)->with('success', $msg);
     }
     // ------------------------------------------------------------------
     // Bulk edit (multi-baris)
@@ -263,7 +263,7 @@ class ValidasiController extends Controller
         if ($validasi->pairing_locked_at !== null) {
             $msg = 'Validasi sudah dikunci.';
 
-            return $isJson ? response()->json(['ok' => false, 'message' => $msg], 422) : back()->with('error', $msg);
+            return $isJson ? response()->json(['ok' => false, 'message' => $msg], 422) : redirect()->route('admin.validasi.show', $validasi)->with('error', $msg);
         }
 
         $data = $request->validate([
@@ -282,7 +282,7 @@ class ValidasiController extends Controller
 
         $msg = count($data['user_ids']).' asesor ditandai "Bisa".';
 
-        return $isJson ? response()->json(['ok' => true, 'message' => $msg]) : back()->with('success', $msg);
+        return $isJson ? response()->json(['ok' => true, 'message' => $msg]) : redirect()->route('admin.validasi.show', $validasi)->with('success', $msg);
     }
 
     public function bulkSetBelum(Request $request, Validasi $validasi)
@@ -292,7 +292,7 @@ class ValidasiController extends Controller
         if ($validasi->pairing_locked_at !== null) {
             $msg = 'Validasi sudah dikunci.';
 
-            return $isJson ? response()->json(['ok' => false, 'message' => $msg], 422) : back()->with('error', $msg);
+            return $isJson ? response()->json(['ok' => false, 'message' => $msg], 422) : redirect()->route('admin.validasi.show', $validasi)->with('error', $msg);
         }
 
         $data = $request->validate([
@@ -304,7 +304,7 @@ class ValidasiController extends Controller
 
         $msg = count($data['user_ids']).' asesor dipindahkan ke "Belum Mengisi".';
 
-        return $isJson ? response()->json(['ok' => true, 'message' => $msg]) : back()->with('success', $msg);
+        return $isJson ? response()->json(['ok' => true, 'message' => $msg]) : redirect()->route('admin.validasi.show', $validasi)->with('success', $msg);
     }
 
     // ------------------------------------------------------------------
@@ -583,7 +583,7 @@ class ValidasiController extends Controller
         if ($validasi->pairing_locked_at === null) {
             $msg = 'Kunci validasi terlebih dahulu sebelum pairing.';
 
-            return $isJson ? response()->json(['ok' => false, 'message' => $msg], 422) : back()->with('error', $msg);
+            return $isJson ? response()->json(['ok' => false, 'message' => $msg], 422) : redirect()->route('admin.validasi.show', $validasi)->with('error', $msg);
         }
 
         $data = $request->validate([
@@ -605,7 +605,7 @@ class ValidasiController extends Controller
         if ($asesors->isEmpty()) {
             $msg = 'Tidak ada asesor yang menyatakan "Bisa" pada validasi ini.';
 
-            return $isJson ? response()->json(['ok' => false, 'message' => $msg], 422) : back()->with('error', $msg);
+            return $isJson ? response()->json(['ok' => false, 'message' => $msg], 422) : redirect()->route('admin.validasi.show', $validasi)->with('error', $msg);
         }
 
         $assignedIds = ValidasiLembaga::where('validasi_id', $validasi->id)->pluck('lembaga_id');
@@ -657,7 +657,7 @@ class ValidasiController extends Controller
 
         $msg = "Pairing selesai: {$paired} lembaga terpasang ({$per} per asesor), {$skipped} dibiarkan kosong.";
 
-        return $isJson ? response()->json(['ok' => true, 'message' => $msg]) : back()->with('success', $msg);
+        return $isJson ? response()->json(['ok' => true, 'message' => $msg]) : redirect()->route('admin.validasi.show', $validasi)->with('success', $msg);
     }
 
     // ------------------------------------------------------------------
@@ -896,14 +896,14 @@ class ValidasiController extends Controller
     {
         $validasi->update(['pairing_locked_at' => now(), 'pairing_locked_by' => Auth::id()]);
 
-        return back()->with('success', 'Validasi dikunci.');
+        return redirect()->route('admin.validasi.show', $validasi)->with('success', 'Validasi dikunci.');
     }
 
     public function unlock(Validasi $validasi)
     {
         $validasi->update(['pairing_locked_at' => null, 'pairing_locked_by' => null]);
 
-        return back()->with('success', 'Validasi dibuka kembali.');
+        return redirect()->route('admin.validasi.show', $validasi)->with('success', 'Validasi dibuka kembali.');
     }
 
     // ------------------------------------------------------------------

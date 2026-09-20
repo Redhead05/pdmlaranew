@@ -1399,7 +1399,8 @@ class GenerationController extends Controller
             'pairing_locked_by' => Auth::id(),
         ]);
 
-        return back()->with('success', 'Data pairing dikunci. Untuk mengubahnya, gunakan tombol Buka Kunci.');
+        return redirect()->route('admin.tahap.generation.index', ['tahap' => $tahap->slug])
+            ->with('success', 'Data pairing dikunci. Untuk mengubahnya, gunakan tombol Buka Kunci.');
     }
 
     /**
@@ -1412,7 +1413,8 @@ class GenerationController extends Controller
             'pairing_locked_by' => null,
         ]);
 
-        return back()->with('success', 'Kunci data pairing dibuka. Data dapat diubah kembali.');
+        return redirect()->route('admin.tahap.generation.index', ['tahap' => $tahap->slug])
+            ->with('success', 'Kunci data pairing dibuka. Data dapat diubah kembali.');
     }
 
     /**

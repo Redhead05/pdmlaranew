@@ -67,6 +67,7 @@
                             </form>
                         @else
                             <form method="POST" action="{{ route('admin.tahap.pairing.generate', ['tahap' => $tahap->slug]) }}"
+                                  data-turbo-action="replace"
                                   onsubmit="return konfirmasiGenerate();">
                                 @csrf
                                 <input type="hidden" name="reset_pairing" value="1">
@@ -160,6 +161,7 @@
                                 <div class="col-lg-7">
                                     <form method="POST" action="{{ $uploadUrl }}" enctype="multipart/form-data"
                                           class="d-flex gap-2 flex-wrap"
+                                          data-turbo-action="replace"
                                           onsubmit="return confirm('Terapkan pasangan asesor dari file ini? Pasangan pada file akan menggantikan data saat ini.');">
                                         @csrf
                                         <input type="file" name="file" accept=".csv,.txt,.xlsx" class="form-control form-control-sm" style="max-width:340px" required>
@@ -662,15 +664,16 @@
                 });
             }
 
-            $(document).on('click', '.btn-pilih-asesor', function () {
+            // Namespace + off() agar handler tidak menumpuk saat Turbo re-render halaman.
+            $(document).off('click.ksg', '.btn-pilih-asesor').on('click.ksg', '.btn-pilih-asesor', function () {
                 openAsesorModal($(this).data('team'), $(this).data('slot'));
             });
 
-            $(document).on('click', '.btn-isi-slot', function () {
+            $(document).off('click.ksg', '.btn-isi-slot').on('click.ksg', '.btn-isi-slot', function () {
                 openAsesorModal($(this).data('team'), $(this).data('slot'));
             });
 
-            $(document).on('click', '.btn-pilih-asesor-row', function () {
+            $(document).off('click.ksg', '.btn-pilih-asesor-row').on('click.ksg', '.btn-pilih-asesor-row', function () {
                 if (!asesorTable || !ubahCtx) return;
                 const row = asesorTable.row($(this).closest('tr')).data();
                 if (!row) return;
@@ -696,7 +699,7 @@
             });
 
             // --------------- Keluarkan asesor dari tim ---------------
-            $(document).on('click', '.btn-keluarkan', function () {
+            $(document).off('click.ksg', '.btn-keluarkan').on('click.ksg', '.btn-keluarkan', function () {
                 const teamId = $(this).data('team');
                 const userId = $(this).data('user');
                 if (!confirm('Keluarkan asesor ini dari tim? Asesor akan masuk daftar "Belum Terpasang".')) return;
@@ -712,7 +715,7 @@
             // --------------- Pasangkan asesor ke tim ---------------
             let pasangkanUser = null;
 
-            $(document).on('click', '.btn-pasangkan', function () {
+            $(document).off('click.ksg', '.btn-pasangkan').on('click.ksg', '.btn-pasangkan', function () {
                 pasangkanUser = { id: $(this).data('user'), name: $(this).closest('tr').find('td').eq(2).text() };
                 $('#team-modal-hint').html('Pasangkan <strong>' + esc(pasangkanUser.name) + '</strong> ke tim tujuan.');
                 $('#team-modal-select').val('');

@@ -4,6 +4,24 @@
 @push('styles')
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     @include('partial.table-ux')
+    <style>
+        /* Motion: feedback & state legibility pada halaman show validasi */
+        .toast.ksg-toast-in { animation: ksg-toast-in .22s cubic-bezier(0.16, 1, 0.3, 1) both; }
+        @keyframes ksg-toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        tr.row-updated, tr.row-updated td { animation: ksg-row-pulse .6s ease-out; }
+        @keyframes ksg-row-pulse { 0% { background-color: #D8FFC8; } 100% { background-color: transparent; } }
+        body[data-theme="dark"] tr.row-updated,
+        body[data-theme="dark"] tr.row-updated td { animation-name: ksg-row-pulse-dark; }
+        @keyframes ksg-row-pulse-dark { 0% { background-color: rgba(55, 216, 10, .18); } 100% { background-color: transparent; } }
+
+        .ksg-locked-badge { animation: ksg-locked-in .35s cubic-bezier(0.16, 1, 0.3, 1) both; }
+        @keyframes ksg-locked-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (prefers-reduced-motion: reduce) {
+            .toast.ksg-toast-in, tr.row-updated, tr.row-updated td, .ksg-locked-badge { animation: none; }
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -28,7 +46,7 @@
                             Periode: {{ optional($validasi->start_date)->translatedFormat('d M Y') ?? '-' }} — {{ optional($validasi->end_date)->translatedFormat('d M Y') ?? '-' }}
                         </p>
                         @if($locked)
-                            <span class="badge bg-danger mt-2"><i class="material-symbols-outlined align-middle" style="font-size:16px">lock</i> Terkunci — {{ optional($validasi->pairing_locked_at)->translatedFormat('d M Y H:i') }}</span>
+                            <span class="badge bg-danger mt-2 ksg-locked-badge"><i class="material-symbols-outlined align-middle" style="font-size:16px">lock</i> Terkunci — {{ optional($validasi->pairing_locked_at)->translatedFormat('d M Y H:i') }}</span>
                         @endif
                     </div>
 
@@ -143,7 +161,7 @@
                         <input type="hidden" name="bukti" value="">
                         <input type="file" class="form-control js-bukti-file" accept="image/*">
                         <div class="js-bukti-preview mt-2" style="display:none;">
-                            <img src="" height="70" class="rounded border" alt="bukti">
+                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" height="70" class="rounded border" alt="bukti">
                         </div>
                         <div class="form-text">Gambar dikompresi (maks lebar 1000px, JPEG) dan disimpan sebagai base64.</div>
                     </div>
@@ -205,7 +223,8 @@
             const bulkSetBelumUrl = "{{ route('admin.validasi.bulk-set-belum', $validasi) }}";
 
             function esc(s){return String(s ?? '').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-            function showToast(title, msg, type){ type=type||'success'; const box=document.getElementById('toast-container'); if(!box) return; const el=document.createElement('div'); el.className='toast align-items-center text-bg-'+type+' border-0 show'; el.innerHTML='<div class="d-flex"><div class="toast-body"><strong>'+esc(title)+'</strong><div class="fs-14">'+msg+'</div></div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div>'; box.appendChild(el); new bootstrap.Toast(el,{delay:6000}).show(); }
+            function showToast(title, msg, type){ type=type||'success'; const box=document.getElementById('toast-container'); if(!box) return; const el=document.createElement('div'); el.className='toast align-items-center text-bg-'+type+' border-0 fade ksg-toast-in show'; el.innerHTML='<div class="d-flex"><div class="toast-body"><strong>'+esc(title)+'</strong><div class="fs-14">'+msg+'</div></div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div>'; box.appendChild(el); new bootstrap.Toast(el,{delay:6000}).show(); }
+            function pulseRows($els){ if(!$els || !$els.length) return; $els.addClass('row-updated'); setTimeout(function(){ $els.removeClass('row-updated'); }, 650); }
             function askConfirm(title, message, onOk) {
                 $('#confirmModalTitle').text(title);
                 $('#confirmModalBody').text(message);
@@ -278,10 +297,13 @@
 
             $(document).on('click', '.btn-jadikan-bisa', function(){
                 const uid=$(this).data('user');
+                const $row=$(this).closest('tr');
+                const $btn=$(this);
                 askConfirm('Jadikan Bisa', 'Jadikan asesor ini "Bisa"? Jawaban sebelumnya akan diganti.', function(){
+                    $btn.prop('disabled', true);
                     $.ajax({ url:setBisaUrl, type:'POST', data:{_token:csrf, user_id:uid}, dataType:'json' })
-                        .done(function(res){ showToast('Berhasil', (res && res.message) || 'Asesor ditandai "Bisa".','success'); setTimeout(function(){ location.reload(); }, 800); })
-                        .fail(function(x){ showToast('Gagal', (x.responseJSON && x.responseJSON.message) || 'Terjadi kesalahan.','danger'); });
+                        .done(function(res){ pulseRows($row); showToast('Berhasil', (res && res.message) || 'Asesor ditandai "Bisa".','success'); setTimeout(function(){ location.reload(); }, 800); })
+                        .fail(function(x){ $btn.prop('disabled', false); showToast('Gagal', (x.responseJSON && x.responseJSON.message) || 'Terjadi kesalahan.','danger'); });
                 });
             });
 
@@ -291,10 +313,13 @@
                 if (action === 'tidak') { openPindahTidakModal(uid); return; }
                 const url = action === 'bisa' ? setBisaUrl : setBelumUrl;
                 const label = action === 'bisa' ? 'Bisa' : 'Belum Mengisi';
+                const $row=$(this).closest('tr');
+                const $btn=$(this);
                 askConfirm('Pindahkan', 'Pindahkan asesor ini ke "' + label + '"?', function(){
+                    $btn.prop('disabled', true);
                     $.ajax({ url:url, type:'POST', data:{_token:csrf, user_id:uid}, dataType:'json' })
-                        .done(function(res){ showToast('Berhasil', (res && res.message) || 'Berhasil dipindahkan.','success'); setTimeout(function(){ location.reload(); }, 800); })
-                        .fail(function(x){ showToast('Gagal', (x.responseJSON && x.responseJSON.message) || 'Terjadi kesalahan.','danger'); });
+                        .done(function(res){ pulseRows($row); showToast('Berhasil', (res && res.message) || 'Berhasil dipindahkan.','success'); setTimeout(function(){ location.reload(); }, 800); })
+                        .fail(function(x){ $btn.prop('disabled', false); showToast('Gagal', (x.responseJSON && x.responseJSON.message) || 'Terjadi kesalahan.','danger'); });
                 });
             });
 
@@ -307,13 +332,16 @@
             $(document).on('click', '.btn-bulk', function(){
                 const action = $(this).data('action'); // 'bisa' | 'belum'
                 const sel = $(this).data('table');
+                const $btn = $(this);
                 const ids = $(sel).find('.row-select:checked').map(function(){ return $(this).data('user'); }).get();
                 if (!ids.length) { showToast('Pilih Data', 'Pilih minimal 1 baris terlebih dahulu.', 'warning'); return; }
                 const url = action === 'bisa' ? bulkSetBisaUrl : bulkSetBelumUrl;
+                const $rows = $(sel).find('.row-select:checked').closest('tr');
                 askConfirm('Aksi Massal', 'Terapkan aksi ke ' + ids.length + ' asesor terpilih?', function(){
+                    $btn.prop('disabled', true);
                     $.ajax({ url:url, type:'POST', data:{_token:csrf, user_ids:ids}, dataType:'json' })
-                        .done(function(res){ showToast('Berhasil', (res && res.message) || 'Berhasil.','success'); setTimeout(function(){ location.reload(); }, 800); })
-                        .fail(function(x){ showToast('Gagal', (x.responseJSON && x.responseJSON.message) || 'Terjadi kesalahan.','danger'); });
+                        .done(function(res){ pulseRows($rows); showToast('Berhasil', (res && res.message) || 'Berhasil.','success'); setTimeout(function(){ location.reload(); }, 800); })
+                        .fail(function(x){ $btn.prop('disabled', false); showToast('Gagal', (x.responseJSON && x.responseJSON.message) || 'Terjadi kesalahan.','danger'); });
                 });
             });
 

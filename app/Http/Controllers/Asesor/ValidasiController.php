@@ -15,7 +15,13 @@ class ValidasiController extends Controller
      */
     public function index()
     {
-        $user = auth()->user();
+        $user = auth()->user()?->loadMissing('detail');
+
+        $authUser = [
+            'nia' => $user?->nia,
+            'name' => $user?->name,
+            'work_city' => $user?->detail?->work_city,
+        ];
 
         $validasis = Validasi::query()
             ->with(['kesanggupans' => fn ($q) => $q->where('user_id', $user->id)])
@@ -28,7 +34,7 @@ class ValidasiController extends Controller
             $jawaban[$v->id] = $v->kesanggupans->first();
         }
 
-        return view('menu.asesor.validasi.index', compact('validasis', 'jawaban'));
+        return view('menu.asesor.validasi.index', compact('validasis', 'jawaban', 'authUser'));
     }
 
     /**

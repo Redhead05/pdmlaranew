@@ -8,7 +8,7 @@
                         <ul class="d-flex align-items-center ps-0 mb-0 list-unstyled justify-content-center justify-content-sm-start">
                             <li>
                                 <button class="header-burger-menu bg-transparent p-0 border-0" id="header-burger-menu">
-                                    <span class="material-symbols-outlined">menu</span>
+                                    <i class="ri-menu-line"></i>
                                 </button>
                             </li>
 
@@ -22,15 +22,15 @@
                             <li class="header-right-item">
                                 <div class="light-dark">
                                     <button class="switch-toggle settings-btn dark-btn p-0 bg-transparent border-0" id="switch-toggle">
-                                        <span class="dark"><i class="material-symbols-outlined">light_mode</i></span>
-                                        <span class="light"><i class="material-symbols-outlined">dark_mode</i></span>
+                                        <span class="dark"><i class="ri-sun-line"></i></span>
+                                        <span class="light"><i class="ri-moon-line"></i></span>
                                     </button>
                                 </div>
                             </li>
 
                             <li class="header-right-item">
                                 <button class="fullscreen-btn bg-transparent p-0 border-0" id="fullscreen-button">
-                                    <i class="material-symbols-outlined text-body">fullscreen</i>
+                                    <i class="ri-fullscreen-line text-body"></i>
                                 </button>
                             </li>
                             <li class="header-right-item">
@@ -44,7 +44,7 @@
                                 @endphp
                                 <div class="dropdown notifications noti">
                                     <button class="btn btn-secondary border-0 p-0 position-relative" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <span class="material-symbols-outlined">notifications</span>
+                                        <i class="ri-notification-3-line"></i>
                                         @if($headerNotificationCount > 0)
                                             <span id="notificationBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size:10px;">
                                                 {{ $headerNotificationCount > 99 ? '99+' : $headerNotificationCount }}
@@ -65,7 +65,7 @@
                                                         <button type="submit" class="dropdown-item text-start border-0 bg-transparent w-100">
                                                             <div class="d-flex align-items-center">
                                                                 <div class="flex-shrink-0">
-                                                                    <i class="material-symbols-outlined text-primary">assignment</i>
+                                                                    <i class="ri-task-line text-primary"></i>
                                                                 </div>
                                                                 <div class="flex-grow-1 ms-3">
                                                                     <p class="mb-0 text-body">{{ $notification->data['title'] ?? 'Notifikasi' }}</p>
@@ -149,7 +149,7 @@
                                                     }
                                                 @endphp
                                                 <a class="dropdown-item admin-item-link d-flex align-items-center text-body" href="{{ $profileRoute }}">
-                                                    <i class="material-symbols-outlined">account_circle</i>
+                                                    <i class="ri-account-circle-line"></i>
                                                     <span class="ms-2">My Profile</span>
                                                 </a>
                                             </li>
@@ -158,7 +158,7 @@
                                             <li>
                                                 <a href="#" class="dropdown-item admin-item-link d-flex align-items-center text-body"
                                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                                    <i class="material-symbols-outlined">logout</i>
+                                                    <i class="ri-logout-box-line"></i>
                                                     <span class="ms-2">Logout</span>
                                                 </a>
                                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -171,7 +171,7 @@
                             </li>
                             <li class="header-right-item">
                                 <button class="theme-settings-btn p-0 border-0 bg-transparent" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
-                                    <i class="material-symbols-outlined" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Click On Theme Settings">settings</i>
+                                    <i class="ri-settings-3-line" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Click On Theme Settings"></i>
                                 </button>
                             </li>
                         </ul>

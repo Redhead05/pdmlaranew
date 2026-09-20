@@ -5,6 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    {{-- Matikan cache Turbo agar tombol back/forward selalu memuat ulang halaman.
+         Cache restorasi mengembalikan DOM yang sudah di-inisialisasi DataTables,
+         sehingga kolom tidak ter-render dan tombol/modal menumpuk. --}}
+    <meta name="turbo-cache-control" content="no-cache">
        @include('partial.styles')
     <style>turbo-frame{display:block;}</style>
     {{-- Bootstrap dimuat di head agar skrip inline halaman (mis. modal) tersedia sebelum konten diframe --}}
@@ -18,7 +22,7 @@
     <!-- Title -->
     <title>@yield('title')</title>
         </head>
-    <body style="background-color: #F6F7F9;">
+    <body style="background-color: #F6F7F9;" data-route-group="{{ str(optional(request()->route())->getName() ?? '')->before('.') }}">
         @include('partial.header')
         @include('partial.sidebar')
 
@@ -33,9 +37,9 @@
 
         <div class="flex-grow-1"></div>
 
-        {{--@include('partial.theme-setting')--}}
+        @include('partial.theme-setting')
         @include('partial.footer')
-        @include('partial.scripts')
+        @include('partial.scripts', ['skipBootstrapJs' => true])
 
         {{-- Vite entry untuk halaman adminlanding chat (aman karena script hanya jalan jika ada data-adminlanding-chat) --}}
         {{-- turbo.js memuat @hotwired/turbo tanpa preflight Tailwind agar tidak bentrok dengan Bootstrap --}}

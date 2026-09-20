@@ -133,6 +133,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('tahap/{tahap}/lembaga/attach', [TahapLembagaController::class, 'attach'])->name('tahap.lembaga.attach');
         Route::get('tahap/{tahap}/lembaga/template', [TahapLembagaController::class, 'template'])->name('tahap.lembaga.template');
         Route::post('tahap/{tahap}/lembaga/upload', [TahapLembagaController::class, 'upload'])->name('tahap.lembaga.upload');
+        Route::post('tahap/{tahap}/lembaga/check-npsn', [TahapLembagaController::class, 'checkNpsn'])->name('tahap.lembaga.check-npsn');
         Route::post('tahap/{tahap}/lembaga/{lembaga}/detach', [TahapLembagaController::class, 'detach'])->name('tahap.lembaga.detach');
         // upload/attach handled directly without preview
 

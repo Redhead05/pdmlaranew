@@ -177,48 +177,48 @@
                                         <h3 class="mb-0">Top Instructors</h3>
                                         <div class="dropdown action-opt">
                                             <button class="btn bg-transparent p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i data-feather="more-horizontal"></i>
+                                                <i class="material-symbols-outlined">more_horiz</i>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end bg-white border box-shadow">
                                                 <li>
                                                     <a class="dropdown-item" href="javascript:;">
-                                                        <i data-feather="clock"></i>
+                                                        <i class="material-symbols-outlined">schedule</i>
                                                         Today
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="javascript:;">
-                                                        <i data-feather="pie-chart"></i>
+                                                        <i class="material-symbols-outlined">pie_chart</i>
                                                         Last 7 Days
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="javascript:;">
-                                                        <i data-feather="rotate-cw"></i>
+                                                        <i class="material-symbols-outlined">refresh</i>
                                                         Last Month
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="javascript:;">
-                                                        <i data-feather="calendar"></i>
+                                                        <i class="material-symbols-outlined">calendar_month</i>
                                                         Last 1 Year
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="javascript:;">
-                                                        <i data-feather="bar-chart"></i>
+                                                        <i class="material-symbols-outlined">bar_chart</i>
                                                         All Time
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="javascript:;">
-                                                        <i data-feather="eye"></i>
+                                                        <i class="material-symbols-outlined">visibility</i>
                                                         View
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="javascript:;">
-                                                        <i data-feather="trash"></i>
+                                                        <i class="material-symbols-outlined">delete</i>
                                                         Delete
                                                     </a>
                                                 </li>
@@ -254,19 +254,19 @@
                                                 <td>
                                                     <ul class="ps-0 mb-0 list-unstyled d-flex gap-1">
                                                         <li>
-                                                            <i class="ri-star-fill text-rating-color fs-16"></i>
+                                                            <i class="material-symbols-outlined text-rating-color fs-16" style="font-variation-settings:'FILL' 1">star</i>
                                                         </li>
                                                         <li>
-                                                            <i class="ri-star-fill text-rating-color fs-16"></i>
+                                                            <i class="material-symbols-outlined text-rating-color fs-16" style="font-variation-settings:'FILL' 1">star</i>
                                                         </li>
                                                         <li>
-                                                            <i class="ri-star-fill text-rating-color fs-16"></i>
+                                                            <i class="material-symbols-outlined text-rating-color fs-16" style="font-variation-settings:'FILL' 1">star</i>
                                                         </li>
                                                         <li>
-                                                            <i class="ri-star-fill text-rating-color fs-16"></i>
+                                                            <i class="material-symbols-outlined text-rating-color fs-16" style="font-variation-settings:'FILL' 1">star</i>
                                                         </li>
                                                         <li>
-                                                            <i class="ri-star-fill text-rating-color fs-16"></i>
+                                                            <i class="material-symbols-outlined text-rating-color fs-16" style="font-variation-settings:'FILL' 1">star</i>
                                                         </li>
                                                     </ul>
                                                 </td>
@@ -287,19 +287,19 @@
                                                 <td>
                                                     <ul class="ps-0 mb-0 list-unstyled d-flex gap-1">
                                                         <li>
-                                                            <i class="ri-star-fill text-rating-color fs-16"></i>
+                                                            <i class="material-symbols-outlined text-rating-color fs-16" style="font-variation-settings:'FILL' 1">star</i>
                                                         </li>
                                                         <li>
-                                                            <i class="ri-star-fill text-rating-color fs-16"></i>
+                                                            <i class="material-symbols-outlined text-rating-color fs-16" style="font-variation-settings:'FILL' 1">star</i>
                                                         </li>
                                                         <li>
-                                                            <i class="ri-star-fill text-rating-color fs-16"></i>
+                                                            <i class="material-symbols-outlined text-rating-color fs-16" style="font-variation-settings:'FILL' 1">star</i>
                                                         </li>
                                                         <li>
-                                                            <i class="ri-star-fill text-rating-color fs-16"></i>
+                                                            <i class="material-symbols-outlined text-rating-color fs-16" style="font-variation-settings:'FILL' 1">star</i>
                                                         </li>
                                                         <li>
-                                                            <i class="ri-star-half-fill text-rating-color fs-16"></i>
+                                                            <i class="material-symbols-outlined text-rating-color fs-16">star_half</i>
                                                         </li>
                                                     </ul>
                                                 </td>
@@ -320,19 +320,19 @@
                                                 <td>
                                                     <ul class="ps-0 mb-0 list-unstyled d-flex gap-1">
                                                         <li>
-                                                            <i class="ri-star-fill text-rating-color fs-16"></i>
+                                                            <i class="material-symbols-outlined text-rating-color fs-16" style="font-variation-settings:'FILL' 1">star</i>
                                                         </li>
                                                         <li>
-                                                            <i class="ri-star-fill text-rating-color fs-16"></i>
+                                                            <i class="material-symbols-outlined text-rating-color fs-16" style="font-variation-settings:'FILL' 1">star</i>
                                                         </li>
                                                         <li>
-                                                            <i class="ri-star-fill text-rating-color fs-16"></i>
+                                                            <i class="material-symbols-outlined text-rating-color fs-16" style="font-variation-settings:'FILL' 1">star</i>
                                                         </li>
                                                         <li>
-                                                            <i class="ri-star-fill text-rating-color fs-16"></i>
+                                                            <i class="material-symbols-outlined text-rating-color fs-16" style="font-variation-settings:'FILL' 1">star</i>
                                                         </li>
                                                         <li>
-                                                            <i class="ri-star-line text-rating-color fs-16"></i>
+                                                            <i class="material-symbols-outlined text-rating-color fs-16">star</i>
                                                         </li>
                                                     </ul>
                                                 </td>
@@ -353,19 +353,19 @@
                                                 <td>
                                                     <ul class="ps-0 mb-0 list-unstyled d-flex gap-1">
                                                         <li>
-                                                            <i class="ri-star-fill text-rating-color fs-16"></i>
+                                                            <i class="material-symbols-outlined text-rating-color fs-16" style="font-variation-settings:'FILL' 1">star</i>
                                                         </li>
                                                         <li>
-                                                            <i class="ri-star-fill text-rating-color fs-16"></i>
+                                                            <i class="material-symbols-outlined text-rating-color fs-16" style="font-variation-settings:'FILL' 1">star</i>
                                                         </li>
                                                         <li>
-                                                            <i class="ri-star-fill text-rating-color fs-16"></i>
+                                                            <i class="material-symbols-outlined text-rating-color fs-16" style="font-variation-settings:'FILL' 1">star</i>
                                                         </li>
                                                         <li>
-                                                            <i class="ri-star-half-fill text-rating-color fs-16"></i>
+                                                            <i class="material-symbols-outlined text-rating-color fs-16">star_half</i>
                                                         </li>
                                                         <li>
-                                                            <i class="ri-star-line text-rating-color fs-16"></i>
+                                                            <i class="material-symbols-outlined text-rating-color fs-16">star</i>
                                                         </li>
                                                     </ul>
                                                 </td>
@@ -411,48 +411,48 @@
                                         <h3 class="mb-0">Student’s Progress</h3>
                                         <div class="dropdown action-opt">
                                             <button class="btn bg-transparent p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i data-feather="more-horizontal"></i>
+                                                <i class="material-symbols-outlined">more_horiz</i>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end bg-white border box-shadow">
                                                 <li>
                                                     <a class="dropdown-item" href="javascript:;">
-                                                        <i data-feather="clock"></i>
+                                                        <i class="material-symbols-outlined">schedule</i>
                                                         Today
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="javascript:;">
-                                                        <i data-feather="pie-chart"></i>
+                                                        <i class="material-symbols-outlined">pie_chart</i>
                                                         Last 7 Days
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="javascript:;">
-                                                        <i data-feather="rotate-cw"></i>
+                                                        <i class="material-symbols-outlined">refresh</i>
                                                         Last Month
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="javascript:;">
-                                                        <i data-feather="calendar"></i>
+                                                        <i class="material-symbols-outlined">calendar_month</i>
                                                         Last 1 Year
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="javascript:;">
-                                                        <i data-feather="bar-chart"></i>
+                                                        <i class="material-symbols-outlined">bar_chart</i>
                                                         All Time
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="javascript:;">
-                                                        <i data-feather="eye"></i>
+                                                        <i class="material-symbols-outlined">visibility</i>
                                                         View
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="javascript:;">
-                                                        <i data-feather="trash"></i>
+                                                        <i class="material-symbols-outlined">delete</i>
                                                         Delete
                                                     </a>
                                                 </li>
@@ -595,48 +595,48 @@
                                         <h3 class="mb-0">Group Lessons</h3>
                                         <div class="dropdown action-opt">
                                             <button class="btn bg-transparent p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i data-feather="more-horizontal"></i>
+                                                <i class="material-symbols-outlined">more_horiz</i>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end bg-white border box-shadow">
                                                 <li>
                                                     <a class="dropdown-item" href="javascript:;">
-                                                        <i data-feather="clock"></i>
+                                                        <i class="material-symbols-outlined">schedule</i>
                                                         Today
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="javascript:;">
-                                                        <i data-feather="pie-chart"></i>
+                                                        <i class="material-symbols-outlined">pie_chart</i>
                                                         Last 7 Days
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="javascript:;">
-                                                        <i data-feather="rotate-cw"></i>
+                                                        <i class="material-symbols-outlined">refresh</i>
                                                         Last Month
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="javascript:;">
-                                                        <i data-feather="calendar"></i>
+                                                        <i class="material-symbols-outlined">calendar_month</i>
                                                         Last 1 Year
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="javascript:;">
-                                                        <i data-feather="bar-chart"></i>
+                                                        <i class="material-symbols-outlined">bar_chart</i>
                                                         All Time
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="javascript:;">
-                                                        <i data-feather="eye"></i>
+                                                        <i class="material-symbols-outlined">visibility</i>
                                                         View
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="javascript:;">
-                                                        <i data-feather="trash"></i>
+                                                        <i class="material-symbols-outlined">delete</i>
                                                         Delete
                                                     </a>
                                                 </li>
@@ -673,7 +673,7 @@
                                                 </td>
                                                 <td class="text-end pt-1">
                                                     <a href="project-list.html" class="wh-35 d-inline-block border text-center lh-35 rounded-circle text-decoration-none hover-bg">
-                                                        <i class="ri-arrow-right-up-line fs-18"></i>
+                                                        <i class="material-symbols-outlined fs-18">arrow_outward</i>
                                                     </a>
                                                 </td>
                                             </tr>
@@ -701,7 +701,7 @@
                                                 </td>
                                                 <td class="text-end">
                                                     <a href="project-list.html" class="wh-35 d-inline-block border text-center lh-35 rounded-circle text-decoration-none hover-bg">
-                                                        <i class="ri-arrow-right-up-line fs-18"></i>
+                                                        <i class="material-symbols-outlined fs-18">arrow_outward</i>
                                                     </a>
                                                 </td>
                                             </tr>
@@ -729,7 +729,7 @@
                                                 </td>
                                                 <td class="text-end">
                                                     <a href="project-list.html" class="wh-35 d-inline-block border text-center lh-35 rounded-circle text-decoration-none hover-bg">
-                                                        <i class="ri-arrow-right-up-line fs-18"></i>
+                                                        <i class="material-symbols-outlined fs-18">arrow_outward</i>
                                                     </a>
                                                 </td>
                                             </tr>
@@ -757,7 +757,7 @@
                                                 </td>
                                                 <td class="text-end">
                                                     <a href="project-list.html" class="wh-35 d-inline-block border text-center lh-35 rounded-circle text-decoration-none hover-bg">
-                                                        <i class="ri-arrow-right-up-line fs-18"></i>
+                                                        <i class="material-symbols-outlined fs-18">arrow_outward</i>
                                                     </a>
                                                 </td>
                                             </tr>
@@ -785,7 +785,7 @@
                                                 </td>
                                                 <td class="text-end">
                                                     <a href="project-list.html" class="wh-35 d-inline-block border text-center lh-35 rounded-circle text-decoration-none hover-bg">
-                                                        <i class="ri-arrow-right-up-line fs-18"></i>
+                                                        <i class="material-symbols-outlined fs-18">arrow_outward</i>
                                                     </a>
                                                 </td>
                                             </tr>
@@ -828,48 +828,48 @@
 
                                     <div class="dropdown action-opt">
                                         <button class="btn bg-transparent p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i data-feather="more-horizontal"></i>
+                                            <i class="material-symbols-outlined">more_horiz</i>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end bg-white border box-shadow">
                                             <li>
                                                 <a class="dropdown-item" href="javascript:;">
-                                                    <i data-feather="clock"></i>
+                                                    <i class="material-symbols-outlined">schedule</i>
                                                     Today
                                                 </a>
                                             </li>
                                             <li>
                                                 <a class="dropdown-item" href="javascript:;">
-                                                    <i data-feather="pie-chart"></i>
+                                                    <i class="material-symbols-outlined">pie_chart</i>
                                                     Last 7 Days
                                                 </a>
                                             </li>
                                             <li>
                                                 <a class="dropdown-item" href="javascript:;">
-                                                    <i data-feather="rotate-cw"></i>
+                                                    <i class="material-symbols-outlined">refresh</i>
                                                     Last Month
                                                 </a>
                                             </li>
                                             <li>
                                                 <a class="dropdown-item" href="javascript:;">
-                                                    <i data-feather="calendar"></i>
+                                                    <i class="material-symbols-outlined">calendar_month</i>
                                                     Last 1 Year
                                                 </a>
                                             </li>
                                             <li>
                                                 <a class="dropdown-item" href="javascript:;">
-                                                    <i data-feather="bar-chart"></i>
+                                                    <i class="material-symbols-outlined">bar_chart</i>
                                                     All Time
                                                 </a>
                                             </li>
                                             <li>
                                                 <a class="dropdown-item" href="javascript:;">
-                                                    <i data-feather="eye"></i>
+                                                    <i class="material-symbols-outlined">visibility</i>
                                                     View
                                                 </a>
                                             </li>
                                             <li>
                                                 <a class="dropdown-item" href="javascript:;">
-                                                    <i data-feather="trash"></i>
+                                                    <i class="material-symbols-outlined">delete</i>
                                                     Delete
                                                 </a>
                                             </li>
@@ -1276,7 +1276,7 @@
                                             <div class="text-end">
                                                 <a href="course-details.html" class="btn border-color-white text-white py-1 px-2 px-sm-4 fs-14 fw-medium rounded-3 hover-bg">
                                                         <span class="py-sm-1 d-block">
-                                                            <i class="ri-add-line"></i>
+                                                            <i class="material-symbols-outlined">add</i>
                                                             <span>View Details</span>
                                                         </span>
                                                 </a>
@@ -1310,7 +1310,7 @@
                                             <div class="text-end">
                                                 <a href="course-details.html" class="btn border-color-white text-white py-1 px-2 px-sm-4 fs-14 fw-medium rounded-3 hover-bg">
                                                         <span class="py-sm-1 d-block">
-                                                            <i class="ri-add-line"></i>
+                                                            <i class="material-symbols-outlined">add</i>
                                                             <span>View Details</span>
                                                         </span>
                                                 </a>

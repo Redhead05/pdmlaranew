@@ -63,14 +63,14 @@
                                     <td><span class="badge bg-light text-dark border">{{ $t->finalized_teams_count }}</span></td>
                                     <td>
                                         <div class="d-flex gap-1 flex-wrap">
-                                            <a href="{{ route('admin.tahap.show', $t) }}" class="btn btn-sm btn-outline-primary" title="Lihat asesor" aria-label="Lihat asesor">
+                                            <a href="{{ route('admin.tahap.show', $t) }}" data-turbo-frame="_top" class="btn btn-sm btn-outline-primary" title="Lihat asesor" aria-label="Lihat asesor">
                                                 <i class="material-symbols-outlined align-middle" style="font-size:18px">visibility</i>
                                             </a>
-                                            <a href="{{ route('admin.tahap.lembaga.index', ['tahap' => $t->slug]) }}" class="btn btn-sm btn-outline-secondary" title="Lihat lembaga" aria-label="Lihat lembaga">
+                                            <a href="{{ route('admin.tahap.lembaga.index', ['tahap' => $t->slug]) }}" data-turbo-frame="_top" class="btn btn-sm btn-outline-secondary" title="Lihat lembaga" aria-label="Lihat lembaga">
                                                 <i class="material-symbols-outlined align-middle" style="font-size:18px">account_balance</i>
                                             </a>
                                             @if($t->generation_runs_count > 0)
-                                                <a href="{{ route('admin.tahap.generation.index', ['tahap' => $t->slug]) }}" class="btn btn-sm btn-outline-warning" title="Hasil generate" aria-label="Hasil generate">
+                                                <a href="{{ route('admin.tahap.generation.index', ['tahap' => $t->slug]) }}" data-turbo-frame="_top" class="btn btn-sm btn-outline-warning" title="Hasil generate" aria-label="Hasil generate">
                                                     <i class="material-symbols-outlined align-middle" style="font-size:18px">insights</i>
                                                 </a>
                                             @endif

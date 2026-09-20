@@ -5,7 +5,7 @@
             <img src="{{ asset('assets/logo_BANPDMJATIM.png') }}" alt="logo-icon">
         </a>
         <button class="sidebar-burger-menu bg-transparent p-0 border-0 opacity-0 z-n1 position-absolute top-50 end-0 translate-middle-y" id="sidebar-burger-menu">
-            <i data-feather="x"></i>
+            <i class="ri-close-line"></i>
         </button>
     </div>
 
@@ -14,7 +14,7 @@
             @role('admin')
             <li class="menu-item open">
                 <a href="{{ route ('admin.dashboard') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('admin.dashboard') ? 'active' : '' }}">
-                    <div class="flex gap-2">
+                    <div class="d-flex gap-2">
                         <span class="ri-eth-line"></span>
                         <span class="title"> Dashboard</span>
                     </div>
@@ -22,7 +22,7 @@
             </li>
             <li class="menu-item open">
                 <a href="{{ route ('admin.user.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('admin.user.index') ? 'active' : '' }}">
-                    <div class="flex gap-2">
+                    <div class="d-flex gap-2">
                         <i class="ri-group-2-fill"></i>
                         <span class="title">User</span>
                     </div>
@@ -30,7 +30,7 @@
             </li>
             <li class="menu-item open">
                 <a href="{{ route ('admin.attendance.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs(['admin.attendance.index','admin.attendance.detail']) ? 'active' : '' }}">
-                    <div class="flex gap-2">
+                    <div class="d-flex gap-2">
                         <i class="ri-calendar-check-line"></i>
                         <span class="title"> Attendance</span>
                     </div>
@@ -92,7 +92,7 @@
             @hasanyrole('adminlanding|admin')
             <li class="menu-item open ">
                 <a href="{{ route ('adminlanding.dashboard') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('adminlanding.dashboard') ? 'active' : '' }}">
-                    <div class="flex gap-2">
+                    <div class="d-flex gap-2">
                         <span class="ri-eth-line"></span>
                         <span class="title"> Dashboard Landing Page</span>
                     </div>
@@ -100,7 +100,7 @@
             </li>
             <li class="menu-item open">
                 <a href="{{ route ('adminlanding.home.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('adminlanding.home.index') ? 'active' : '' }}">
-                    <div class="flex gap-2">
+                    <div class="d-flex gap-2">
                         <span class="ri-home-line"></span>
                         <span class="title">Home</span>
                     </div>
@@ -108,7 +108,7 @@
             </li>
             <li class="menu-item open">
                 <a href="{{ route ('adminlanding.gallery.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('adminlanding.gallery.index') ? 'active' : '' }}">
-                    <div class="flex gap-2">
+                    <div class="d-flex gap-2">
                         <i class="ri-image-2-line"></i>
                         <span class="title">Gallery</span>
                     </div>
@@ -116,7 +116,7 @@
             </li>
             <li class="menu-item open">
                 <a href="{{ route ('adminlanding.news.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('adminlanding.news.index') ? 'active' : '' }}">
-                    <div class="flex gap-2">
+                    <div class="d-flex gap-2">
                         <i class="ri-article-line"></i>
                         <span class="title">News</span>
                     </div>
@@ -124,7 +124,7 @@
             </li>
             <li class="menu-item open">
                 <a href="{{ route ('adminlanding.employee.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('adminlanding.StrukturOrganisasi.index') ? 'active' : '' }}">
-                    <div class="flex gap-2">
+                    <div class="d-flex gap-2">
                         <i class="ri-home-office-fill"></i>
                         <span class="title">Struktur organisasi</span>
                     </div>
@@ -132,7 +132,7 @@
             </li>
             <li class="menu-item open">
                 <a href="{{ route ('adminlanding.faq.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('adminlanding.StrukturOrganisasi.index') ? 'active' : '' }}">
-                    <div class="flex gap-2">
+                    <div class="d-flex gap-2">
                         <i class="ri-question-fill"></i>
                         <span class="title">Faq</span>
                     </div>
@@ -140,7 +140,7 @@
             </li>
             <li class="menu-item open">
                 <a href="{{ route ('adminlanding.chat.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('adminlanding.chat.index') ? 'active' : '' }}">
-                    <div class="flex gap-2">
+                    <div class="d-flex gap-2">
                         <i class="ri-question-answer-fill"></i>
                         <span class="title">Chat</span>
                     </div>
@@ -150,13 +150,13 @@
             @role('asesor')
             <li class="menu-item open">
                 <a href="{{ route ('asesor.dashboard') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('dashboard.asesor') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined">cloud_circle</span>
+                    <i class="ri-cloud-line"></i>
                     <span class="title"> Dashboard</span>
                 </a>
             </li>
             <li class="menu-item open">
                 <a href="{{ route ('asesor.attendance.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('asesor.attendance.index') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined">foggy</span>
+                    <i class="ri-mist-line"></i>
                     <span class="title"> Attendance</span>
                 </a>
             </li>
@@ -164,7 +164,7 @@
             <li class="menu-item">
                 <a href="{{ route ('asesor.validasi.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance"
                    class="menu-link {{ Request::routeIs('asesor.validasi.*') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined menu-icon">verified</span>
+                    <i class="ri-shield-check-line"></i>
                     <span class="title">Validasi</span>
                 </a>
             </li>
@@ -172,14 +172,14 @@
             <li class="menu-item">
                 <a href="{{ route ('asesor.ticket.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance"
                    class="menu-link {{ Request::routeIs('asesor.ticket.*') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined menu-icon">support_agent</span>
+                    <i class="ri-customer-service-2-line"></i>
                     <span class="title">Ticket Support</span>
                 </a>
             </li>
 
             <li @class(['menu-item', 'open' => Request::routeIs('asesor.kesanggupan.*','asesor.visitasi.*','asesor.surat-tugas.*')])>
                 <a href="javascript:void(0);" @class(['menu-link', 'menu-toggle', 'active' => Request::routeIs('asesor.kesanggupan.*','asesor.visitasi.*','asesor.surat-tugas.*')])>
-                    <span class="material-symbols-outlined">fact_check</span>
+                    <i class="ri-crosshair-line"></i>
                     <span class="title">Visitasi</span>
                 </a>
                 <ul class="menu-sub">
@@ -198,7 +198,7 @@
 
             <li class="menu-item">
                 <a href="javascript:void(0);" class="menu-link menu-toggle active">
-                    <span class="material-symbols-outlined menu-icon">mail</span>
+                    <i class="ri-mail-line"></i>
                     <span class="title">Email</span>
                 </a>
                 <ul class="menu-sub">
@@ -257,7 +257,7 @@
             @elserole('user')
             <li class="menu-item">
                 <a href="kanban-board.html" data-turbo-frame="main_frame" class="menu-link">
-                    <span class="material-symbols-outlined menu-icon">team_dashboard</span>
+                    <i class="ri-kanban-view"></i>
                     <span class="title">Kanban Board</span>
                 </a>
             </li>
