@@ -162,6 +162,9 @@ $(function () {
                 + '<div class="col-md-3"><div class="small text-muted">Koordinat Lembaga (DB)</div><div>'+(d.lembaga_lat != null ? d.lembaga_lat+', '+d.lembaga_lng : 'Belum ada')+'</div></div>'
                 + '</div>';
             html += '<div class="row mb-3">'
+                + '<div class="col-md-4"><div class="small text-muted">Jarak Asesor ↔ Lembaga (OSRM)</div><div class="fw-semibold">'+(d.jarak_km != null ? Number(d.jarak_km).toLocaleString('id-ID')+' km' : '-')+'</div></div>'
+                + '</div>';
+            html += '<div class="row mb-3">'
                 + '<div class="col-md-3"><div class="small text-muted">Nominal Transport</div><div class="fw-semibold">'+rupiah(d.nominal_transport)+'</div></div>'
                 + '<div class="col-md-3"><div class="small text-muted">Nominal Menginap</div><div class="fw-semibold">'+rupiah(d.nominal_menginap)+'</div></div>'
                 + '<div class="col-md-3"><div class="small text-muted">Status</div><div>'+esc(d.status)+'</div></div>'

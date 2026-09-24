@@ -8,6 +8,7 @@ use App\Models\Lembaga;
 use App\Models\Tahap;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 
 class BerkasVisitasiController extends Controller
@@ -52,6 +53,39 @@ class BerkasVisitasiController extends Controller
         ]);
     }
 
+    public function jarak(Request $request)
+    {
+        $data = $request->validate([
+            'latitude' => ['required', 'numeric'],
+            'longitude' => ['required', 'numeric'],
+            'lembaga_id' => ['required', 'integer', 'exists:lembagas,id'],
+        ]);
+
+        $lembaga = Lembaga::find($request->integer('lembaga_id'));
+        if ($lembaga->latitude === null || $lembaga->longitude === null) {
+            return response()->json(['ok' => false, 'message' => 'Lembaga ini belum memiliki koordinat (latitude/longitude). Hubungi admin.'], 422);
+        }
+
+        try {
+            [$km, $duration] = $this->osrmDistance(
+                (float) $data['latitude'],
+                (float) $data['longitude'],
+                (float) $lembaga->latitude,
+                (float) $lembaga->longitude,
+            );
+        } catch (\Exception $e) {
+            return response()->json(['ok' => false, 'message' => $e->getMessage()], 422);
+        }
+
+        return response()->json([
+            'ok' => true,
+            'jarak_km' => round($km, 2),
+            'duration_seconds' => (int) round($duration),
+            'lembaga_lat' => $lembaga->latitude,
+            'lembaga_lng' => $lembaga->longitude,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -71,6 +105,7 @@ class BerkasVisitasiController extends Controller
             'nominal_menginap' => ['nullable', 'string'],
             'latitude' => ['nullable', 'numeric'],
             'longitude' => ['nullable', 'numeric'],
+            'jarak_km' => ['nullable', 'numeric'],
         ]);
 
         $user = auth()->user();
@@ -101,6 +136,14 @@ class BerkasVisitasiController extends Controller
         if ($lat === null || $lng === null) {
             return response()->json(['ok' => false, 'message' => 'Metadata GPS tidak ditemukan pada foto depan. Gunakan foto dengan lokasi aktif.'], 422);
         }
+
+        // Hitung jarak driving via OSRM (strict: gagal = blokir submit).
+        try {
+            [$jarakKm] = $this->osrmDistance((float) $lat, (float) $lng, (float) $lembaga->latitude, (float) $lembaga->longitude);
+        } catch (\Exception $e) {
+            return response()->json(['ok' => false, 'message' => $e->getMessage()], 422);
+        }
+        $jarakKm = round($jarakKm, 2);
 
         $nominalTransport = $data['nominal_transport'] ? (int) preg_replace('/\D/', '', $data['nominal_transport']) : null;
         $nominalMenginap = $data['nominal_menginap'] ? (int) preg_replace('/\D/', '', $data['nominal_menginap']) : null;
@@ -135,6 +178,7 @@ class BerkasVisitasiController extends Controller
                 'nominal_menginap' => $nominalMenginap,
                 'latitude' => $lat,
                 'longitude' => $lng,
+                'jarak_km' => $jarakKm,
                 'status' => 'pending',
                 'admin_komentar' => null,
             ])
@@ -166,7 +210,35 @@ class BerkasVisitasiController extends Controller
                 ['label' => 'Foto Depan Lembaga', 'url' => ($berkas->status !== 'rejected' && $berkas->foto_depan) ? Storage::url($berkas->foto_depan) : null],
             ],
             'gps' => $berkas->latitude !== null && $berkas->longitude !== null ? [$berkas->latitude, $berkas->longitude] : null,
+            'jarak_km' => $berkas->jarak_km,
         ]);
+    }
+
+    protected function osrmDistance($lat1, $lng1, $lat2, $lng2)
+    {
+        $base = rtrim((string) config('services.osrm.base_url'), '/');
+        if ($base === '') {
+            throw new \RuntimeException('Konfigurasi OSRM (OSRM_BASE_URL) belum diatur.');
+        }
+
+        // OSRM memakai urutan longitude,latitude dan pemisah titik koma antar waypoint.
+        $url = $base.'/route/v1/driving/'.$lng1.','.$lat1.';'.$lng2.','.$lat2.'?overview=false';
+
+        $response = Http::timeout(10)->get($url);
+
+        if ($response->failed()) {
+            throw new \RuntimeException('Gagal menghubungi server OSRM (HTTP '.$response->status().').');
+        }
+
+        $json = $response->json();
+        if (($json['code'] ?? null) !== 'Ok' || empty($json['routes'][0]['distance'])) {
+            throw new \RuntimeException('OSRM tidak dapat menghitung rute antara kedua koordinat.');
+        }
+
+        $distanceMeters = (float) $json['routes'][0]['distance'];
+        $durationSeconds = (float) ($json['routes'][0]['duration'] ?? 0);
+
+        return [$distanceMeters / 1000, $durationSeconds];
     }
 
     protected function storeFile($file): string

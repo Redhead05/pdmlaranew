@@ -33,7 +33,7 @@
                         @csrf
                         <button type="submit" class="btn btn-sm btn-outline-secondary">Batalkan</button>
                     </form>
-                    <a href="{{ route('admin.tahap.generation.download', ['tahap' => $tahap->slug]) }}" class="btn btn-sm btn-outline-primary">Unduh file terbaru</a>
+                    <a href="{{ route('admin.tahap.generation.download', ['tahap' => $tahap->slug]) }}" class="btn btn-sm btn-outline-primary" data-turbo="false">Unduh file terbaru</a>
                 </div>
             </div>
         </div>
@@ -91,7 +91,7 @@
                                     </button>
                                 </form>
                             @endif
-                            <a href="{{ route('admin.tahap.generation.download', ['tahap' => $tahap->slug]) }}" class="btn btn-outline-primary">
+                            <a href="{{ route('admin.tahap.generation.download', ['tahap' => $tahap->slug]) }}" class="btn btn-outline-primary" data-turbo="false">
                                 <i class="material-symbols-outlined align-middle" style="font-size:18px">download</i>
                                 Unduh Hasil Pairing
                             </a>
@@ -158,7 +158,7 @@
                         <button type="button" id="copy-result-btn" class="btn btn-sm btn-outline-secondary">
                             <span class="material-symbols-outlined align-middle" style="font-size:16px">content_copy</span> Copy
                         </button>
-                        <a href="{{ route('admin.tahap.generation.download', ['tahap' => $tahap->slug]) }}" class="btn btn-sm btn-outline-success">
+                        <a href="{{ route('admin.tahap.generation.download', ['tahap' => $tahap->slug]) }}" class="btn btn-sm btn-outline-success" data-turbo="false">
                             <span class="material-symbols-outlined align-middle" style="font-size:16px">download</span> Excel
                         </a>
                         @if(!$locked)
@@ -298,7 +298,12 @@
 
 @push('scripts')
     <script>
-        $(function () {
+        function initGenerationPage() {
+            var $sentinel = $('#copy-result-btn');
+            if (!$sentinel.length || $sentinel.data('init')) return;
+            if (!$.fn || !$.fn.DataTable) return;
+            $sentinel.data('init', true);
+
             function showToast(title, message, type) {
                 if (!message) return;
                 type = type || 'success';
@@ -442,7 +447,7 @@
             }
 
             // Seleksi multi (checkbox) untuk Cancel berjamaah
-            $(document).on('change', '.row-select', function () {
+            $(document).off('change.gen', '.row-select').on('change.gen', '.row-select', function () {
                 const id = Number(this.dataset.id);
                 if (this.checked) selected.add(id); else selected.delete(id);
                 batchCountLabel();
@@ -523,11 +528,11 @@
                 });
             }
 
-            $(document).on('click', '.ubah-btn', function () {
+            $(document).off('click.gen', '.ubah-btn').on('click.gen', '.ubah-btn', function () {
                 openUbahModal($(this).data('assignment'), $(this).data('slot'));
             });
 
-            $(document).on('click', '.pilih-asesor-btn', function () {
+            $(document).off('click.gen', '.pilih-asesor-btn').on('click.gen', '.pilih-asesor-btn', function () {
                 if (!asesorTable || !ubahCtx) return;
                 const row = asesorTable.row($(this).closest('tr')).data();
                 if (!row) return;
@@ -616,7 +621,7 @@
                 $assign.text(chips.length > 0 ? 'Assign (' + chips.length + ' lembaga)' : 'Assign Lembaga Terpilih');
             }
 
-            $(document).on('input', '.lembaga-input', debounce(function () {
+            $(document).off('input.gen', '.lembaga-input').on('input.gen', '.lembaga-input', debounce(function () {
                 const q = this.value.trim();
                 if (q === '') return;
                 $.getJSON(optionsUrl, { q: q }, function (res) {
@@ -624,7 +629,7 @@
                 });
             }, 250));
 
-            $(document).on('change', '.lembaga-input', function () {
+            $(document).off('change.gen', '.lembaga-input').on('change.gen', '.lembaga-input', function () {
                 const picked = lembagaMap[this.value];
                 const $input = $(this);
                 const $box = chipsFor($input);
@@ -647,7 +652,7 @@
                 $input.val('');
             });
 
-            $(document).on('click', '.chip-remove', function () {
+            $(document).off('click.gen', '.chip-remove').on('click.gen', '.chip-remove', function () {
                 const id = $(this).data('id');
                 const $box = $(this).closest('.selected-chips');
                 const chips = ($box.data('chips') || []).filter(function (c) { return c.id !== id; });
@@ -655,7 +660,7 @@
                 renderChips($box, chips);
             });
 
-            $(document).on('click', '.assign-btn', function () {
+            $(document).off('click.gen', '.assign-btn').on('click.gen', '.assign-btn', function () {
                 const $wrap = $(this).closest('div');
                 const teamId = $(this).data('team');
                 const chips = $wrap.find('.selected-chips').data('chips') || [];
@@ -711,7 +716,7 @@
             });
 
             // ---------- Cancel (batalkan pasangan -> lembaga kembali ke daftar tersisa) ----------
-            $(document).on('click', '.cancel-assignment', function () {
+            $(document).off('click.gen', '.cancel-assignment').on('click.gen', '.cancel-assignment', function () {
                 const assignmentId = $(this).data('assignment');
                 if (!confirm('Batalkan pasangan lembaga ini? Lembaga akan kembali ke daftar Lembaga Tersisa.')) return;
                 const form = document.createElement('form');
@@ -723,6 +728,9 @@
                 document.body.appendChild(form);
                 form.submit();
             });
-        });
+        }
+
+        initGenerationPage();
+        if (window.__registerDataTableInit) window.__registerDataTableInit('generation', initGenerationPage);
     </script>
 @endpush

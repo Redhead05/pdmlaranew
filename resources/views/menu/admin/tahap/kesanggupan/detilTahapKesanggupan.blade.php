@@ -140,7 +140,7 @@
                         </p>
                     </div>
                     <div class="d-flex flex-wrap gap-2">
-                        <a href="{{ $downloadUrl }}" class="btn btn-sm btn-outline-success">
+                        <a href="{{ $downloadUrl }}" class="btn btn-sm btn-outline-success" data-turbo="false">
                             <i class="material-symbols-outlined align-middle" style="font-size:16px">download</i>
                             Download Excel
                         </a>
@@ -407,7 +407,12 @@
             return confirm('Bentuk ulang pasangan asesor sesuai kriteria kesanggupan, gender, dan kab/kota?');
         }
 
-        $(function () {
+        function initKesanggupanPage() {
+            var $sentinel = $('#unmatched-table');
+            if (!$sentinel.length || $sentinel.data('init')) return;
+            if (!$.fn || !$.fn.DataTable) return;
+            $sentinel.data('init', true);
+
             const csrf = '{{ csrf_token() }}';
             const pairsUrl = "{{ route('admin.tahap.pairing.data', ['tahap' => $tahap->slug]) }}";
             const unmatchedUrl = "{{ route('admin.tahap.pairing.unmatched', ['tahap' => $tahap->slug]) }}";
@@ -740,6 +745,9 @@
                     if (unmatchedTable) unmatchedTable.ajax.reload(null, false);
                 });
             });
-        });
+        }
+
+        initKesanggupanPage();
+        if (window.__registerDataTableInit) window.__registerDataTableInit('kesanggupan', initKesanggupanPage);
     </script>
 @endpush

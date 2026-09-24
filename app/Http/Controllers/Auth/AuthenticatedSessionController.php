@@ -137,7 +137,7 @@ class AuthenticatedSessionController extends Controller
      */
     private function respondInactive(Request $request)
     {
-        $message = 'id anda di suspend';
+        $message = 'id anda di suspend silahkan hubungi admin';
 
         if ($request->wantsJson()) {
             return response()->json(['success' => false, 'message' => $message], 422);

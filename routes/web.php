@@ -246,6 +246,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('visitasi/data', [VisitasiController::class, 'data'])->name('visitasi.data');
         Route::get('visitasi/{tahap}/berkas', [AsesorBerkasVisitasiController::class, 'index'])->name('visitasi.berkas.index');
         Route::post('visitasi/berkas/check-foto', [AsesorBerkasVisitasiController::class, 'checkFoto'])->name('visitasi.berkas.check-foto');
+        Route::post('visitasi/berkas/jarak', [AsesorBerkasVisitasiController::class, 'jarak'])->name('visitasi.berkas.jarak');
         Route::post('visitasi/berkas/store', [AsesorBerkasVisitasiController::class, 'store'])->name('visitasi.berkas.store');
         Route::get('visitasi/berkas/{berkas}', [AsesorBerkasVisitasiController::class, 'show'])->name('visitasi.berkas.show');
         // Ticket support (asesor)

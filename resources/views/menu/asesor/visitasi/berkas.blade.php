@@ -119,6 +119,7 @@
                 <input type="hidden" name="lembaga_id" value="">
                 <input type="hidden" name="latitude" value="">
                 <input type="hidden" name="longitude" value="">
+                <input type="hidden" name="jarak_km" value="">
                 <div class="modal-header">
                     <h5 class="modal-title">Upload Berkas — <span id="uploadLembagaNama"></span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -196,6 +197,7 @@
                                 <button type="button" class="btn btn-outline-primary js-check-gps">Check GPS</button>
                             </div>
                             <div class="js-gps-result small mt-2"></div>
+                            <div class="js-jarak-result small mt-2"></div>
                         </div>
                     </div>
                 </div>
@@ -244,7 +246,9 @@
 $(function () {
     var csrf = '{{ csrf_token() }}';
     var storeUrl = "{{ route('asesor.visitasi.berkas.store') }}";
+    var jarakUrl = "{{ route('asesor.visitasi.berkas.jarak') }}";
     var showUrl = "{{ route('asesor.visitasi.berkas.show', ':id') }}";
+    var jarakValid = false;
 
     function esc(s){return String(s ?? '').replace(/[&<>"']/g, function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
     function rupiah(n){ return (n != null && n !== '') ? 'Rp ' + Number(n).toLocaleString('id-ID') : '-'; }
@@ -281,6 +285,7 @@ $(function () {
         $('#uploadLembagaNama').text($(this).data('nama'));
         $('.js-menginap-wrap').addClass('d-none');
         $('.js-gps-result').html('');
+        resetJarak();
         new bootstrap.Modal(document.getElementById('uploadModal')).show();
     });
 
@@ -289,24 +294,69 @@ $(function () {
     });
 
     // Check GPS (client-side)
+    function resetJarak() {
+        jarakValid = false;
+        $('#berkasForm input[name="jarak_km"]').val('');
+        $('.js-jarak-result').html('');
+    }
+
+    function hitungJarak() {
+        var lat = $('#berkasForm input[name="latitude"]').val();
+        var lng = $('#berkasForm input[name="longitude"]').val();
+        var lembagaId = $('#berkasForm input[name="lembaga_id"]').val();
+        if (lat === '' || lng === '') { resetJarak(); return; }
+        if (!lembagaId) { toast('Check GPS', 'Lembaga belum dipilih.', 'warning'); resetJarak(); return; }
+
+        jarakValid = false;
+        $('.js-jarak-result').html('<span class="text-muted">Menghitung jarak via OSRM…</span>');
+        $.ajax({
+            url: jarakUrl,
+            type: 'POST',
+            data: { _token: csrf, latitude: lat, longitude: lng, lembaga_id: lembagaId },
+            dataType: 'json'
+        }).done(function (res) {
+            jarakValid = true;
+            $('#berkasForm input[name="jarak_km"]').val(res.jarak_km);
+            var menit = res.duration_seconds ? Math.round(res.duration_seconds / 60) : 0;
+            $('.js-jarak-result').html('<span class="text-success fw-semibold">Jarak asesor ↔ lembaga: '+Number(res.jarak_km).toLocaleString('id-ID')+' km'+(menit ? ' (± '+menit+' menit)' : '')+'</span>');
+        }).fail(function (x) {
+            jarakValid = false;
+            $('#berkasForm input[name="jarak_km"]').val('');
+            var m = (x.responseJSON && x.responseJSON.message) || 'Gagal menghitung jarak via OSRM.';
+            $('.js-jarak-result').html('<span class="text-danger">'+esc(m)+'</span>');
+        });
+    }
+
     $('.js-check-gps').on('click', function () {
         var foto = $('#berkasForm input[name="foto_depan"]')[0].files[0];
         if (!foto) { toast('Check GPS', 'Pilih foto depan terlebih dahulu.', 'warning'); return; }
         if (!window.exifr || !exifr.gps) { toast('Check GPS', 'Pustaka EXIF belum termuat.', 'danger'); return; }
         $('.js-gps-result').html('<span class="text-muted">Memeriksa metadata…</span>');
+        resetJarak();
         exifr.gps(foto).then(function (gps) {
             if (gps && gps.latitude != null && gps.longitude != null) {
                 $('#berkasForm input[name="latitude"]').val(gps.latitude);
                 $('#berkasForm input[name="longitude"]').val(gps.longitude);
                 $('.js-gps-result').html('<span class="text-success">GPS ditemukan: '+gps.latitude+', '+gps.longitude+'</span>');
+                hitungJarak();
             } else {
                 $('#berkasForm input[name="latitude"]').val('');
                 $('#berkasForm input[name="longitude"]').val('');
+                resetJarak();
                 $('.js-gps-result').html('<span class="text-danger">Metadata GPS tidak ditemukan pada foto ini.</span>');
             }
         }).catch(function () {
+            resetJarak();
             $('.js-gps-result').html('<span class="text-danger">Gagal membaca metadata GPS.</span>');
         });
+    });
+
+    // Reset jarak bila foto depan diganti
+    $('.js-foto-depan').on('change', function () {
+        $('#berkasForm input[name="latitude"]').val('');
+        $('#berkasForm input[name="longitude"]').val('');
+        $('.js-gps-result').html('');
+        resetJarak();
     });
 
     // Compression
@@ -343,6 +393,12 @@ $(function () {
     $('#berkasForm').on('submit', function (e) {
         e.preventDefault();
         var form = this;
+
+        if (!jarakValid) {
+            toast('Gagal', 'Hitung jarak OSRM dulu: klik "Check GPS" pada Foto Depan.', 'warning');
+            return;
+        }
+
         var $btn = $(form).find('button[type="submit"]').prop('disabled', true);
 
         var jobs = [];
@@ -362,6 +418,7 @@ $(function () {
             fd.append('jenis_perjalanan', form.querySelector('select[name="jenis_perjalanan"]').value);
             fd.append('latitude', form.querySelector('input[name="latitude"]').value);
             fd.append('longitude', form.querySelector('input[name="longitude"]').value);
+            fd.append('jarak_km', form.querySelector('input[name="jarak_km"]').value);
             fd.append('nominal_transport', (form.querySelector('input[name="nominal_transport"]').value || '').replace(/\D/g, ''));
             fd.append('nominal_menginap', (form.querySelector('input[name="nominal_menginap"]').value || '').replace(/\D/g, ''));
             compressed.forEach(function (r) { fd.append(r[0], r[1]); });
@@ -398,6 +455,9 @@ $(function () {
             }
             if (d.gps) {
                 html += '<div class="small text-muted mb-2">GPS Foto: '+d.gps[0]+', '+d.gps[1]+'</div>';
+            }
+            if (d.jarak_km != null) {
+                html += '<div class="small text-muted mb-2">Jarak Asesor ↔ Lembaga (OSRM): <span class="fw-semibold">'+Number(d.jarak_km).toLocaleString('id-ID')+' km</span></div>';
             }
             html += '<div class="row g-3">';
             (d.files || []).forEach(function (f) {

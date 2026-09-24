@@ -50,6 +50,46 @@ function destroyAllDataTables() {
   }
 }
 
+// ---------------------------------------------------------------------------
+// Page DataTable (re)initialisation registry.
+//
+// Root cause of the "empty DataTable" bug: Turbo's PageRenderer renders the
+// incoming <body> in a DETACHED node, then re-runs its inline <script>s while
+// still detached (`activateNewBody` before `assignNewBody`). At that moment
+// `document.getElementById` / `$('#some-id')` return null, so the page's
+// `$(function(){...})` initialiser silently skips the DataTable and the table
+// stays empty until a manual refresh.
+//
+// Each page script therefore defines a named init function, calls it directly
+// (which covers the initial, non-Turbo load where the DOM is already attached)
+// AND registers it here. Turbo then re-runs every registered init on
+// `turbo:render` / `turbo:load` / `turbo:frame-render`, which fire only AFTER
+// the new DOM has been attached — the one moment selectors actually resolve.
+// Every init guards itself with a page-unique element + a `.data()` flag so
+// repeated runs on the same DOM never double-initialise.
+// ---------------------------------------------------------------------------
+(function () {
+  const inits = new Map();
+
+  window.__registerDataTableInit = function (name, fn) {
+    if (typeof name === 'string' && typeof fn === 'function') inits.set(name, fn);
+  };
+
+  function runRegisteredInits() {
+    inits.forEach((fn) => {
+      try {
+        fn();
+      } catch (e) {
+        console.error('DataTable init failed:', e);
+      }
+    });
+  }
+
+  ['turbo:load', 'turbo:render', 'turbo:frame-render'].forEach((eventName) => {
+    document.addEventListener(eventName, runRegisteredInits);
+  });
+})();
+
 // Keep the sidebar (which lives OUTSIDE the turbo-frame) in sync with the
 // active route after Turbo-driven navigations.
 function updateSidebarActive() {

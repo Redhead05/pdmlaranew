@@ -95,19 +95,24 @@
 
 @push('scripts')
     <script>
-        $(function () {
-            if ($.fn && $.fn.DataTable && $('#tahap-table').length) {
-                $('#tahap-table').DataTable({
-                    pageLength: 25,
-                    order: [[1, 'asc']],
-                    columnDefs: [{ orderable: false, searchable: false, targets: [0, 9] }],
-                    language: { emptyTable: 'Belum ada tahap.' },
-                    drawCallback: function (settings) {
-                        this.api().column(0, { search: 'applied', order: 'applied' }).nodes()
-                            .each(function (cell, i) { cell.innerHTML = settings._iDisplayStart + i + 1; });
-                    }
-                });
-            }
-        });
+        function initTahapPage() {
+            var $table = $('#tahap-table');
+            if (!$table.length || $table.data('init')) return;
+            if (!$.fn || !$.fn.DataTable) return;
+            $table.data('init', true);
+            $table.DataTable({
+                pageLength: 25,
+                order: [[1, 'asc']],
+                columnDefs: [{ orderable: false, searchable: false, targets: [0, 9] }],
+                language: { emptyTable: 'Belum ada tahap.' },
+                drawCallback: function (settings) {
+                    this.api().column(0, { search: 'applied', order: 'applied' }).nodes()
+                        .each(function (cell, i) { cell.innerHTML = settings._iDisplayStart + i + 1; });
+                }
+            });
+        }
+
+        initTahapPage();
+        if (window.__registerDataTableInit) window.__registerDataTableInit('tahap', initTahapPage);
     </script>
 @endpush

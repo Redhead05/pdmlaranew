@@ -64,12 +64,17 @@
 
 @push('scripts')
     <script>
-        $(function () {
+        function initTersisaPage() {
+            var $table = $('#remaining-table');
+            if (!$table.length || $table.data('init')) return;
+            if (!$.fn || !$.fn.DataTable) return;
+            $table.data('init', true);
+
             const remainingUrl = "{{ route('admin.tahap.generation.remaining-data', ['tahap' => $tahap->slug]) }}";
             const detachBase = "{{ route('admin.tahap.generation.remaining-detach', ['tahap' => $tahap->slug, 'lembaga' => '__ID__']) }}";
             const csrf = '{{ csrf_token() }}';
 
-            $(document).on('click', '.hapus-lembaga-btn', function () {
+            $(document).off('click.tersisa', '.hapus-lembaga-btn').on('click.tersisa', '.hapus-lembaga-btn', function () {
                 const id = $(this).data('id');
                 if (!confirm('Hapus lembaga ini dari tahap? Lembaga tidak akan diikutsertakan pada tahap ini.')) return;
                 const form = document.createElement('form');
@@ -79,34 +84,36 @@
                 document.body.appendChild(form);
                 form.submit();
             });
-            if ($.fn && $.fn.DataTable && $('#remaining-table').length) {
-                $('#remaining-table').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    ajax: { url: remainingUrl, type: 'GET' },
-                    pageLength: 10,
-                    order: [[2, 'asc']],
-                    columns: [
-                        { data: null, render: function () { return ''; }, orderable: false, searchable: false },
-                        { data: 'npsn' },
-                        { data: 'satuan_pen' },
-                        { data: 'kabupaten' },
-                        { data: 'kecamatan' },
-                        { data: 'jenjang' },
-                        { data: 'action', orderable: false, searchable: false,
-                          render: function (data, type, row) {
-                              return '<button type="button" class="btn btn-sm btn-outline-danger hapus-lembaga-btn" data-id="' + row.id + '" title="Hapus dari tahap">'
-                                  + '<span class="material-symbols-outlined align-middle" style="font-size:16px">delete</span></button>';
-                          } },
-                    ],
-                    drawCallback: function (settings) {
-                        const api = this.api();
-                        api.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                            cell.innerHTML = settings._iDisplayStart + i + 1;
-                        });
-                    }
-                });
-            }
-        });
+
+            $table.DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: { url: remainingUrl, type: 'GET' },
+                pageLength: 10,
+                order: [[2, 'asc']],
+                columns: [
+                    { data: null, render: function () { return ''; }, orderable: false, searchable: false },
+                    { data: 'npsn' },
+                    { data: 'satuan_pen' },
+                    { data: 'kabupaten' },
+                    { data: 'kecamatan' },
+                    { data: 'jenjang' },
+                    { data: 'action', orderable: false, searchable: false,
+                      render: function (data, type, row) {
+                          return '<button type="button" class="btn btn-sm btn-outline-danger hapus-lembaga-btn" data-id="' + row.id + '" title="Hapus dari tahap">'
+                              + '<span class="material-symbols-outlined align-middle" style="font-size:16px">delete</span></button>';
+                      } },
+                ],
+                drawCallback: function (settings) {
+                    const api = this.api();
+                    api.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                        cell.innerHTML = settings._iDisplayStart + i + 1;
+                    });
+                }
+            });
+        }
+
+        initTersisaPage();
+        if (window.__registerDataTableInit) window.__registerDataTableInit('tersisa', initTersisaPage);
     </script>
 @endpush

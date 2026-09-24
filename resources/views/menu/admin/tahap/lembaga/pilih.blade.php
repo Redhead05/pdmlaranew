@@ -75,7 +75,12 @@
 
 @push('scripts')
     <script>
-        $(function () {
+        function initPilihLembagaPage() {
+            var $table = $('#pilih-lembaga-table');
+            if (!$table.length || $table.data('init')) return;
+            if (!$.fn || !$.fn.DataTable) return;
+            $table.data('init', true);
+
             const selected = new Set();
 
             function escHtml(s) {
@@ -101,7 +106,7 @@
                 el.addEventListener('hidden.bs.toast', () => el.remove());
             }
 
-            const table = $('#pilih-lembaga-table').DataTable({
+            const table = $table.DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -226,6 +231,9 @@
                     npsnFileInput.val('');
                 });
             });
-        });
+        }
+
+        initPilihLembagaPage();
+        if (window.__registerDataTableInit) window.__registerDataTableInit('pilih-lembaga', initPilihLembagaPage);
     </script>
 @endpush

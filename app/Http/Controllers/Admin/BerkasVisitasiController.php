@@ -62,6 +62,7 @@ class BerkasVisitasiController extends Controller
             'jenis_perjalanan' => $berkas->jenis_perjalanan === 'menginap' ? 'Menginap' : 'Pulang/Pergi',
             'latitude' => $berkas->latitude,
             'longitude' => $berkas->longitude,
+            'jarak_km' => $berkas->jarak_km,
             'status' => $berkas->status,
             'admin_komentar' => $berkas->admin_komentar,
             'bukti_transport' => $berkas->bukti_transport ? Storage::url($berkas->bukti_transport) : null,

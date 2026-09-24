@@ -18,7 +18,7 @@
 
                         <div class="d-flex gap-2">
                             <a href="{{ route('admin.tahap.lembaga.pilih', ['tahap' => $tahap->slug]) }}" class="btn btn-success">Tambah dari Master</a>
-                            <a href="{{ route('admin.tahap.lembaga.template', ['tahap' => $tahap->slug]) }}" class="btn btn-outline-secondary">Download Template (.csv)</a>
+                            <a href="{{ route('admin.tahap.lembaga.template', ['tahap' => $tahap->slug]) }}" class="btn btn-outline-secondary" data-turbo="false">Download Template (.csv)</a>
 
                             {{-- Inline upload form: submits to upload route --}}
                             <form action="{{ route('admin.tahap.lembaga.upload', ['tahap' => $tahap->slug]) }}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center">
@@ -61,10 +61,13 @@
 
 @push('scripts')
     <script>
-        $(function () {
+        function initLembagaPage() {
+            var $table = $('#lembaga-table');
+            if (!$table.length || $table.data('init')) return;
             if (!$.fn || !$.fn.DataTable) return;
+            $table.data('init', true);
 
-            const table = $('#lembaga-table').DataTable({
+            $table.DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -136,6 +139,9 @@
                 @endphp
                 showToast('Conflict', `{!! addslashes('Beberapa lembaga sudah terpakai di tahap lain:<br>' . implode('<br>', $confLines)) !!}`, 'danger');
             @endif
-        });
+        }
+
+        initLembagaPage();
+        if (window.__registerDataTableInit) window.__registerDataTableInit('lembaga', initLembagaPage);
     </script>
 @endpush
