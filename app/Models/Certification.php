@@ -20,6 +20,7 @@ class Certification extends Model
         'file_path',
         'status',
         'notes',
+        'batch_id',
     ];
 
     protected $casts = [

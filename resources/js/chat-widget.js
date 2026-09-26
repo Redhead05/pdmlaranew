@@ -26,14 +26,16 @@ function ensureCsrfMeta() {
   document.head.appendChild(meta);
 }
 
+let chatAvatarSrc = '/assets/logotab.png';
+
 function appendMessage(listEl, message, side) {
   const li = document.createElement('li');
   li.className = `chatbot__chat ${side}`;
 
   if (side === 'incoming') {
-    li.innerHTML = `<span class="material-symbols-outlined">smart_toy</span><p>${escapeHtml(message.body)}</p>`;
+    li.innerHTML = `<img class="chatbot__msg-avatar" src="${chatAvatarSrc}" alt="" /><div class="chatbot__bubble">${escapeHtml(message.body)}</div>`;
   } else {
-    li.innerHTML = `<p>${escapeHtml(message.body)}</p>`;
+    li.innerHTML = `<div class="chatbot__bubble">${escapeHtml(message.body)}</div>`;
   }
 
   listEl.appendChild(li);
@@ -70,6 +72,9 @@ function initChatWidget() {
   const btn = qs('.chatbot__button');
   if (!widget || !btn) return;
 
+  const headerAvatar = qs('.chatbot .chatbot__avatar img');
+  if (headerAvatar) chatAvatarSrc = headerAvatar.getAttribute('src') || chatAvatarSrc;
+
   // Prevent duplicate event listeners when Turbo fires multiple times
   if (btn.dataset.chatBound === '1') return;
   btn.dataset.chatBound = '1';
@@ -105,6 +110,7 @@ function initChatWidget() {
 
   function setOpen(open) {
     widget.classList.toggle('open', !!open);
+    document.body.classList.toggle('show-chatbot', !!open);
   }
 
   function showLoginError(msg) {

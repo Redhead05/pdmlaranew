@@ -11,7 +11,7 @@
 
     <aside id="layout-menu" class="layout-menu menu-vertical menu active" data-simplebar>
         <ul class="menu-inner">
-            @role('admin')
+            @can('view dashboard')
             <li class="menu-item open">
                 <a href="{{ route ('admin.dashboard') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('admin.dashboard') ? 'active' : '' }}">
                     <div class="d-flex gap-2">
@@ -20,6 +20,8 @@
                     </div>
                 </a>
             </li>
+            @endcan
+            @can('manage users')
             <li class="menu-item open">
                 <a href="{{ route ('admin.user.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('admin.user.index') ? 'active' : '' }}">
                     <div class="d-flex gap-2">
@@ -28,6 +30,18 @@
                     </div>
                 </a>
             </li>
+            @endcan
+            @can('akses user management')
+            <li class="menu-item open">
+                <a href="{{ route('admin.user-management.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('admin.user-management.*') ? 'active' : '' }}">
+                    <div class="d-flex gap-2">
+                        <i class="ri-shield-user-line"></i>
+                        <span class="title">User Management</span>
+                    </div>
+                </a>
+            </li>
+            @endcan
+            @can('akses attendance')
             <li class="menu-item open">
                 <a href="{{ route ('admin.attendance.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs(['admin.attendance.index','admin.attendance.detail']) ? 'active' : '' }}">
                     <div class="d-flex gap-2">
@@ -36,18 +50,24 @@
                     </div>
                 </a>
             </li>
+            @endcan
+            @can('akses master lembaga')
             <li class="menu-item open">
                 <a href="{{ route ('admin.masterlembaga.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('admin.masterlembaga.index') ? 'active' : '' }}">
                     <i class="ri-school-fill"></i>
                     <span class="title">Master Lembaga</span>
                 </a>
             </li>
+            @endcan
+            @can('akses certifications')
             <li class="menu-item open">
                 <a href="{{ route('admin.certifications.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance" class="menu-link {{ Request::routeIs('admin.certifications.*') ? 'active' : '' }}">
                     <i class="ri-award-line"></i>
                     <span class="title">Certifications</span>
                 </a>
             </li>
+            @endcan
+            @can('akses visitasi')
             <li @class(['menu-item', 'open' => Request::routeIs('admin.tahap.*','admin.kesanggupan.*')])>
                 <a href="javascript:void(0);" @class(['menu-link', 'menu-toggle', 'active' => Request::routeIs('admin.tahap.*','admin.kesanggupan.*')])>
                     <i class="ri-crosshair-line"></i>
@@ -66,6 +86,8 @@
                     </li>
                 </ul>
             </li>
+            @endcan
+            @can('akses validasi')
             <li @class(['menu-item', 'open' => Request::routeIs('admin.validasi.*')])>
                 <a href="{{ route('admin.validasi.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance"
                    @class(['menu-link', 'active' => Request::routeIs('admin.validasi.*')])>
@@ -73,13 +95,8 @@
                     <span class="title">Validasi</span>
                 </a>
             </li>
-            <li @class(['menu-item', 'open' => Request::routeIs('admin.berkas.*')])>
-                <a href="{{ route('admin.berkas.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance"
-                   @class(['menu-link', 'active' => Request::routeIs('admin.berkas.*')])>
-                    <i class="ri-folder-check-line"></i>
-                    <span class="title">Berkas Visitasi</span>
-                </a>
-            </li>
+            @endcan
+            @can('akses ticket support')
             <li @class(['menu-item', 'open' => Request::routeIs('admin.ticket.*')])>
                 <a href="{{ route('admin.ticket.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance"
                    @class(['menu-link', 'active' => Request::routeIs('admin.ticket.*')])>
@@ -87,7 +104,17 @@
                     <span class="title">Ticket Support</span>
                 </a>
             </li>
-            @endrole
+            @endcan
+
+            @can('akses berkas visitasi')
+            <li @class(['menu-item', 'open' => Request::routeIs('admin.berkas.*')])>
+                <a href="{{ route('admin.berkas.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance"
+                   @class(['menu-link', 'active' => Request::routeIs('admin.berkas.*')])>
+                    <i class="ri-folder-check-line"></i>
+                    <span class="title">Berkas Visitasi</span>
+                </a>
+            </li>
+            @endcan
 
             @hasanyrole('adminlanding|admin')
             <li class="menu-item open ">
@@ -174,6 +201,14 @@
                    class="menu-link {{ Request::routeIs('asesor.ticket.*') ? 'active' : '' }}">
                     <i class="ri-customer-service-2-line"></i>
                     <span class="title">Ticket Support</span>
+                </a>
+            </li>
+
+            <li class="menu-item">
+                <a href="{{ route ('asesor.certifications.index') }}" data-turbo-frame="main_frame" data-turbo-action="advance"
+                   class="menu-link {{ Request::routeIs('asesor.certifications.*') ? 'active' : '' }}">
+                    <i class="ri-award-line"></i>
+                    <span class="title">Certificate</span>
                 </a>
             </li>
 

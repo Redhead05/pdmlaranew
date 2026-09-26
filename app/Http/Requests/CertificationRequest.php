@@ -16,7 +16,9 @@ class CertificationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id',
+            'user_id' => 'nullable|required_without:send_to_all|integer|exists:users,id',
+            'send_to_all' => 'nullable|boolean',
+            'except_nia' => 'nullable|string|max:2000',
             'title' => 'required|string|max:255',
             'certificate_number' => 'nullable|string|max:255',
             'issuer' => 'nullable|string|max:255',

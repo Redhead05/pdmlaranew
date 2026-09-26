@@ -33,16 +33,23 @@ class RolePermissionSeeder extends Seeder
         $asesorRole = Role::firstOrCreate(['name' => 'asesor'], ['guard_name' => 'web']);
         $userRole = Role::firstOrCreate(['name' => 'user'], ['guard_name' => 'web']);
 
-        // Buat permissions (set guard_name juga)
-        $manageUsers = Permission::firstOrCreate(['name' => 'manage users'], ['guard_name' => 'web']);
-        $viewDashboard = Permission::firstOrCreate(['name' => 'view dashboard'], ['guard_name' => 'web']);
+        // Buat permissions dari config menu (set guard_name juga)
+        $menuPermissions = [];
+        foreach (config('menu-permissions.menus') as $menu) {
+            $menuPermissions[] = Permission::firstOrCreate(
+                ['name' => $menu['permission']],
+                ['guard_name' => 'web']
+            );
+        }
 
+        // Admin: semua permission menu
+        $adminRole->givePermissionTo($menuPermissions);
 
-        // Assign permission ke role
-        $adminRole->givePermissionTo([$manageUsers, $viewDashboard]);
-        $adminlandingRole->givePermissionTo([$manageUsers, $viewDashboard]);
-        $asesorRole->givePermissionTo([$viewDashboard]);
-        $userRole->givePermissionTo([$viewDashboard]);
+        // Menu admin hanya untuk role admin by default;
+        // revoke grant lama agar tidak bocor ke role lain.
+        $adminlandingRole->revokePermissionTo(['view dashboard', 'manage users']);
+        $asesorRole->revokePermissionTo('view dashboard');
+        $userRole->revokePermissionTo('view dashboard');
 
         // Buat user admin
         $admin = User::firstOrCreate([

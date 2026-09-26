@@ -58,19 +58,16 @@
                                 </tr>
                             @endforelse
                             </tbody>
-
-                            {{-- include create modal and per-item edit modals (edit blade expects $faq) --}}
-                            @include('menu.adminlanding.faq.create')
-                            @foreach($faqs as $faq)
-                                @include('menu.adminlanding.faq.edit', ['faq' => $faq])
-                            @endforeach
                         </table>
-
-{{--                        {{ $faqs->links() }}--}}
                     </div>
                     </div>
                 </div>
             </div>
+
+            {{-- per-item edit modals (outside table) --}}
+            @foreach($faqs as $faq)
+                @include('menu.adminlanding.faq.edit', ['faq' => $faq])
+            @endforeach
         </div>
     </div>
 @endsection
@@ -86,7 +83,7 @@
                 pageLength: 10,
                 columnDefs: [
                     { orderable: false, searchable: false, targets: 0 }, // No
-                    { orderable: false, searchable: false, targets: 6 }  // Action
+                    { orderable: false, searchable: false, targets: 4 }  // Action
                 ]
             });
 

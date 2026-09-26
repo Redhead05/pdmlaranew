@@ -1364,6 +1364,25 @@
         </div>
     </div>
 </div>
+
+{{-- Modal konfirmasi hapus event kalender --}}
+<div class="modal fade" id="calendarDeleteModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Hapus Event Kalender</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Yakin ingin menghapus event <strong id="calendarDeleteEventTitle"></strong>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-sm btn-danger" id="calendarDeleteConfirm">Hapus</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('scripts')
@@ -1371,22 +1390,33 @@
 $(function () {
     var el = document.getElementById('dashboard-calendar');
     if (!el || !window.FullCalendar) return;
+    var selectedEvent = null;
     var cal = new FullCalendar.Calendar(el, {
         initialView: 'dayGridMonth',
         height: 'auto',
         headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,listMonth' },
         events: "{{ route('admin.calendar.events') }}",
         eventClick: function (info) {
-            if (confirm('Hapus event ini?')) {
-                fetch("{{ route('admin.calendar.destroy', ':id') }}".replace(':id', info.event.id), {
-                    method: 'POST',
-                    headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
-                    body: new URLSearchParams({ _method: 'DELETE' })
-                }).then(function () { info.event.remove(); });
-            }
+            selectedEvent = info.event;
+            document.getElementById('calendarDeleteEventTitle').textContent = info.event.title;
+            var m = new bootstrap.Modal(document.getElementById('calendarDeleteModal'));
+            m.show();
         }
     });
     cal.render();
+
+    document.getElementById('calendarDeleteConfirm').addEventListener('click', function () {
+        if (!selectedEvent) return;
+        fetch("{{ route('admin.calendar.destroy', ':id') }}".replace(':id', selectedEvent.id), {
+            method: 'POST',
+            headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
+            body: new URLSearchParams({ _method: 'DELETE' })
+        }).then(function () {
+            selectedEvent.remove();
+            selectedEvent = null;
+            bootstrap.Modal.getInstance(document.getElementById('calendarDeleteModal')).hide();
+        });
+    });
 });
 </script>
 @endpush

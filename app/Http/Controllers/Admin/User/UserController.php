@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Kabkot;
+use App\Models\PermissionAudit;
 use App\Models\Setting;
 use App\Models\User;
 use App\Models\UserDetail;
@@ -55,6 +56,12 @@ class UserController extends Controller
             'type_asesor' => 'nullable|string|max:255',
         ]);
 
+        $actor = $request->user();
+
+        if ($validated['role'] === 'admin' && ! $actor->hasRole('admin')) {
+            return redirect()->back()->withInput()->with('error', 'Hanya super-admin yang dapat menetapkan role admin.');
+        }
+
         DB::beginTransaction();
         try {
             // Generate unique numeric slug
@@ -84,6 +91,13 @@ class UserController extends Controller
 
             // Assign role
             $user->assignRole($validated['role']);
+
+            PermissionAudit::create([
+                'actor_id' => $actor->id,
+                'user_id' => $user->id,
+                'action' => 'assign_role',
+                'value' => $validated['role'],
+            ]);
 
             DB::commit();
             return redirect()->route('admin.user.index')->with('success', 'User created successfully!');
@@ -136,6 +150,23 @@ class UserController extends Controller
             'type_asesor' => 'nullable|string|max:255',
         ]);
 
+        $actor = $request->user();
+
+        // Lindungi super-admin: non-admin tidak boleh ubah user ber-role admin.
+        if ($user->hasRole('admin') && ! $actor->hasRole('admin')) {
+            return redirect()->back()->withInput()->with('error', 'Anda tidak dapat mengubah user dengan role admin.');
+        }
+
+        // Batasi assign role admin.
+        if ($validated['role'] === 'admin' && ! $actor->hasRole('admin')) {
+            return redirect()->back()->withInput()->with('error', 'Hanya super-admin yang dapat menetapkan role admin.');
+        }
+
+        // Cegah ubah role diri sendiri (self-lockout / eskalasi diri).
+        if ($user->id === $actor->id && $validated['role'] !== $user->getRoleNames()->first()) {
+            return redirect()->back()->withInput()->with('error', 'Anda tidak dapat mengubah role diri sendiri.');
+        }
+
         DB::beginTransaction();
         try {
             // Update user
@@ -169,6 +200,13 @@ class UserController extends Controller
             // Sync role
             $user->syncRoles([$validated['role']]);
 
+            PermissionAudit::create([
+                'actor_id' => $actor->id,
+                'user_id' => $user->id,
+                'action' => 'sync_role',
+                'value' => $validated['role'],
+            ]);
+
             DB::commit();
             return redirect()->route('admin.user.index')->with('success', 'User updated successfully!');
         } catch (\Exception $e) {
@@ -180,8 +218,14 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(Request $request, User $user)
     {
+        $actor = $request->user();
+
+        if ($user->hasRole('admin') && ! $actor->hasRole('admin')) {
+            return redirect()->back()->with('error', 'Anda tidak dapat menghapus user dengan role admin.');
+        }
+
         try {
             // Delete user detail
             $user->detail()->delete();
@@ -198,8 +242,24 @@ class UserController extends Controller
     /**
      * Toggle user active status
      */
-    public function toggleStatus(User $user)
+    public function toggleStatus(Request $request, User $user)
     {
+        $actor = $request->user();
+
+        if ($user->hasRole('admin') && ! $actor->hasRole('admin')) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tidak dapat mengubah status user dengan role admin.',
+            ], 403);
+        }
+
+        if ($user->id === $actor->id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tidak dapat mengubah status diri sendiri.',
+            ], 403);
+        }
+
         try {
             $user->is_active = !$user->is_active;
             $user->save();
